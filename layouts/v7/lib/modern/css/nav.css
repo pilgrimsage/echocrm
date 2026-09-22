@@ -320,6 +320,11 @@
    and silently overrides this rule depending which app the user is in.
    !important on the properties that actually matter neutralizes it
    without needing to audit and edit all 7 skin files. */
+/* .keyword-input has "flex:1" (grow to fill the row) but flex-grow only
+   distributes space the PARENT already has - with "width:auto" the
+   parent just shrink-wraps to its children, leaving nothing to grow
+   into, so the input collapsed to a sliver. Give the search box a real
+   width so the input has room to actually grow. */
 .search-links-container .search-link{
 	background:rgba(255,255,255,.08) !important;
 	border:1px solid rgba(255,255,255,.16) !important;
@@ -327,7 +332,7 @@
 	padding:6px 12px !important;
 	margin:0 !important;
 	float:none !important;
-	width:auto !important;
+	width:280px !important;
 	height:auto !important;
 	display:flex !important;
 	align-items:center;
