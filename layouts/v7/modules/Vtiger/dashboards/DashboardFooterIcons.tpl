@@ -11,7 +11,7 @@
 -->*}
 {if $SETTING_EXIST}
 <a name="dfilter">
-	<i class='fa fa-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
+	<i class='fa fa-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"></i>
 </a>
 {/if}
 {if !empty($CHART_TYPE)}

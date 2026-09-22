@@ -142,7 +142,11 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
                     vtUtils.showSelect2ElementView(thisInstance.getContainer().find('select.select2'));
                     thisInstance.registerEvents();
                     thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer'));
-                    app.helper.showVerticalScroll(jQuery('#searchResults-container'),{'setHeight' : app.helper.getViewHeight()});
+                    // Was: app.helper.showVerticalScroll(jQuery('#searchResults-container'), {'setHeight': app.helper.getViewHeight()}) -
+                    // that forced the whole panel to viewport height via a custom-scrollbar plugin, which is why
+                    // Advanced Search looked like a full-page takeover instead of a real modal. The panel is now a
+                    // capped-height centered card (nav.css, #overlayPage:has(.advanceFilterContainer)) with its own
+                    // native overflow scroll on .modal-body, so no JS-driven full-height scrollbar is needed here.
                     aDeferred.resolve();
                 })
                 

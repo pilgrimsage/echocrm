@@ -18,7 +18,7 @@
 					{vtranslate('LBL_ADD_WIDGET')}&nbsp;&nbsp;<i class="caret"></i>
 				</button>
 
-				<ul class="dropdown-menu dropdown-menu-right widgetsList float-end" style="min-width:100%;text-align:left;">
+				<ul class="dropdown-menu dropdown-menu-right widgetsList float-end" style="text-align:left;">
 					{assign var="MINILISTWIDGET" value=""}
 					{foreach from=$SELECTABLE_WIDGETS item=WIDGET}
 						{if $WIDGET->getName() eq 'MiniList'}

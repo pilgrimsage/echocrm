@@ -98,6 +98,77 @@
 	border-radius:0 0 var(--radius) var(--radius);
 }
 
+/* #overlayPage is a shared full-viewport container (loadPageOverlay in
+   helper.js) reused for two very different UIs: Task Management/Quick
+   Preview's arrow-popover anchored near the clicked element (must stay
+   full-width/edge-anchored - do not touch that case), and Advanced
+   Search / global search results, which are really just a centered
+   dialog's content stuffed into that same full-viewport div with no
+   .modal-dialog wrapper (ensureModalDialog only appends an empty dummy
+   one to satisfy BS5's JS, it never actually wraps the real content -
+   see helper.js). Result: Advanced Search rendered as a full-page
+   takeover that scrolled with the body instead of a real modal.
+   :has() lets us scope real-modal treatment to just that content,
+   without touching the popover case sharing the same container. */
+#overlayPage:has(.advanceFilterContainer){
+	top:0 !important;
+	bottom:0;
+	height:100vh !important;
+	display:flex !important;
+	align-items:center;
+	justify-content:center;
+	padding:24px;
+	box-sizing:border-box;
+	background:transparent !important;
+}
+#overlayPage:has(.advanceFilterContainer) > .data{
+	width:100%;
+	max-width:960px;
+	max-height:100%;
+}
+#overlayPage:has(.advanceFilterContainer) .advanceFilterContainer{
+	width:100%;
+}
+#overlayPage:has(.advanceFilterContainer) .advanceFilterContainer{
+	max-height:calc(100vh - 48px) !important;
+	display:flex;
+	flex-direction:column;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-content{
+	display:flex;
+	flex-direction:column;
+	max-height:calc(100vh - 48px) !important;
+	height:auto !important;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-header{
+	flex:0 0 auto;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-body{
+	flex:1 1 auto;
+	overflow-y:auto !important;
+	max-height:none !important;
+}
+/* skins/marketing/style.css pins .modal-overlay-footer to
+   "position:fixed;bottom:0;left:0;right:0" - correct for the old
+   full-page takeover (a persistent action bar glued to the viewport
+   bottom while content scrolls above it) but wrong now that this is a
+   capped-height card: the footer detached from the card entirely and
+   sat as its own bar across the whole browser window. */
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .btn{
+	white-space:nowrap;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer{
+	position:static !important;
+	flex:0 0 auto;
+	left:auto !important;
+	right:auto !important;
+	bottom:auto !important;
+	width:auto !important;
+	border-left:none !important;
+	border-top:1px solid var(--line) !important;
+	background:var(--paper) !important;
+}
+
 /* ---- top navbar ---- */
 /* Every skins subfolder's style.css sets the left module-nav sidebar (both the
    settings menu and the module-icon rail share the .module-nav class)
@@ -323,6 +394,39 @@
 .tabs .moreSettings{
 	margin-left:auto;
 	float:none;
+	align-self:center;
+}
+.tabs .dashboardTab{
+	flex:0 0 auto;
+}
+
+/* Dashboard tabs row is a <ul>, but the tab markup puts .moreSettings
+   (a <div>) directly inside it as a sibling of the <li> tabs - not
+   valid <ul> content, but harmless in the DOM. What isn't harmless:
+   .dashboardHeading below it (the "Add Widget" row) only contains a
+   float-end'd child with nothing to clear the float, so the container
+   collapses to height:0 - the button still renders (floats escape
+   normal flow) but the row has no real box, leaving it and the tabs
+   row butted up against each other with almost no breathing room. */
+.dashboardHeading{
+	min-height:44px;
+	padding-top:8px;
+	margin-bottom:8px;
+}
+
+/* "Add Widget" menu (DashBoardHeader.tpl) had an inline "min-width:100%"
+   which resolves against the dropdown's positioned ancestor (the
+   .dropdown wrapper, sized to the toggle button) - not the button's own
+   width by coincidence, its CONTAINING BLOCK's width, which is the same
+   thing here. Every widget name wrapped across 2-3 lines as a result.
+   Give it a real fixed width instead. */
+.widgetsList{
+	min-width:240px !important;
+	max-height:70vh;
+	overflow-y:auto;
+}
+.widgetsList > li > a{
+	white-space:nowrap;
 }
 
 /* Desktop layout: logo/app-switcher left, search centered in the
