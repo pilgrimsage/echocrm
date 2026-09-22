@@ -28,8 +28,10 @@
 					<div class="col-lg-2 marginTop5px">{vtranslate('LBL_DUPLICATE_CHECK', $QUALIFIED_MODULE)}</div>
 					<div>
 						<input type="hidden" class="rule" name="rule" value="">
-						<input type="checkbox" class="duplicateCheck" data-on-color="success" data-off-color="danger" data-current-rule="{$SOURCE_MODULE_MODEL->allowDuplicates}" {if !$SOURCE_MODULE_MODEL->isFieldsDuplicateCheckAllowed()}readonly="readonly"{/if}
-								data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" />
+						<div class="form-check form-switch">
+							<input type="checkbox" class="form-check-input duplicateCheck" role="switch" data-on-color="success" data-off-color="danger" data-current-rule="{$SOURCE_MODULE_MODEL->allowDuplicates}" {if !$SOURCE_MODULE_MODEL->isFieldsDuplicateCheckAllowed()}disabled{/if}
+									data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" />
+						</div>
 					</div>
 				</div>
 			</div>

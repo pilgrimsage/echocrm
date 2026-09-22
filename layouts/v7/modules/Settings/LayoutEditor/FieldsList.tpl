@@ -54,9 +54,11 @@
 									<div class="blockActions" style="float:right !important;">
 										<span>
 											<i class="fa fa-info-circle" title="{vtranslate('LBL_COLLAPSE_BLOCK_DETAIL_VIEW', $QUALIFIED_MODULE)}"></i>&nbsp; {vtranslate('LBL_COLLAPSE_BLOCK', $QUALIFIED_MODULE)}&nbsp;
-											<input style="opacity: 0;" type="checkbox" 
-													{if $BLOCK_MODEL->isHidden()} checked value='0' {else} value='1' {/if} class ='cursorPointer bootstrap-switch' name="collapseBlock" 
-													data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" data-on-color="primary" data-block-id="{$BLOCK_MODEL->get('id')}"/>
+											<div class="form-check form-switch d-inline-block align-middle">
+												<input type="checkbox"
+														{if $BLOCK_MODEL->isHidden()} checked value='0' {else} value='1' {/if} class="form-check-input cursorPointer" role="switch" name="collapseBlock"
+														data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" data-on-color="primary" data-block-id="{$BLOCK_MODEL->get('id')}"/>
+											</div>
 										</span>
 										&nbsp;
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
@@ -453,9 +455,11 @@
 				<div class="blockActions" style="float: right !important;">
 					<span>
 						<i class="fa fa-info-circle" title="{vtranslate('LBL_COLLAPSE_BLOCK_DETAIL_VIEW', $QUALIFIED_MODULE)}"></i>&nbsp; {vtranslate('LBL_COLLAPSE_BLOCK', $QUALIFIED_MODULE)}&nbsp;
-						<input style="opacity: 0;" type="checkbox" 
-								{if $BLOCK_MODEL->isHidden()} checked value='0' {else} value='1' {/if} class ='cursorPointer' id="hiddenCollapseBlock" name="" 
-								data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" data-on-color="primary" data-block-id="{$BLOCK_MODEL->get('id')}"/>
+						<div class="form-check form-switch d-inline-block align-middle">
+							<input type="checkbox"
+									{if $BLOCK_MODEL->isHidden()} checked value='0' {else} value='1' {/if} class="form-check-input cursorPointer" role="switch" id="hiddenCollapseBlock" name=""
+									data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" data-on-color="primary" data-block-id="{$BLOCK_MODEL->get('id')}"/>
+						</div>
 					</span>&nbsp;
 					<button class="btn btn-default addButton addCustomField" type="button">
 						<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}

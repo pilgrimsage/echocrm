@@ -59,8 +59,10 @@
 					<span class="">{vtranslate('LBL_ROLL_UP',$QUALIFIED_MODULE)} &nbsp;</span>
 					<span class="fa fa-question-circle" data-bs-toggle="tooltip" data-placement="top" title="{vtranslate('LBL_ROLLUP_COMMENTS_INFO',$QUALIFIED_MODULE)}"></span>&nbsp;&nbsp;
 				</div>
-				<input type="checkbox" class="bootstrap-switch float-end" id="rollupcomments" hascomments="1" startindex="{$STARTINDEX}" data-view="summary" rollupid="{$ROLLUPID}" 
-					rollup-status="{$ROLLUP_STATUS}" module="{$MODULE_NAME}" record="{$PARENT_RECORD}" checked data-on-color="success"/> 
+				<div class="form-check form-switch float-end">
+					<input type="checkbox" class="form-check-input" role="switch" id="rollupcomments" hascomments="1" startindex="{$STARTINDEX}" data-view="summary" rollupid="{$ROLLUPID}"
+						rollup-status="{$ROLLUP_STATUS}" module="{$MODULE_NAME}" record="{$PARENT_RECORD}" checked data-on-color="success"/>
+				</div>
 			</div> 
 		{/if}
 	</div>

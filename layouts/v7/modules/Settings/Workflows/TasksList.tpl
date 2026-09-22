@@ -31,7 +31,9 @@
 									</a>
 								</span>
                             </div>&nbsp;&nbsp;
-                            <input style="opacity: 0;" type="checkbox" data-on-color="success" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" value="on" {else} value="off" {/if} />
+                            <div class="form-check form-switch d-inline-block align-middle">
+                                <input type="checkbox" data-on-color="success" class="form-check-input taskStatus" role="switch" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" value="on" {else} value="off" {/if} />
+                            </div>
                         </td>
                         <td class="listViewEntryValue">{vtranslate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
 						<td><span class="float-start">{Vtiger_Util_Helper::toSafeHTML($TASK->getName())}</span></td>
@@ -49,7 +51,9 @@
                                 </a>
                             </span>
                         </div>&nbsp;&nbsp;
-                        <input style="opacity: 0;" type="checkbox" data-on-color="success" class="tmpTaskStatus" checked="" value="on"/>
+                        <div class="form-check form-switch d-inline-block align-middle">
+                            <input type="checkbox" data-on-color="success" class="form-check-input tmpTaskStatus" role="switch" checked="" value="on"/>
+                        </div>
                     </td>
                     <td class="listViewEntryValue taskType"></td>
                     <td><span class="float-start taskName"></span></td>

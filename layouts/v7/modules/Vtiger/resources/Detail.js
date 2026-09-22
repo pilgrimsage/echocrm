@@ -692,17 +692,12 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		var commentsRelatedContainer = jQuery('.commentsRelatedContainer');
 		if(jQuery('#rollupcomments').length > 0 && commentsRelatedContainer.length) {
 			app.helper.hideProgress();
-			commentsRelatedContainer.off('switchChange.bootstrapSwitch')
-			.on('switchChange.bootstrapSwitch','#rollupcomments', function(e){
+			commentsRelatedContainer.off('change', '#rollupcomments')
+			.on('change','#rollupcomments', function(e){
 				app.helper.showProgress();
 				self.toggleRollupComments(e);
 			});
-			if(jQuery('#rollupcomments').attr('rollup-status') == 1) {
-				jQuery('#rollupcomments').bootstrapSwitch('state', true, true);
-
-			}else{
-				jQuery('#rollupcomments').bootstrapSwitch('state', false, true);
-			}
+			jQuery('#rollupcomments').prop('checked', jQuery('#rollupcomments').attr('rollup-status') == 1);
 		}
 	},
 
@@ -2192,7 +2187,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 				contents.html(data);
 				vtUtils.enableTooltips();
 				self.registerRollupCommentsSwitchEvent();
-				jQuery('#rollupcomments').bootstrapSwitch('state', rollupstatus, true);
+				jQuery('#rollupcomments').prop('checked', !!rollupstatus);
 			});
 		}
 	},
@@ -2974,18 +2969,12 @@ Vtiger.Class("Vtiger_Detail_Js",{
 
 			//For Rollup Comments
 			if(jQuery('#rollupcomments').length > 0 && widgetContainer.data('name') == 'ModComments') {
-				widgetContainer.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '#rollupcomments', function(e){
+				widgetContainer.off('change', '#rollupcomments').on('change', '#rollupcomments', function(e){
 					app.helper.showProgress();
 					self.toggleRollupComments(e);
 				});
 
-				if(jQuery('#rollupcomments').attr('rollup-status') == 1) {
-					jQuery('#rollupcomments').bootstrapSwitch('state', true, true);
-
-				}else{
-					jQuery('#rollupcomments').bootstrapSwitch('state', false, true);
-				}
-
+				jQuery('#rollupcomments').prop('checked', jQuery('#rollupcomments').attr('rollup-status') == 1);
 			}
 			var vtigerInstance = Vtiger_Index_Js.getInstance();
 			vtUtils.enableTooltips();
@@ -2993,18 +2982,12 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		});		
 		//For Rollup Comments
 		if(jQuery('#rollupcomments').length > 0) {
-			detailContentsHolder.on('switchChange.bootstrapSwitch', '#rollupcomments', function(e){
+			detailContentsHolder.on('change', '#rollupcomments', function(e){
 				app.helper.showProgress();
 				self.toggleRollupComments(e);
 			});
 
-			if(jQuery('#rollupcomments').attr('rollup-status') == 1) {
-				jQuery('#rollupcomments').bootstrapSwitch('state', true, true);
-
-			}else{
-				jQuery('#rollupcomments').bootstrapSwitch('state', false, true);
-			}
-
+			jQuery('#rollupcomments').prop('checked', jQuery('#rollupcomments').attr('rollup-status') == 1);
 		}
 		//END
 

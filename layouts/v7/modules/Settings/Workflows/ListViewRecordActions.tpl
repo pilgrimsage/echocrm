@@ -12,6 +12,8 @@
     <a class="deleteRecordButton" style=" opacity: 0; padding: 0 5px;">
         <i title="{vtranslate('LBL_DELETE', $MODULE)}" class="fa fa-trash alignMiddle"></i>
     </a>
-    <input style="opacity: 0;" {if $LISTVIEW_ENTRY->get('status')} checked value="on" {else} value="off"{/if} data-on-color="success"  data-id="{$LISTVIEW_ENTRY->getId()}" type="checkbox" name="workflowstatus" id="workflowstatus">
+    <div class="form-check form-switch d-inline-block align-middle">
+        <input {if $LISTVIEW_ENTRY->get('status')} checked value="on" {else} value="off"{/if} data-on-color="success" data-id="{$LISTVIEW_ENTRY->getId()}" type="checkbox" class="form-check-input" role="switch" name="workflowstatus" id="workflowstatus">
+    </div>
 </div>
 {/strip}

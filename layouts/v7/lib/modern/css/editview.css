@@ -150,6 +150,30 @@ select.form-control{
 	height:16px;
 }
 
+/* modern rounded switches (replacing bootstrapSwitch) */
+.form-switch input.form-check-input[type="checkbox"]{
+	width:2.75em !important;
+	height:1.5em !important;
+	cursor:pointer;
+	border-color:var(--line) !important;
+	background-color:var(--mist) !important;
+	border-radius:2em !important;
+	accent-color:unset;
+	transition:background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+.form-switch input.form-check-input[type="checkbox"]:checked{
+	background-color:var(--teal) !important;
+	border-color:var(--teal) !important;
+}
+.form-switch .form-check-input:focus{
+	border-color:var(--teal);
+	box-shadow:0 0 0 3px rgba(14,124,102,.15);
+}
+.form-switch .form-check-input:disabled{
+	opacity:.5;
+	cursor:not-allowed;
+}
+
 /* save/cancel action bar */
 .editViewActions,
 #editViewHeader{

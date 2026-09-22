@@ -506,7 +506,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 				}
 				if(data.find('#fieldPresence').attr('optionDisabled') != 'true'){
 					data.find('input[name="presence"]').attr('checked', true).attr('readonly', 'readonly');
-					data.find('#fieldPresence').bootstrapSwitch('toggleReadonly', true);
+					data.find('#fieldPresence').prop('disabled', true);
 				}
 			} else {
 				if (data.find('input[name="isquickcreatesupported"]').val()) {
@@ -515,7 +515,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 				}
 				if(data.find('#fieldPresence').attr('optionDisabled') != 'true'){
 					data.find('input[name="presence"]').removeAttr('readonly');
-					data.find('#fieldPresence').bootstrapSwitch('toggleReadonly');
+					data.find('#fieldPresence').prop('disabled', false);
 				}
 			}
 		})
@@ -1353,11 +1353,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 		newBlockCloneCopy.attr('data-block-id', result['id']).find('.blockLabel').append(jQuery('<strong>'+result['label']+'</strong>'));
 		newBlockCloneCopy.find('.blockVisibility').attr('data-block-id', result['id']);
 		beforeBlock.after(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_'+result['id']).attr('id', 'block_'+result['id']));
-		newBlockCloneCopy.find("#hiddenCollapseBlock").addClass('bootstrap-switch');
 		newBlockCloneCopy.find("#hiddenCollapseBlock").attr('name', 'collapseBlock');
-		jQuery("input[name='collapseBlock']").bootstrapSwitch();
-		jQuery("input[name='collapseBlock']").bootstrapSwitch('handleWidth', '27px');
-		jQuery("input[name='collapseBlock']").bootstrapSwitch('labelWidth', '25px');
 		newBlockCloneCopy.find('.blockFieldsList').sortable({'connectWith': '.blockFieldsList'});
 	},
 	/**
@@ -1866,11 +1862,8 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 							cb: function (data) {
 								thisInstance.showFieldEditModel(data, blockId, container);
 								data.find('[name="fieldType"]').trigger('change');
-								jQuery('#fieldPresence').bootstrapSwitch();
-								jQuery('#fieldPresence').bootstrapSwitch('handleWidth', '27px');
-								jQuery('#fieldPresence').bootstrapSwitch('labelWidth', '25px');
 
-								jQuery('#fieldPresence').on('switchChange.bootstrapSwitch', function (e) {
+								jQuery('#fieldPresence').on('change', function (e) {
 									jQuery('.fieldProperty').toggleClass('hide');
 								});
 							}
@@ -1882,13 +1875,9 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 		});
 	},
 	registerEventForCollapseBlock: function () {
-		jQuery('#moduleBlocks').on('switchChange.bootstrapSwitch', "input[name='collapseBlock']", function (e) {
+		jQuery('#moduleBlocks').on('change', "input[name='collapseBlock']", function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			if (currentElement.val() == 1) {
-				currentElement.attr('value', 0);
-			} else {
-				currentElement.attr('value', 1);
-			}
+			currentElement.attr('value', currentElement.is(':checked') ? 0 : 1);
 
 			var moduleName = app.getModuleName();
 			if (moduleName != 'LayoutEditor') {
@@ -2087,9 +2076,6 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 					thisInstance.setNameFields();
 					thisInstance.registerAddCustomBlockEvent();
 					thisInstance.registerFieldSequenceSaveClick();
-					jQuery("input[name='collapseBlock']").bootstrapSwitch();
-					jQuery("input[name='collapseBlock']").bootstrapSwitch('handleWidth', '27px');
-					jQuery("input[name='collapseBlock']").bootstrapSwitch('labelWidth', '25px');
 					thisInstance.registerSwitchActionOnFieldProperties();
 					thisInstance.registerAddCustomField();
 					app.helper.showVerticalScroll(jQuery('.addFieldTypes'), {'setHeight': '350px'});
@@ -2138,18 +2124,18 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 				var dupliCheckEle = form.find('.duplicateCheck');
 				if (dupliCheckEle.length > 0) {
 					if (dupliCheckEle.data('currentRule') == 1) {
-						dupliCheckEle.bootstrapSwitch('state', false, true);
+						dupliCheckEle.prop('checked', false);
 						duplicateHandlingContainer.removeClass('show').addClass('hide');
 					} else {
-						dupliCheckEle.bootstrapSwitch('state', true, true);
+						dupliCheckEle.prop('checked', true);
 						duplicateHandlingContainer.removeClass('hide').addClass('show');
 					}
-					dupliCheckEle.bootstrapSwitch('handleWidth', '43px').bootstrapSwitch('labelWidth', '43px').bootstrapSwitch('size', '86px');
 				}
 
 				var fieldsList = form.find('#fieldsList');
-				form.off('switchChange.bootstrapSwitch');
-				form.on('switchChange.bootstrapSwitch', '.duplicateCheck', function (e, state) {
+				form.off('change', '.duplicateCheck');
+				form.on('change', '.duplicateCheck', function (e) {
+					var state = jQuery(e.currentTarget).is(':checked');
 					if (state == true) {
 						duplicateHandlingContainer.removeClass('hide').addClass('show');
 						fieldsList.removeAttr('data-validation-engine').attr('data-validation-engine', 'validate[required]');

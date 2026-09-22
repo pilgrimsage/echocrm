@@ -47,7 +47,6 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
         app.request.pjax({data:urlParams}).then(function(err, res){
             self.placeListContents(res);
             app.helper.hideProgress();
-            jQuery("input[name='workflowstatus']").bootstrapSwitch();
             aDeferred.resolve(res);
 		});
         return aDeferred.promise();
@@ -60,7 +59,7 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
         listViewContentDiv.on('click','.listViewEntries',function(e){
             var elem = jQuery(e.currentTarget);
             var targetElem = jQuery(e.target);
-            if(targetElem.closest('.bootstrap-switch').length != 0){
+            if(targetElem.closest('.form-switch').length != 0){
                 return false;
             }
 			if(targetElem.closest('.deleteRecordButton').length != 0){
@@ -124,13 +123,9 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
     },
    
     registerEventForChangeWorkflowState: function (listViewContainer) {
-        jQuery(listViewContainer).on('switchChange.bootstrapSwitch', "input[name='workflowstatus']", function (e) {
+        jQuery(listViewContainer).on('change', "input[name='workflowstatus']", function (e) {
             var currentElement = jQuery(e.currentTarget);
-            if(currentElement.val() == 'on'){
-                currentElement.attr('value','off');
-            } else {
-                currentElement.attr('value','on');
-            }
+            currentElement.attr('value', currentElement.is(':checked') ? 'on' : 'off');
             var params = {
                 module : app.getModuleName(),
                 parent : app.getParentModuleName(),
@@ -198,7 +193,6 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
         var listViewContainer = this.getListViewContainer();
         this.registerShowDeleteActionOnHover();
         if (listViewContainer.length > 0) {
-            jQuery("input[name='workflowstatus']").bootstrapSwitch();
             this.registerEventForChangeWorkflowState(listViewContainer);
             this.registerSearch();
             this.registerSelect2ForModuleFilter();

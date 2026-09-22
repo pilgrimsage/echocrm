@@ -321,8 +321,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             thisInstance.registerEditTaskEvent();
             thisInstance.registerTaskStatusChangeEvent();
             thisInstance.registerTaskDeleteEvent();
-            jQuery(".taskStatus").bootstrapSwitch();
-            
+
 			app.helper.registerLeavePageWithoutSubmit(jQuery('#workflow_edit'));
          });
       });
@@ -490,7 +489,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
                         if(params.active == 'false') {
                             taskTemplate.find('.tmpTaskStatus').val('off').prop('checked', false);
                         }
-                        taskTemplate.find('.tmpTaskStatus').addClass('taskStatus').bootstrapSwitch();
+                        taskTemplate.find('.tmpTaskStatus').addClass('taskStatus');
                         tableDiv.find('.emptyRecordsDiv').addClass('hide');
                         if(table.find('.tmpTaskId-'+params.tmpTaskId).length != 0) {
                             table.find('.tmpTaskId-'+params.tmpTaskId).replaceWith(taskTemplate);
@@ -717,7 +716,6 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       app.request.get({data:params}).then(function (error, data) {
          jQuery('#taskListContainer').html(data);
          app.helper.hideProgress();
-         jQuery(".taskStatus").bootstrapSwitch();
       });
    },
    
@@ -1323,15 +1321,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
     registerEventForChangeWorkflowState: function () {
         var editViewContainer = this.getEditViewContainer();
         var thisInstance = this;
-        jQuery(editViewContainer).on('switchChange.bootstrapSwitch', ".taskStatus", function (e) {
+        jQuery(editViewContainer).on('change', ".taskStatus", function (e) {
            var currentElement = jQuery(e.currentTarget);
-           var status = 'true';
-           if(currentElement.val() == 'on'){
-               status = 'false';
-               currentElement.attr('value','off');
-           } else {
-               currentElement.attr('value','on');
-           }
+           var isChecked = currentElement.is(':checked');
+           var status = isChecked ? 'true' : 'false';
+           currentElement.attr('value', isChecked ? 'on' : 'off');
            if(currentElement.data('statusurl')) {
                var url = currentElement.data('statusurl') + "&status=" + status;
                app.helper.showProgress();
