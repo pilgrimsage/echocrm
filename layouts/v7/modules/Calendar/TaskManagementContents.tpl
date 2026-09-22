@@ -25,24 +25,24 @@
 			{assign var=RECORD_BASIC_INFO value = $RECORD_MODEL->get('basicInfo')}
 			<div class="task clearfix" data-recordid="{$RECORD_MODEL->get('id')}" data-priority="{$PRIORITY}" data-basicinfo='{json_encode($RECORD_BASIC_INFO)}' style="border-left:4px solid {$COLORS[$PRIORITY]}">
 				{assign var=STATUS value=$RECORD_MODEL->get('status')}
-				<div class="task-status pull-left">
+				<div class="task-status float-start">
 					<input class='statusCheckbox' type="checkbox" name="taskstatus" {if $STATUS eq "Completed"} checked disabled {/if}/>
 				</div>
 				<div class='task-body clearfix'>
-					<div class="taskSubject pull-left {if $STATUS eq "Completed"} textStrike {/if} textOverflowEllipsis" style='width:70%;'>
+					<div class="taskSubject float-start {if $STATUS eq "Completed"} textStrike {/if} textOverflowEllipsis" style='width:70%;'>
 						<a class="quickPreview" data-id="{$RECORDID}" title="{$RECORD_MODEL->get('subject')}">{$RECORD_MODEL->get('subject')}</a>
 					</div>
 					{assign var=SELECTED_PICKLISTFIELD_ALL_VALUES value= Vtiger_Util_Helper::getPickListValues('taskstatus')}
 					{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 						{if $PICKLIST_VALUE == $RECORD_MODEL->get('status')}
-							<div class="more pull-right taskStatus picklist-{$SELECTED_PICKLIST_FIELDMODEL->getId()}-{$PICKLIST_KEY}">
+							<div class="more float-end taskStatus picklist-{$SELECTED_PICKLIST_FIELDMODEL->getId()}-{$PICKLIST_KEY}">
 								{$RECORD_MODEL->get('status')}
 							</div>
 						{/if}
 					{/foreach}
 				</div>
 				<div class='other-details clearfix'>
-					<div class="pull-left drag-task">
+					<div class="float-start drag-task">
 						<img class="cursorPointerMove" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
 					</div>
 					{if $RECORD_MODEL->get('sendnotification') eq 1}
@@ -75,7 +75,7 @@
 							</span>
 						{/if}
 					</div>
-					<div class="more pull-right cursorPointer task-actions">
+					<div class="more float-end cursorPointer task-actions">
 						<a href="#" class="quickTask" id="taskPopover"><i class="fa fa-pencil-square-o icon"></i></a>&nbsp;&nbsp;
 						<a href="#" class="taskDelete"><i class="fa fa-trash icon"></i></a>
 					</div>

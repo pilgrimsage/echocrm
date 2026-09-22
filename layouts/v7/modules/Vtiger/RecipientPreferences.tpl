@@ -38,7 +38,7 @@
 					<div class='modal-footer'>
 						<center>
 							<button class="btn btn-success savePreference" type="submit" name="savePreference"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</center>
 					</div>
 				</form>
@@ -48,7 +48,7 @@
 		<div class="modal-dialog modal-sm">
 			<div class="model-content">
 				<div class="modal-header" style="border-bottom: none;">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
+					<button data-bs-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 				</div>
 				<div class="modal-body"><div class="padding20">{vtranslate('LBL_PLEASE_ADD_EMAIL_FIELDS',$MODULE)}</div></div>
 			</div>

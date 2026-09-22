@@ -29,7 +29,7 @@
                                 <div class="col-lg-10 moduleContent" style="border:1px solid #CCC;">
                                     <div class="accordion-group convertLeadModules">
                                         <div class="header accordion-heading">
-                                            <div data-parent="#leadAccordion" data-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
+                                            <div data-bs-parent="#leadAccordion" data-bs-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
                                                 {if $ACCOUNT_FIELD_MODEL->isMandatory()}
                                                     <input type="hidden" id="oppAccMandatory" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
                                                 {/if}
@@ -53,7 +53,7 @@
                                                 {foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
                                                     <div class="row">
                                                         <div class="fieldLabel col-lg-4">
-                                                            <label class='muted pull-right'>
+                                                            <label class='muted float-end'>
                                                                 {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;
                                                                 {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
                                                             </label>
@@ -79,7 +79,7 @@
                                             <div class="row">
                                                 {assign var=FIELD_MODEL value=$ASSIGN_TO}
                                                 <div class="fieldLabel col-lg-4">
-                                                    <label class='muted pull-right'>
+                                                    <label class='muted float-end'>
                                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;
                                                         <span class="redColor">*</span> 
                                                     </label>
@@ -91,7 +91,7 @@
                                             <br>
                                             <div class="row">
                                                 <div class="fieldLabel col-lg-4">
-                                                    <label class='muted pull-right'>
+                                                    <label class='muted float-end'>
                                                         {vtranslate('LBL_TRANSFER_RELATED_RECORD', $MODULE)}
                                                     </label>
                                                 </div>

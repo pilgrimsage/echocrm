@@ -10,7 +10,7 @@
 {strip}
 	<div class="table-actions">
 		<span class="more dropdown action">
-			<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+			<span href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
 				<i title="{vtranslate("LBL_MORE_OPTIONS",$MODULE)}" class="fa fa-ellipsis-v icon"></i>
 			</span>
 			<ul class="dropdown-menu">

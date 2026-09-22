@@ -101,7 +101,7 @@
 										<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
 									</span>
 									<span class="more dropdown action">
-										<span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+										<span href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
 											<i class="fa fa-ellipsis-v icon"></i>
 										</span>
 										<ul class="dropdown-menu" style="top:auto;bottom:30%;" data-id="{$RECORD_ID}">

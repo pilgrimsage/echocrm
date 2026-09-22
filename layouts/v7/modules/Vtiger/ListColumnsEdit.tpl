@@ -56,7 +56,7 @@
 												{assign var=RAND_ID value=10|mt_rand:1000}
 												<div class="instafilta-section">
 													<div id="{$RAND_ID}_accordion" class="availFieldBlock" role="tab">
-														<a class="fieldLabel" data-bs-toggle="collapse" data-parent="#accordion" href="#{$RAND_ID}">
+														<a class="fieldLabel" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#{$RAND_ID}">
 															<i class="fa fa-caret-right"></i><span>{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}</span>
 														</a>
 													</div>
@@ -87,7 +87,7 @@
 				</div>
 				<div class="modal-footer ">
 					<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_UPDATE_LIST')}</strong></button>
-					<a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a href="#" class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 			</form>
 		</div>

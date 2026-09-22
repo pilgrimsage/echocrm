@@ -18,7 +18,7 @@
 		<div class='modal-body overflowYAuto'>
 			<div class='datacontent'>
 				<div class="data-header clearfix">
-					<div class="btn-group dateFilters pull-left" role="group" aria-label="...">
+					<div class="btn-group dateFilters float-start" role="group" aria-label="...">
 						<button type="button" class="btn btn-default {if $TASK_FILTERS['date'] eq "all"}active{/if}" data-filtermode="all">{vtranslate('LBL_ALL', $MODULE)}</button>
 						<button type="button" class="btn btn-default {if $TASK_FILTERS['date'] eq "today"}active{/if}" data-filtermode="today">{vtranslate('LBL_TODAY', $MODULE)}</button>
 						<button type="button" class="btn btn-default {if $TASK_FILTERS['date'] eq "thisweek"}active{/if}" data-filtermode="thisweek">{vtranslate('LBL_THIS_WEEK', $MODULE)}</button>
@@ -29,11 +29,11 @@
 						</button>
 					</div>
 
-					<div id="taskManagementOtherFilters" class="otherFilters pull-right" style="width:550px;">
-						<div class='field pull-left' style="width:250px;padding-right: 5px;">
+					<div id="taskManagementOtherFilters" class="otherFilters float-end" style="width:550px;">
+						<div class='field float-start' style="width:250px;padding-right: 5px;">
 							{include file="modules/Calendar/uitypes/OwnerFieldTaskSearchView.tpl" FIELD_MODEL=$OWNER_FIELD}
 						</div>
-						<div class='field pull-left' style="width:250px;padding-right: 5px;">
+						<div class='field float-start' style="width:250px;padding-right: 5px;">
 							{assign var=FIELD_MODEL value=$STATUS_FIELD}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=PICKLIST_VALUES value=$FIELD_INFO['picklistvalues']}

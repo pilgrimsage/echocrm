@@ -22,7 +22,7 @@
                         <tbody>
                             <tr>
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_SELECT_ACCOUNT',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_SELECT_ACCOUNT',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <select id="serverType" class="select2 col-lg-9">
@@ -38,7 +38,7 @@
                             </tr>
                             <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Mail_Server',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Mail_Server',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input name="_mbox_server" id="_mbox_server" class="inputElement width75per" value="{$MAILBOX->server()}" type="text" placeholder="mail.company.com or 192.168.X.X">
@@ -46,7 +46,7 @@
                             </tr>
                             <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Username',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Username',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input name="_mbox_user" class="inputElement width75per" id="_mbox_user" value="{$MAILBOX->username()}" type="text" placeholder="{vtranslate('LBL_Your_Mailbox_Account',$MODULE)}">
@@ -54,7 +54,7 @@
                             </tr>
                             <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Password',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Password',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input name="_mbox_pwd" class="inputElement width75per" id="_mbox_pwd" value="{$MAILBOX->password()}" type="password" placeholder="{vtranslate('LBL_Account_Password',$MODULE)}">
@@ -62,7 +62,7 @@
                             </tr>
                             <tr class="additional_settings {if $SERVERNAME neq 'other'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_Protocol',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_Protocol',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input type="radio" name="_mbox_protocol" class="mbox_protocol" value="IMAP2" {if strcasecmp($MAILBOX->protocol(), 'imap2')===0}checked=true{/if}> {vtranslate('LBL_Imap2',$MODULE)}
@@ -71,7 +71,7 @@
                             </tr>
                             <tr class="additional_settings {if $SERVERNAME neq 'other'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_SSL_Options',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_SSL_Options',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input type="radio" name="_mbox_ssltype" class="mbox_ssltype" value="notls" {if strcasecmp($MAILBOX->ssltype(), 'notls')===0}checked=true{/if}> {vtranslate('LBL_No_TLS',$MODULE)}
@@ -81,7 +81,7 @@
                             </tr>
                             <tr class="additional_settings {if $SERVERNAME neq 'other'}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_Certificate_Validations',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_Certificate_Validations',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <input type="radio" name="_mbox_certvalidate" class="mbox_certvalidate" value="validate-cert" {if strcasecmp($MAILBOX->certvalidate(), 'validate-cert')===0}checked=true{/if} > {vtranslate('LBL_Validate_Cert',$MODULE)}
@@ -91,7 +91,7 @@
 
                             <tr class="refresh_settings {if $MAILBOX && $MAILBOX->exists()}{else}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_REFRESH_TIME',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_REFRESH_TIME',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue">
                                     <select name="_mbox_refresh_timeout" class="select2 col-lg-9">
@@ -104,7 +104,7 @@
 
                             <tr class="settings_details {if $SERVERNAME eq ''}hide{/if}">
                                 <td class="fieldLabel width40per">
-                                    <label class="pull-right detailViewButtoncontainer">{vtranslate('LBL_SAVE_SENT_MAILS_IN',$MODULE)}</label>
+                                    <label class="float-end detailViewButtoncontainer">{vtranslate('LBL_SAVE_SENT_MAILS_IN',$MODULE)}</label>
                                 </td>
                                 <td class="fieldValue selectFolderValue {if !$MAILBOX->exists()}hide{/if}">
                                     <select name="_mbox_sent_folder" class="select2 col-lg-9">
@@ -126,7 +126,7 @@
                         <button class="btn btn-danger" id="deleteMailboxBtn"><strong>{vtranslate('LBL_DELETE_Mailbox',$MODULE)}</strong></button>
                     {/if}
                     <button class="btn btn-success" id="saveMailboxBtn" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
-                    <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                    <a href="#" class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </div>
             </form>
         </div>

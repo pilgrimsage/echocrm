@@ -22,7 +22,7 @@
 		<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 		<div class = "row">
 			<div class='col-md-5'>
-				<div class="foldersContainer hidden-xs pull-left">
+				<div class="foldersContainer d-none d-sm-block float-start">
 					<select class="select2" style="width: 300px;" id="moduleFilter">
 						<option value="" data-count='{$MODULES_COUNT['All']}'>{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_WORKFLOWS')}
 						</option>
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="search-link hidden-xs" style="margin-top: 0px;">
+				<div class="search-link d-none d-sm-block" style="margin-top: 0px;">
 					<span aria-hidden="true" class="fa fa-search"></span>
 					<input class="searchWorkflows" type="text" value="{decode_html($SEARCH_VALUE)|htmlentities}" placeholder="{vtranslate('LBL_WORKFLOW_SEARCH', $QUALIFIED_MODULE)}">
 				</div> 

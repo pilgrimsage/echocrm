@@ -16,11 +16,11 @@
                     </div>
                     {if isset($FILE_PREVIEW_NOT_SUPPORTED) && $FILE_PREVIEW_NOT_SUPPORTED neq 'yes'}
                         <div class="col-lg-3">
-                            <a class="btn btn-default btn-small pull-right marginTop5px" href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
+                            <a class="btn btn-default btn-small float-end marginTop5px" href="{$DOWNLOAD_URL}">{vtranslate('LBL_DOWNLOAD_FILE',$MODULE_NAME)}</a>
                         </div>
                     {/if}
-                    <div class="col-lg-1 pull-right">
-						<button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                    <div class="col-lg-1 float-end">
+						<button type="button" class="close" aria-label="Close" data-bs-dismiss="modal">
 							<span aria-hidden="true" class='fa fa-close'></span>
 						</button>
                     </div>

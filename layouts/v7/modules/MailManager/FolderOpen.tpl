@@ -9,7 +9,7 @@
 {strip}
     <div class='col-lg-12 padding0px'>
         <span class="col-lg-1 paddingLeft5px">
-            <input type='checkbox' id='mainCheckBox' class="pull-left">
+            <input type='checkbox' id='mainCheckBox' class="float-start">
         </span>
         <span class="col-lg-5 padding0px">
             <span class="fa-stack fa-sm cursorPointer mmActionIcon" id="mmMarkAsRead" data-folder="{$FOLDER->name()}" title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}">
@@ -22,10 +22,10 @@
                 <i class="fa fa-trash-o fa-stack-lg"></i>
             </span>
             <span class="fa-stack fa-sm cursorPointer moveToFolderDropDown more dropdown action" title="{vtranslate('LBL_MOVE_TO', $MODULE)}">
-                <span class='dropdown-toggle' data-toggle="dropdown">
+                <span class='dropdown-toggle' data-bs-toggle="dropdown">
                     <i class="fa fa-folder mmMoveDropdownFolder"></i>
                     <i class="fa fa-arrow-right mmMoveDropdownArrow"></i>
-                    <i class="fa fa-caret-down pull-right mmMoveDropdownCaret"></i>
+                    <i class="fa fa-caret-down float-end mmMoveDropdownCaret"></i>
                 </span>
                 <ul class="dropdown-menu" id="mmMoveToFolder">
                     {foreach item=folder from=$FOLDERLIST}
@@ -43,7 +43,7 @@
             </span>
         </span>
         <span class="col-lg-6 padding0px">
-            <span class="pull-right">
+            <span class="float-end">
 			{if $FOLDER->mails()}<span class="pageInfo">{$FOLDER->pageInfo()}&nbsp;&nbsp;</span> <span class="pageInfoData" data-start="{$FOLDER->getStartCount()}" data-end="{$FOLDER->getEndCount()}" data-total="{$FOLDER->count()}" data-label-of="{vtranslate('LBL_OF')}"></span>{/if}
                 <button type="button" id="PreviousPageButton" class="btn btn-default marginRight0px" {if $FOLDER->hasPrevPage()}data-folder='{$FOLDER->name()}' data-page='{$FOLDER->pageCurrent(-1)}'{else}disabled="disabled"{/if}>
                     <i class="fa fa-caret-left"></i>
@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class='col-lg-2' id="mmSearchButtonContainer">
-            <button id='mm_searchButton' class="pull-right">{vtranslate('LBL_Search', $MODULE)}</button>
+            <button id='mm_searchButton' class="float-end">{vtranslate('LBL_Search', $MODULE)}</button>
         </div>
     </div>
    {if $FOLDER->mails()}
@@ -86,7 +86,7 @@
                 {/if}
                 <div class="col-lg-12 cursorPointer mailEntry {if $IS_READ}mmReadEmail{/if}" id='mmMailEntry_{$MAIL->msgNo()}' data-folder="{$FOLDER->name()}" data-read='{$IS_READ}'>
                     <span class="col-lg-1 paddingLeft5px">
-                        <input type='checkbox' class='mailCheckBox' class="pull-left">
+                        <input type='checkbox' class='mailCheckBox' class="float-start">
                     </span>
                     <div class="col-lg-11 mmfolderMails padding0px" title="{$MAIL->subject()}">
                         <input type="hidden" class="msgNo" value='{$MAIL->msgNo()}'>
@@ -110,7 +110,7 @@
                             {assign var=ATTACHMENT value=$MAIL->attachments()}
                             {assign var=INLINE_ATTCH value=$MAIL->inlineAttachments()}
                             {assign var=ATTCHMENT_COUNT value=(php7_count($ATTACHMENT) - php7_count($INLINE_ATTCH))}
-                            <span class="pull-right">
+                            <span class="float-end">
                                 {if $ATTCHMENT_COUNT}
                                     <i class="fa fa-paperclip font14px"></i>&nbsp;
                                 {/if}

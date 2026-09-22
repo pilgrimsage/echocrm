@@ -32,7 +32,7 @@
                         <div class="block nameBlock row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
+                                <label class="float-end">{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
                             <div class="col-lg-5">
                                 <input class="inputElement" type="text" name="taxlabel" placeholder="{vtranslate('LBL_ENTER_TAX_NAME', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getName()}" data-rule-required="true" data-prompt-position="bottomLeft" />
@@ -43,7 +43,7 @@
                         <div class="block statusBlock row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+                                <label class="float-end">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
                             </div>
                             <div class="col-lg-7">
                                 <input type="hidden" name="deleted" value="1" />
@@ -59,7 +59,7 @@
                             <div class="block taxCalculationBlock row">
                                 <div class="col-lg-1"></div>
                                 <div class="col-lg-3">
-                                    <label class="pull-right">{vtranslate('LBL_TAX_CALCULATION', $QUALIFIED_MODULE)}</label>
+                                    <label class="float-end">{vtranslate('LBL_TAX_CALCULATION', $QUALIFIED_MODULE)}</label>
                                 </div>
                                 <div class="col-lg-7">
                                     <label class="span radio-group" id="simple"><input type="radio" name="method" class="input-medium" {if $TAX_RECORD_MODEL->getTaxMethod() eq 'Simple' OR !$TAX_ID}checked{/if} value="Simple" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_SIMPLE', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
@@ -77,7 +77,7 @@
                         <div class="block compoundOnContainer row {if $TAX_RECORD_MODEL->getTaxMethod() neq 'Compound'}hide{/if}">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_COMPOUND_ON', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
+                                <label class="float-end">{vtranslate('LBL_COMPOUND_ON', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
                             <div class="col-lg-5">
                                 <div class="">
@@ -95,7 +95,7 @@
                         <div class="block taxTypeContainer row {if $TAX_RECORD_MODEL->getTaxMethod() eq 'Deducted'}hide{/if}">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_TAX_TYPE', $QUALIFIED_MODULE)}</label>
+                                <label class="float-end">{vtranslate('LBL_TAX_TYPE', $QUALIFIED_MODULE)}</label>
                             </div>
                             <div class="col-lg-7">
                                 <label class="span radio-group" id="fixed"><input type="radio" name="taxType" class="input-medium" {if $TAX_RECORD_MODEL->getTaxType() eq 'Fixed' OR !$TAX_ID}checked{/if} value="Fixed" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_FIXED', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
@@ -107,7 +107,7 @@
                         <div class="block taxValueContainer row {if $TAX_RECORD_MODEL->getTaxType() eq 'Variable'}hide{/if}">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
+                                <label class="float-end">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
                             <div class="col-lg-5">
                                 <div class="input-group" style="min-height:30px;">

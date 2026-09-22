@@ -131,9 +131,11 @@ Vtiger_Detail_Js("Potentials_Detail_Js",{
 		} else {
 			var callBackFunction = function(data){
 				var editViewObj = Vtiger_Edit_Js.getInstance();
-				jQuery(data).find('.fieldInfo').collapse({
-					'parent': '#potentialAccordion',
-					'toggle' : false
+				jQuery(data).find('.fieldInfo').each(function(){
+					bootstrap.Collapse.getOrCreateInstance(this, {
+						parent: '#potentialAccordion',
+						toggle: false
+					});
 				});
 				app.helper.showVerticalScroll(jQuery(data).find('#potentialAccordion'), {'setHeight': '350px'});
 				editViewObj.registerBasicEvents(data);
@@ -198,10 +200,11 @@ Vtiger_Detail_Js("Potentials_Detail_Js",{
 			var moduleBlock = currentTarget.closest('.accordion-group').find('#'+currentModuleName+'_FieldInfo');
 
 			if(currentTarget.is(':checked')) {
-				moduleBlock.collapse('show');
+				bootstrap.Collapse.getOrCreateInstance(moduleBlock[0]).show();
 				instance.removeDisableAttr(moduleBlock);
 			} else {
-				moduleBlock.collapse('hide');
+				var _collapse = bootstrap.Collapse.getInstance(moduleBlock[0]);
+				if (_collapse) { _collapse.hide(); }
 				instance.addDisableAttr(moduleBlock);
 			}
 			e.stopImmediatePropagation();

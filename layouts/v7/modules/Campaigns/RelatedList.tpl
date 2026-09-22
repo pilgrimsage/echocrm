@@ -40,7 +40,7 @@
 								{assign var=DROPDOWNS value=$RELATED_LINK->get('linkdropdowns')}
 								{if php7_count($DROPDOWNS) gt 0}
 									<div class="btn-group">
-										<a class="btn dropdown-toggle" href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" data-close-others="false" style="width:20px;height:18px;">
+										<a class="btn dropdown-toggle" href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" data-hover="dropdown" data-delay="200" data-close-others="false" style="width:20px;height:18px;">
 											<img title="{$RELATED_LINK->getLabel()}" alt="{$RELATED_LINK->getLabel()}" src="{vimage_path("{$RELATED_LINK->getIcon()}")}">
 										</a>
 										<ul class="dropdown-menu">
@@ -199,8 +199,8 @@
 								{/foreach}
 								<td class="{$WIDTHTYPE}" nowrap>
 									<span class="currentStatus more dropdown action">
-										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}&nbsp;</span>
-										<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-arrow-down alignMiddle editRelatedStatus"></i></a>
+										<span class="statusValue dropdown-toggle" data-bs-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}&nbsp;</span>
+										<a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-arrow-down alignMiddle editRelatedStatus"></i></a>
 										<ul class="dropdown-menu dropdown-menu-right">
 											{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
 												<li id="{$STATUS_ID}" data-status="{vtranslate($STATUS, $MODULE)}">

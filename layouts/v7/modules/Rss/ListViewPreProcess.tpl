@@ -27,7 +27,7 @@
 <div class="main-container">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
         <div id="modnavigator" class="module-nav {if $LEFTPANELHIDE eq '1'} hide {/if}">
-            <div class="hidden-xs hidden-sm mod-switcher-container">
+            <div class="d-none d-md-block mod-switcher-container">
                 {include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
             </div>
         </div>

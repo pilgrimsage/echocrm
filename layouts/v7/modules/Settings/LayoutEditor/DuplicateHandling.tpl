@@ -63,7 +63,7 @@
 								{/foreach}
 							</select>
 							<span class="input-info-addon syncMessage">
-								<a class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="right" title="{vtranslate('LBL_SYNC_TOOLTIP_MESSAGE', $QUALIFIED_MODULE)}"></a>
+								<a class="fa fa-info-circle" data-bs-toggle="tooltip" data-html="true" data-placement="right" title="{vtranslate('LBL_SYNC_TOOLTIP_MESSAGE', $QUALIFIED_MODULE)}"></a>
 							</span>
 						</div>
 					</div>
@@ -71,7 +71,7 @@
 				{/if}
 				<div class="formFooter hide">
 					<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 				</div>
 			</div>
 		</form>

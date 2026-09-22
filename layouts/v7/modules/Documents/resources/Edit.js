@@ -253,7 +253,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {
 			}
             externalDocContentsElement.find('.fileUploadContainer').replaceWith(newFileNameElement);
 			var fileNameElementTd = newFileNameElement.closest('td');
-            fileNameElementTd.prev('td.fieldLabel').empty().append('<label class="muted pull-right"><span class="redColor">*</span>'+app.vtranslate('JS_EXTERNAL_FILE_URL')+'</label>');
+            fileNameElementTd.prev('td.fieldLabel').empty().append('<label class="muted float-end"><span class="redColor">*</span>'+app.vtranslate('JS_EXTERNAL_FILE_URL')+'</label>');
 			var uploadFileDetails = fileNameElementTd.find('.uploadedFileDetails');
 				uploadFileDetails.addClass('hide').removeClass('show');
 

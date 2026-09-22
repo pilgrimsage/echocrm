@@ -59,7 +59,7 @@
                 {/foreach}
                 <button class="btn btn-success moreDetailsButton" value = "{$RECORD->getDetailViewUrl()}">{vtranslate('LBL_DETAILS',$MODULE_NAME)}</button>
                 <button class="btn btn-success editRelatedRecord" value = "{$RECORD->getEditViewUrl()}">{vtranslate('LBL_EDIT',$MODULE_NAME)}</button>
-                <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                <button type="button" class="close" aria-label="Close" data-bs-dismiss="modal">
                 <span aria-hidden="true" class='fa fa-close'></span>
                 </button>
             </div>

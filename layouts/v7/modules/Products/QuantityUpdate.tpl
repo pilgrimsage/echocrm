@@ -18,7 +18,7 @@
 			<input type="hidden" name="relid" value="{$REL_ID}"/> 
 			<div class="modal-body">
 				<div class="row">
-					<span class="col-lg-6"><label for="quantityEdit" class="pull-right" style="margin-top: 5px;">{vtranslate('LBL_EDIT_QUANTITY', $MODULE)}</label></span>
+					<span class="col-lg-6"><label for="quantityEdit" class="float-end" style="margin-top: 5px;">{vtranslate('LBL_EDIT_QUANTITY', $MODULE)}</label></span>
 					<span class="col-lg-6">
 						<input id="quantityEdit" data-rule-positiveExcludingZero=true data-rule-positive=true class="form-control" type="text" name="quantity" value="{$CURRENT_QTY}">
 					</span>

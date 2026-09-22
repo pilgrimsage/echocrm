@@ -51,12 +51,12 @@
                         </label>
                      <div class="col-sm-5 controls">
                          {if isset($MODE) && $MODE eq 'edit'}
-                             <div class="pull-left">
+                             <div class="float-start">
                                 <input type='text' disabled='disabled' class="inputElement" value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                                 <input type='hidden' id="module_name" name='module_name' value="{$MODULE_MODEL->get('name')}" >
                              </div>
                          {else}
-                             <select class="select2 col-sm-6 pull-left" id="module_name" name="module_name" required="true" data-placeholder="Select Module..." style="text-align: left">
+                             <select class="select2 col-sm-6 float-start" id="module_name" name="module_name" required="true" data-placeholder="Select Module..." style="text-align: left">
                                  {foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
                                      {assign var=TARGET_MODULE_NAME value=$MODULE_MODEL->getName()}
                                      {assign var=SINGLE_MODULE value="SINGLE_$TARGET_MODULE_NAME"}
@@ -80,7 +80,7 @@
                         {vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}
                      </label>
                      <div class="col-sm-5 controls">
-                        <div class="pull-left">
+                        <div class="float-start">
                             <span style="margin-right: 10px;">
                                <input name="status" type="radio" value="active" {if $WORKFLOW_MODEL_OBJ->status eq '1'} checked="" {/if}>&nbsp;
                                <span>{vtranslate('Active', $QUALIFIED_MODULE)}</span>

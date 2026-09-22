@@ -44,7 +44,7 @@
 					{/if}
 				</div>
 				<div class="col-lg-4" style="padding-right: 0px;">
-					<div class="btn-group pull-right">
+					<div class="btn-group float-end">
 						<button class="btn btn-default addButton" id="addRuleButton" title="{vtranslate('LBL_DRAG_AND_DROP_BLOCK_TO_PRIORITISE_THE_RULE', $QUALIFIED_MODULE)}"
 							{if stripos($SCANNER_MODEL->getCreateRuleRecordUrl(), 'javascript:')===0}
 								onclick='{$SCANNER_MODEL->getCreateRuleRecordUrl()|substr:strlen("javascript:")}' 
@@ -53,10 +53,10 @@
 							{/if}>
 							<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_RULE', $QUALIFIED_MODULE)}
 						</button>
-						<button href="javascript:void(0);" data-toggle="dropdown" class="btn btn-default" style="margin-left: 4px;">
+						<button href="javascript:void(0);" data-bs-toggle="dropdown" class="btn btn-default" style="margin-left: 4px;">
 							{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE_NAME)}&nbsp;<i class="caret"></i>
 						</button>
-						<ul class="dropdown-menu pull-right">
+						<ul class="dropdown-menu float-end">
 							{foreach item=LINK from=$RECORD->getRecordLinks()}
 								<li>
 									<a {if strpos($LINK->getUrl(), 'javascript:')===0} href='javascript:void(0);' onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'{else}href={$LINK->getUrl()}{/if}>

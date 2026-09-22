@@ -20,7 +20,7 @@
 		</div>
 		<hr>*}
 		<div class="clearfix">
-			<div class="btn-group pull-right editbutton-container">
+			<div class="btn-group float-end editbutton-container">
 				<button id="updateCompanyDetails" class="btn btn-default ">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
@@ -118,7 +118,7 @@
 					<div class="row clearfix">
 						<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
 							<button type="submit" class="btn btn-success saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-							<a class="cancelLink" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a class="cancelLink" data-bs-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 					</div>
 				</div>

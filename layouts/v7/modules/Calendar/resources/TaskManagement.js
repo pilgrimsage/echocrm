@@ -361,7 +361,8 @@ Vtiger_Index_Js("Vtiger_TaskManagement_Js",{},{
 		var overlay = this.getOverlayContainer();
 		overlay.on("click",".popoverClose",function(){
 			var popoverDescribedBy = jQuery(this).closest('.popover').attr('id');
-			jQuery('[aria-describedby="'+popoverDescribedBy+'"]').popover("hide");
+			var _popover = bootstrap.Popover.getInstance(document.querySelector('[aria-describedby="'+popoverDescribedBy+'"]'));
+			if (_popover) { _popover.hide(); }
 		});
 	},
 

@@ -28,7 +28,7 @@
 										{if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach' && php7_count($DASHBOARD_TABS) gt 1} dropdown-toggle{/if}"
 										title="{if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach'}
 										{if $REPORT_MODEL->isPinnedToDashboard()}{vtranslate('LBL_UNPIN_CHART_FROM_DASHBOARD', $MODULE)}{else}{vtranslate('LBL_PIN_CHART_TO_DASHBOARD', $MODULE)}{/if}
-										{else}{$DETAILVIEW_LINK->get('linktitle')}{/if}" {if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach' && php7_count($DASHBOARD_TABS) gt 1 }data-toggle="dropdown"{/if}
+										{else}{$DETAILVIEW_LINK->get('linktitle')}{/if}" {if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach' && php7_count($DASHBOARD_TABS) gt 1 }data-bs-toggle="dropdown"{/if}
 											{if $LINK_ICON_CLASS eq 'vtGlyph vticon-attach'}data-dashboard-tab-count='{php7_count($DASHBOARD_TABS)}'{/if} >
 									{if $LINK_NAME} {$LINK_NAME}{/if}
 									{if $LINK_ICON_CLASS}
@@ -68,7 +68,7 @@
 					{/if}
 				</div>
 				<div class='col-lg-4 detailViewButtoncontainer'>
-					<span class="pull-right">
+					<span class="float-end">
 						<div class="btn-toolbar">
 							<div class="btn-group">
 							{if isset($DETAILVIEW_LINKS) && $DETAILVIEW_LINKS}

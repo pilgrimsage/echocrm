@@ -25,7 +25,7 @@
                         <div class="nameBlock">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_REGION_NAME', $QUALIFIED_MODULE)}</label>
+                                <label class="float-end">{vtranslate('LBL_REGION_NAME', $QUALIFIED_MODULE)}</label>
                             </div>
                             <div class="col-lg-5">
                                 <input class="inputElement" type="text" name="name" placeholder="{vtranslate('LBL_ENTER_REGION_NAME', $QUALIFIED_MODULE)}" value="{$TAX_REGION_MODEL->getName()}" data-rule-required="true" />

@@ -570,10 +570,10 @@ var Settings_Picklist_Js = {
         var contrast = app.helper.getColorContrast(color);
         var textColor = (contrast === 'dark') ? 'white' : 'black';
         var actions = jQuery('.picklistActionsTemplate').html();
-        var actionsTemplate = '<span class="pull-right picklistActions" style="margin-top:0px;">' + actions + '</span>';
+        var actionsTemplate = '<span class="float-end picklistActions" style="margin-top:0px;">' + actions + '</span>';
         var template = '<tr class="pickListValue cursorPointer">'+
                             '<td class="textOverflowEllipsis fieldPropertyContainer">'+
-                                '<span class="pull-left">' +
+                                '<span class="float-start">' +
                                     '<img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' +
                                     '<span class="picklist-color" style="background-color: '+ color + ';color: '+ textColor +';">' + value + '</span>' + 
                                 '</span>' +

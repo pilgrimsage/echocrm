@@ -18,7 +18,7 @@
                         {if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $MODULE)}{/if} :</strong>
             </div>
             <div class="col-sm-6">
-                <div class="pull-right">
+                <div class="float-end">
                     <button class="btn btn-sm btn-default addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
                       <i class="fa fa-plus"></i> &nbsp;&nbsp;{vtranslate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}
                     </button>
@@ -58,7 +58,7 @@
                                                 {vtranslate('Read Write', $QUALIFIED_MODULE)}
                                             {/if}
 
-                                            <div class="table-actions pull-right">
+                                            <div class="table-actions float-end">
                                                 <span><a href="javascript:void(0);" class="edit" data-url="{$RULE_MODEL->getEditViewUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil"></i></a></span>
                                                 &nbsp;<span><a href="javascript:void(0);" class="delete" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="fa fa-trash"></i></a></span>
                                             </div>

@@ -17,7 +17,7 @@
 					<div id="{$BLOCK_NAME}_accordion" class="app-nav" role="tab">
 						<div class="app-settings-accordion">
 							<div class="settingsgroup-accordion">
-								<a data-toggle="collapse" data-parent="#accordion" href="#{$BLOCK_NAME}">
+								<a data-bs-toggle="collapse" data-bs-parent="#accordion" href="#{$BLOCK_NAME}">
 									<i class="fa {if $ACTIVE_BLOCK['block'] eq $BLOCK_NAME} fa-angle-down {else} fa-angle-right {/if}"></i>
 									&nbsp;<span>{vtranslate($BLOCK_NAME,$QUALIFIED_MODULE)}</span>
 								</a>

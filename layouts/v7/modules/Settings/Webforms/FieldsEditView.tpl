@@ -114,7 +114,7 @@
                                     {vtranslate({$FIELD_MODEL->get('name')}, $SOURCE_MODULE)}
                                 {/if}
                                 {if !$FIELD_MODEL->isMandatory(true)}
-                                    <div class="pull-right actions">
+                                    <div class="float-end actions">
                                         <span class="actionImages"><a class="removeTargetModuleField" href="javascript:void(0);"><i class="icon-remove-sign"></i></a></span>
                                     </div>
                                 {/if}

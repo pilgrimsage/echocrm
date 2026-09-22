@@ -58,7 +58,7 @@
 <div class="main-container clearfix">
 		{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
         <div class="module-nav clearfix settingsNav" id="modnavigator">
-            <div class="hidden-xs hidden-sm height100Per">
+            <div class="d-none d-md-block height100Per">
                 {include file="modules/Settings/Vtiger/Sidebar.tpl"}
             </div>
         </div>

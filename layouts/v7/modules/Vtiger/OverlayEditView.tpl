@@ -67,7 +67,7 @@
             <center>
                 <footer>
                     <button class="btn btn-success saveButton" type="submit">Save</button>
-                    <a class="cancelLink" data-dismiss="modal" type="reset">Cancel</a>
+                    <a class="cancelLink" data-bs-dismiss="modal" type="reset">Cancel</a>
                 </footer>
             </center>
         </div>

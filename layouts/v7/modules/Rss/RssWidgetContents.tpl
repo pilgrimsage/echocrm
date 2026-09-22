@@ -15,8 +15,8 @@
     <div class="module-filters">    
         <div class="sidebar-container lists-menu-container">
             <div class="sidebar-header clearfix">
-                <h5 class="pull-left">{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}</h5>
-                <button class="btn btn-default pull-right sidebar-btn rssAddButton" title="{vtranslate('LBL_FEED_SOURCE',$MODULE)}">
+                <h5 class="float-start">{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}</h5>
+                <button class="btn btn-default float-end sidebar-btn rssAddButton" title="{vtranslate('LBL_FEED_SOURCE',$MODULE)}">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
             </div>

@@ -22,10 +22,10 @@
 					{else}
 						{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrlWithAllFilter()}
 					{/if}
-					<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title pull-left text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4></a>
+					<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title float-start text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4></a>
 				</span>
 				<span>
-					<p class="current-filter-name pull-left">&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$VIEW}&nbsp;</p>
+					<p class="current-filter-name float-start">&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$VIEW}&nbsp;</p>
 				</span>
 				{if isset($VIEWID) && $VIEWID}
 					{foreach item=FILTER_TYPES from=$CUSTOM_VIEWS}
@@ -37,11 +37,11 @@
 						{/foreach}
 					{/foreach}
 					<span>
-						<p class="current-filter-name filter-name pull-left">&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$CVNAME}&nbsp;</p>
+						<p class="current-filter-name filter-name float-start">&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$CVNAME}&nbsp;</p>
 					</span>
 				{/if}
 			</div>
-			<div class="col-lg-5 col-md-5 pull-right">
+			<div class="col-lg-5 col-md-5 float-end">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{assign var=BASIC_ACTION value=$MODULE_BASIC_ACTIONS}

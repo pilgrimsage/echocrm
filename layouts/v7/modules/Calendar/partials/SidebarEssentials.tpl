@@ -18,8 +18,8 @@
                     <div class="sidebar-widget-header" role="tab" data-url="{$SIDEBARWIDGET->getUrl()}">
                         <div class="sidebar-header clearfix">
                             {*<i class="fa fa-chevron-right widget-state-indicator"></i>*}
-                            <h5 class="pull-left">{vtranslate($SIDEBARWIDGET->get('linklabel'),$MODULE)}</h5>
-                            <button class="btn btn-default pull-right sidebar-btn add-calendar-feed">
+                            <h5 class="float-start">{vtranslate($SIDEBARWIDGET->get('linklabel'),$MODULE)}</h5>
+                            <button class="btn btn-default float-end sidebar-btn add-calendar-feed">
                                 <div class="fa fa-plus" aria-hidden="true"></div>
                             </button> 
                         </div>

@@ -13,7 +13,7 @@
 		<ul class="list-group feedslist">
 			<li class="activitytype-indicator calendar-feed-indicator mass-edit-option" style="background-color:#2c3b49; color:#FFFFFF;">
 				<span>{vtranslate('LBL_MASS_SELECT')}</span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="mass-select" type="checkbox">
 				</span>
 			</li>
@@ -24,7 +24,7 @@
 					{if $VIEWINFO['conditions']['name'] neq ''} ({vtranslate($VIEWINFO['conditions']['name'],$MODULE)}) {/if}-
 					{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}
 				</span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="{$VIEWINFO['module']}_{$VIEWINFO['fieldname']}{if $VIEWINFO['conditions']['name'] neq ''}_{$VIEWINFO['conditions']['name']}{/if}" data-calendar-feed="{$VIEWINFO['module']}" 
 						   data-calendar-feed-color="{$VIEWINFO['color']}" data-calendar-fieldlabel="{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}" 
 						   data-calendar-fieldname="{$VIEWINFO['fieldname']}" title="{vtranslate($VIEWINFO['module'],$VIEWINFO['module'])}" data-calendar-type="{$VIEWINFO['type']}" 
@@ -45,7 +45,7 @@
 		<ul class="hide dummy">
 			<li class="activitytype-indicator calendar-feed-indicator feed-indicator-template container-fluid">
 				<span></span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="" data-calendar-feed="" 
 						   data-calendar-feed-color="" data-calendar-fieldlabel="" 
 						   data-calendar-fieldname="" title="" data-calendar-type=""

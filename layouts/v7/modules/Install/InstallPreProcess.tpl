@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="col-sm-6">
-			<div class="head pull-right">
+			<div class="head float-end">
 				<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
 			</div>
 		</div>

@@ -32,7 +32,7 @@
 								<span class="taxRegionName">{$TAX_REGION_NAME}</span>
 							</td>
 							<td class="{$WIDTHTYPE}" style="border-right:none;border-left:none">
-								<div class="pull-right actions">
+								<div class="float-end actions">
 									<a class="editRegion" data-url='{$TAX_REGION_MODEL->getEditRegionUrl()}'><i title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fa fa-pencil alignMiddle"></i></a>&nbsp;&nbsp;
 									<a class="deleteRegion" data-url='{$TAX_REGION_MODEL->getDeleteRegionUrl()}'><i title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash alignMiddle"></i></a>
 								</div>

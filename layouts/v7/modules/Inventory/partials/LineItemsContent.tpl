@@ -144,7 +144,7 @@
 		{/if}
 		{if isset($MARGIN_EDITABLE) && $MARGIN_EDITABLE eq false}
 			<input type="hidden" name="{$margin}" value="{if $data.$margin}{$data.$margin}{else}0{/if}"></span>
-			<span class="margin pull-right" style="display:none">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
+			<span class="margin float-end" style="display:none">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
 		{/if}
 		{if $MODULE neq 'PurchaseOrder'}
 			<br>
@@ -160,7 +160,7 @@
 		<td>
 			<input id="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
 			<input name="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}" />
-			<span class="pull-right purchaseCost">{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}</span>
+			<span class="float-end purchaseCost">{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}</span>
 		</td>
 	{/if}
 
@@ -222,8 +222,8 @@
 									{vtranslate('LBL_OF_PRICE',$MODULE)}
 								</td>
 								<td>
-									<span class="pull-right">&nbsp;%</span>
-									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{(isset($data.$discount_percent)) ? $data.$discount_percent : ''}" class="discount_percentage span1 pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+									<span class="float-end">&nbsp;%</span>
+									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{(isset($data.$discount_percent)) ? $data.$discount_percent : ''}" class="discount_percentage span1 float-end discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 								</td>
 							</tr>
 						{/if}
@@ -235,7 +235,7 @@
 									{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 								</td>
 								<td>
-									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{(isset($data.$discount_amount)) ? $data.$discount_amount : ''}" class="span1 pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{(isset($data.$discount_amount)) ? $data.$discount_amount : ''}" class="span1 float-end discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 								</td>
 							</tr>
 						{/if}
@@ -294,11 +294,11 @@
 	{if isset($MARGIN_EDITABLE) && $MARGIN_EDITABLE && $PURCHASE_COST_EDITABLE}
 		<td>
 			<input type="hidden" name="{$margin}" value="{if $data.$margin}{$data.$margin}{else}0{/if}"></span>
-		<span class="margin pull-right">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
+		<span class="margin float-end">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
 	</td>
 	{/if}
 
 	<td>
-		<span id="netPrice{$row_no}" class="pull-right netPrice">{if isset($data.$netPrice) && $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
+		<span id="netPrice{$row_no}" class="float-end netPrice">{if isset($data.$netPrice) && $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
 	</td>
 {/strip}

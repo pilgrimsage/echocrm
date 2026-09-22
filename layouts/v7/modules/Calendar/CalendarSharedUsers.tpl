@@ -16,7 +16,7 @@
 		<ul class="list-group feedslist">
 			<li class="activitytype-indicator calendar-feed-indicator mass-edit-option" style="background-color:#2c3b49; color:#FFFFFF;">
 				<span>{vtranslate('LBL_MASS_SELECT')}</span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="mass-select" type="checkbox">
 				</span>
 			</li>
@@ -24,7 +24,7 @@
 				<span>
 					{vtranslate('LBL_MINE',$MODULE)}
 				</span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="Events_{$CURRENT_USER_ID}" data-calendar-feed="Events" 
 						   data-calendar-feed-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}" data-calendar-fieldlabel="{vtranslate('LBL_MINE',$MODULE)}" 
 						   data-calendar-userid="{$CURRENT_USER_ID}" data-calendar-group="false" data-calendar-feed-textcolor="white">&nbsp;&nbsp;
@@ -38,7 +38,7 @@
 						<span class="userName textOverflowEllipsis" title="{$USER}">
 							{$USER}
 						</span>
-						<span class="activitytype-actions pull-right">
+						<span class="activitytype-actions float-end">
 							<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="Events_{$ID}" data-calendar-feed="Events" 
 								   data-calendar-feed-color="{$SHAREDUSERS_INFO[$ID]['color']}" data-calendar-fieldlabel="{$USER}" 
 								   data-calendar-userid="{$ID}" data-calendar-group="false" data-calendar-feed-textcolor="white">&nbsp;&nbsp;
@@ -56,7 +56,7 @@
 						<span class="userName textOverflowEllipsis" title="{$GROUP}">
 							{$GROUP}
 						</span>
-						<span class="activitytype-actions pull-right">
+						<span class="activitytype-actions float-end">
 							<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="Events_{$ID}" data-calendar-feed="Events" 
 								   data-calendar-feed-color="{$SHAREDUSERS_INFO[$ID]['color']}" data-calendar-fieldlabel="{$GROUP}" 
 								   data-calendar-userid="{$ID}" data-calendar-group="true" data-calendar-feed-textcolor="white">&nbsp;&nbsp;
@@ -72,7 +72,7 @@
 		<ul class="hide dummy">
 			<li class="activitytype-indicator calendar-feed-indicator feed-indicator-template">
 				<span></span>
-				<span class="activitytype-actions pull-right">
+				<span class="activitytype-actions float-end">
 					<input class="toggleCalendarFeed cursorPointer" type="checkbox" data-calendar-sourcekey="" data-calendar-feed="Events" 
 					data-calendar-feed-color="" data-calendar-fieldlabel="" 
 					data-calendar-userid="" data-calendar-group="" data-calendar-feed-textcolor="white">&nbsp;&nbsp;

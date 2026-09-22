@@ -69,14 +69,14 @@
 				<div class="widgetContainer_documents" data-url="{$DOCUMENT_WIDGET_MODEL->getUrl()}" data-name="{$DOCUMENT_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$DOCUMENT_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $DOCUMENT_WIDGET_MODEL->get('action')}
 							{assign var=PARENT_ID value=$RECORD->getId()}
-							<div class="pull-right">
+							<div class="float-end">
 								<div class="dropdown">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
 										<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}&nbsp; <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu">
@@ -130,11 +130,11 @@
 				<div class="widgetContainer_troubleTickets" data-url="{$HELPDESK_WIDGET_MODEL->getUrl()}" data-name="{$HELPDESK_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$HELPDESK_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($HELPDESK_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($HELPDESK_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $HELPDESK_WIDGET_MODEL->get('action')}
-							<div class="pull-right">
+							<div class="float-end">
 								<button class="btn addButton btn-default btn-sm createRecord" type="button" data-url="{$HELPDESK_WIDGET_MODEL->get('actionURL')}">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD',$MODULE_NAME)}
 								</button>
@@ -143,7 +143,7 @@
 					</div>
 					<div class="clearfix">
 						<div class="widget_filter clearfix">
-							<div class="pull-left">
+							<div class="float-start">
 								{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance('HelpDesk')}
 								{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField('ticketstatus')}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -171,11 +171,11 @@
 				<div class="widgetContainer_mileStone" data-url="{$MILESTONE_WIDGET_MODEL->getUrl()}" data-name="{$MILESTONE_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$MILESTONE_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($MILESTONE_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($MILESTONE_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $MILESTONE_WIDGET_MODEL->get('action')}
-							<div class="pull-right">
+							<div class="float-end">
 								<button class="btn addButton btn-sm btn-default createRecord"  id="createProjectMileStone" type="button" data-url="{$MILESTONE_WIDGET_MODEL->get('actionURL')}">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD',$MODULE_NAME)}
 								</button>
@@ -197,11 +197,11 @@
 				<div class="widgetContainer_tasks" data-url="{$TASKS_WIDGET_MODEL->getUrl()}" data-name="{$TASKS_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$TASKS_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($TASKS_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($TASKS_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $TASKS_WIDGET_MODEL->get('action')}
-							<div class="pull-right">
+							<div class="float-end">
 								<button class="btn addButton btn-sm btn-default createRecord" id="createProjectTask" type="button" data-url="{$TASKS_WIDGET_MODEL->get('actionURL')}">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD',$MODULE_NAME)}
 								</button>
@@ -211,7 +211,7 @@
 					<div class="clearfix">
 						<div class="widget_filter clearfix">
 							{if $PROGRESS_FIELD_MODEL->isViewableInDetailView()}
-								<div class="pull-left marginRight15">
+								<div class="float-start marginRight15">
 									{assign var=FIELD_INFO value=$PROGRESS_FIELD_MODEL->getFieldInfo()}
 									{assign var=PICKLIST_VALUES value=$FIELD_INFO['picklistvalues']}
 									{assign var=FIELD_INFO value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_INFO))}
@@ -226,7 +226,7 @@
 							{/if}
 							&nbsp;&nbsp;
 							{if $STATUS_FIELD_MODEL->isViewableInDetailView()}
-								<div class="pull-left marginRight15">
+								<div class="float-start marginRight15">
 									{assign var=FIELD_INFO value=$STATUS_FIELD_MODEL->getFieldInfo()}
 									{assign var=PICKLIST_VALUES value=$FIELD_INFO['picklistvalues']}
 									{assign var=FIELD_INFO value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_INFO))}

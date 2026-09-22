@@ -30,7 +30,7 @@
         <div class="form-group">
             <div class="control-label col-lg-2 col-md-2">&nbsp;</div>
             <div class="controls col-lg-4 col-md-4">
-                <button id="saveOrder" class="btn btn-success pull-right">
+                <button id="saveOrder" class="btn btn-success float-end">
                     {vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}
                 </button>
             </div>

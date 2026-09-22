@@ -1579,7 +1579,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 			app.helper.showConfirmationBox({'title': app.vtranslate('LBL_WARNING'),
 				'message'	: message,
 				buttons		:{
-								cancel	: {label: 'No', className: 'btn-default confirm-box-btn-pad pull-right'},
+								cancel	: {label: 'No', className: 'btn-default confirm-box-btn-pad float-end'},
 								confirm	: {label: app.vtranslate('JS_FIELD_DELETE_CONFIRMATION'), className: 'confirm-box-ok confirm-box-btn-pad btn-primary'}
 							 }
 					}).then(function (data) {

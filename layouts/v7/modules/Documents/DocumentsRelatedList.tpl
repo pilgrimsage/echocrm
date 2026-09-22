@@ -53,7 +53,7 @@
 								{if $IS_CREATE_PERMITTED}
 									<div class="col-sm-3">
 										<div class="dropdown">
-											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
 												<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE)}"></span>&nbsp;&nbsp;{vtranslate('LBL_NEW_DOCUMENT', $RELATED_MODULE_NAME)}&nbsp; <span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu">

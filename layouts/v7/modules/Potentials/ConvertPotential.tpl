@@ -30,7 +30,7 @@
                         <div class="col-lg-10 moduleContent" style="border:1px solid #CCC;">
                            <div class="accordion-group convertPotentialModules">
                               <div class="header accordion-heading">
-                                 <div data-parent="#potentialAccordion" data-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
+                                 <div data-bs-parent="#potentialAccordion" data-bs-toggle="collapse" class="accordion-toggle moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
                                     <h5>
                                        <input id="{$MODULE_NAME}Module" class="convertPotentialModuleSelection alignBottom" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" {if $MODULE_NAME eq 'Project'} checked="" {/if}/>
                                        {assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
@@ -43,7 +43,7 @@
                                  {foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
                                      <div class="row">
                                          <div class="fieldLabel col-lg-4">
-                                             <label class='muted pull-right'>
+                                             <label class='muted float-end'>
                                                  {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;
                                                  {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
                                              </label>
@@ -69,7 +69,7 @@
                               <div class="row">
                                  {assign var=FIELD_MODEL value=$ASSIGN_TO}
                                  <div class="fieldLabel col-lg-4">
-                                    <label class='muted pull-right'>
+                                    <label class='muted float-end'>
                                        {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;
                                        <span class="redColor">*</span> 
                                     </label>

@@ -9,7 +9,7 @@
 {strip}
 	<div id="moveReportsContainer" class='modal-dialog'>
 		<div class="modal-header">
-			<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
+			<button data-bs-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
 			<h4>{vtranslate('LBL_MOVE_REPORT', $MODULE)}</h4>
 		</div>
 		<div class="modal-content">

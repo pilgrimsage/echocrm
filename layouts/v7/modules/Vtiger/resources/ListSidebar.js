@@ -204,20 +204,21 @@ Vtiger.Class('Vtiger_ListSidebar_Js',{},{
                 sanitize : false, /* to allow button / anchor */
             };
             
-            jQuery(ele).popover(options);
-            
+            bootstrap.Popover.getOrCreateInstance(jQuery(ele)[0], options);
+
             jQuery('html').on('click', function (e) {
                 var elements = jQuery('.activePopover');
                 if(elements.length <= 0 ){
                     return;
-                } else if ($(e.target).data('toggle') !== 'popover' && $(e.target).parents('[data-toggle="popover"]').length === 0
+                } else if ($(e.target).data('bsToggle') !== 'popover' && $(e.target).parents('[data-bs-toggle="popover"]').length === 0
                         && $(e.target).parents('.popover.in').length === 0) {
-                    elements.popover('hide').removeClass('rotate').removeClass("activePopover");
+                    elements.each(function(){ var _p = bootstrap.Popover.getInstance(this); if(_p) _p.hide(); });
+                    elements.removeClass('rotate').removeClass("activePopover");
                 }
             });
-            
+
             jQuery('.js-popover-container').on('click', function(e){
-                var currentElement = jQuery(e.currentTarget).find('[data-toggle]');
+                var currentElement = jQuery(e.currentTarget).find('[data-bs-toggle]');
                 if(jQuery('.popover').hasClass('in')) {
                     currentElement.addClass('rotate');
                     currentElement.addClass('activePopover');
@@ -225,11 +226,13 @@ Vtiger.Class('Vtiger_ListSidebar_Js',{},{
                     currentElement.removeClass('rotate');
                     currentElement.removeClass('activePopover');
                 }
-                if (jQuery('.popover', '#module-filters').length > 1) { 
+                if (jQuery('.popover', '#module-filters').length > 1) {
                     var popoverId = jQuery('.popover', '#module-filters').attr('id');
                     var ele = jQuery('.list-group').find("[aria-describedby='" + popoverId + "']");
                     ele.removeClass('rotate');
-                    jQuery('.popover', '#module-filters').first().popover('hide');
+                    var _firstPopoverEl = jQuery('.popover', '#module-filters').first()[0];
+                    var _firstPopover = bootstrap.Popover.getInstance(_firstPopoverEl);
+                    if (_firstPopover) { _firstPopover.hide(); }
                 }
             e.stopPropagation();
         });

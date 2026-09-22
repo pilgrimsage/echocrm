@@ -42,14 +42,14 @@
 				<div class="widgetContainer_documents" data-url="{$DOCUMENT_WIDGET_MODEL->getUrl()}" data-name="{$DOCUMENT_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$DOCUMENT_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $DOCUMENT_WIDGET_MODEL->get('action')}
 							{assign var=PARENT_ID value=$RECORD->getId()}
-							<div class="pull-right">
+							<div class="float-end">
 								<div class="dropdown">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
 										<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}&nbsp; <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu">
@@ -111,11 +111,11 @@
 				<div class="widgetContainer_products" data-url="{$PRODUCT_WIDGET_MODEL->getUrl()}" data-name="{$PRODUCT_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$PRODUCT_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($PRODUCT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($PRODUCT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $PRODUCT_WIDGET_MODEL->get('action')}
-							<div class="pull-right">
+							<div class="float-end">
 								<button class="btn addButton btn-sm btn-default createRecord" type="button" data-url="{$PRODUCT_WIDGET_MODEL->get('actionURL')}">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD',$MODULE_NAME)}
 								</button>
@@ -135,11 +135,11 @@
 				<div class="widgetContainer_contacts" data-url="{$CONTACT_WIDGET_MODEL->getUrl()}" data-name="{$CONTACT_WIDGET_MODEL->getLabel()}">
 					<div class="widget_header clearfix">
 						<input type="hidden" name="relatedModule" value="{$CONTACT_WIDGET_MODEL->get('linkName')}" />
-						<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-						<h4 class="display-inline-block pull-left">{vtranslate($CONTACT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+						<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+						<h4 class="display-inline-block float-start">{vtranslate($CONTACT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 						{if $CONTACT_WIDGET_MODEL->get('action')}
-							<div class="pull-right">
+							<div class="float-end">
 								<button class="btn addButton btn-sm btn-default createRecord" type="button" data-url="{$CONTACT_WIDGET_MODEL->get('actionURL')}">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD',$MODULE_NAME)}
 								</button>

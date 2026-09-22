@@ -13,7 +13,7 @@
         <div class="col-sm-12 col-xs-12">
             <div class="row settingsHeader">
                 <span class="col-sm-12">
-                    <span class="pull-right">
+                    <span class="float-end">
                         {foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
                             <button type="button" class="btn btn-default" onclick={$LINK_MODEL->getUrl()}>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</button>
                         {/foreach}

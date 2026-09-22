@@ -151,7 +151,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	showpopupModal : function(){
 		var thisInstance = this;
 		vtUtils.applyFieldElementsView(jQuery('.popupModal'));
-		jQuery('.popupModal').modal();
+		var _popupModalEl = document.querySelector('.popupModal');
+		if (_popupModalEl) { bootstrap.Modal.getOrCreateInstance(_popupModalEl).show(); }
 		jQuery('.popupModal').on('shown.bs.modal', function() {
 			jQuery('.myModal').css('opacity', .5);
 			jQuery('.myModal').unbind();
@@ -160,7 +161,12 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		jQuery('.popupModal').on('hidden.bs.modal', function() {
 			this.remove();
 			jQuery('.myModal').css('opacity', 1);
-			jQuery('.myModal').removeData("modal").modal(app.helper.defaultModalParams());
+			var _myModalEl = document.querySelector('.myModal');
+			if (_myModalEl) {
+				var _existingModal = bootstrap.Modal.getInstance(_myModalEl);
+				if (_existingModal) { _existingModal.dispose(); }
+				bootstrap.Modal.getOrCreateInstance(_myModalEl, app.helper.defaultModalParams()).show();
+			}
 			jQuery('.myModal').bind();
 		});
 	},
@@ -860,7 +866,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 			app.event.on("post.DocumentsList.click",function(event, data){
 				var responseData = JSON.parse(data);
-				jQuery('.popupModal').modal('hide');
+				var _popupModal = bootstrap.Modal.getInstance(document.querySelector('.popupModal')); if (_popupModal) { _popupModal.hide(); }
 				for(var id in responseData){
 					selectedDocumentId = id;
 					var selectedFileName = responseData[id].info['filename'];
@@ -884,7 +890,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 			app.event.on("post.EmailTemplateList.click",function(event, data){
 				var responseData = JSON.parse(data);
-				jQuery('.popupModal').modal('hide');
+				var _popupModal = bootstrap.Modal.getInstance(document.querySelector('.popupModal')); if (_popupModal) { _popupModal.hide(); }
 
 				var ckEditorInstance = thisInstance.getckEditorInstance();
 

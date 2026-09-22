@@ -15,7 +15,7 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
             placement : ele.data('position'),
             trigger   : 'hover'
         };
-        ele.popover(options);
+        bootstrap.Popover.getOrCreateInstance(ele[0], options);
     }
 }, {
     /**

@@ -557,10 +557,10 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 									<div class="modal-content">\n\
 									<div class="modal-header backgroundColor">\n\
 										<div class="clearfix">\n\
-											<div class="pull-right">\n\
-												<button data-dismiss="modal" class="close" title="'+app.vtranslate('JS_CLOSE')+'"><span aria-hidden="true" class="fa fa-close"></span></button>\n\
+											<div class="float-end">\n\
+												<button data-bs-dismiss="modal" class="close" title="'+app.vtranslate('JS_CLOSE')+'"><span aria-hidden="true" class="fa fa-close"></span></button>\n\
 											</div>\n\
-											<h4 class="pull-left">'+widgetTitle+'</h4>\n\
+											<h4 class="float-start">'+widgetTitle+'</h4>\n\
 										</div>\n\
 									</div>\n\
 									<div class="modal-body" style="overflow:auto;">\n\
@@ -722,7 +722,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 										var tabid = data["tabid"];
 										var tabname = data["tabname"];
 										var tabEle = '<li class="dashboardTab" data-tabid="'+tabid+'" data-tabname="'+tabname+'">';
-										tabEle += '<a data-toggle="tab" href="#tab_'+tabid+'">\n\
+										tabEle += '<a data-bs-toggle="tab" href="#tab_'+tabid+'">\n\
 														<div>\n\
 															<span class="name textOverflowEllipsis" style="width:10%">\n\
 															<strong></strong>\n\

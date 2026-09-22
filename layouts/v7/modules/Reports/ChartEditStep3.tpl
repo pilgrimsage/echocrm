@@ -41,25 +41,25 @@
                     <div>
                         <ul class="nav nav-tabs charttabs" name="charttab" style="text-align:center;font-size:14px;font-weight: bold;margin:0 3%;border:0px">
                             <li class="active marginRight5px" >
-                                <a data-type="pieChart" data-toggle="tab">
+                                <a data-type="pieChart" data-bs-toggle="tab">
                                     <div><img src="layouts/v7/skins/images/pie.PNG" style="border:1px solid #ccc;"/></div>
                                     <div class="chartname">{vtranslate('LBL_PIE_CHART', $MODULE)}</div>
                                 </a>
                             </li>
                             <li class="marginRight5px">
-                                <a data-type="verticalbarChart" data-toggle="tab">
+                                <a data-type="verticalbarChart" data-bs-toggle="tab">
                                     <div><img src="layouts/v7/skins/images/vbar.PNG" style="border:1px solid #ccc;"/></div>
                                     <div class="chartname">{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}</div>
                                 </a>
                             </li>
                             <li class="marginRight5px">
-                                <a data-type="horizontalbarChart" data-toggle="tab">
+                                <a data-type="horizontalbarChart" data-bs-toggle="tab">
                                     <div><img src="layouts/v7/skins/images/hbar.PNG" style="border:1px solid #ccc;"/></div>
                                     <div class="chartname">{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}</div>
                                 </a>
                             </li>
                             <li class="marginRight5px" >
-                                <a data-type="lineChart" data-toggle="tab">
+                                <a data-type="lineChart" data-bs-toggle="tab">
                                     <div><img src="layouts/v7/skins/images/line.PNG" style="border:1px solid #ccc;"/></div>
                                     <div class="chartname">{vtranslate('LBL_LINE_CHART', $MODULE)}</div>
                                 </a>

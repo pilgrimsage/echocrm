@@ -27,7 +27,7 @@
 	<div class="main-container">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
 		<div id="modnavigator" class="module-nav calendar-navigator clearfix">
-			<div class="hidden-xs hidden-sm mod-switcher-container">
+			<div class="d-none d-md-block mod-switcher-container">
 				{include file="modules/Calendar/partials/Sidebar.tpl"}
 			</div>
 		</div>

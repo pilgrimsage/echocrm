@@ -32,7 +32,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="col-sm-4 fieldLabel" style="padding-top:1%">
-						<label class="muted pull-right">
+						<label class="muted float-end">
 							{$FOLLOW_UP_LABEL}
 						</label>
 					</div>

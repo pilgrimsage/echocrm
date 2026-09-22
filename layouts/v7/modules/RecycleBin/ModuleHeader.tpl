@@ -12,13 +12,13 @@
 		<div class="module-action-content clearfix">
 			<span class="col-lg-7 col-md-7 module-breadcrumb module-breadcrumb-{$REQ->get('view')}">
 				<span>
-					<h4 title="{vtranslate($MODULE, $MODULE)}" class="module-title pull-left text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4>
+					<h4 title="{vtranslate($MODULE, $MODULE)}" class="module-title float-start text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4>
 				</span>
 				<span>
-					<p class="current-filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$VIEW}&nbsp;</p>
+					<p class="current-filter-name float-start"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$VIEW}&nbsp;</p>
 				</span>
 				<span>
-					<p class="current-filter-name pull-left textOverflowEllipsis" style="width:250px;"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{vtranslate($SOURCE_MODULE,$SOURCE_MODULE)}&nbsp;</p>
+					<p class="current-filter-name float-start textOverflowEllipsis" style="width:250px;"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{vtranslate($SOURCE_MODULE,$SOURCE_MODULE)}&nbsp;</p>
 				</span>
 			</span>
 		</div>

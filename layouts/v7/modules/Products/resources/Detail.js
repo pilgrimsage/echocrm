@@ -98,12 +98,14 @@ PriceBooks_Detail_Js("Products_Detail_Js", {
         thisInstance.registerPopover();
         detailContentsHolder.on('click', '.totalCostCalculationInfo', function(e) {
             var element = jQuery(e.currentTarget);
-            element.popover({
-                'html': true,
-                'container':'body',
-                'placement': 'top',
-            }).data('bs.popover').tip().addClass('productBundlePopover').css({'left':'0px', 'margin-left': '60px'}); /* 60px to overcome sidebar-offset + container-padding */
+            bootstrap.Popover.getOrCreateInstance(element[0], {
+                html: true,
+                container: 'body',
+                placement: 'top',
+            });
             element.one('shown.bs.popover',function(){
+                var _tipId = element.attr('aria-describedby');
+                jQuery('#' + _tipId).addClass('productBundlePopover').css({'left':'0px', 'margin-left': '60px'}); /* 60px to overcome sidebar-offset + container-padding */
                 app.helper.showVerticalScroll(jQuery('.productBundlePopover .popover-content'));
             });
         });
@@ -162,9 +164,13 @@ PriceBooks_Detail_Js("Products_Detail_Js", {
         });
     },
     registerPopover: function() {
-        if (jQuery('.totalCostCalculationInfo').length !== 0) {
-            jQuery('.totalCostCalculationInfo').popover({html: true, container: 'body', placement: 'top'}).data('bs.popover').tip().addClass('productBundlePopover');
-        }
+        jQuery('.totalCostCalculationInfo').each(function(){
+            var _el = jQuery(this);
+            bootstrap.Popover.getOrCreateInstance(this, {html: true, container: 'body', placement: 'top'});
+            _el.one('shown.bs.popover', function(){
+                jQuery('#' + _el.attr('aria-describedby')).addClass('productBundlePopover');
+            });
+        });
     },
     registerBasicEvents: function(){
         this._super();

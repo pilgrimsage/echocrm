@@ -73,7 +73,7 @@
             </div>
         </div>
     </div>
-    <div class="footerIcons pull-right">
+    <div class="footerIcons float-end">
         {include file="dashboards/DashboardFooterIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
     </div>
 </div>

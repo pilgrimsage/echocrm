@@ -21,7 +21,7 @@
 				{foreach from=$TASK_LIST item=TASK}
 					<tr class="listViewEntries">
 						<td>
-                            <div class="pull-left actions">
+                            <div class="float-start actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
 										<i class="fa fa-pencil alignMiddle" title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"></i>
@@ -34,12 +34,12 @@
                             <input style="opacity: 0;" type="checkbox" data-on-color="success" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" value="on" {else} value="off" {/if} />
                         </td>
                         <td class="listViewEntryValue">{vtranslate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
-						<td><span class="pull-left">{Vtiger_Util_Helper::toSafeHTML($TASK->getName())}</span></td>
+						<td><span class="float-start">{Vtiger_Util_Helper::toSafeHTML($TASK->getName())}</span></td>
 					<tr>
 				{/foreach}
                 <tr class="listViewEntries hide taskTemplate">
                     <td>
-                        <div class="pull-left actions">
+                        <div class="float-start actions">
                             <span class="actionImages">
                                 <a class="editTask">
                                     <i class="fa fa-pencil alignMiddle" ></i>
@@ -52,7 +52,7 @@
                         <input style="opacity: 0;" type="checkbox" data-on-color="success" class="tmpTaskStatus" checked="" value="on"/>
                     </td>
                     <td class="listViewEntryValue taskType"></td>
-                    <td><span class="pull-left taskName"></span></td>
+                    <td><span class="float-start taskName"></span></td>
                 </tr>
 			</tbody>
 		</table>

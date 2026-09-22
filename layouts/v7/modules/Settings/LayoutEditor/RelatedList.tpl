@@ -45,7 +45,7 @@
 													<span class="referenceModule">{vtranslate($REFERENCE_MODULE,$REFERENCE_MODULE)}</span>
 												</div>
 												<div class="col-sm-5" style="margin-top: 5px;">
-													<div class="pull-right">
+													<div class="float-end">
 														{if $RELATION_FIELD->get('_relationType') eq Settings_LayoutEditor_Module_Model::MANY_TO_ONE}
 															<img src="{vimage_path('N-1.png')}" width="100" height="50" />
 														{else}
@@ -95,7 +95,7 @@
 																<span class="moduletranslatedLabel">{vtranslate($MODULE_MODEL->getRelationModuleName(),$MODULE_MODEL->getRelationModuleName())}</span>
 															</div>
 															<div class="col-sm-4" style="margin-top: 4px;">
-																<div class="pull-right">
+																<div class="float-end">
 																	{if $MODULE_MODEL->get('relationtype') eq '1:N' and $MODULE_MODEL->getRelationModuleName() neq 'Calendar'}
 																		<img src="{vimage_path('1-N.png')}" width="100" height="50" />
 																	{else}
@@ -104,8 +104,8 @@
 																</div>
 															</div>
 															<div class="col-sm-1 deleteButton" style="padding-right: 0px;" data-relation="1">
-																<div class="pull-right">
-																	<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
+																<div class="float-end">
+																	<button class="close" data-bs-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 																</div>
 															</div>
 														</div>
@@ -116,7 +116,7 @@
 									</div>
 									<div class="col-sm-6">
 										<div>
-											<div class="pull-right" style="margin-bottom:20px;">
+											<div class="float-end" style="margin-bottom:20px;">
 												<span class="col-sm-6" style="width:100%">
 													<img src="{vimage_path('Square.png')}" />&nbsp;&nbsp;&nbsp;
 													{vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)}
@@ -177,13 +177,13 @@
 								<span class="moduletranslatedLabel"></span>
 							</div>
 							<div class="col-sm-4" style="margin-top: 4px;">
-								<div class="pull-right">
+								<div class="float-end">
 									<img src="{vimage_path('N-N.png')}" width="100" height="50" />
 								</div>
 							</div>
 							<div class="col-sm-1 deleteButton" style="padding-right: 0px;" data-relation="1">
-								<div class="pull-right">
-									<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
+								<div class="float-end">
+									<button class="close" data-bs-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 								</div>
 							</div>
 						</div>

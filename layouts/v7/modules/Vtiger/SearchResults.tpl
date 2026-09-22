@@ -13,7 +13,7 @@
 	<div id="searchResults-container" class="modal-body" style="padding:0!important">
 		<div class="col-lg-12 clearfix">
 			<div class="float-end overlay-close">
-				<button type="button" class="close" aria-label="Close" data-bs-target="#overlayPage" data-dismiss="modal">
+				<button type="button" class="close" aria-label="Close" data-bs-target="#overlayPage" data-bs-dismiss="modal">
 					<span aria-hidden="true" class="fa fa-close"></span>
 				</button>
 			</div>

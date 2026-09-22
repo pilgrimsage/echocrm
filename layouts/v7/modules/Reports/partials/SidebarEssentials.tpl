@@ -12,8 +12,8 @@
 		<div class="module-filters" id="module-filters">
 			<div class="sidebar-container lists-menu-container">
 				<div class="sidebar-header clearfix">
-					<h5 class="pull-left">{vtranslate('LBL_FOLDERS', $MODULE)}</h5>
-					<button id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="btn btn-default pull-right sidebar-btn" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
+					<h5 class="float-start">{vtranslate('LBL_FOLDERS', $MODULE)}</h5>
+					<button id="createFilter" onclick='Reports_List_Js.triggerAddFolder("index.php?module=Reports&view=EditFolder");' class="btn btn-default float-end sidebar-btn" title="{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}">
 						<div class="fa fa-plus" aria-hidden="true"></div>
 					</button> 
 				</div>
@@ -34,10 +34,10 @@
 											<li style="font-size:12px;" class="listViewFilter {if $smarty.foreach.folderview.iteration gt 5} filterHidden hide{/if}" >
 												{assign var=VIEWNAME value={vtranslate($FOLDER->getName(),$MODULE)}}
 												<a href="#" class='filterName' data-filter-id={$FOLDER->getId()}><i class="fa fa-folder foldericon"></i>&nbsp;{if {$VIEWNAME|strlen} > 50 }{$VIEWNAME|substr:0:45}..{else}{$VIEWNAME}{/if}</a> 
-												<div class="pull-right">
+												<div class="float-end">
 													{assign var="FOLDERID" value=$FOLDER->get('folderid')}
 													<span class="js-popover-container">
-														<span class="fa fa-angle-down" data-id="{$FOLDERID}" data-deletable="true" data-editable="true" rel="popover" data-toggle="popover" data-deleteurl="{$FOLDER->getDeleteUrl()}" data-editurl="{$FOLDER->getEditUrl()}" data-toggle="dropdown" aria-expanded="true"></span>
+														<span class="fa fa-angle-down" data-id="{$FOLDERID}" data-deletable="true" data-editable="true" rel="popover" data-bs-toggle="popover" data-deleteurl="{$FOLDER->getDeleteUrl()}" data-editurl="{$FOLDER->getEditUrl()}" data-bs-toggle="dropdown" aria-expanded="true"></span>
 													</span>
 												</div>
 											</li>

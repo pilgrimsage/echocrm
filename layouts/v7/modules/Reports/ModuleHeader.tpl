@@ -22,10 +22,10 @@
 					{else}
 						{assign var=DEFAULT_FILTER_URL value=$MODULE_MODEL->getListViewUrlWithAllFilter()}
 					{/if}
-					<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title pull-left">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4></a>
+					<a title="{vtranslate($MODULE, $MODULE)}" href='{$DEFAULT_FILTER_URL}'><h4 class="module-title float-start">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4></a>
 				</span>
 				<span>
-					<p class="current-filter-name pull-left">
+					<p class="current-filter-name float-start">
 						&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>
 						&nbsp;
 						{if $VIEW eq 'Detail' or $VIEW eq 'ChartDetail'}
@@ -48,19 +48,19 @@
 						{assign var=FOLDERNAME value=vtranslate('LBL_ALL_REPORTS', $MODULE)}
 					{/if}
 					<span>
-						<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{if isset($FOLDERNAME)}{$FOLDERNAME}{else}''{/if}&nbsp;</p>
+						<p class="current-filter-name filter-name float-start"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{if isset($FOLDERNAME)}{$FOLDERNAME}{else}''{/if}&nbsp;</p>
 					</span>
 				{/if}
 			</span>
 
-			<span class="col-lg-5 col-md-5 pull-right">
+			<span class="col-lg-5 col-md-5 float-end">
 				<div id="appnav" class="navbar-right">
 				{if isset($LISTVIEW_LINKS['LISTVIEWBASIC'])}
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						{if $childLinks && $LISTVIEW_BASICACTION->get('linklabel') == 'LBL_ADD_RECORD'}
 							<span class="btn-group">
-								<button class="btn btn-default dropdown-toggle module-buttons" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
+								<button class="btn btn-default dropdown-toggle module-buttons" data-bs-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;
 									{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}&nbsp;
 									<i class="caret icon-white"></i>

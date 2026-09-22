@@ -38,14 +38,14 @@
 			<div class="widgetContainer_documents" data-url="{$DOCUMENT_WIDGET_MODEL->getUrl()}" data-name="{$DOCUMENT_WIDGET_MODEL->getLabel()}">
 				<div class="widget_header clearfix">
 					<input type="hidden" name="relatedModule" value="{$DOCUMENT_WIDGET_MODEL->get('linkName')}" />
-					<span class="toggleButton pull-left"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
-					<h4 class="display-inline-block pull-left">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
+					<span class="toggleButton float-start"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;</span>
+					<h4 class="display-inline-block float-start">{vtranslate($DOCUMENT_WIDGET_MODEL->getLabel(),$MODULE_NAME)}</h4>
 
 					{if $DOCUMENT_WIDGET_MODEL->get('action')}
 						{assign var=PARENT_ID value=$RECORD->getId()}
-						<div class="pull-right">
+						<div class="float-end">
 							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
 									<span class="fa fa-plus" title="{vtranslate('LBL_NEW_DOCUMENT', $MODULE_NAME)}"></span>&nbsp;{vtranslate('LBL_NEW_DOCUMENT', 'Documents')}&nbsp; <span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">

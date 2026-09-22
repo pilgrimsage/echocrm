@@ -50,7 +50,8 @@ Settings_Vtiger_List_Js("Settings_SMSNotifier_List_Js", {
 			});
 	},
 	registerPhoneFormatPop: function (form) {
-		form.find('#phoneFormatWarningPop').popover();
+		var _phoneFormatWarningPop = form.find('#phoneFormatWarningPop')[0];
+		if (_phoneFormatWarningPop) { bootstrap.Popover.getOrCreateInstance(_phoneFormatWarningPop); }
 	},
 	/**
 	 * Function to register change event for SMS server Provider Type

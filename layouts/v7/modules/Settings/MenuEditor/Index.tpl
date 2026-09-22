@@ -33,21 +33,21 @@
 					<div class="sortable appContainer" data-appname="{$APP_NAME}">
 						{foreach key=moduleName item=moduleModel from=$APP_MAPPED_MODULES[$APP_NAME]}
 							<div class="modules noConnect" data-module="{$moduleName}">
-								<i data-appname="{$APP_NAME}" class="fa fa-times pull-right whiteIcon menuEditorRemoveItem" style="margin: 5%;padding-top:15px;"></i>
+								<i data-appname="{$APP_NAME}" class="fa fa-times float-end whiteIcon menuEditorRemoveItem" style="margin: 5%;padding-top:15px;"></i>
 								<div class="menuEditorItem menuEditorModuleItem">
-									<span class="pull-left marginRight10px marginTop5px">
+									<span class="float-start marginRight10px marginTop5px">
 										<img class="alignMiddle cursorDrag" src="{vimage_path('drag.png')}"/>
 									</span>
 									{assign var='translatedModuleLabel' value=vtranslate($moduleModel->get('label'),$moduleName )}
 									<span>
-										<span class="marginRight10px marginTop5px pull-left">{$moduleModel->getModuleIcon()}</span>
+										<span class="marginRight10px marginTop5px float-start">{$moduleModel->getModuleIcon()}</span>
 									</span>
 									<div class="textOverflowEllipsis marginTop5px textAlignLeft" title="{$translatedModuleLabel}">{$translatedModuleLabel}</div>
 								</div>
 							</div>
 						{/foreach}
 						<div class="menuEditorItem menuEditorModuleItem menuEditorAddItem" data-appname="{$APP_NAME}">
-							<i class="fa fa-plus pull-left marginTop5px"></i>
+							<i class="fa fa-plus float-start marginTop5px"></i>
 							<div class="marginTop10px">{vtranslate('LBL_SELECT_HIDDEN_MODULE', $QUALIFIED_MODULE_NAME)}</div>
 						</div> 
 					</div>

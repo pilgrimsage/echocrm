@@ -26,7 +26,7 @@
 					{if $RECORD}
 						<input id="recordId" type="hidden" value="{$RECORD->getId()}">
 						<div class="row-fluid detailViewButtoncontainer">
-							<span class="btn-toolbar pull-right">
+							<span class="btn-toolbar float-end">
 								<span class="btn-group">
 									<button id="deleteButton" class="btn btn-default">&nbsp;{vtranslate('LBL_DELETE', $MODULE)}</button>
 									<button id="makeDefaultButton" class="btn btn-default">&nbsp;{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</button>

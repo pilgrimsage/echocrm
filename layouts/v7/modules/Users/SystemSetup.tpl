@@ -278,7 +278,7 @@
 								<p style="display: inline-block;float:left;margin-top:4px;">&nbsp;&nbsp;(Select features you want to enable)</p>
 							</div>
 							<div class="span4">
-								<div class="pull-right"><label for="checkbox-1" style="vertical-align:bottom;margin:0;margin-top:8px\9;margin-left:10px\9;font-size:15px;"><strong> Select All</strong></label> <input type="checkbox" name="selectAll" class="selectAll"/><div class="chkbox"></div></div>
+								<div class="float-end"><label for="checkbox-1" style="vertical-align:bottom;margin:0;margin-top:8px\9;margin-left:10px\9;font-size:15px;"><strong> Select All</strong></label> <input type="checkbox" name="selectAll" class="selectAll"/><div class="chkbox"></div></div>
 							</div>
 						</div>
 						<hr>
@@ -299,7 +299,7 @@
 
 													<h4>{$PACKAGE_INFO.label}</h4>
 													{if $COUNTER neq 0}
-														<div class="pull-right">
+														<div class="float-end">
 															<input type="checkbox" name="packages[{$PACKAGE_NAME}]"/><div class="chkbox"></div>
 														</div>
 													{else}

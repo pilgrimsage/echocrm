@@ -22,8 +22,8 @@
                 <div class="row">
                     <h4 class="col-xs-8">{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
                     <div class="col-xs-4 marginTop5px">
-                        <div class=" pull-right detailViewButtoncontainer">
-                            <div class="btn-group  pull-right">
+                        <div class=" float-end detailViewButtoncontainer">
+                            <div class="btn-group  float-end">
                                 <a class="btn btn-default" href="{$RECORD->getCalendarSettingsEditViewUrl()}">Edit</a>
                             </div>  
                         </div>
@@ -117,14 +117,14 @@
                                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
                                             </span>
                                             {if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true'}
-                                                <div class="hide edit pull-left calendar-timezone clearfix">
+                                                <div class="hide edit float-start calendar-timezone clearfix">
                                                     {if $fieldDataType eq 'multipicklist'}
                                                         <input type="hidden" class="fieldBasicData" data-name='{$FIELD_MODEL->get('name')}[]' data-type="{$fieldDataType}" data-displayvalue='{$FIELD_DISPLAY_VALUE}' data-value="{$FIELD_VALUE}" />
                                                     {else}
                                                         <input type="hidden" class="fieldBasicData" data-name='{$FIELD_MODEL->get('name')}' data-type="{$fieldDataType}" data-displayvalue='{$FIELD_DISPLAY_VALUE}' data-value="{$FIELD_VALUE}" />
                                                     {/if}
                                                 </div>
-                                                <span class="action pull-right"><a href="#" onclick="return false;" class="editAction fa fa-pencil"></a></span>
+                                                <span class="action float-end"><a href="#" onclick="return false;" class="editAction fa fa-pencil"></a></span>
                                                 {/if}
                                         </td>
                                     {/if}

@@ -34,7 +34,7 @@
                         
                         <div class="block row nameContainer">
                             <div class="col-lg-1"></div>
-                            <div class="col-lg-3"><label class="pull-right">{vtranslate('LBL_CHARGE_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></div>
+                            <div class="col-lg-3"><label class="float-end">{vtranslate('LBL_CHARGE_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label></div>
                             <div class="col-lg-5">
                                 <input class="inputElement" type="text" name="name" placeholder="{vtranslate('LBL_ENTER_CHARGE_NAME', $QUALIFIED_MODULE)}" value="{$CHARGE_MODEL->getName()}" data-rule-required="true" data-prompt-position="bottomLeft" />
                             </div>
@@ -43,7 +43,7 @@
                             
                         <div class="row block formatContainer">
                             <div class="col-lg-1"></div>
-                            <div class="col-lg-3"><label class="pull-right">{vtranslate('LBL_CHARGE_FORMAT', $QUALIFIED_MODULE)}</label></div>
+                            <div class="col-lg-3"><label class="float-end">{vtranslate('LBL_CHARGE_FORMAT', $QUALIFIED_MODULE)}</label></div>
                             <div class="col-lg-5">
                                 <label class="span radio-group" id="flat"><input type="radio" name="format" class="input-medium" {if !$IS_PERCENT_FORMAT OR !$CHARGE_ID}checked{/if} value="Flat" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_DIRECT_PRICE', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
                                 <label class="span radio-group" id="percent"><input type="radio" name="format" class="input-medium" {if $IS_PERCENT_FORMAT}checked{/if} value="Percent" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_PERCENT', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
@@ -54,7 +54,7 @@
                         <div class="row block typeContainer">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_CHARGE_TYPE', $QUALIFIED_MODULE)}</label>
+                                <label class="float-end">{vtranslate('LBL_CHARGE_TYPE', $QUALIFIED_MODULE)}</label>
                             </div>
                             <div class="col-lg-7">
                                 <label class="span radio-group" id="fixed"><input type="radio" name="type" class="input-medium" {if $CHARGE_MODEL->get('type') eq 'Fixed' OR !$CHARGE_ID}checked{/if} value="Fixed" />&nbsp;&nbsp;<span class="radio-label">{vtranslate('LBL_FIXED', $QUALIFIED_MODULE)}</span></label>&nbsp;&nbsp;
@@ -66,12 +66,12 @@
                         <div class="row block chargeValueContainer {if $CHARGE_MODEL->get('type') eq 'Variable'}hide{/if}">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_CHARGE_VALUE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
+                                <label class="float-end">{vtranslate('LBL_CHARGE_VALUE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     {assign var=CHARGE_VALUE value="{if $CHARGE_MODEL->getValue()}{number_format({$CHARGE_MODEL->getValue()}, getCurrencyDecimalPlaces(),'.','')}{else}0{/if}"}
-                                     <span style="height:30px;width:30px;" class="input-group-addon percentIcon pull-left {if !$IS_PERCENT_FORMAT}hide{/if}">%</span>
+                                     <span style="height:30px;width:30px;" class="input-group-addon percentIcon float-start {if !$IS_PERCENT_FORMAT}hide{/if}">%</span>
                                     <input class="inputEle input-medium" type="text" name="value" placeholder="{vtranslate('LBL_ENTER_CHARGE_VALUE', $QUALIFIED_MODULE)}" value="{$CHARGE_VALUE}" data-rule-required="true" {if $IS_PERCENT_FORMAT}data-rule-inventory_percentage="true"{else}data-rule-PositiveNumber="true"{/if} />
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                         
                         <div class="row block">
                             <div class="col-lg-1"></div>
-                            <div class="col-lg-3"><label class="pull-right">{vtranslate('LBL_IS_TAXABLE', $QUALIFIED_MODULE)}</label></div>
+                            <div class="col-lg-3"><label class="float-end">{vtranslate('LBL_IS_TAXABLE', $QUALIFIED_MODULE)}</label></div>
                             <div class="col-lg-7">
                                 <input type="hidden" name="istaxable" value="0" />
                                 <label>
@@ -141,7 +141,7 @@
                         <div class="row block taxContainer {if $CHARGE_MODEL->get('istaxable') neq 1 AND $CHARGE_ID}hide{/if}">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <label class="pull-right">{vtranslate('LBL_SELECT_TAX', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
+                                <label class="float-end">{vtranslate('LBL_SELECT_TAX', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
                             </div>
                             <div class="col-lg-7">
                                 <div class="">

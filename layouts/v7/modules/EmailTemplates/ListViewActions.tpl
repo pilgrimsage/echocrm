@@ -53,7 +53,7 @@
 
                 {if php7_count($LISTVIEW_MASSACTIONS_1) gt 0 or $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
                     <div class="btn-group listViewMassActions" role="group">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                             {vtranslate('LBL_MORE','Vtiger')}&nbsp;
                             <span class="caret"></span>
                         </button>

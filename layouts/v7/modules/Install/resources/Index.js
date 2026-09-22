@@ -136,14 +136,14 @@ jQuery.Class('Install_Index_Js', {}, {
 				if (invalidEmailAddress) {
 					content = '<div class="col-sm-12">' +
 							'<div class="alert errorMessageContent">' +
-							'<button class="close" data-dismiss="alert" type="button">x</button>' +
+							'<button class="close" data-bs-dismiss="alert" type="button">x</button>' +
 							'Warning! Invalid email address.' +
 							'</div>' +
 							'</div>';
 				} else if(passwordNotStrong){
                                         content = '<div class="col-sm-12">' +
 							'<div class="alert errorMessageContent">' +
-							'<button class="close" data-dismiss="alert" type="button">x</button>' +
+							'<button class="close" data-bs-dismiss="alert" type="button">x</button>' +
 							'To keep your data safe, we suggest that you use a strong password <br>'+
                                                         '<ul> <li>Password should be at least 8 characters long </li> <li>Include at least one number </li><li>Include at least one lowercase alphabet </li> <li>Include at least one uppercase alphabet </li>'+
                                                         '<li>Include at least one special character in the password </li> </ul>' +
@@ -152,7 +152,7 @@ jQuery.Class('Install_Index_Js', {}, {
                                 }else {
 					content = '<div class="col-sm-12">' +
 							'<div class="alert errorMessageContent">' +
-							'<button class="close" data-dismiss="alert" type="button">x</button>' +
+							'<button class="close" data-bs-dismiss="alert" type="button">x</button>' +
 							'Warning! Required fields missing values.' +
 							'</div>' +
 							'</div>';

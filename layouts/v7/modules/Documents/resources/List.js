@@ -180,8 +180,8 @@ Vtiger_List_Js("Documents_List_Js", {
                 '<i class="fa fa-folder"></i> '+
                 '<span class="foldername">'+folderDetails.folderName+'</span>'+
             '</a>'+
-            '<div class="dropdown pull-right">'+
-                '<span class="fa fa-caret-down dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></span>'+
+            '<div class="dropdown float-end">'+
+                '<span class="fa fa-caret-down dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true"></span>'+
                 '<ul class="dropdown-menu dropdown-menu-right vtDropDown" role="menu">'+
 					'<li class="editFolder " data-folder-id="'+folderDetails.folderid+'">'+
 						'<a role="menuitem" ><i class="fa fa-pencil-square-o"></i>&nbsp;Edit</a>'+

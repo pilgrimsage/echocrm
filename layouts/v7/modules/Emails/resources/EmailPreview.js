@@ -58,7 +58,8 @@ jQuery.Class("Vtiger_EmailPreview_Js",{},{
 						});
 						
 					});
-					container.modal('hide');
+					var _modal = bootstrap.Modal.getInstance(container[0]);
+					if (_modal) { _modal.hide(); }
 					
 				} else {
 					app.helper.showErrorMessage(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));

@@ -18,7 +18,7 @@
 </div>
 
 <div class="widgeticons dashBoardWidgetFooter">
-    <div class="footerIcons pull-right">
+    <div class="footerIcons float-end">
         {include file="dashboards/DashboardFooterIcons.tpl"|@vtemplate_path:$MODULE_NAME}
     </div>
 </div>

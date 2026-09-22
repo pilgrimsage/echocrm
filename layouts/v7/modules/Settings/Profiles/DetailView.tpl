@@ -18,7 +18,7 @@
 						<h4>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h4>
 					</div>
 					<div class="col-sm-2">
-						<div class="btn-group pull-right">
+						<div class="btn-group float-end">
 							<button class="btn btn-default  " type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
@@ -119,8 +119,8 @@
 												<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 													{if $PROFILE_MODULE->getFields() && $PROFILE_MODULE->isEntityModule()}
 														<div class="col-sm-12">
-															<label class="pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
-															<div class="pull-right">
+															<label class="float-start"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+															<div class="float-end">
 																<span class="mini-slider-control ui-slider" data-value="0">
 																	<a style="margin-top: 3px" class="ui-slider-handle"></a>
 																</span>
@@ -181,7 +181,7 @@
 											<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
 												<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 													<div class="col-sm-12">
-														<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label>
+														<label class="themeTextColor font-x-large float-start"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label>
 													</div>
 													<table class="table table-bordered table-striped">
 														{assign var=UTILITY_ACTION_COUNT value=0}

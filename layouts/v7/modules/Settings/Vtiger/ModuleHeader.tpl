@@ -15,13 +15,13 @@
 			<div class="col-lg-7 col-md-7">
 				{if $USER_MODEL->isAdminUser()}
 					<a title="{vtranslate('Home', $MODULE)}" href='index.php?module=Vtiger&parent=Settings&view=Index'>
-						<h4 class="module-title pull-left text-uppercase">{vtranslate('LBL_HOME', $MODULE)} </h4>
+						<h4 class="module-title float-start text-uppercase">{vtranslate('LBL_HOME', $MODULE)} </h4>
 					</a>
-					&nbsp;<span class="fa fa-angle-right pull-left {if $VIEW eq 'Index' && $MODULE eq 'Vtiger'} hide {/if}" aria-hidden="true" style="padding-top: 12px;padding-left: 5px; padding-right: 5px;"></span>
+					&nbsp;<span class="fa fa-angle-right float-start {if $VIEW eq 'Index' && $MODULE eq 'Vtiger'} hide {/if}" aria-hidden="true" style="padding-top: 12px;padding-left: 5px; padding-right: 5px;"></span>
 				{/if}
 				{if $MODULE neq 'Vtiger' or $REQ->get('view') neq 'Index'}
 					{if $ACTIVE_BLOCK['block']}
-						<span class="current-filter-name filter-name pull-left">
+						<span class="current-filter-name filter-name float-start">
 							{vtranslate($ACTIVE_BLOCK['block'], $QUALIFIED_MODULE)}&nbsp;
 							<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
 						</span>
@@ -39,7 +39,7 @@
 								{assign var=URL value=$URL|cat:'&parent='|cat:$REQ->get('parent')}
 							{/if}
 						{/if}
-						<span class="current-filter-name settingModuleName filter-name pull-left">
+						<span class="current-filter-name settingModuleName filter-name float-start">
 							{if $REQ->get('view') eq 'Calendar'}
 								{if $REQ->get('view') eq 'Edit'}
 									<a href="{"index.php?module="|cat:$REQ->get('module')|cat:'&parent='|cat:$REQ->get('parent')|cat:'&view='|cat:$REQ->get('view')}">
@@ -109,11 +109,11 @@
 						{else}
 							{assign var=SELECTED_MODULE value=$ACTIVE_BLOCK['menu']}
 						{/if}
-						<span class="current-filter-name filter-name pull-left" style='width:50%;'><span class="display-inline-block">{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}</span></span>
+						<span class="current-filter-name filter-name float-start" style='width:50%;'><span class="display-inline-block">{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}</span></span>
 					{/if}
 				{/if}
 			</div>
-			<div class="col-lg-5 col-md-5 pull-right">
+			<div class="col-lg-5 col-md-5 float-end">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
@@ -148,7 +148,7 @@
 							{/if}
 							<li>
 								<div class="settingsIcon">
-									<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{vtranslate('LBL_SETTINGS', $MODULE)}">
+									<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="{vtranslate('LBL_SETTINGS', $MODULE)}">
 										<span class="fa fa-wrench" aria-hidden="true"></span>&nbsp; <span class="caret"></span>
 									</button>
 									<ul class="detailViewSetting dropdown-menu">

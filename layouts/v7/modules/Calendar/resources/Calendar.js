@@ -1500,7 +1500,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 
 			if (sourceModule === 'Calendar' || sourceModule == 'Events') {
 				popOverHTML += '' +
-						'<span class="pull-right cursorPointer" ' +
+						'<span class="float-end cursorPointer" ' +
 						'onClick="Calendar_Calendar_Js.deleteCalendarEvent(\'' + eventObj.id +
 						'\',\'' + sourceModule + '\',' + eventObj.recurringcheck + ');" title="' + app.vtranslate('JS_DELETE') + '">' +
 						'&nbsp;&nbsp;<i class="fa fa-trash"></i>' +
@@ -1508,14 +1508,14 @@ Vtiger.Class("Calendar_Calendar_Js", {
 
 				if (sourceModule === 'Events') {
 					popOverHTML += '' +
-							'<span class="pull-right cursorPointer" ' +
+							'<span class="float-end cursorPointer" ' +
 							'onClick="Calendar_Calendar_Js.editCalendarEvent(\'' + eventObj.id +
 							'\',' + eventObj.recurringcheck + ');" title="' + app.vtranslate('JS_EDIT') + '">' +
 							'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
 							'</span>';
 				} else if (sourceModule === 'Calendar') {
 					popOverHTML += '' +
-							'<span class="pull-right cursorPointer" ' +
+							'<span class="float-end cursorPointer" ' +
 							'onClick="Calendar_Calendar_Js.editCalendarTask(\'' + eventObj.id + '\');" title="' + app.vtranslate('JS_EDIT') + '">' +
 							'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
 							'</span>';
@@ -1523,13 +1523,13 @@ Vtiger.Class("Calendar_Calendar_Js", {
 
 				if (eventObj.status !== 'Held' && eventObj.status !== 'Completed') {
 					popOverHTML += '' +
-							'<span class="pull-right cursorPointer"' +
+							'<span class="float-end cursorPointer"' +
 							'onClick="Calendar_Calendar_Js.markAsHeld(\'' + eventObj.id + '\');" title="' + app.vtranslate('JS_MARK_AS_HELD') + '">' +
 							'<i class="fa fa-check"></i>' +
 							'</span>';
 				} else if (eventObj.status === 'Held') {
 					popOverHTML += '' +
-							'<span class="pull-right cursorPointer" ' +
+							'<span class="float-end cursorPointer" ' +
 							'onClick="Calendar_Calendar_Js.holdFollowUp(\'' + eventObj.id + '\');" title="' + app.vtranslate('JS_CREATE_FOLLOW_UP') + '">' +
 							'<i class="fa fa-flag"></i>' +
 							'</span>';
@@ -1899,12 +1899,12 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			getAgendaActionsHTML: function (event) {
 				var actionsMarkup = '' +
 						'<div class="agenda-event-actions verticalAlignMiddle">' +
-						'<span class="pull-right cursorPointer" ' +
+						'<span class="float-end cursorPointer" ' +
 						'onClick="Calendar_Calendar_Js.deleteCalendarEvent(\'' + event.id +
 						'\',\'Events\',' + event.recurringcheck + ');" title="' + app.vtranslate('JS_DELETE') + '">' +
 						'&nbsp;&nbsp;<i class="fa fa-trash"></i>' +
 						'</span>' +
-						'<span class="pull-right cursorPointer" ' +
+						'<span class="float-end cursorPointer" ' +
 						'onClick="Calendar_Calendar_Js.editCalendarEvent(\'' + event.id +
 						'\',' + event.recurringcheck + ');" title="' + app.vtranslate('JS_EDIT') + '">' +
 						'&nbsp;&nbsp;<i class="fa fa-pencil"></i>' +
@@ -1912,13 +1912,13 @@ Vtiger.Class("Calendar_Calendar_Js", {
 
 				if (event.status !== 'Held') {
 					actionsMarkup += '' +
-							'<span class="pull-right cursorPointer"' +
+							'<span class="float-end cursorPointer"' +
 							'onClick="Calendar_Calendar_Js.markAsHeld(\'' + event.id + '\');" title="' + app.vtranslate('JS_MARK_AS_HELD') + '">' +
 							'&nbsp;&nbsp;<i class="fa fa-check"></i>' +
 							'</span>';
 				} else if (event.status === 'Held') {
 					actionsMarkup += '' +
-							'<span class="pull-right cursorPointer" ' +
+							'<span class="float-end cursorPointer" ' +
 							'onClick="Calendar_Calendar_Js.holdFollowUp(\'' + event.id + '\');" title="' + app.vtranslate('JS_CREATE_FOLLOW_UP') + '">' +
 							'&nbsp;&nbsp;<i class="fa fa-flag"></i>' +
 							'</span>';

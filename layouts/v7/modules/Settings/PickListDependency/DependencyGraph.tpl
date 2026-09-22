@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 accordion">
             <span><i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
-            <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
+            <a class="cursorPointer accordion-heading accordion-toggle" data-bs-toggle="collapse" data-bs-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
             <div id="dependencyHelp" class="accordion-body collapse">
                 <ul><br><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br>
                     <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br>
@@ -96,7 +96,7 @@
                                     class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
                                     {if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, $DECODED_MAPPED_SOURCE_PICKLIST_VALUES)}style="display: none;" {/if}>
                                     {if $IS_SELECTED}
-                                        <i class="fa fa-check pull-left"></i>
+                                        <i class="fa fa-check float-start"></i>
                                     {/if}
                                     {$TRANSLATED_TARGET_VALUE}
                                 </td>

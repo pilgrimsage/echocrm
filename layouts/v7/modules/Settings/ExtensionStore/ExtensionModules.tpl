@@ -59,7 +59,7 @@
 									<span>{if $EXTENSION->get('avgrating')}&nbsp;({$EXTENSION->get('avgrating')}){/if}</span>
 								</div>
 								<div class="col-sm-7 col-xs-7">
-									<div class="pull-right">
+									<div class="float-end">
 										{if $EXTENSION->isVtigerCompatible()}
 											<button class="btn btn-sm btn-default installExtension addButton" style="margin-right:5px;">{vtranslate('LBL_MORE_DETAILS', $QUALIFIED_MODULE)}</button>
 											{if $EXTENSION->isAlreadyExists()}

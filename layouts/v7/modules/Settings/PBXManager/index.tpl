@@ -19,7 +19,7 @@
 				{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 				<div class="col-sm-4">
 					<div class="clearfix">
-						<div class="btn-group pull-right editbutton-container">
+						<div class="btn-group float-end editbutton-container">
 							<button class="btn btn-default editButton" data-url="{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 						</div>
 					</div>

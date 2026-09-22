@@ -47,7 +47,7 @@
                                         {assign var=COUNTER value=$COUNTER+1}
                                     {/if}
                                     <td class='fieldLabel col-lg-2'>
-                                        {if $isReferenceField neq "reference"}<label class="muted pull-right">{/if}
+                                        {if $isReferenceField neq "reference"}<label class="muted float-end">{/if}
                                         {if $isReferenceField eq "reference"}
                                             {if $referenceListCount > 1}
                                                 {assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -55,7 +55,7 @@
                                                 {if !empty($REFERENCED_MODULE_STRUCT)}
                                                     {assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
                                                 {/if}
-                                                <span class="pull-right">
+                                                <span class="float-end">
                                                     <select style="width:150px;" class="select2 referenceModulesList">
                                                         {foreach key=index item=value from=$referenceList}
                                                             <option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if} >{vtranslate($value, $value)}</option>
@@ -63,7 +63,7 @@
                                                     </select>
                                                 </span>
                                             {else}
-                                                <label class="muted pull-right">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}</label>
+                                                <label class="muted float-end">{vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}</label>
                                             {/if}
                                         {else}
                                             {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}

@@ -45,7 +45,7 @@
 											{/foreach}
 										</select>
 										{if $FIELD_NAME == 'default_reply_to'}
-											<div class="input-group-addon input-select-addon"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_DEFAULT_REPLY_TO_INFO',$QUALIFIED_MODULE)}"></i></div>
+											<div class="input-group-addon input-select-addon"><i class="fa fa-info-circle" data-bs-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_DEFAULT_REPLY_TO_INFO',$QUALIFIED_MODULE)}"></i></div>
 										{/if}
 
 									{else if $FIELD_NAME == 'USE_RTE'}
@@ -54,7 +54,7 @@
 										{else if $FIELD_NAME == 'email_tracking'}
 										<input type="hidden" name="{$FIELD_NAME}" value="No" />
 										<input type="checkbox" name="{$FIELD_NAME}" value="Yes" {if $FIELD_DATA[$FIELD_NAME] == "Yes"} checked {/if} />
-										<div class="input-info-addon"> <i class="fa fa-question-circle"  data-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_PERSONAL_EMAIL_TRACKING_INFO',$QUALIFIED_MODULE)}"></i>
+										<div class="input-info-addon"> <i class="fa fa-question-circle"  data-bs-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_PERSONAL_EMAIL_TRACKING_INFO',$QUALIFIED_MODULE)}"></i>
 										</div>
 									{else}
 										<div class=" input-group inputElement"> 

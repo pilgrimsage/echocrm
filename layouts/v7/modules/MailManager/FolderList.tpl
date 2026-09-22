@@ -18,7 +18,7 @@
                 <li class="cursorPointer mm_folder mmMainFolder active" data-foldername="{$FOLDER->name()}">
                     <i class="fa fa-inbox fontSize20px"></i>&nbsp;&nbsp;
                     <b>{vtranslate('LBL_INBOX', $MODULE)}</b>
-                    <span class="pull-right mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
+                    <span class="float-end mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
                        {$FOLDER->unreadCount()} 
                     </span>
                 </li>
@@ -35,7 +35,7 @@
                 <li class="cursorPointer mm_folder mmMainFolder" data-foldername="{$FOLDER->name()}">
                     <i class="fa fa-paper-plane fontSize20px"></i>&nbsp;&nbsp;
                     <b>{vtranslate('LBL_SENT', $MODULE)}</b>
-                    <span class="pull-right mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
+                    <span class="float-end mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
                        {$FOLDER->unreadCount()} 
                     </span>
                 </li>
@@ -49,7 +49,7 @@
                 <li class="cursorPointer mm_folder mmMainFolder" data-foldername="{$FOLDER->name()}">
                     <i class="fa fa-trash-o fontSize20px"></i>&nbsp;&nbsp;
                     <b>{vtranslate('LBL_TRASH', $MODULE)}</b>
-                    <span class="pull-right mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
+                    <span class="float-end mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
                        {$FOLDER->unreadCount()} 
                     </span>
                 </li>
@@ -65,7 +65,7 @@
             {if !in_array($FOLDER->name(), $IGNORE_FOLDERS)}
             <li class="cursorPointer mm_folder mmOtherFolder" data-foldername="{$FOLDER->name()}">
                 <b>{$FOLDER->name()}</b>
-                <span class="pull-right mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
+                <span class="float-end mmUnreadCountBadge {if !$FOLDER->unreadCount()}hide{/if}">
                    {$FOLDER->unreadCount()} 
                 </span>
             </li>

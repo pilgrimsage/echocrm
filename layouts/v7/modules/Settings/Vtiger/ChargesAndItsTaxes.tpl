@@ -40,7 +40,7 @@
 						</span>
 					</td>
 					<td class="{$WIDTHTYPE}" style="border-right:none;border-left:none">
-						<div class="pull-right actions">
+						<div class="float-end actions">
 							<a class="editCharge cursorPointer" data-url="{$CHARGE_MODEL->getEditChargeUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></i></a>
 						</div>
 					</td>
@@ -70,7 +70,7 @@
 					<td class="{$WIDTHTYPE}" style="border-right:none;border-left:none"><span class="taxPercentage">{$CHARGE_TAX_MODEL->getTax()}%</span></td>
 					<td class="{$WIDTHTYPE}" style="border-right:none;border-left:none"><input type="checkbox" class="editTaxStatus" {if !$CHARGE_TAX_MODEL->isDeleted()}checked{/if} /></td>
 					<td style="border-left:none;border-right:none;" class="{$WIDTHTYPE}">
-						<div class="pull-right actions">
+						<div class="float-end actions">
 							<a class="editChargeTax cursorPointer" data-url="{$CHARGE_TAX_MODEL->getEditTaxUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></i></a>
 						</div>
 					</td>

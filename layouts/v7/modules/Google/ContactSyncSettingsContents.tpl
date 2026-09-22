@@ -19,7 +19,7 @@
         <div class="sync-settings">
             <div class="row">
                 <div class="col-sm-3 col-xs-3">
-                    <h5 class="module-title pull-left">{vtranslate('LBL_SELECT_GOOGLE_GROUP_TO_SYNC',$MODULENAME)}&nbsp;</h5>
+                    <h5 class="module-title float-start">{vtranslate('LBL_SELECT_GOOGLE_GROUP_TO_SYNC',$MODULENAME)}&nbsp;</h5>
                 </div>
                 <div class="col-sm-4 col-xs-4">
                     <select class="select2" name="google_group" style="width:250px;">
@@ -34,8 +34,8 @@
                     </select>
                 </div>
             </div>
-            <div class="btn-group pull-right" style = "margin:5px;">
-                <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            <div class="btn-group float-end" style = "margin:5px;">
+                <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     <span class="caret"></span>&nbsp;{vtranslate('LBL_ADD_CUSTOM_FIELD_MAPPING',$MODULENAME)}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-left" role="menu">
@@ -328,7 +328,7 @@
                                     <input type="text" class="google-custom-label" style="visibility:{if $CUSTOM_FIELD_MAP['google_field_type'] neq 'custom'}hidden{else}visible{/if};width:190px;" 
                                            value="{if $CUSTOM_FIELD_MAP['google_field_type'] eq 'custom'}{$CUSTOM_FIELD_MAP['google_custom_label']}{/if}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
                                 {/if}
-                                <a class="deleteCustomMapping pull-right"><i title="Delete" class="icon-trash"></i></a>
+                                <a class="deleteCustomMapping float-end"><i title="Delete" class="icon-trash"></i></a>
                             </td>
                         </tr>
                     {/foreach}

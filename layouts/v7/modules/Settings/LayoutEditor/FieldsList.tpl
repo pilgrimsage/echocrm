@@ -22,7 +22,7 @@
 		</div>
 		<div class="col-sm-6">
 			{if $IS_SORTABLE}
-				<span class="pull-right">
+				<span class="float-end">
 					<button class="btn btn-success saveFieldSequence" type="button" style="opacity:0;margin-right:0px;">
 						{vtranslate('LBL_SAVE_LAYOUT', $QUALIFIED_MODULE)}
 					</button>
@@ -99,7 +99,7 @@
 																		<b>{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</b>
 																		&nbsp;{if $IS_MANDATORY}<span class="redColor">*</span>{/if}
 																	</span><br>
-																	<span class="pull-right" style="opacity:0.6;">
+																	<span class="float-end" style="opacity:0.6;">
 																		{vtranslate($FIELD_MODEL->getFieldDataTypeLabel(),$QUALIFIED_MODULE)}
 																	</span>
 																</div>
@@ -122,7 +122,7 @@
 														{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 														<div class="fieldProperties col-sm-10" data-field-id="{$FIELD_MODEL->get('id')}">
 															<span class="mandatory switch text-capitalize {if (!$IS_MANDATORY)}disabled{/if} {if $FIELD_MODEL->isMandatoryOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_MANDATORY} title="{$NOT_M_FIELD_TITLE}" {else} title="{$M_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_MANDATORY} title="{$NOT_M_FIELD_TITLE}" {else} title="{$M_FIELD_TITLE}" {/if}>
 																<i class="fa fa-exclamation-circle" data-name="mandatory" 
 																	data-enable-value="M" data-disable-value="O"
 																	{if $FIELD_MODEL->isMandatoryOptionDisabled()}readonly="readonly"{/if}
@@ -131,7 +131,7 @@
 															{assign var=IS_QUICK_EDIT_ENABLED value=$FIELD_MODEL->isQuickCreateEnabled()}
 															<span class="quickCreate switch {if (!$IS_QUICK_EDIT_ENABLED)}disabled{/if} 
 																	{if $FIELD_MODEL->isQuickCreateOptionDisabled() || $IS_MANDATORY } cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_QUICK_EDIT_ENABLED} title="{$NOT_Q_FIELD_TITLE}" {else} title="{$Q_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_QUICK_EDIT_ENABLED} title="{$NOT_Q_FIELD_TITLE}" {else} title="{$Q_FIELD_TITLE}" {/if}>
 																<i class="fa fa-plus" data-name="quickcreate" 
 																	data-enable-value="2" data-disable-value="1"
 																	{if $FIELD_MODEL->isQuickCreateOptionDisabled() || $IS_MANDATORY }readonly="readonly"{/if}
@@ -140,7 +140,7 @@
 															{assign var=IS_MASS_EDIT_ENABLED value=$FIELD_MODEL->isMassEditable()}
 															<span class="massEdit switch {if (!$IS_MASS_EDIT_ENABLED)} disabled {/if} 
 																	{if $FIELD_MODEL->isMassEditOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_MASS_EDIT_ENABLED} title="{$NOT_M_E_FIELD_TITLE}" {else} title="{$M_E_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_MASS_EDIT_ENABLED} title="{$NOT_M_E_FIELD_TITLE}" {else} title="{$M_E_FIELD_TITLE}" {/if}>
 																<img src="{vimage_path('MassEdit.png')}" data-name="masseditable" 
 																	 data-enable-value="1" data-disable-value="2" title="{vtranslate('LBL_MASS_EDIT',$QUALIFIED_MODULE)}" 
 																	 {if $FIELD_MODEL->isMassEditOptionDisabled()}readonly="readonly"{/if} height=14 width=14 
@@ -149,7 +149,7 @@
 															{assign var=IS_HEADER_FIELD value=$FIELD_MODEL->isHeaderField()}
 															<span class="header switch {if (!$IS_HEADER_FIELD)} disabled {/if} 
 																	{if $FIELD_MODEL->isHeaderFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_HEADER_FIELD} title="{$NOT_H_FIELD_TITLE}" {else} title="{$H_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_HEADER_FIELD} title="{$NOT_H_FIELD_TITLE}" {else} title="{$H_FIELD_TITLE}" {/if}>
 																<i class="fa fa-flag-o" data-name="headerfield" 
 																	data-enable-value="1" data-disable-value="0"
 																	{if $FIELD_MODEL->isHeaderFieldOptionDisabled()}readonly="readonly"{/if}
@@ -158,7 +158,7 @@
 															{assign var=IS_SUMMARY_VIEW_ENABLED value=$FIELD_MODEL->isSummaryField()}
 															<span class="summary switch {if (!$IS_SUMMARY_VIEW_ENABLED)} disabled {/if} 
 																	{if $FIELD_MODEL->isSummaryFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_SUMMARY_VIEW_ENABLED} title="{$NOT_S_FIELD_TITLE}" {else} title="{$S_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_SUMMARY_VIEW_ENABLED} title="{$NOT_S_FIELD_TITLE}" {else} title="{$S_FIELD_TITLE}" {/if}>
 																<i class="fa fa-key" data-name="summaryfield" 
 																	data-enable-value="1" data-disable-value="0"
 																	{if $FIELD_MODEL->isSummaryFieldOptionDisabled()}readonly="readonly"{/if}
@@ -217,7 +217,7 @@
 																</a>
 															{/if}
 															{if $FIELD_MODEL->isCustomField() eq 'true'}
-																<a href="javascript:void(0)" class="deleteCustomField pull-right" data-field-id="{$FIELD_MODEL->get('id')}"
+																<a href="javascript:void(0)" class="deleteCustomField float-end" data-field-id="{$FIELD_MODEL->get('id')}"
 																	data-one-one-relationship="{$FIELD_MODEL->isOneToOneRelationField()}" data-relationship-field="{$FIELD_MODEL->isRelationShipReponsibleField()}"
 																	{if $FIELD_MODEL->isOneToOneRelationField()}
 																		{assign var=ONE_ONE_RELATION_FIELD_LABEL value=$FIELD_MODEL->getOneToOneRelationField()->get('label')}
@@ -283,7 +283,7 @@
 																		<b>{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</b>
 																		{if $IS_MANDATORY}&nbsp;<span class="redColor">*</span>{/if}
 																	</span><br>
-																	<span class="pull-right" style="opacity:0.6;">
+																	<span class="float-end" style="opacity:0.6;">
 																		{vtranslate($FIELD_MODEL->getFieldDataTypeLabel(),$QUALIFIED_MODULE)}
 																	</span>
 																</div>
@@ -296,7 +296,7 @@
 														{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 														<div class="fieldProperties col-sm-10" data-field-id="{$FIELD_MODEL->get('id')}">
 															<span class="mandatory switch text-capitalize {if (!$IS_MANDATORY)}disabled{/if} {if $FIELD_MODEL->isMandatoryOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_MANDATORY} title="{$NOT_M_FIELD_TITLE}" {else} title="{$M_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_MANDATORY} title="{$NOT_M_FIELD_TITLE}" {else} title="{$M_FIELD_TITLE}" {/if}>
 																<i class="fa fa-exclamation-circle" data-name="mandatory" 
 																	data-enable-value="M" data-disable-value="O"
 																	{if $FIELD_MODEL->isMandatoryOptionDisabled()}readonly="readonly"{/if}
@@ -305,7 +305,7 @@
 															{assign var=IS_QUICK_EDIT_ENABLED value=$FIELD_MODEL->isQuickCreateEnabled()}
 															<span class="quickCreate switch {if (!$IS_QUICK_EDIT_ENABLED)}disabled{/if} 
 																	{if $FIELD_MODEL->isQuickCreateOptionDisabled() || $IS_MANDATORY } cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_QUICK_EDIT_ENABLED} title="{$NOT_Q_FIELD_TITLE}" {else} title="{$Q_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_QUICK_EDIT_ENABLED} title="{$NOT_Q_FIELD_TITLE}" {else} title="{$Q_FIELD_TITLE}" {/if}>
 																<i class="fa fa-plus" data-name="quickcreate" 
 																	data-enable-value="2" data-disable-value="1"
 																	{if $FIELD_MODEL->isQuickCreateOptionDisabled() || $IS_MANDATORY }readonly="readonly"{/if}
@@ -314,7 +314,7 @@
 															{assign var=IS_MASS_EDIT_ENABLED value=$FIELD_MODEL->isMassEditable()}
 															<span class="massEdit switch {if (!$IS_MASS_EDIT_ENABLED)} disabled {/if} 
 																	{if $FIELD_MODEL->isMassEditOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_MASS_EDIT_ENABLED} title="{$NOT_M_E_FIELD_TITLE}" {else} title="{$M_E_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_MASS_EDIT_ENABLED} title="{$NOT_M_E_FIELD_TITLE}" {else} title="{$M_E_FIELD_TITLE}" {/if}>
 																<img src="{vimage_path('MassEdit.png')}" data-name="masseditable" 
 																	 data-enable-value="1" data-disable-value="2" title="{vtranslate('LBL_MASS_EDIT',$QUALIFIED_MODULE)}" 
 																	 {if $FIELD_MODEL->isMassEditOptionDisabled()}readonly="readonly"{/if} height=14 width=14 
@@ -323,7 +323,7 @@
 															{assign var=IS_HEADER_FIELD value=$FIELD_MODEL->isHeaderField()}
 															<span class="header switch {if (!$IS_HEADER_FIELD)} disabled {/if} 
 																	{if $FIELD_MODEL->isHeaderFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_HEADER_FIELD} title="{$NOT_H_FIELD_TITLE}" {else} title="{$H_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_HEADER_FIELD} title="{$NOT_H_FIELD_TITLE}" {else} title="{$H_FIELD_TITLE}" {/if}>
 																<i class="fa fa-flag-o" data-name="headerfield" 
 																	data-enable-value="1" data-disable-value="0"
 																	{if $FIELD_MODEL->isHeaderFieldOptionDisabled()}readonly="readonly"{/if}
@@ -332,7 +332,7 @@
 															{assign var=IS_SUMMARY_VIEW_ENABLED value=$FIELD_MODEL->isSummaryField()}
 															<span class="summary switch {if (!$IS_SUMMARY_VIEW_ENABLED)} disabled {/if} 
 																	{if $FIELD_MODEL->isSummaryFieldOptionDisabled()} cursorPointerNotAllowed {else} cursorPointer {/if}"
-																	data-toggle="tooltip" {if $IS_SUMMARY_VIEW_ENABLED} title="{$NOT_S_FIELD_TITLE}" {else} title="{$S_FIELD_TITLE}" {/if}>
+																	data-bs-toggle="tooltip" {if $IS_SUMMARY_VIEW_ENABLED} title="{$NOT_S_FIELD_TITLE}" {else} title="{$S_FIELD_TITLE}" {/if}>
 																<i class="fa fa-key" data-name="summaryfield" 
 																	data-enable-value="1" data-disable-value="0"
 																	{if $FIELD_MODEL->isSummaryFieldOptionDisabled()}readonly="readonly"{/if}
@@ -390,7 +390,7 @@
 																</a>
 															{/if}
 															{if $FIELD_MODEL->isCustomField() eq 'true'}
-																<a href="javascript:void(0)" class="deleteCustomField pull-right" data-field-id="{$FIELD_MODEL->get('id')}"
+																<a href="javascript:void(0)" class="deleteCustomField float-end" data-field-id="{$FIELD_MODEL->get('id')}"
 																	data-one-one-relationship="{$FIELD_MODEL->isOneToOneRelationField()}" data-relationship-field="{$FIELD_MODEL->isRelationShipReponsibleField()}"
 																	{if $FIELD_MODEL->isOneToOneRelationField()}
 																		{assign var=ONE_ONE_RELATION_FIELD_LABEL value=$FIELD_MODEL->getOneToOneRelationField()->get('label')}
@@ -497,7 +497,7 @@
 									&nbsp;
 								</span>
 								<div>
-									<span class="pull-right fieldTypeLabel" style="opacity:0.6;"></span>
+									<span class="float-end fieldTypeLabel" style="opacity:0.6;"></span>
 								</div>
 							</div>
 						</div>
@@ -543,7 +543,7 @@
 						<a href="javascript:void(0)" class="editFieldDetails">
 							<i class="fa fa-pencil" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
 						</a>
-						<a href="javascript:void(0)" class="deleteCustomField pull-right">
+						<a href="javascript:void(0)" class="deleteCustomField float-end">
 							<i class="fa fa-trash" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
 						</a>
 					</span>
@@ -589,7 +589,7 @@
 	{include file=vtemplate_path('FieldCreate.tpl','Settings:LayoutEditor') FIELD_MODEL=$CLEAN_FIELD_MODEL IS_FIELD_EDIT_MODE=false}
 	<div class="modal-dialog inactiveFieldsModal hide">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
 		</div>
 		<div class="modal-content">
@@ -602,8 +602,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
-						<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<div class="float-end cancelLinkContainer">
+						<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					</div>
 					<button class="btn btn-success" type="submit" name="reactivateButton">
 						<strong>{vtranslate('LBL_REACTIVATE', $QUALIFIED_MODULE)}</strong>

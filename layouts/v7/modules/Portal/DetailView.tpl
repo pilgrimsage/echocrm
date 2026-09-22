@@ -16,7 +16,7 @@
 				<div class="col-lg-7">
 				</div>
 				<div class="col-lg-2" style="padding-top: 14px">
-					<div class="pull-right">
+					<div class="float-end">
 						<label>
 							{vtranslate('LBL_BOOKMARKS_LIST', $MODULE)}
 						</label>

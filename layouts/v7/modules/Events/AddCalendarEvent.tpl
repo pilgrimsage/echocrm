@@ -54,7 +54,7 @@
                         </div>
                         <div style="display: inline-flex; margin-left: 5%; padding: 8px;">
                             <div class="hide">
-                                <label class="muted pull-right">
+                                <label class="muted float-end">
                                     All Day
                                 </label>
                                 <input type="checkbox" />
@@ -78,7 +78,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['activitytype']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -92,7 +92,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['eventstatus']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -107,7 +107,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['taskpriority']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -122,7 +122,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['assigned_user_id']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -137,7 +137,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['location']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -153,7 +153,7 @@
                             <tr>
                                 {assign var="FIELD_MODEL" value=$FIELDS['visibility']}
                                 <td class="fieldLabel col-lg-4">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -172,7 +172,7 @@
                                 {assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
                                 {assign var="refrenceListCount" value=php7_count($refrenceList)}
                                 {*<td class="fieldLabel col-lg-2">
-                                    <label class="muted pull-right">
+                                    <label class="muted float-end">
                                         {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                         {if $FIELD_MODEL->isMandatory() eq true}
                                             <span class="redColor">*</span>
@@ -196,7 +196,7 @@
                                 {if $FIELD_MODEL->isMandatory() && !in_array($FIELD_NAME,$HARDCODED_FIELDS)}
                                 <tr>
                                     <td class="fieldLabel col-lg-4">
-                                        <label class="muted pull-right">
+                                        <label class="muted float-end">
                                             {vtranslate($FIELD_MODEL->get('label'), $MODULE)}&nbsp;
                                             {if $FIELD_MODEL->isMandatory() eq true}
                                                 <span class="redColor">*</span>

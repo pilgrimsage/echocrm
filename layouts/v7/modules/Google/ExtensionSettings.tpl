@@ -16,7 +16,7 @@
 <div class="col-sm-12 col-xs-12 extensionContents">
 	<div class="row">
 		<div class="col-sm-12 col-xs-12">
-			<h3 class="module-title pull-left"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
+			<h3 class="module-title float-start"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
 		</div>
 	</div>
 	<br>
@@ -95,7 +95,7 @@
 		{if !$IS_SYNC_READY}
 			<div class="row">
 				<div class="col-sm-12 col-xs-12">
-					<h3 class="module-title pull-left"> {vtranslate('LBL_GOOGLE_CONNECT_MSG', $MODULE)} </h3>
+					<h3 class="module-title float-start"> {vtranslate('LBL_GOOGLE_CONNECT_MSG', $MODULE)} </h3>
 				</div>
 			</div>
 			<br>
@@ -107,14 +107,14 @@
 		{else}
 			<div class="row">
 				<div class="col-sm-12 col-xs-12">
-					<h3 class="module-title pull-left"> {vtranslate('LBL_GOOGLE_ACCOUNT_DETAILS', $MODULE)} </h3>
+					<h3 class="module-title float-start"> {vtranslate('LBL_GOOGLE_ACCOUNT_DETAILS', $MODULE)} </h3>
 				</div>
 			</div>
 			<br>
 			{if $USER_EMAIL}
 				<div class="row">
 					<div class="col-sm-3 col-xs-3">
-						<h5 class="module-title pull-left fieldLabel"> {vtranslate('LBL_GOOGLE_ACCOUNT_SYNCED_WITH', $MODULE)} </h5>
+						<h5 class="module-title float-start fieldLabel"> {vtranslate('LBL_GOOGLE_ACCOUNT_SYNCED_WITH', $MODULE)} </h5>
 					</div>
 					<div class="col-sm-4 col-xs-4">
 						<input class="listSearchContributor col-sm-12 col-xs-12" type="text" value="{$USER_EMAIL}" disabled="disabled" style="height: 30px;">

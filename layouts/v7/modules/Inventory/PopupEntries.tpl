@@ -135,7 +135,7 @@
     </div>
     {if (!empty($SUBPRODUCTS_POPUP)) and (!empty($PARENT_PRODUCT_ID))}
         <div style="margin-top: 10px; height:50px">
-            <div class="pull-right">
+            <div class="float-end">
                 <button type="button" class="btn btn-default" id="backToProducts"><strong>{vtranslate('LBL_BACK_TO_PRODUCTS', $MODULE)}</strong></button>
             </div>
         </div>

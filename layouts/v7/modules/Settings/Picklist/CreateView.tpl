@@ -33,7 +33,7 @@
                             <div class="control-label col-sm-4 col-xs-4">
                                 {vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}
                                 <span class="input-info-addon cursorPointer"> 
-                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{vtranslate('LBL_ASSIGN_TO_ROLE_INFO',$QUALIFIED_MODULE)}"></i>
+                                    <i class="fa fa-info-circle" data-bs-toggle="tooltip" data-placement="bottom" title="{vtranslate('LBL_ASSIGN_TO_ROLE_INFO',$QUALIFIED_MODULE)}"></i>
                                 </span>
                             </div>
                             <div class="controls col-sm-3 col-xs-3">
@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                             <div class="input-info-addon cursorPointer" style='line-height: 2;'> 
-                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{vtranslate('LBL_ASSIGN_TO_ROLE_INFO',$QUALIFIED_MODULE)}"></i>	
+                                <i class="fa fa-info-circle" data-bs-toggle="tooltip" data-placement="bottom" title="{vtranslate('LBL_ASSIGN_TO_ROLE_INFO',$QUALIFIED_MODULE)}"></i>	
                             </div>
                         </div>
                     {/if}

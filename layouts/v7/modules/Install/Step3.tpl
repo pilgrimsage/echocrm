@@ -19,7 +19,7 @@
 					<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 				</div>
 				<div class="col-sm-2">
-					<a href="https://wiki.vtiger.com/vtiger6/" target="_blank" class="pull-right">
+					<a href="https://wiki.vtiger.com/vtiger6/" target="_blank" class="float-end">
 						<img src="{'help.png'|vimage_path}" alt="Help-Icon"/>
 					</a>
 				</div>
@@ -29,7 +29,7 @@
 				<div class="row offset2">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
-						<div class=" pull-right">
+						<div class=" float-end">
 							<div class="button-container">
 								<a href ="#">
 									<input type="button" class="btn btn-default" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>

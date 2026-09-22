@@ -14,7 +14,7 @@
 				<h4>{vtranslate('LBL_WELCOME', 'Install')}</h4>
 			</div>
 			<div class="col-sm-2">
-				<a href="https://wiki.vtiger.com/vtiger6/" target="_blank" class="pull-right">
+				<a href="https://wiki.vtiger.com/vtiger6/" target="_blank" class="float-end">
 					<img src="{'help.png'|vimage_path}" alt="Help-Icon"/>
 				</a>
 			</div>
@@ -49,7 +49,7 @@
 			</div>
 			<div class="row">
 				<div class="button-container col-sm-12">
-					<input type="submit" class="btn btn-large btn-primary pull-right" value="{vtranslate('LBL_INSTALL_BUTTON','Install')}"/>
+					<input type="submit" class="btn btn-large btn-primary float-end" value="{vtranslate('LBL_INSTALL_BUTTON','Install')}"/>
 				</div>
 			</div>
 		</form>

@@ -40,7 +40,7 @@
 				</div>
 				<div class="col-xs-4">
 					<div class="row detailViewButtoncontainer">
-						<div class="btn-group pull-right">
+						<div class="btn-group float-end">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
 								<button class="btn btn-default"
 									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
@@ -52,10 +52,10 @@
 								</button>
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-								<button class="btn btn-default" data-toggle="dropdown" href="javascript:void(0);">
+								<button class="btn btn-default" data-bs-toggle="dropdown" href="javascript:void(0);">
 									{vtranslate('LBL_MORE', $MODULE)}&nbsp;<i class="caret"></i>
 								</button>
-								<ul class="dropdown-menu pull-right">
+								<ul class="dropdown-menu float-end">
 									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 										{if $DETAIL_VIEW_LINK->getLabel() eq "Delete"}
 											{if $CURRENT_USER_MODEL->isAdminUser() && $CURRENT_USER_MODEL->getId() neq $RECORD->getId()}

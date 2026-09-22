@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6">
-				<div class="head pull-right">
+				<div class="head float-end">
 					<h3>{vtranslate('LBL_MIGRATION_WIZARD', $MODULE)}</h3>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 						<input type="hidden" name="module" id="module" value="Migration">
 						<input type="hidden" name="view" id="view" value="Index">
 						<input type="hidden" name="mode" value="step2">
-						<input type="submit" class="btn btn-default btn-primary pull-right" value="{vtranslate('Next', $MODULE)}"/>
+						<input type="submit" class="btn btn-default btn-primary float-end" value="{vtranslate('Next', $MODULE)}"/>
 					</form>
 				</div>
 			</div>

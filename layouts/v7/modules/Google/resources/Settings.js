@@ -214,7 +214,7 @@ Vtiger.Class("Google_Settings_Js", {
             }
             var tabRow = '<tr>\n\
                             <td>' + vtigerFieldSelectElement + '</td>\n\
-                            <td>' + googleTypeSelectElement + '<a class="deleteCustomMapping marginTop7px pull-right"><i title="Delete" class="fa fa-trash"></i></a></td>\n\
+                            <td>' + googleTypeSelectElement + '<a class="deleteCustomMapping marginTop7px float-end"><i title="Delete" class="fa fa-trash"></i></a></td>\n\
                           </tr>';
             var tbodyElement = container.find('div#googlesyncfieldmapping').find('table > tbody');
             tbodyElement.append(tabRow);

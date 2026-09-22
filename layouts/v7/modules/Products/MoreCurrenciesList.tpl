@@ -42,10 +42,10 @@
 									<td>
 										<div class="row col-lg-12">
 											<div class="col-lg-10 currencyInfo"  style = "padding-left:5px">
-												<span class="pull-left currencyName" >{$price.currencylabel|@getTranslatedCurrencyString} (<span class='currencySymbol'>{$price.currencysymbol}</span>)</span>
+												<span class="float-start currencyName" >{$price.currencylabel|@getTranslatedCurrencyString} (<span class='currencySymbol'>{$price.currencysymbol}</span>)</span>
 											</div>
 											<div class="col-lg-2">
-												<span><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="pull-right enableCurrency" {$check_value}></span>
+												<span><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="float-end enableCurrency" {$check_value}></span>
 											</div>
 										</div>
 									</td>

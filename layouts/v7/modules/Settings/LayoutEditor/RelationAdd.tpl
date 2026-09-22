@@ -117,7 +117,7 @@
                                         <div class="col-sm-4">
                                             <input type="text" name="fieldInPrimary" value="" data-rule-required="true" data-rule-illegal="true" class="inputElement"/>
                                         </div>
-                                        <span class="primaryFieldHelpText" data-toggle="tooltip" 
+                                        <span class="primaryFieldHelpText" data-bs-toggle="tooltip" 
                                              title="{vtranslate('LBL_FILED_NAME_HELP_TEXT',$QUALIFIED_MODULE,
                                                             vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME),
                                                             vtranslate("SINGLE_$SELECTED_RELATED_MODULE_NAME",$SELECTED_RELATED_MODULE_NAME))}">
@@ -139,7 +139,7 @@
                                         <div class="col-sm-4">
                                             <input type="text" class="inputElement" name="tabInPrimary" value="" data-rule-required="true" data-rule-illegal="true" />
                                         </div>
-                                        <span class="primaryTabHelpText" data-toggle="tooltip" 
+                                        <span class="primaryTabHelpText" data-bs-toggle="tooltip" 
                                              title="{vtranslate('LBL_TAB_NAME_HELP_TEXT',$QUALIFIED_MODULE,
                                                             vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME),
                                                             vtranslate("SINGLE_$SELECTED_RELATED_MODULE_NAME",$SELECTED_RELATED_MODULE_NAME))}">
@@ -161,7 +161,7 @@
                                         <div class="col-sm-4">
                                             <input type="text" name="fieldInRelated" value="" class="inputElement" data-rule-required="true" data-rule-illegal="true" />
                                         </div>
-                                        <span class="relatedFieldLabelHelText" data-toggle="tooltip" 
+                                        <span class="relatedFieldLabelHelText" data-bs-toggle="tooltip" 
                                              title="{vtranslate('LBL_FILED_NAME_HELP_TEXT',$QUALIFIED_MODULE,
                                                             vtranslate($SELECTED_RELATED_MODULE_NAME,$SELECTED_RELATED_MODULE_NAME),
                                                             vtranslate("SINGLE_$SELECTED_MODULE_NAME",$SELECTED_MODULE_NAME))}">
@@ -183,7 +183,7 @@
                                         <div class="col-sm-4">
                                             <input type="text" name="tabInRelated" value="" data-rule-required="true" class="inputElement" data-rule-illegal="true" />
                                         </div>
-                                        <span class="relatedTabHelpTextLabel" data-toggle="tooltip" 
+                                        <span class="relatedTabHelpTextLabel" data-bs-toggle="tooltip" 
                                              title="{vtranslate('LBL_TAB_NAME_HELP_TEXT',$QUALIFIED_MODULE,
                                                             vtranslate($SELECTED_RELATED_MODULE_NAME,$SELECTED_RELATED_MODULE_NAME),
                                                             vtranslate("SINGLE_$SELECTED_MODULE_NAME",$SELECTED_MODULE_NAME))}">

@@ -14,10 +14,10 @@
 			<div class="detailViewInfo" >
 				<form id="detailView" class="form-horizontal" method="POST">
 					<div class="clearfix">
-						<h4 class="pull-left">
+						<h4 class="float-start">
 							{$RECORD_MODEL->get('groupname')}
 						</h4>
-						<div class="btn-group pull-right" >
+						<div class="btn-group float-end" >
 							<button class="btn btn-default" onclick="window.location.href='{$RECORD_MODEL->getEditViewUrl()}'" type="button">
 								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
 							</button>

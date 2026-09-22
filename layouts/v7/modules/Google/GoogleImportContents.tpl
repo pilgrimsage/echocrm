@@ -30,7 +30,7 @@
                 {if $IS_SYNC_READY eq 'no'}
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
-                            <h3 class="module-title pull-left"> {vtranslate('LBL_GOOGLE_CONNECT_MSG', $MODULENAME)} </h3>
+                            <h3 class="module-title float-start"> {vtranslate('LBL_GOOGLE_CONNECT_MSG', $MODULENAME)} </h3>
                         </div>
                     </div>
                     <br>
@@ -51,7 +51,7 @@
                     <button class="btn addButton btn-success syncNow" type="button" id="saveSettingsAndImport"><span aria-hidden="true" class="fa fa-download"></span>&nbsp; {vtranslate('LBL_SAVE_AND_IMPORT', $MODULENAME)}</button>
                     &nbsp;&nbsp;&nbsp;
                     {/if}
-                    <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
+                    <a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULENAME)}</a>
                 </div>
             </div>
         </div> 

@@ -33,7 +33,7 @@
             <div class="modal-footer col-lg-12">
                 <center>
                     <button {if $BUTTON_ID neq null} id="{$BUTTON_ID}" {/if} class="btn btn-success saveTag" type="submit" name="saveButton">{vtranslate('LBL_SAVE', $MODULE)}</button>
-                    <a href="#" class="cancelLink cancelSaveTag" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                    <a href="#" class="cancelLink cancelSaveTag" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </center>
             </div>
         </div>

@@ -31,7 +31,7 @@
             </td>
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
-                        <span class="actionImages pull-right">
+                        <span class="actionImages float-end">
                             <a href="{$LISTVIEW_ENTRY['link']}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-external-link"></i></a>&nbsp;
                         </span>
                     </span>

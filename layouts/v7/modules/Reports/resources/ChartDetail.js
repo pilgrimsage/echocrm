@@ -143,7 +143,7 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
 			var recordId = thisInstance.getRecordId();
 			var pinned = element.find('i').hasClass('vicon-pin');
 			if(pinned) {
-                                if(element.is('[data-toggle]')){
+                                if(element.is('[data-bs-toggle]')){
                                     return;
                                 }else{
                                     thisInstance.savePinToDashBoard();

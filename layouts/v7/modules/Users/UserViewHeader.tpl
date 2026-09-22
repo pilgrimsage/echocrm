@@ -36,8 +36,8 @@
                         {$RECORD->getName()}
                     </span>
                 </div>
-                <div class="pull-right col-md-7 detailViewButtoncontainer">
-                    <div class="btn-group pull-right">
+                <div class="float-end col-md-7 detailViewButtoncontainer">
+                    <div class="btn-group float-end">
                     {if isset($DETAILVIEW_LINKS)}
                             {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
                             <button class="btn btn-default {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'}{/if}" id="{$MODULE}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
@@ -50,10 +50,10 @@
                             </button>
                         {/foreach}
                         {if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-                            <button class="btn btn-default" data-toggle="dropdown" href="javascript:void(0);">
+                            <button class="btn btn-default" data-bs-toggle="dropdown" href="javascript:void(0);">
                                 {vtranslate('LBL_MORE', $MODULE)}&nbsp;<i class="caret"></i>
                             </button>
-                            <ul class="dropdown-menu pull-right">
+                            <ul class="dropdown-menu float-end">
                                 {foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
                                     {if $DETAIL_VIEW_LINK->getLabel() eq "Delete"}
                                         {if $CURRENT_USER_MODEL->isAdminUser() && $CURRENT_USER_MODEL->getId() neq $RECORD->getId()}

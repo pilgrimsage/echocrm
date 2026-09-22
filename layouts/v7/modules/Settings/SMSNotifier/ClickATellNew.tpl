@@ -41,12 +41,12 @@
                     {else if $FIELD_TYPE == 'password'}
                         <input type="password" id="{$FIELD_NAME}" class="form-control" data-rule-required="true" name="{$FIELD_NAME}" value="{$FIELD_VALUE}" />
                     {else if $FIELD_TYPE == 'url'}
-                        <div class="input-group pull-left col-lg-11 col-sm-11 col-xs-11">
+                        <div class="input-group float-start col-lg-11 col-sm-11 col-xs-11">
                             <input type="text" id="{$FIELD_NAME}" class="form-control" data-rule-required="true" readonly="readonly" name="{$FIELD_NAME}" value="{$FIELD_VALUE}" />
                             <span class="input-group-addon cursorPointer"><i class="fa fa-clipboard copyToClipboard"></i></span>
                         </div>
                         {if $FIELD_MODEL->get('helpText')}
-                            &nbsp;<i class="fa fa-info-circle" data-toggle="tooltip" title="{$FIELD_MODEL->get('helpText')}" style="margin-top: 8px;"></i>
+                            &nbsp;<i class="fa fa-info-circle" data-bs-toggle="tooltip" title="{$FIELD_MODEL->get('helpText')}" style="margin-top: 8px;"></i>
                         {/if}
                     {else}
                         <input type="text" name="{$FIELD_NAME}" id="{$FIELD_NAME}" class="form-control" {if $FIELD_NAME == 'username'} {/if} value="{$FIELD_VALUE}" />

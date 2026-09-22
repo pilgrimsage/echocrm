@@ -13,7 +13,7 @@
 			<div class='fields' style='padding-top:10px;'>
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$EDITABLE_FIELDS}            
 						<div class='field row'>
-							<div class='fieldLabel pull-left col-lg-5' style='position:relative;top:2px;'>
+							<div class='fieldLabel float-start col-lg-5' style='position:relative;top:2px;'>
 								{if $FIELD_MODEL->getFieldDataType() eq "reference"}
 									{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 									{assign var="REFERENCE_LIST_COUNT" value=php7_count($REFERENCE_LIST)}

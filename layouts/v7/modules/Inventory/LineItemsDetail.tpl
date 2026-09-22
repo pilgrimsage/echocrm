@@ -124,15 +124,15 @@
                         </td>
                     {/if}
                     <td class="lineItemFieldName">
-                        <strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE_NAME)}</strong>
+                        <strong class="float-end">{vtranslate('LBL_TOTAL',$MODULE_NAME)}</strong>
                     </td>
                     {if $MARGIN_VIEWABLE}
                         <td class="lineItemFieldName">
-                            <strong class="pull-right">{vtranslate({$LINEITEM_FIELDS['margin']->get('label')},$MODULE_NAME)}</strong>
+                            <strong class="float-end">{vtranslate({$LINEITEM_FIELDS['margin']->get('label')},$MODULE_NAME)}</strong>
                         </td>
                     {/if}
                     <td class="lineItemFieldName">
-                        <strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</strong>
+                        <strong class="float-end">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</strong>
                     </td>
                 </tr>
                 {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
@@ -194,7 +194,7 @@
                                         {assign var=DISCOUNT_INFO value="{if isset($LINE_ITEM_DETAIL["discount_type$INDEX"]) && $LINE_ITEM_DETAIL["discount_type$INDEX"] == 'amount'} {vtranslate('LBL_DIRECT_AMOUNT_DISCOUNT',$MODULE_NAME)} = {$LINE_ITEM_DETAIL["discountTotal$INDEX"]}
 									{elseif isset($LINE_ITEM_DETAIL["discount_type$INDEX"]) && $LINE_ITEM_DETAIL["discount_type$INDEX"] == 'percentage'} {$LINE_ITEM_DETAIL["discount_percent$INDEX"]} % {vtranslate('LBL_OF',$MODULE_NAME)} {$LINE_ITEM_DETAIL["productTotal$INDEX"]} = {$LINE_ITEM_DETAIL["discountTotal$INDEX"]}
 									{/if}"}
-                                        (-)&nbsp; <strong><a href="javascript:void(0)" class="individualDiscount inventoryLineItemDetails" tabindex="0" role="tooltip" id ="example" data-toggle="popover" data-trigger="focus" title="{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}" data-content="{$DISCOUNT_INFO}">{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}</a> : </strong>
+                                        (-)&nbsp; <strong><a href="javascript:void(0)" class="individualDiscount inventoryLineItemDetails" tabindex="0" role="tooltip" id ="example" data-bs-toggle="popover" data-trigger="focus" title="{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}" data-content="{$DISCOUNT_INFO}">{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}</a> : </strong>
                                     </div>
                                 {/if}
                                 <div>
@@ -233,12 +233,12 @@
     <table class="table table-bordered lineItemsTable">
         <tr>
             <td width="83%">
-                <div class="pull-right">
+                <div class="float-end">
                     <strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE_NAME)}</strong>
                 </div>
             </td>
             <td>
-                <span class="pull-right">
+                <span class="float-end">
                     <strong>{$FINAL_DETAILS["hdnSubTotal"]}</strong>
                 </span>
             </td>
@@ -264,7 +264,7 @@
                 <td width="83%">
                     <div align="right">
                         {assign var=CHARGES_INFO value="{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE_NAME)} = {$FINAL_DETAILS['totalAfterDiscount']}<br /><br />{foreach key=CHARGE_ID item=CHARGE_INFO from=$SELECTED_CHARGES_AND_ITS_TAXES} {if $CHARGE_INFO['deleted']}({strtoupper(vtranslate('LBL_DELETED',$MODULE_NAME))}){/if} {$CHARGE_INFO['name']} {if $CHARGE_INFO['percent']}: {$CHARGE_INFO['percent']}% {vtranslate('LBL_OF',$MODULE_NAME)} {$FINAL_DETAILS['totalAfterDiscount']}{/if} = {$CHARGE_INFO['amount']}<br />{/foreach}<br /><h5>{vtranslate('LBL_CHARGES_TOTAL',$MODULE_NAME)} = {$FINAL_DETAILS['shipping_handling_charge']}</h5>"}
-                        (+)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" href="javascript:void(0)" id="example" data-trigger="focus" data-placement ="left"  data-toggle="popover" title={vtranslate('LBL_CHARGES',$MODULE_NAME)} data-content="{$CHARGES_INFO}">{vtranslate('LBL_CHARGES',$MODULE_NAME)}</a></strong>
+                        (+)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" href="javascript:void(0)" id="example" data-trigger="focus" data-placement ="left"  data-bs-toggle="popover" title={vtranslate('LBL_CHARGES',$MODULE_NAME)} data-content="{$CHARGES_INFO}">{vtranslate('LBL_CHARGES',$MODULE_NAME)}</a></strong>
                     </div>
                 </td>
                 <td>
@@ -306,7 +306,7 @@
                 <td width="83%">
                     <div align="right">
                         {assign var=CHARGES_TAX_INFO value="{vtranslate('LBL_CHARGES_TOTAL',$MODULE_NAME)} = {$FINAL_DETAILS["shipping_handling_charge"]}<br /><br />{foreach key=CHARGE_ID item=CHARGE_INFO from=$SELECTED_CHARGES_AND_ITS_TAXES}{if $CHARGE_INFO['taxes']}{if $CHARGE_INFO['deleted']}({strtoupper(vtranslate('LBL_DELETED',$MODULE_NAME))}){/if} {$CHARGE_INFO['name']}<br />{foreach item=CHARGE_TAX_INFO from=$CHARGE_INFO['taxes']}&emsp;{$CHARGE_TAX_INFO['name']}: &emsp;{$CHARGE_TAX_INFO['percent']}% {vtranslate('LBL_OF',$MODULE_NAME)} {if isset($CHARGE_TAX_INFO['method'] ) && $CHARGE_TAX_INFO['method'] eq 'Compound'}({/if}{$CHARGE_INFO['amount']} {if isset($CHARGE_TAX_INFO['method']) && $CHARGE_TAX_INFO['method'] eq 'Compound'}{foreach item=COMPOUND_TAX_ID from=$CHARGE_TAX_INFO['compoundon']}{if $CHARGE_INFO['taxes'][$COMPOUND_TAX_ID]['name']} + {$CHARGE_INFO['taxes'][$COMPOUND_TAX_ID]['name']}{/if}{/foreach}){/if} = {$CHARGE_TAX_INFO['amount']}<br />{/foreach}<br />{/if}{/foreach}\r\n{vtranslate('LBL_TOTAL_TAX_AMOUNT',$MODULE_NAME)} = {$FINAL_DETAILS['shtax_totalamount']}"}
-                        (+)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" title = "{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE_NAME)}" data-trigger ="focus" data-placement ="left" data-toggle="popover"  href="javascript:void(0)" id="taxesOnChargesList" data-content="{$CHARGES_TAX_INFO}">
+                        (+)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" title = "{vtranslate('LBL_TAXES_ON_CHARGES',$MODULE_NAME)}" data-trigger ="focus" data-placement ="left" data-bs-toggle="popover"  href="javascript:void(0)" id="taxesOnChargesList" data-content="{$CHARGES_TAX_INFO}">
                                 {vtranslate('LBL_TAXES_ON_CHARGES',$MODULE_NAME)} </a></strong>
                     </div>
                 </td>
@@ -321,7 +321,7 @@
             <td width="83%">
                 <div align="right">
                     {assign var=DEDUCTED_TAXES_INFO value="{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE_NAME)} = {$FINAL_DETAILS["totalAfterDiscount"]}<br /><br />{foreach key=DEDUCTED_TAX_ID item=DEDUCTED_TAX_INFO from=$FINAL_DETAILS['deductTaxes']}{if $DEDUCTED_TAX_INFO['selected'] eq true}{$DEDUCTED_TAX_INFO['taxlabel']}: \t{$DEDUCTED_TAX_INFO['percentage']}%  = {$DEDUCTED_TAX_INFO['amount']}\r\n{/if}{/foreach}\r\n\r\n{vtranslate('LBL_DEDUCTED_TAXES_TOTAL',$MODULE_NAME)} = {$FINAL_DETAILS['deductTaxesTotalAmount']}"}
-                    (-)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" href="javascript:void(0)" id="deductedTaxesList" data-trigger="focus" data-toggle="popover" title = "{vtranslate('LBL_DEDUCTED_TAXES',$MODULE_NAME)}" data-placement ="left" data-content="{$DEDUCTED_TAXES_INFO}">
+                    (-)&nbsp;<strong><a class="inventoryLineItemDetails" tabindex="0" role="tooltip" href="javascript:void(0)" id="deductedTaxesList" data-trigger="focus" data-bs-toggle="popover" title = "{vtranslate('LBL_DEDUCTED_TAXES',$MODULE_NAME)}" data-placement ="left" data-content="{$DEDUCTED_TAXES_INFO}">
                             {vtranslate('LBL_DEDUCTED_TAXES',$MODULE_NAME)} </a></strong>
                 </div>
             </td>

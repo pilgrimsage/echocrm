@@ -14,7 +14,7 @@
 			<span>
 				<b class="themeTextColor">{vtranslate($SETTINGS_SHORTCUT->get('name'),$MODULE)}</b>
 			</span>
-			<span class="pull-right">
+			<span class="float-end">
 				<button data-id="{$SETTINGS_SHORTCUT->getId()}" title="{vtranslate('LBL_REMOVE',$MODULE)}" type="button" class="unpin close hiden"><i class="fa fa-close"></i></button>
 			</span>
 		</div>

@@ -14,7 +14,7 @@
         <div class="module-action-content clearfix coloredBorderTop">
             <span class="col-lg-7 col-md-7">
                 <span>
-                    <h3 class="module-title pull-left text-uppercase"> {vtranslate('LBL_USERS_SETTINGS', $MODULE)} </h3>
+                    <h3 class="module-title float-start text-uppercase"> {vtranslate('LBL_USERS_SETTINGS', $MODULE)} </h3>
                 </span>
             </span>
         </div>

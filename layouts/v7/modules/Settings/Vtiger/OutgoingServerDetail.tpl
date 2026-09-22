@@ -17,7 +17,7 @@
 					<h3 style="margin-top: 0px;">{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="btn-group pull-right">
+					<div class="btn-group float-end">
 						<button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>

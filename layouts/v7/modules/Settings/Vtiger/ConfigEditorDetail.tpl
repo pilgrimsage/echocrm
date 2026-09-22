@@ -15,8 +15,8 @@
             {assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
             <div class="contents ">
                 <div class="clearfix">
-                    <h4 class="pull-left">{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h4>
-                    <div class="btn-group pull-right">
+                    <h4 class="float-start">{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h4>
+                    <div class="btn-group float-end">
                         <button class="btn btn-default editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</button>
                     </div>
                 </div>
@@ -31,11 +31,11 @@
                                     {if $FIELD_DETAILS['fieldType'] == 'checkbox'}
                                         {vtranslate($FIELD_DATA[$FIELD_NAME], $QUALIFIED_MODULE)}
                                         {if $FIELD_NAME == 'email_tracking'}
-                                            <div class="input-info-addon"><a class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_PERSONAL_EMAIL_TRACKING_INFO',$QUALIFIED_MODULE)}"></a></div>
+                                            <div class="input-info-addon"><a class="fa fa-question-circle" data-bs-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_PERSONAL_EMAIL_TRACKING_INFO',$QUALIFIED_MODULE)}"></a></div>
                                         {/if}
                                     {else if $FIELD_NAME == 'default_reply_to'}
                                             {vtranslate($FIELD_DATA[$FIELD_NAME])}
-                                            <div class="input-info-addon"><a class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_DEFAULT_REPLY_TO_INFO',$QUALIFIED_MODULE)}"></a></div>
+                                            <div class="input-info-addon"><a class="fa fa-info-circle" data-bs-toggle="tooltip" data-placement="right" title="{vtranslate('LBL_DEFAULT_REPLY_TO_INFO',$QUALIFIED_MODULE)}"></a></div>
                                     {else}
                                             {$FIELD_DATA[$FIELD_NAME]}
                                     {/if}

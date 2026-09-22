@@ -15,7 +15,7 @@
 		<div class="modal-body">
 			<div class="marginBottom10px">
 				<span>{vtranslate('LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE', $QUALIFIED_MODULE)}</span>
-				<span class="pull-right">
+				<span class="float-end">
 					<a href="" id="webformCopyClipboard">
 						<i class="fa fa-clipboard" aria-hidden="true"></i>
 						{vtranslate('LBL_COPY_TO_CLIPBOARD', $QUALIFIED_MODULE)}
@@ -131,7 +131,7 @@
 		</div>
 		<div class="modal-footer">
 			<center>
-				<a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+				<a href="#" class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 			</center>
 		</div>
 	</div>

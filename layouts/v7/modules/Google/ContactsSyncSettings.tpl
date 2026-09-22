@@ -22,9 +22,9 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
-                        <div class="pull-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                        <div class="btn-group pull-right">
-                            <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        <div class="float-end">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div class="btn-group float-end">
+                            <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <span class="caret"></span>&nbsp;{vtranslate('LBL_ADD_CUSTOM_FIELD_MAPPING',$MODULENAME)}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
@@ -318,7 +318,7 @@
                                             <input type="text" class="google-custom-label inputElement" style="visibility:{if $CUSTOM_FIELD_MAP['google_field_type'] neq 'custom'}hidden{else}visible{/if};width:40%;" 
                                                    value="{if $CUSTOM_FIELD_MAP['google_field_type'] eq 'custom'}{$CUSTOM_FIELD_MAP['google_custom_label']}{/if}" data-rule-required="true"/>
                                         {/if}
-                                        <a class="deleteCustomMapping marginTop7px pull-right"><i title="Delete" class="fa fa-trash"></i></a>
+                                        <a class="deleteCustomMapping marginTop7px float-end"><i title="Delete" class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {/foreach}
@@ -340,7 +340,7 @@
                     {assign var=BUTTON_LABEL value={vtranslate('LBL_SAVE', $MODULE)}}
                 {/if}
                 <button id="save_syncsetting" class="btn btn-success" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULENAME)}</strong></button>
-                <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                <a href="#" class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
             </center>
 	</div>
     </div>

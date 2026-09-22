@@ -13,8 +13,8 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 			<div id="listview-actions" class="listview-actions-container">
 				<div class="clearfix">
-					<h4 class="pull-left">{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h4>
-					<div class="pull-right">
+					<h4 class="float-start">{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h4>
+					<div class="float-end">
 						<div class="btn-group">
 							<button class="btn btn-default" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_FROM_FILE_URL}"'>
 								{vtranslate('LBL_IMPORT_MODULE_FROM_ZIP', $QUALIFIED_MODULE)}
@@ -56,11 +56,11 @@
 											{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 											{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (php7_count($SETTINGS_LINKS) > 0)}
 											<span class="col-lg-3 moduleblock">
-												<span class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
-													<button class="btn btn-default btn-sm dropdown-toggle unpin hiden " data-toggle="dropdown">
+												<span class="btn-group float-end actions {if !$MODULE_ACTIVE}hide{/if}">
+													<button class="btn btn-default btn-sm dropdown-toggle unpin hiden " data-bs-toggle="dropdown">
 														{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}&nbsp;<i class="caret"></i>
 													</button>
-													<ul class="dropdown-menu pull-right dropdownfields">
+													<ul class="dropdown-menu float-end dropdownfields">
 														{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
 															{if $MODULE_NAME eq 'Calendar'}
 																{if $SETTINGS_LINK['linklabel'] eq 'LBL_EDIT_FIELDS'}

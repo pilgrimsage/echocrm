@@ -169,7 +169,7 @@
                     </div>
                     <div class="container-fluid hide" id='emailTemplateWarning'>
                         <div class="alert alert-warning fade in">
-                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
                             <p>{vtranslate('LBL_EMAILTEMPLATE_WARNING_CONTENT',$MODULE)}</p>
                         </div>
                     </div>         
@@ -190,7 +190,7 @@
                 
                 <div class="modal-footer">
                     <div class="float-end cancelLinkContainer">
-                        <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                        <a href="#" class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
                     <button id="sendEmail" name="sendemail" class="btn btn-success" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}" type="submit"><strong>{vtranslate("LBL_SEND_EMAIL",$MODULE)}</strong></button>
                     <button id="saveDraft" name="savedraft" class="btn btn-default" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}" type="submit"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>

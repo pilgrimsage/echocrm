@@ -153,7 +153,7 @@
 					<div class="row clearfix">
 						<div class=' textAlignCenter col-lg-12 col-md-12 col-sm-12 '>
 							<button type='submit' class='btn btn-success saveButton' id="customViewSubmit">{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-							<a class='cancelLink' href="javascript:void(0);" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a class='cancelLink' href="javascript:void(0);" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 					</div>
 				</div>

@@ -141,8 +141,8 @@
 								<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 									{if $PROFILE_MODULE->getFields() && $PROFILE_MODULE->isEntityModule() }
 										<div class="col-sm-12">
-											<label class="pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
-											<div class="pull-right">
+											<label class="float-start"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+											<div class="float-end">
 												<span class="mini-slider-control ui-slider" data-value="0">
 													<a style="margin-top: 3px" class="ui-slider-handle"></a>
 												</span>
@@ -175,8 +175,8 @@
 															{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($PROFILE_MODULE, $FIELD_MODEL)}
 														{/if}
 														<input type="hidden" name="permissions[{$TABID}][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}" readonly="true">
-														<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
-														<div class="pull-left">
+														<div class="mini-slider-control editViewMiniSlider float-start" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
+														<div class="float-start">
 															{vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 														</div>
 													</td>
@@ -192,7 +192,7 @@
 										{if $MODULE_NAME eq 'Calendar'}
 											{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
 											{assign var=COUNTER value=0}
-											<label class="pull-left"><strong>{vtranslate('LBL_FIELDS', $QUALIFIED_MODULE)} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
+											<label class="float-start"><strong>{vtranslate('LBL_FIELDS', $QUALIFIED_MODULE)} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
 											<table class="table table-bordered">
 												{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 													{if $FIELD_MODEL->isActiveField()}
@@ -203,8 +203,8 @@
 															<td>
 																{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($EVENT_MODULE, $FIELD_MODEL)}
 																<input type="hidden" name="permissions[16][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}" readonly="true">
-																<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
-																<div class="pull-left">
+																<div class="mini-slider-control editViewMiniSlider float-start" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
+																<div class="float-start">
 																	{vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}&nbsp;{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} 
 																</div>
 															</td>
@@ -232,7 +232,7 @@
 								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;">
 									<div class="row" data-togglecontent="{$TABID}-fields" style="display: none">
 										<div class="col-sm-12">
-											<label class="pull-left">
+											<label class="float-start">
 												<strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong>
 											</label>
 										</div>

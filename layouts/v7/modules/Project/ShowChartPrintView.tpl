@@ -75,7 +75,7 @@
 			</style>
 			<br>
 			<div class="row">
-				<div class="pull-right noprint" style="margin-right: 5px;">
+				<div class="float-end noprint" style="margin-right: 5px;">
 					<span style="margin: 2px;">
 						<button class="btn textual zoomOut" title="zoom out">
 							<span class="teamworkIcon">)</span>

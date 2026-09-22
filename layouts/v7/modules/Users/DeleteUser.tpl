@@ -41,7 +41,7 @@
                                 <div class="controls fieldValue col-sm-8">
                                     <input type="checkbox" name="deleteUserPermanent" value="1" >
                                     &nbsp;&nbsp;{vtranslate('LBL_DELETE_USER_PERMANENTLY',$MODULE)}
-                                    &nbsp;&nbsp;<i class="fa fa-question-circle" data-toggle="tooltip"  data-placement="right" title="{vtranslate('LBL_DELETE_USER_PERMANENTLY_INFO',$MODULE)}"></i>
+                                    &nbsp;&nbsp;<i class="fa fa-question-circle" data-bs-toggle="tooltip"  data-placement="right" title="{vtranslate('LBL_DELETE_USER_PERMANENTLY_INFO',$MODULE)}"></i>
                                 </div>
                         </div>
                     {/if}

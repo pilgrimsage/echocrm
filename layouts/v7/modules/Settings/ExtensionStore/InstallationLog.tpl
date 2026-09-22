@@ -22,7 +22,7 @@
 						{/if}
 					</div>
 					<div class="col-lg-1 col-md-1">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">X</button>
+						<button class="close" aria-hidden="true" data-bs-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">X</button>
 					</div>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 				{/if}
 			</div>
 			<div class="modal-footer">
-				<span class="pull-right">
+				<span class="float-end">
 					<button class="btn btn-success" id="importCompleted" onclick="location.reload()">{vtranslate('LBL_OK', $QUALIFIED_MODULE)}</button>
 				</span>
 			</div>

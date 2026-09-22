@@ -148,7 +148,7 @@ Vtiger_List_Js("EmailTemplates_List_Js", {
         return params;
     },
     registerAccordionClickEvent: function () {
-        jQuery('.settingsgroup-accordion a[data-parent="#accordion"]').on('click', function (e) {
+        jQuery('.settingsgroup-accordion a[data-bs-parent="#accordion"]').on('click', function (e) {
             var target = jQuery(e.currentTarget);
             var closestItag = target.find('i');
 

@@ -32,7 +32,7 @@
 									&nbsp; {vtranslate('LBL_SHARE_TAGS',$MODULE)}
 								</label>
 							</div>
-							<div class="pull-right"></div>
+							<div class="float-end"></div>
 						</div>
 					</div>
 					<div class="form-group">

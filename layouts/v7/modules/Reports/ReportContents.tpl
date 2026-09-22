@@ -140,7 +140,7 @@
                     {/if}
                 </table>
                 {if isset($LIMIT_EXCEEDED) && $LIMIT_EXCEEDED}
-                    <center>{vtranslate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{vtranslate('LBL_TOP',$MODULE)}</a></span></center>
+                    <center>{vtranslate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="float-end"><a href="#top" >{vtranslate('LBL_TOP',$MODULE)}</a></span></center>
                         {/if}
                     {else}
                 <div style="text-align: center; border: 1px solid #DDD; padding: 20px; font-size: 15px;">{vtranslate('LBL_NO_DATA_AVAILABLE',$MODULE)}</div>

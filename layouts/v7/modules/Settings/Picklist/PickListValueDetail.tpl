@@ -22,9 +22,9 @@
     </style>
     {assign var=NON_DELETABLE_VALUES value=$SELECTED_PICKLIST_FIELDMODEL->getNonEditablePicklistValues($SELECTED_PICKLIST_FIELDMODEL->getName())}
     <ul class="nav nav-tabs massEditTabs" style="margin-bottom: 0;">
-        <li class="active"><a href="#allValuesLayout" data-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
+        <li class="active"><a href="#allValuesLayout" data-bs-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-            <li id="assignedToRoleTab"><a href="#AssignedToRoleLayout" data-toggle="tab"><strong>{vtranslate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>
+            <li id="assignedToRoleTab"><a href="#AssignedToRoleLayout" data-bs-toggle="tab"><strong>{vtranslate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>
                     {/if}
     </ul>
     <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
@@ -38,7 +38,7 @@
                             <tr class="listViewHeaders bgColor">
                                 <th>
                                     <span>{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{vtranslate('LBL_ITEMS',$QUALIFIED_MODULE)}</span>
-                                    <button class="btn pull-right btn-default marginLeftZero" id="addItem"><i class="fa fa-plus"></i>&nbsp;{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+                                    <button class="btn float-end btn-default marginLeftZero" id="addItem"><i class="fa fa-plus"></i>&nbsp;{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
                                 </th>
                             </tr>
                         </thead>
@@ -49,10 +49,10 @@
                         {foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                             <tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" data-deletable="{if !in_array($PICKLIST_VALUE, $NON_DELETABLE_VALUES)}true{else}false{/if}">
                                 <td class="textOverflowEllipsis fieldPropertyContainer">
-                                    <span class="pull-left"><img class="cursorDrag alignMiddle" src="{vimage_path('drag.png')}"/> &nbsp;&nbsp;
+                                    <span class="float-start"><img class="cursorDrag alignMiddle" src="{vimage_path('drag.png')}"/> &nbsp;&nbsp;
                                         <span class="picklist-color picklist-{$SELECTED_PICKLIST_FIELDMODEL->getId()}-{$PICKLIST_KEY}"> {vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)} </span>
                                     </span>
-                                    <span class="pull-right picklistActions" style='margin-top:0px;'>
+                                    <span class="float-end picklistActions" style='margin-top:0px;'>
                                         <a  title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"  class="renameItem"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;
                                         {if !in_array($PICKLIST_VALUE, $NON_DELETABLE_VALUES)}
                                             <a  title="{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}" class="deleteItem"><i class="fa fa-trash-o"></i></a>

@@ -57,7 +57,7 @@
     <div class="editViewBody" id="workflow_action" style="padding-bottom: 15px;">
         <div style="padding-left: 15px;">
             <div class="btn-group">
-               <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="true">
+               <button class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="true">
                   <strong>{vtranslate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                   <span class="caret"></span>
                </button>

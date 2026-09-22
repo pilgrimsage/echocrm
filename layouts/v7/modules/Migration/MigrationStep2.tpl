@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6">
-				<div class="head pull-right">
+				<div class="head float-end">
 					<h3> {vtranslate('LBL_MIGRATION_WIZARD', $MODULE)}</h3>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				<div class="button-container col-lg-12">
-					<input type="button" onclick="window.location.href='index.php'" class="btn btn-default btn-primary pull-right" value="{vtranslate('Finish', $MODULE)}" style="margin-left: 0px;"/>
+					<input type="button" onclick="window.location.href='index.php'" class="btn btn-default btn-primary float-end" value="{vtranslate('Finish', $MODULE)}" style="margin-left: 0px;"/>
 				</div>
 			</div>
 		</div>

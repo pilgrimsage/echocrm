@@ -10,8 +10,8 @@
     <div class="module-filters" id="module-filters">
         <div class="sidebar-container lists-menu-container">
             <div class="sidebar-header clearfix">
-                <h5 class="pull-left">Lists </h5>
-                <button id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="btn btn-default pull-right sidebar-btn">
+                <h5 class="float-start">Lists </h5>
+                <button id="createFilter" data-url="{CustomView_Record_Model::getCreateViewUrl($MODULE)}" class="btn btn-default float-end sidebar-btn">
                     <span class="fa fa-plus" aria-hidden="true"></span>
                 </button> 
             </div>
@@ -40,9 +40,9 @@
                                             <li style="font-size:12px;" class='listViewFilter {if $VIEWID eq $CUSTOM_VIEW->getId() && ($CURRENT_TAG eq '') && !$FOLDER_VALUE} active{/if} {if $smarty.foreach.customView.iteration gt 5} filterHidden hide{/if} '>
                                                 {assign var=VIEWNAME value={vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}} 
                                                 <a class="filterName" href="javascript:;" data-filter-id="{$CUSTOM_VIEW->getId()}">{if {$VIEWNAME|strlen} > 40 } {$VIEWNAME|substr:0:40|@escape:'html'}..{else}{$VIEWNAME|@escape:'html'}{/if}</a> 
-                                                    <div class=" pull-right">
+                                                    <div class=" float-end">
                                                         <span class="js-popover-container">
-                                                    <span class="fa fa-angle-down" rel="popover" data-toggle="popover" aria-expanded="true" 
+                                                    <span class="fa fa-angle-down" rel="popover" data-bs-toggle="popover" aria-expanded="true" 
                                                         {if $CUSTOM_VIEW->isMine() and $CUSTOM_VIEW->get('viewname') neq 'All'}
                                                             data-deletable="{if $CUSTOM_VIEW->isDeletable()}true{else}false{/if}" data-editable="{if $CUSTOM_VIEW->isEditable()}true{else}false{/if}" 
                                                             {if $CUSTOM_VIEW->isEditable()}  data-editurl="{$CUSTOM_VIEW->getEditUrl()}{/if}" {if $CUSTOM_VIEW->isDeletable()} data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}"{/if}
@@ -90,8 +90,8 @@
                                 </div>
                         </div>
             </div><div class="sidebar-header clearfix">
-                        <h5 class="pull-left">{vtranslate('LBL_FOLDERS',$MODULE)}</h5>
-                        <button id="createFolder" class="btn btn-default pull-right sidebar-btn">
+                        <h5 class="float-start">{vtranslate('LBL_FOLDERS',$MODULE)}</h5>
+                        <button id="createFolder" class="btn btn-default float-end sidebar-btn">
                             <span class="fa fa-plus" aria-hidden="true"></span>
                         </button>
                     </div>
@@ -111,8 +111,8 @@
                                 <span class="foldername">{if {$FOLDERNAME|strlen} > 40 } {$FOLDERNAME|substr:0:40|@escape:'html'}..{else}{$FOLDERNAME|@escape:'html'}{/if}</span>
                             </a>
                             {if $FOLDER->getName() neq 'Default' && $FOLDER->getName() neq 'Google Drive' && $FOLDER->getName() neq 'Dropbox'}
-                                <div class="dropdown pull-right">
-                                    <span class="fa fa-caret-down dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></span>
+                                <div class="dropdown float-end">
+                                    <span class="fa fa-caret-down dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true"></span>
                                     <ul class="dropdown-menu dropdown-menu-right vtDropDown" role="menu">
                                         <li class="editFolder " data-folder-id="{$FOLDER->get('folderid')}">
                                             <a role="menuitem" ><i class="fa fa-pencil-square-o"></i>&nbsp;Edit</a>

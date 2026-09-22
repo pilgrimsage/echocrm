@@ -17,10 +17,10 @@
 					{if $VIEW === 'SharedCalendar'}
 						{assign var="VIEW_HEADER_LABEL" value="LBL_SHARED_CALENDAR"}
 					{/if}
-					<a href='javascript:void(0)'><h4 class="module-title pull-left"><span style="cursor: default;"> {strtoupper(vtranslate($VIEW_HEADER_LABEL, $MODULE))} </span></h4></a>
+					<a href='javascript:void(0)'><h4 class="module-title float-start"><span style="cursor: default;"> {strtoupper(vtranslate($VIEW_HEADER_LABEL, $MODULE))} </span></h4></a>
 				</span>
 			</div>
-			<div class="col-lg-7 col-md-7 pull-right">
+			<div class="col-lg-7 col-md-7 float-end">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{if $IS_CREATE_PERMITTED}
@@ -41,7 +41,7 @@
 						{/if}
 						<li>
 							<div class="settingsIcon">
-								<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<button type="button" class="btn btn-default module-buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 									<span class="fa fa-wrench" aria-hidden="true" title="{vtranslate('LBL_SETTINGS', $MODULE)}"></span>&nbsp;&nbsp;{vtranslate('LBL_CUSTOMIZE', 'Reports')}&nbsp; <span class="caret"></span>
 								</button>
 								<ul class="detailViewSetting dropdown-menu">

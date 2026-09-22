@@ -73,9 +73,13 @@ Vtiger_Detail_Js("Inventory_Detail_Js", {
     registerEvents: function() {
 		var self = this;
         this._super();
-        this.getDetailViewContainer().find('.inventoryLineItemDetails').popover({html: true});
+        this.getDetailViewContainer().find('.inventoryLineItemDetails').each(function(){
+            bootstrap.Popover.getOrCreateInstance(this, {html: true});
+        });
 		app.event.on("post.relatedListLoad.click", function() {
-			self.getDetailViewContainer().find('.inventoryLineItemDetails').popover({html: true});
+			self.getDetailViewContainer().find('.inventoryLineItemDetails').each(function(){
+				bootstrap.Popover.getOrCreateInstance(this, {html: true});
+			});
 		});
     },
 

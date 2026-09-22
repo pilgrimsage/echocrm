@@ -48,7 +48,7 @@
                     {/if}
                 </div>
                 <div class="col-sm-4 hide useFunctionContainer">
-                    <select class="useFunction pull-right" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}" style="min-width: 160px;">
+                    <select class="useFunction float-end" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}" style="min-width: 160px;">
                         <option></option>
                             {foreach from=$FIELD_EXPRESSIONS key=FIELD_EXPRESSION_VALUE item=FIELD_EXPRESSIONS_KEY}
                                 <option value="{$FIELD_EXPRESSIONS_KEY}">{vtranslate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}</option>

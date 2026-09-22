@@ -1773,7 +1773,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			if(response == false){
 				return;
 			}
-			element.popover('destroy');
+			var _elPopover = bootstrap.Popover.getInstance(element[0]);
+			if (_elPopover) { _elPopover.dispose(); }
 			var lineItemRow = self.getClosestLineItemRow(element);
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
@@ -1794,14 +1795,16 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				data.find('.popoverButton').on('click', function(e){
 					var validate = data.find('input').valid();
 					if (validate) {
-						element.popover('destroy');
+						var _elPopover = bootstrap.Popover.getInstance(element[0]);
+						if (_elPopover) { _elPopover.dispose(); }
 						self.taxPercentageChangeActions(lineItemRow);
 					}
 				});
 
 				data.find('.popoverCancel').on('click', function(e) {
 					self.getForm().find("div[id^=qtip-]").qtip('destroy');
-					element.popover('destroy');
+					var _elPopover2 = bootstrap.Popover.getInstance(element[0]);
+					if (_elPopover2) { _elPopover2.dispose(); }
 				});
 			};
 
@@ -1812,17 +1815,17 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             var popOverTitle = taxUI.find('.popover_title').find('.variable').text(self.getTotalAfterDiscount(lineItemRow)).closest('.popover_title').text();
 			var template = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate);
             template.addClass('individualTaxForm');
-            element.popover({
-                'content' : taxUI,
-                'html' : true,
-                'placement' : 'top',
-                'animation' : true,
-                'title' : popOverTitle,
-                'trigger' : 'manual',
-                'template' : template[0].outerHTML,
-				'sanitize' : false, /* to allow button / anchor */
-                'container' : self.lineItemsHolder
-                
+            bootstrap.Popover.getOrCreateInstance(element[0], {
+                content : taxUI[0],
+                html : true,
+                placement : 'top',
+                animation : true,
+                title : popOverTitle,
+                trigger : 'manual',
+                template : template[0].outerHTML,
+				sanitize : false, /* to allow button / anchor */
+                container : self.lineItemsHolder[0]
+
             });
             element.one('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.individualTaxForm'));
@@ -1830,7 +1833,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
 				}
             })
-            element.popover('toggle');
+            bootstrap.Popover.getInstance(element[0]).toggle();
 
 		});
 	 },
@@ -1915,7 +1918,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			if(response == false){
 				return;
 			}
-			element.popover('destroy');
+			var _elPopover = bootstrap.Popover.getInstance(element[0]);
+			if (_elPopover) { _elPopover.dispose(); }
             var lineItemRow = self.getClosestLineItemRow(element);
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
             
@@ -1983,7 +1987,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 						} else if (discountType == Inventory_Edit_Js.directAmountDiscountType) {
 							jQuery('input.discount_amount', oldDiscountDiv).val(discountValue);
 						}
-						element.popover('destroy');
+						var _elPopover = bootstrap.Popover.getInstance(element[0]);
+						if (_elPopover) { _elPopover.dispose(); }
 						self.lineItemDiscountChangeActions(lineItemRow);
 //						}
 					}
@@ -1991,7 +1996,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 
 				data.find('.popoverCancel').on('click', function(e) {
 					self.getForm().find("div[id^=qtip-]").qtip('destroy');
-					element.popover('destroy');
+					var _elPopover2 = bootstrap.Popover.getInstance(element[0]);
+					if (_elPopover2) { _elPopover2.dispose(); }
 				});
             }
 
@@ -2002,17 +2008,17 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             template.addClass('discountForm');
             var productTotal = self.getLineItemTotal(lineItemRow);
             var popOverTitle = discountUI.find('.popover_title').find('.variable').text(productTotal).closest('.popover_title').text();
-			element.popover({
-                'content' : discountUI,
-                'html' : true,
-                'placement' : 'top',
-                'animation' : true,
-                'title' : popOverTitle,
-                'trigger' : 'manual',
-                'template' : template[0].outerHTML,
-				'sanitize' : false, /* to allow button / anchor */
-                'container' : self.lineItemsHolder
-                
+			bootstrap.Popover.getOrCreateInstance(element[0], {
+                content : discountUI[0],
+                html : true,
+                placement : 'top',
+                animation : true,
+                title : popOverTitle,
+                trigger : 'manual',
+                template : template[0].outerHTML,
+				sanitize : false, /* to allow button / anchor */
+                container : self.lineItemsHolder[0]
+
             });
             element.one('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.discountForm'));
@@ -2020,7 +2026,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
 				}
             })
-            element.popover('toggle');
+            bootstrap.Popover.getInstance(element[0]).toggle();
 		});
 	},
     
@@ -2030,7 +2036,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         jQuery('#finalDiscountUI').remove();
 
         var popOverTemplate = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate).css('opacity',0).css('z-index','-1');
-        this.finalDiscountEle.popover({
+        bootstrap.Popover.getOrCreateInstance(this.finalDiscountEle[0], {
 			'content' : finalDiscountUI,
 			'html' : true,
 			'placement' : 'left',
@@ -2054,7 +2060,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				}
 			});
        });
-       this.finalDiscountEle.popover('show');
+       bootstrap.Popover.getOrCreateInstance(this.finalDiscountEle[0]).show();
        var popOverId = this.finalDiscountEle.attr('aria-describedby');
        var popOverEle = jQuery('#'+popOverId);
        
@@ -2065,7 +2071,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		   self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
           if(popOverEle.css('opacity') == '0') {
-              self.finalDiscountEle.popover('show');
+              bootstrap.Popover.getOrCreateInstance(self.finalDiscountEle[0]).show();
               popOverEle.find('.popover-title').text(popOverEle.find('.popover_title').text());
               popOverEle.css('opacity',1).css('z-index','');
           }else{
@@ -2107,7 +2113,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		var chargesUI = this.chargesContainer.removeClass('hide');
 
         var popOverTemplate = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate).css('opacity',0).css('z-index','-1');
-        chargesTrigger.popover({
+        bootstrap.Popover.getOrCreateInstance(chargesTrigger[0], {
                 'content' : chargesUI,
                 'html' : true,
                 'placement' : 'left',
@@ -2133,7 +2139,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			});
 		});
 
-        chargesTrigger.popover('show');
+        bootstrap.Popover.getOrCreateInstance(chargesTrigger[0]).show();
         var popOverId = chargesTrigger.attr('aria-describedby');
         var popOverEle = jQuery('#'+popOverId);
 
@@ -2141,7 +2147,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
            if(popOverEle.css('opacity') == '0') {
-               chargesTrigger.popover('show');
+               bootstrap.Popover.getOrCreateInstance(chargesTrigger[0]).show();
                popOverEle.css('opacity',1).css('z-index','');
            }else{
 			   // chargesTrigger.popover('hide'); /* disabled to avoid removal of input DOM elements. */
@@ -2171,7 +2177,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         var finalTaxUI = jQuery('#group_tax_row').find('.finalTaxUI').removeClass('hide');
 		        
         var popOverTemplate = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate).css('opacity',0).css('z-index','-1');
-        finalTaxTriggerer.popover({
+        bootstrap.Popover.getOrCreateInstance(finalTaxTriggerer[0], {
                 'content' : finalTaxUI,
                 'html' : true,
                 'placement' : 'left',
@@ -2198,7 +2204,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			});
 		});
 
-        finalTaxTriggerer.popover('show');
+        bootstrap.Popover.getOrCreateInstance(finalTaxTriggerer[0]).show();
         var popOverId = finalTaxTriggerer.attr('aria-describedby');
         var popOverEle = jQuery('#'+popOverId);
 
@@ -2206,7 +2212,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
 			if(popOverEle.css('opacity') == '0') {
-				finalTaxTriggerer.popover('show');
+				bootstrap.Popover.getOrCreateInstance(finalTaxTriggerer[0]).show();
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
 				// finalTaxTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
@@ -2234,7 +2240,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         var chargeTaxesUI =  this.chargeTaxesContainer.removeClass('hide');
         
         var popOverTemplate = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate).css('opacity',0).css('z-index','-1');
-        chargeTaxTriggerer.popover({
+        bootstrap.Popover.getOrCreateInstance(chargeTaxTriggerer[0], {
                 'content' : chargeTaxesUI,
                 'html' : true,
                 'placement' : 'left',
@@ -2260,7 +2266,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			});
 		});
 
-        chargeTaxTriggerer.popover('show');
+        bootstrap.Popover.getOrCreateInstance(chargeTaxTriggerer[0]).show();
         var popOverId = chargeTaxTriggerer.attr('aria-describedby');
         var popOverEle = jQuery('#'+popOverId);
 
@@ -2268,7 +2274,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
 			if(popOverEle.css('opacity') == '0') {
-				chargeTaxTriggerer.popover('show');
+				bootstrap.Popover.getOrCreateInstance(chargeTaxTriggerer[0]).show();
 				popOverEle.find('.popover-title').text(popOverEle.find('.popover_title').text());
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
@@ -2296,7 +2302,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         var deductTaxForm = this.dedutTaxesContainer.removeClass('hide');
         
         var popOverTemplate = jQuery(Inventory_Edit_Js.lineItemPopOverTemplate).css('opacity',0).css('z-index','-1');
-        deductTaxesTriggerer.popover({
+        bootstrap.Popover.getOrCreateInstance(deductTaxesTriggerer[0], {
                 'content' : deductTaxForm,
                 'html' : true,
                 'placement' : 'left',
@@ -2322,7 +2328,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			});
 		});
 
-        deductTaxesTriggerer.popover('show');
+        bootstrap.Popover.getOrCreateInstance(deductTaxesTriggerer[0]).show();
         var popOverId = deductTaxesTriggerer.attr('aria-describedby');
         var popOverEle = jQuery('#'+popOverId);
 
@@ -2330,7 +2336,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
 			if(popOverEle.css('opacity') == '0') {
-				deductTaxesTriggerer.popover('show');
+				bootstrap.Popover.getOrCreateInstance(deductTaxesTriggerer[0]).show();
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
 				// deductTaxesTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */

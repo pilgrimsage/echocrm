@@ -26,7 +26,7 @@
 					<div class="block nameBlock row">
 						<div class="col-lg-1"></div>
 						<div class="col-lg-4">
-							<label class="pull-right">{vtranslate('LBL_BOOKMARK_NAME', $MODULE)}&nbsp;<span class="redColor">*</span></label>
+							<label class="float-end">{vtranslate('LBL_BOOKMARK_NAME', $MODULE)}&nbsp;<span class="redColor">*</span></label>
 						</div>
 						<div class="col-lg-5">
 							<input type="text" name="bookmarkName" id="bookmarkName" class="col-lg-6 inputElement" {if isset($RECORD)} value="{$BOOKMARK_NAME}" {else} value="" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" data-rule-required="true"/>
@@ -37,7 +37,7 @@
 					<div class="block nameBlock row">
 						<div class="col-lg-1"></div>
 						<div class="col-lg-4">
-							<label class="pull-right">{vtranslate('LBL_BOOKMARK_URL', $MODULE)}&nbsp;<span class="redColor">*</span></label>
+							<label class="float-end">{vtranslate('LBL_BOOKMARK_URL', $MODULE)}&nbsp;<span class="redColor">*</span></label>
 						</div>
 						<div class="col-lg-5">
 							<input type="text" class="inputElement" name="bookmarkUrl" id="bookmarkUrl" {if isset($RECORD)} value="{$BOOKMARK_URL}" {else} value="" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" data-rule-required="true" data-rule-url="true"/>

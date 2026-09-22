@@ -364,7 +364,7 @@ Vtiger_List_Js("Reports_List_Js",{
 			var recordId = jQuery(element).data('recordid');
 			var pinned = element.find('.action').hasClass('vicon-pin');
 			if(pinned) {
-				if(element.is('[data-toggle]')){
+				if(element.is('[data-bs-toggle]')){
                                     return;
                                 }else{
                                     thisInstance.savePinToDashboard(element);

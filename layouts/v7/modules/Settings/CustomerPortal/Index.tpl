@@ -42,7 +42,7 @@
 						<label for="portal-url" class="col-sm-4 control-label fieldLabel">{vtranslate('LBL_PORTAL_URL', $QUALIFIED_MODULE)}</label>
 						<div class="col-sm-5">
 							<a target="_blank" href="{$PORTAL_URL}" class="help-inline" style="width: 300px;color:blue;">{$PORTAL_URL}</a>
-							<div class="pull-left input-group-addon input-select-addon">
+							<div class="float-start input-group-addon input-select-addon">
 								<a href="#" rel="tooltip" title="{vtranslate('LBL_PORTAL_URL_MESSAGE', $QUALIFIED_MODULE)}"><i class="fa fa-info-circle"></i></a>
 							</div>
 						</div>
@@ -96,7 +96,7 @@
 						{/foreach}
 					</div>
 					<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
-						<button type="submit" class="btn btn-success saveButton pull-right" id="savePortalInfo" name="savePortalInfo" type="submit" disabled>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
+						<button type="submit" class="btn btn-success saveButton float-end" id="savePortalInfo" name="savePortalInfo" type="submit" disabled>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
 					</div>
 
 				</div>

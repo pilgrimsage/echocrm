@@ -17,7 +17,7 @@
                     <div class="row qp-heading">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="record-header clearfix">
-                                <div class="hidden-sm hidden-xs recordImage">
+                                <div class="d-none d-md-block recordImage">
                                     <div class="name"><span class='fa fa-bar-chart'></span></div>
                                 </div>
                                 <div class="recordBasicInfo">
@@ -33,12 +33,12 @@
                         </div>
                     </div>
                 </div>
-                <div class = "col-lg-2 pull-right">
-                    <button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
+                <div class = "col-lg-2 float-end">
+                    <button class="close" aria-hidden="true" data-bs-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
                 </div>
             </div>
             <div class="quickPreviewActions clearfix">
-                <div class="btn-group pull-left">
+                <div class="btn-group float-start">
                 </div>
             </div>
             <div class="quickPreviewSummary">

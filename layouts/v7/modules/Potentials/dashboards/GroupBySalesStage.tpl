@@ -59,7 +59,7 @@
     <div class="filterContainer">
 		<div class="row">
 			<span class="col-lg-5">
-				<span class="pull-right">
+				<span class="float-end">
 					{vtranslate('Expected Close Date', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
 				</span>
 			</span>
@@ -72,7 +72,7 @@
 			</span>
 		</div>
 	</div>
-    <div class="footerIcons pull-right">
+    <div class="footerIcons float-end">
         {include file="dashboards/DashboardFooterIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
     </div>
 </div>

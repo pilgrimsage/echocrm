@@ -7,8 +7,8 @@
 * All Rights Reserved.
 ************************************************************************************}
 {strip}
-	<div class="col-lg-6 col-sm-6 col-md-6 detailViewButtoncontainer pull-right" >
-		<div class="btn-group pull-right">
+	<div class="col-lg-6 col-sm-6 col-md-6 detailViewButtoncontainer float-end" >
+		<div class="btn-group float-end">
 			{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 				<button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
 						{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
@@ -23,10 +23,10 @@
 				</button>
 			{/foreach}
 			{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+				<button class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);">
 					{vtranslate('LBL_MORE', $MODULE_NAME)}&nbsp;&nbsp;<i class="caret"></i>
 				</button>
-				<ul class="dropdown-menu pull-right">
+				<ul class="dropdown-menu float-end">
 					{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 						{if $DETAIL_VIEW_LINK->getLabel() eq ""} 
 							<li class="divider"></li>	

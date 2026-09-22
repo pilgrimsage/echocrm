@@ -23,7 +23,7 @@
 {assign var=FOLLOW_UP_LABEL value={vtranslate('LBL_HOLD_FOLLOWUP_ON',$MODULE)}}
 <tr class="{if !($SHOW_FOLLOW_UP)}hide {/if}followUpContainer massEditActiveField">
 	<td class="fieldLabel">
-		<label class="muted pull-right marginRight10px">
+		<label class="muted float-end marginRight10px">
 			<input name="followup" type="checkbox" class="alignTop" {if $FOLLOW_UP_STATUS} checked{/if}/>
 			{$FOLLOW_UP_LABEL}
 		</label>	

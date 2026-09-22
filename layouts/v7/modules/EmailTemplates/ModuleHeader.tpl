@@ -13,10 +13,10 @@
 			<div class="col-lg-5 col-md-5 module-breadcrumb">
 				{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($MODULE)}
 				<a title="{vtranslate($MODULE, $MODULE)}" href='{$MODULE_MODEL->getDefaultUrl()}'>
-					<h4 class="module-title pull-left text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4>
+					<h4 class="module-title float-start text-uppercase">&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;</h4>
 				</a>
-				<p class="current-filter-name filter-name pull-left cursorPointer">&nbsp;&nbsp;
-					<span class="fa fa-angle-right pull-left" aria-hidden="true"></span> 
+				<p class="current-filter-name filter-name float-start cursorPointer">&nbsp;&nbsp;
+					<span class="fa fa-angle-right float-start" aria-hidden="true"></span> 
 					{if $REQ->get('view') eq 'List'}
 						{vtranslate('LBL_FILTER', $MODULE)}
 					{/if}
@@ -31,7 +31,7 @@
 					{/if}
 				</p>
 			</div>
-			<div class="col-lg-7 col-md-7 pull-right">
+			<div class="col-lg-7 col-md-7 float-end">
 				<div id="appnav" class="navbar-right">
 					<ul class="nav navbar-nav">
 						{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}

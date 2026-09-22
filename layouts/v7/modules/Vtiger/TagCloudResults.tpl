@@ -13,7 +13,7 @@
     <div id="TagCloudResults" class="modal-dialog modal-lg"> 
         <div class="modal-content">
             <div class="modal-header contentsBackground">
-                <button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
+                <button data-bs-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
                 <div class="row">
                     <h3 class="col-lg-8">{vtranslate('LBL_RESULT_FOR_THE_TAG', $MODULE)} - {$TAG_NAME}</h3>
                     {if $TAGGED_RECORDS}

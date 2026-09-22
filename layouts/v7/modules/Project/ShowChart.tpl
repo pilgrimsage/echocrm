@@ -17,7 +17,7 @@
     {/foreach}
 </style>
 {if !empty($PROJECT_TASKS['tasks'])}
-    <div class="pull-right" style="margin-right: 5px;">
+    <div class="float-end" style="margin-right: 5px;">
         <span style="margin: 2px;">
             <button class="btn textual zoomOut" title="zoom out">
                 <span class="teamworkIcon">)</span>

@@ -201,7 +201,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    
    registerRemoveModalEvent: function (data) {
       data.on('click', '.closeModal', function (e) {
-         data.modal('hide');
+         var _modal = bootstrap.Modal.getInstance(data[0]);
+         if (_modal) { _modal.hide(); }
       });
    },
    
@@ -227,7 +228,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             }
          }
          fieldValueElement.val(fieldValue);
-         data.modal('hide');
+         var _modal = bootstrap.Modal.getInstance(data[0]);
+         if (_modal) { _modal.hide(); }
       });
    },
    
@@ -420,8 +422,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
     */
    registerTooltipEventForSignatureField: function () {
       jQuery("#signaturePopover").on('mouseover', function (e) {
-         jQuery('#signaturePopover').popover({
-            'html': true
+         bootstrap.Popover.getOrCreateInstance(document.getElementById('signaturePopover'), {
+            html: true
          });
       });
    },

@@ -369,7 +369,9 @@ var vtUtils = {
 		}
 
         jQuery(function () {
-            jQuery('[data-toggle="tooltip"]').tooltip(options);
+            jQuery('[data-bs-toggle="tooltip"]').each(function(){
+                bootstrap.Tooltip.getOrCreateInstance(this, options);
+            });
         });
     },
     

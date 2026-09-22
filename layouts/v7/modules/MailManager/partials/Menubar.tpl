@@ -9,7 +9,7 @@
 {strip}
     <div id="modules-menu" class="modules-menu mmModulesMenu" style="width: 100%;">
         <div><span>{$MAILBOX->username()}</span>
-            <span class="pull-right">
+            <span class="float-end">
                 <span class="cursorPointer mailbox_refresh" title="{vtranslate('LBL_Refresh', $MODULE)}">
                     <i class="fa fa-refresh"></i>
                 </span>

@@ -104,9 +104,11 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
         } else {
             var callBackFunction = function (data) {
                 var editViewObj = Vtiger_Edit_Js.getInstance();
-                jQuery(data).find('.fieldInfo').collapse({
-                    'parent': '#leadAccordion',
-                    'toggle': false
+                jQuery(data).find('.fieldInfo').each(function(){
+                    bootstrap.Collapse.getOrCreateInstance(this, {
+                        parent: '#leadAccordion',
+                        toggle: false
+                    });
                 });
                 app.helper.showVerticalScroll(jQuery(data).find('#leadAccordion'), {'setHeight': 'auto'});
                 editViewObj.registerBasicEvents(data);
@@ -167,7 +169,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
             var moduleBlock = jQuery('#' + module + '_FieldInfo');
             if (currentTarget.is(':checked')) {
                 jQuery('#' + module + 'Module').attr('checked', 'checked');
-                moduleBlock.collapse('show');
+                bootstrap.Collapse.getOrCreateInstance(moduleBlock[0]).show();
                 instance.removeDisableAttr(moduleBlock);
             }
         });
@@ -183,13 +185,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
             var otherModuleElement = jQuery('#' + otherTransferModuleValue + 'Module');
 
             if (currentTarget.is(':checked')) {
-                moduleBlock.collapse('show');
+                bootstrap.Collapse.getOrCreateInstance(moduleBlock[0]).show();
                 instance.removeDisableAttr(moduleBlock);
                 if (!otherModuleElement.is(':checked')) {
                     jQuery(currentTransferModuleElement).attr('checked', 'checked');
                 }
             } else {
-                moduleBlock.collapse('hide');
+                var _collapse = bootstrap.Collapse.getInstance(moduleBlock[0]);
+                if (_collapse) { _collapse.hide(); }
                 instance.addDisableAttr(moduleBlock);
                 jQuery(currentTransferModuleElement).removeAttr('checked');
                 if (otherModuleElement.is(':checked')) {

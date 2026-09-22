@@ -1215,7 +1215,8 @@ Vtiger.Class("Vtiger_List_Js", {
 		});
 
 		app.event.on('post.listViewMassAction.loaded', function (e, container) {
-			jQuery('#phoneFormatWarningPop').popover();
+			var _phoneFormatWarningPop = document.getElementById('phoneFormatWarningPop');
+			if (_phoneFormatWarningPop) { bootstrap.Popover.getOrCreateInstance(_phoneFormatWarningPop); }
 			jQuery('#massSave').vtValidate({
 				// Note : JQuery Validator is not working with multi file upload fields
 				ignore: "input[type='file'].multi",
@@ -2400,14 +2401,14 @@ Vtiger.Class("Vtiger_List_Js", {
 								var parent = jQuery(ele).closest('.instafilta-section');
 								var availFieldBlock = parent.find('.availFieldBlock');
 								if (availFieldBlock.find('i').hasClass('fa-caret-right')) {
-									availFieldBlock.find('a[data-parent="#accordion"]').trigger('click');
+									availFieldBlock.find('a[data-bs-parent="#accordion"]').trigger('click');
 								}
 							});
 						}
 					}
 				});
 
-				availFieldsListContainer.on('click', '.availFieldBlock a[data-parent="#accordion"]', function (e) {
+				availFieldsListContainer.on('click', '.availFieldBlock a[data-bs-parent="#accordion"]', function (e) {
 					var target = jQuery(e.currentTarget);
 					var closestItag = target.find('i');
 					if (closestItag.hasClass('fa-caret-right')) {
@@ -2625,7 +2626,7 @@ Vtiger.Class("Vtiger_List_Js", {
 			var containerTarget = jQuery(this).closest(container);
 			var content = jQuery(this).closest(".dropdown");
 			var dropdown = jQuery(e.currentTarget);
-			if (dropdown.find('[data-toggle]').length <= 0) {
+			if (dropdown.find('[data-bs-toggle]').length <= 0) {
 				return;
 			}
 			var dropdown_menu = dropdown.find('.dropdown-menu');

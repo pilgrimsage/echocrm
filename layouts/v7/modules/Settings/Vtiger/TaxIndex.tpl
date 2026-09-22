@@ -17,9 +17,9 @@
 		<br>
 		<div class="contents tabbable clearfix">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
-				<li class="tab-item taxesTab active"><a data-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li class="tab-item chargesTab"><a data-toggle="tab" href="#charges"><strong>{vtranslate('LBL_CHARGES_AND ITS_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li class="tab-item taxRegionsTab"><a data-toggle="tab" href="#taxRegions"><strong>{vtranslate('LBL_TAX_REGIONS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item taxesTab active"><a data-bs-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item chargesTab"><a data-bs-toggle="tab" href="#charges"><strong>{vtranslate('LBL_CHARGES_AND ITS_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item taxRegionsTab"><a data-bs-toggle="tab" href="#taxRegions"><strong>{vtranslate('LBL_TAX_REGIONS', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent padding20 overflowVisible">
 				<div class="tab-pane active" id="taxes">
@@ -48,7 +48,7 @@
 									<td style="border-left:none;border-right:none;" class="{$WIDTHTYPE}"><span class="taxPercentage">{$PRODUCT_SERVICE_TAX_MODEL->getTax()}%</span></td>
 									<td style="border-left:none;border-right:none;" class="{$WIDTHTYPE}"><input type="checkbox" class="editTaxStatus" {if !$PRODUCT_SERVICE_TAX_MODEL->isDeleted()}checked{/if} /></td>
 									<td style="border-left:none;border-right:none;" class="{$WIDTHTYPE}">
-										<div class="pull-right actions">
+										<div class="float-end actions">
 											<a class="editTax cursorPointer" data-url="{$PRODUCT_SERVICE_TAX_MODEL->getEditTaxUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></i></a>&nbsp;
 										</div>
 									</td>

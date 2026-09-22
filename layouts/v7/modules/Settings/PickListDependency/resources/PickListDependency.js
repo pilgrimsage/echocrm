@@ -352,7 +352,7 @@ Vtiger.Class('Settings_PickListDependency_Js', {
 			if(currentTarget.hasClass('selectedCell')) {
 				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.fa.fa-check').remove();
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fa fa-check pull-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fa fa-check float-start"></i>');
 			}
 		});
 	},
@@ -432,7 +432,7 @@ Vtiger.Class('Settings_PickListDependency_Js', {
 			if(selectedElements.length > 0) {
 				thisInstance.updatedSourceValuesListUpdation(dependencyGraph);
 			}
-			selectedElements.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fa fa-check pull-left"></i>');
+			selectedElements.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fa fa-check float-start"></i>');
 		})
 	},
 	

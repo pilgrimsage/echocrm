@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <span class="pull-right listViewActions" style="padding-right: 15px;">
+                        <span class="float-end listViewActions" style="padding-right: 15px;">
                             <select class="select2 pickListSupportedModules" name="pickListSupportedModules" style="min-width: 220px;">
                                 <option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
                                 {foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}

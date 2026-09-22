@@ -105,7 +105,7 @@ Vtiger_List_Js('Vtiger_AdvanceSearchList_Js',{},{
         jQuery('.table-actions').on('click', '.dropdown', function (e) {
             var containerTarget = jQuery(this).closest(container);
             var dropdown = jQuery(e.currentTarget);
-             if(dropdown.find('[data-toggle]').length <=0){ 
+             if(dropdown.find('[data-bs-toggle]').length <=0){ 
  		                return; 
  		            } 
             var dropdown_menu = dropdown.find('.dropdown-menu');

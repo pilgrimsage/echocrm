@@ -21,7 +21,7 @@
                 </div>
                 <div class="search-action-container col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class=" p-r-0">
-                        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                        <button type="button" class="close" aria-label="Close" data-bs-dismiss="modal">
                             <span aria-hidden="true" class='fa fa-close'></span>
                         </button>
                     </div>

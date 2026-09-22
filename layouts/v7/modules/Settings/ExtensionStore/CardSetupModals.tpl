@@ -57,12 +57,12 @@
 			<div class="modal-footer">
 				<div class="row">
 					<div class="col-sm-3 col-xs-3">
-						<span class="pull-left"><button class="btn btn-danger" type="button" name="resetButton"><strong>{vtranslate('LBL_RESET', $QUALIFIED_MODULE)}</strong></button></span>
+						<span class="float-start"><button class="btn btn-danger" type="button" name="resetButton"><strong>{vtranslate('LBL_RESET', $QUALIFIED_MODULE)}</strong></button></span>
 					</div>
 					<div class="col-sm-9 col-xs-9">
-						<div class="pull-right">
-							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<div class="float-end">
+							<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+								<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 							<button class="btn btn-success saveButton" type="submit" name="saveButton" style="padding: 5px 12px;"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 						</div>
@@ -101,9 +101,9 @@
 		</div>
 		<div class="modal-footer">
 			<div class="row-fluid">
-				<div class="pull-right">
-					<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-						<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+				<div class="float-end">
+					<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+						<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 					<button class="btn btn-success updateBtn">{vtranslate('Update', $MODULE)}</button>
 				</div>
@@ -179,9 +179,9 @@
 					<span class="col-sm-6">&nbsp;
 					</span>
 					<span class="col-sm-6">
-						<div class="pull-right">
-							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<div class="float-end">
+							<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+								<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 							<button class="btn btn-success" name="saveButton"><strong>{vtranslate('LBL_REGISTER', $QUALIFIED_MODULE)}</strong></button>
 						</div>
@@ -213,7 +213,7 @@
 					<div class="controls col-sm-5">
 						{if $REGISTRATION_STATUS}
 							<input class="inputElement" type="hidden" name="emailAddress" value="{$USER_NAME}" />
-							<span class="control-label"><span class="pull-left">{$USER_NAME}</span></span>
+							<span class="control-label"><span class="float-start">{$USER_NAME}</span></span>
 							{else}
 							<input class="inputElement" type="text" name="emailAddress" data-rule-required="true" data-rule-email="true" />
 						{/if}
@@ -239,14 +239,14 @@
 				<div class="row-fluid">
 					<span class="col-sm-8">
 						{if !$REGISTRATION_STATUS}
-							<a class="pull-left" href="#" name="signUp">{vtranslate('LBL_CREATE_AN_ACCOUNT', $QUALIFIED_MODULE)}</a>
+							<a class="float-start" href="#" name="signUp">{vtranslate('LBL_CREATE_AN_ACCOUNT', $QUALIFIED_MODULE)}</a>
 						{else}&nbsp;
 						{/if}
 					</span>
 					<span class="col-sm-4">
-						<div class="pull-right">
-							<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-								<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<div class="float-end">
+							<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+								<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 							</div>
 							<button class="btn btn-success" name="saveButton" type="submit"><strong>{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE)}</strong></button>
 						</div>
@@ -280,9 +280,9 @@
 			</div>
 			<div class="modal-footer">
 				<div class="row-fluid">
-					<div class="pull-right">
-						<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+					<div class="float-end">
+						<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+							<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 						</div>
 						<button class="btn btn-success okBtn" type="submit" style="padding: 5px 12px;">{vtranslate('LBL_OK', $QUALIFIED_MODULE)}</button>
 					</div>
@@ -295,7 +295,7 @@
 {if $LOADER_REQUIRED}
 	<div class="modal extensionLoader hide">
 		<div class="modal-header contentsBackground">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>{vtranslate('LBL_INSTALL_EXTENSION_LOADER', $QUALIFIED_MODULE)}</h3>
 		</div>
 		<div class="modal-body">
@@ -308,9 +308,9 @@
 		</div>
 		<div class="modal-footer">
 			<div class="row-fluid">
-				<div class="pull-right">
-					<div class="pull-right cancelLinkContainer" style="margin-top:5px;">
-						<button class="btn btn-success" data-dismiss="modal">{vtranslate('LBL_OK', $QUALIFIED_MODULE)}</button>
+				<div class="float-end">
+					<div class="float-end cancelLinkContainer" style="margin-top:5px;">
+						<button class="btn btn-success" data-bs-dismiss="modal">{vtranslate('LBL_OK', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>

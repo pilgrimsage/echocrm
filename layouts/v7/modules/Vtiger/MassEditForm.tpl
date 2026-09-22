@@ -33,7 +33,7 @@
                 <footer class='modal-footer overlayFooter'>
                    <center>
                        <button type='submit' class='btn btn-success saveButton'>{vtranslate('LBL_SAVE', $MODULE)}</button>&nbsp;&nbsp;
-                       <a class='cancelLink' data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                       <a class='cancelLink' data-bs-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                    </center>
                </footer>
             </div>

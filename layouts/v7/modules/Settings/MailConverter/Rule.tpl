@@ -13,7 +13,7 @@
 			<div class="ruleHead modal-header" style="cursor: move; min-height: 30px; padding: 10px 0px;">
 				<strong>
 					<img class="alignMiddle" src="{vimage_path('white-drag.png')}" style="margin-left: 10px;" />&nbsp;&nbsp;{vtranslate('LBL_RULE', $QUALIFIED_MODULE)}&nbsp;<span class="sequenceNumber">{(isset($RULE_COUNT)) ? $RULE_COUNT : ''}</span>&nbsp;:&nbsp;{vtranslate($RULE_MODEL->get('action'), $QUALIFIED_MODULE)}
-					<div class="pull-right" style="padding-right: 10px;">
+					<div class="float-end" style="padding-right: 10px;">
 						{foreach from=$RULE_MODEL->getRecordLinks() item=ACTION_LINK}
 							<span {if stripos($ACTION_LINK->getUrl(), 'javascript:')===0}
 								onclick='{$ACTION_LINK->getUrl()|substr:strlen("javascript:")}'

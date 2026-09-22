@@ -302,7 +302,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 					<td style="border-left: none;border-right: none;" '+details.row_type+'"><span class="taxPercentage">'+details.percentage+'%</span></td>\n\
 					<td style="border-left: none;border-right: none;" '+details.row_type+'"><input class="editTaxStatus" type="checkbox" '+isChecked+' >\n\
 					</td><td style="border-left: none;border-right: none;">\n\
-						<div class="pull-right actions">\n\
+						<div class="float-end actions">\n\
 							<a class="editTax cursorPointer" data-url="'+details._editurl+'">\n\
 								<i class="fa fa-pencil alignMiddle" title="'+app.vtranslate('JS_EDIT')+'"></i>\n\
 							</a>\n\
@@ -560,7 +560,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 					<td style="border-left: none;border-right: none;" class="'+details.row_type+'"><span class="chargeIsTaxable">'+details.isTaxable+'</span></td>\n\
 					<td style="border-left: none;border-right: none;" class="'+details.row_type+'"><span class="chargeTaxes span2">'+details.selectedTaxes+'</span></td>\n\
 					<td style="border-left: none;border-right: none;" class="'+details.row_type+'">\n\
-						<div class="pull-right actions">\n\
+						<div class="float-end actions">\n\
 							<a class="editCharge cursorPointer" data-url="'+details._editurl+'">\n\
 								<i class="fa fa-pencil alignBottom" title="'+app.vtranslate('JS_EDIT')+'"></i>\n\
 							</a>\n\
@@ -862,7 +862,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 						<span class="taxRegionName">'+details.name+'</span>\n\
 					</td>\n\
 					<td style="border-right:none;border-left:none" class="'+details.row_type+'">\n\
-						<div class="pull-right actions">\n\
+						<div class="float-end actions">\n\
 							<a class="editRegion" data-url="'+details._editurl+'">\n\
 								<i class="fa fa-pencil alignMiddle" title="'+app.vtranslate('JS_EDIT')+'"></i>\n\
 							</a>\n\

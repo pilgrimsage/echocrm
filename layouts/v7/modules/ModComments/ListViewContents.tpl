@@ -48,7 +48,7 @@
                             {if !$SEARCH_MODE_RESULTS}
                                 <div class="table-actions">
                                     <div class="dropdown" style="float:left;">
-                                        <span class="input dropdown-toggle" data-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
+                                        <span class="input dropdown-toggle" data-bs-toggle="dropdown" title="{vtranslate('LBL_CLICK_HERE_TO_SELECT_ALL_RECORDS',$MODULE)}">
                                             <input class="listViewEntriesMainCheckBox" type="checkbox">
                                         </span>
                                     </div>

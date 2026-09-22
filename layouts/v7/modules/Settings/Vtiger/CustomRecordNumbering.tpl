@@ -12,7 +12,7 @@
 		<form id="EditView" method="POST">
 			<div class="blockData">
 				<div class="clearfix">
-					<div class="btn-group pull-right">
+					<div class="btn-group float-end">
 						<button type="button" class="btn addButton btn-default" name="updateRecordWithSequenceNumber">{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div>

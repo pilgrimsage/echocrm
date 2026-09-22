@@ -54,7 +54,7 @@
 						{if $MODULE_BASIC_ACTIONS|@count gt 0}
 						<div class="container-fluid">
 							<div class="navbar-header bg-white marginTop5px">
-								<button type="button" class="navbar-toggle collapsed margin0" data-bs-toggle="collapse" data-bs-target="#appnavcontent" aria-expanded="false">
+								<button type="button" class="navbar-toggler collapsed margin0" data-bs-toggle="collapse" data-bs-target="#appnavcontent" aria-expanded="false">
 									<i class="fa fa-ellipsis-v"></i>
 								</button>
 							</div>

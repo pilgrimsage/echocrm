@@ -318,12 +318,13 @@ jQuery.Class("Vtiger_Helper_Js",{
         overlayPage.find('.data').html(data);
         $('#overlayPage').
             css('max-height',max_height).find('.modal-body').css('max-height',max_height);
-        overlayPage.modal(params);
+        bootstrap.Modal.getOrCreateInstance(overlayPage[0], params).show();
         return aDeferred.promise();
     },
 
     hidePageOverlay : function() {
-        $('#overlayPage').modal('hide');
+        var _overlayPageModal = bootstrap.Modal.getInstance(document.getElementById('overlayPage'));
+        if (_overlayPageModal) { _overlayPageModal.hide(); }
     },
 
     loadPageContentOverlay : function(data, params) {
@@ -350,7 +351,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         
         overlayPageContent.find('.data').html(data);
         vtUtils.applyFieldElementsView(overlayPageContent);
-        overlayPageContent.modal(params);
+        bootstrap.Modal.getOrCreateInstance(overlayPageContent[0], params).show();
         if(alreadyShown) {
             aDeferred.resolve(jQuery('#overlayPageContent'));
         }
@@ -364,7 +365,8 @@ jQuery.Class("Vtiger_Helper_Js",{
             overlayPageContent.find('.data').html('');
             aDeferred.resolve();
         })
-        $('#overlayPageContent').modal('hide');
+        var _overlayPageContentModal = bootstrap.Modal.getInstance(document.getElementById('overlayPageContent'));
+        if (_overlayPageContentModal) { _overlayPageContentModal.hide(); }
         return aDeferred.promise();
     },
 
@@ -387,7 +389,8 @@ jQuery.Class("Vtiger_Helper_Js",{
         helpOverlayPageContent.one('shown.bs.modal', function () {
             aDeferred.resolve(helpOverlayPageContent);
         });
-        $('#helpPageOverlay').html(data).modal(params);
+        helpOverlayPageContent.html(data);
+        bootstrap.Modal.getOrCreateInstance(helpOverlayPageContent[0], params).show();
         vtUtils.applyFieldElementsView(helpOverlayPageContent);
         cb(helpOverlayPageContent);
         return aDeferred.promise();
@@ -400,7 +403,8 @@ jQuery.Class("Vtiger_Helper_Js",{
             overlayPageContent.find('.data').html('');
             aDeferred.resolve();
         })
-        $('#helpPageOverlay').modal('hide'); 
+        var _helpPageOverlayModal = bootstrap.Modal.getInstance(document.getElementById('helpPageOverlay'));
+        if (_helpPageOverlayModal) { _helpPageOverlayModal.hide(); }
         return aDeferred.promise();
     },
 
@@ -429,7 +433,10 @@ jQuery.Class("Vtiger_Helper_Js",{
             });
         }
 
-        container.html(content).modal(params);
+        container.html(content);
+        var _existingModal = bootstrap.Modal.getInstance(container[0]);
+        if (_existingModal) { _existingModal.dispose(); }
+        bootstrap.Modal.getOrCreateInstance(container[0], params).show();
         vtUtils.applyFieldElementsView(container);
         return container;
     },
@@ -440,21 +447,21 @@ jQuery.Class("Vtiger_Helper_Js",{
         container.one('hidden.bs.modal', function(){
             aDeferred.resolve();
         })
-		$('.myModal').modal('hide'); 
-                $('.myModal').data('bs.modal',null); // clear any options previously set
+		var _modal = bootstrap.Modal.getInstance(container[0]);
+		if (_modal) { _modal.hide(); }
         return aDeferred.promise();
     },
 
     showInfoMessage : function(message) {
         $('#messageBar').html('<div class="alert alert-info">\n\
-                                    <a href="#" class="close" data-dismiss="alert">&times;</a>\n\
+                                    <a href="#" class="close" data-bs-dismiss="alert">&times;</a>\n\
                                     <strong>'+message+'</strong>\n\
                                 </div>');
     },
 
     showErrorMessage : function(message) {
         $('#messageBar').html('<div class="alert alert-danger">\n\
-                                    <a href="#" class="close" data-dismiss="alert">&times;</a>\n\
+                                    <a href="#" class="close" data-bs-dismiss="alert">&times;</a>\n\
                                     <strong>'+message+'</strong>\n\
                                 </div>');
     },
@@ -778,13 +785,15 @@ jQuery.Class("Vtiger_Helper_Js",{
             });
         }
 
-        container.html(content).modal(params);
+        container.html(content);
+        bootstrap.Modal.getOrCreateInstance(container[0], params).show();
         vtUtils.applyFieldElementsView(container);
         return container;
     },
-    
+
     hidePopup : function() {
-        jQuery('#popupModal').modal("hide");
+        var _popupModal = bootstrap.Modal.getInstance(document.getElementById('popupModal'));
+        if (_popupModal) { _popupModal.hide(); }
     },
     
     /*

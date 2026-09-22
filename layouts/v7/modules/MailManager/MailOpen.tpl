@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="col-lg-8 padding0px" id="relationBlock"></div>
             <div class="col-lg-4 padding0px">
-                <span class="pull-right">
+                <span class="float-end">
                     <button type="button" class="btn btn-default mailPagination marginRight0px" {if $MAIL->msgno() < $FOLDER->count()}data-folder='{$FOLDER->name()}' data-msgno='{$MAIL->msgno(1)}'{else}disabled="disabled"{/if}>
                         <i class="fa fa-caret-left"></i>
                     </button>
@@ -73,7 +73,7 @@
                 <span> 
                     {assign var=FROM value=$MAIL->from()} 
                     &nbsp;&nbsp; 
-                    <a href="javascript:void(0)" class="emailDetails" role="tooltip" data-toggle="popover" data-trigger="focus" title="<strong>{vtranslate('LBL_DETAILS', $MODULE)}</strong>" 
+                    <a href="javascript:void(0)" class="emailDetails" role="tooltip" data-bs-toggle="popover" data-trigger="focus" title="<strong>{vtranslate('LBL_DETAILS', $MODULE)}</strong>" 
                         data-content="<table> 
                         <tr><td class='muted input-info-addon'>{vtranslate('LBL_FROM', $MODULE)}</td><td class='displayEmailValues'>{$FROM[0]}</td></tr> 
                         <tr><td>&nbsp;</td></tr> 
@@ -93,13 +93,13 @@
                 </span>
             </div>
             <div class="col-lg-4">
-                <span class="pull-right mmDetailDate">
+                <span class="float-end mmDetailDate">
                     {Vtiger_Util_Helper::formatDateTimeIntoDayString($MAIL->date(), true)}
                 </span>
             </div>
         </div>
         <div class="clearfix">
-                <div class="pull-right">
+                <div class="float-end">
                     <span class="cursorPointer mmDetailAction" id='mmPrint' title='{vtranslate('LBL_Print', $MODULE)}'><i class="fa fa-print"></i></span>
                     <span class="cursorPointer mmDetailAction" id='mmReply' title='{vtranslate('LBL_Reply', $MODULE)}'><i class="fa fa-reply"></i></span>
                     <span class="cursorPointer mmDetailAction" id='mmReplyAll' title='{vtranslate('LBL_Reply_All', $MODULE)}'><i class="fa fa-reply-all"></i></span>

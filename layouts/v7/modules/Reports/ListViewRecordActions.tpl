@@ -31,7 +31,7 @@
         <span class="more dropdown action">
             <span title="{if $PIN_CLASS eq 'vicon-pin'}{vtranslate('LBL_PIN_CHART_TO_DASHBOARD',$MODULE)}{else}{vtranslate('LBL_UNPIN_CHART_FROM_DASHBOARD',$MODULE)}{/if}" 
                   class="pinToDashboard dropdown-toggle"  data-recordid="{$LISTVIEW_ENTRY->get('reportid')}" 
-                  data-primemodule="{$LISTVIEW_ENTRY->get('primarymodule')}" data-toggle="dropdown"
+                  data-primemodule="{$LISTVIEW_ENTRY->get('primarymodule')}" data-bs-toggle="dropdown"
                   data-dashboard-tab-count='{php7_count($DASHBOARD_TABS)}'>
                 <i class="fa icon {$PIN_CLASS} action" style="font-size:13px;"></i>
             </span>
@@ -49,7 +49,7 @@
         {/if}
         {if $LISTVIEW_ENTRY->isEditableBySharing()}
             <span class="more dropdown action">
-                <span href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                <span href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
                     <i class="fa fa-ellipsis-v icon"></i></span>
                 <ul class="dropdown-menu">
                     <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}" name="editlink" class="dropdown-item">{vtranslate('LBL_EDIT', $MODULE)}</a></li>

@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-6">
-					<div class="pull-right extensionDetailActions">
+					<div class="float-end extensionDetailActions">
 						<span style="margin: 5px;">
 							<a class="btn btn-default" id="declineExtension"><i class="fa fa-chevron-left"></i> {vtranslate('LBL_BACK', $MODULE)}</a>&nbsp;
 						</span>
@@ -61,11 +61,11 @@
 			<div class="tabbable-panel">
 				<div class="tabbable-line margin0px" style="padding-bottom: 20px;">
 					<ul id="extensionTab" class="nav nav-tabs" style="margin-bottom: 0px; padding-bottom: 0px;text-align: left;">
-						<li class="active"><a href="#description" data-toggle="tab"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</strong></a></li>
+						<li class="active"><a href="#description" data-bs-toggle="tab"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</strong></a></li>
 						<li class="divider-vertical"></li>
-						<li><a href="#CustomerReviews" data-toggle="tab"><strong>{vtranslate('LBL_CUSTOMER_REVIEWS', $QUALIFIED_MODULE)}</strong></a></li>
+						<li><a href="#CustomerReviews" data-bs-toggle="tab"><strong>{vtranslate('LBL_CUSTOMER_REVIEWS', $QUALIFIED_MODULE)}</strong></a></li>
 						<li class="divider-vertical"></li>
-						<li><a href="#Author" data-toggle="tab"><strong>{vtranslate('LBL_PUBLISHER', $QUALIFIED_MODULE)}</strong></a></li>
+						<li><a href="#Author" data-bs-toggle="tab"><strong>{vtranslate('LBL_PUBLISHER', $QUALIFIED_MODULE)}</strong></a></li>
 					</ul>
 					<div class="tab-content boxSizingBorderBox" style="background-color: #fff; padding: 20px; margin-top: 10px;">
 						<div class="tab-pane active" id="description">
@@ -73,11 +73,11 @@
 								<div class="row">
 									<div class="col-sm-2 col-xs-2">&nbsp;</div>
 									<div class="col-sm-8 col-xs-8">
-										<div id="imageSlider" class="carousel slide" data-ride="carousel">
+										<div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
 											<!-- Indicators -->
 											<ol class="carousel-indicators">
 												{foreach $SCREEN_SHOTS as $key=>$SCREEN_SHOT name=screen}
-													<li data-target="#imageSlider" data-slide-to="{$smarty.foreach.screen.index}" {if $smarty.foreach.screen.index == 0}class="active" {/if}></li>
+													<li data-bs-target="#imageSlider" data-bs-slide-to="{$smarty.foreach.screen.index}" {if $smarty.foreach.screen.index == 0}class="active" {/if}></li>
 												{/foreach}
 											</ol>
 
@@ -91,11 +91,11 @@
 											</div>
 
 											<!-- Controls -->
-											<a class="left carousel-control" href="#imageSlider" role="button" data-slide="prev">
+											<a class="left carousel-control" href="#imageSlider" role="button" data-bs-slide="prev">
 												<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 												<span class="sr-only"></span>
 											</a>
-											<a class="right carousel-control" href="#imageSlider" role="button" data-slide="next">
+											<a class="right carousel-control" href="#imageSlider" role="button" data-bs-slide="next">
 												<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 												<span class="sr-only"></span>
 											</a>
@@ -113,10 +113,10 @@
 						<div class="tab-pane" id="CustomerReviews">
 							<div class="row boxSizingBorderBox" style="padding-bottom: 15px;">
 								<div class="col-sm-6 col-xs-6">
-									<div class="pull-left">
+									<div class="float-start">
 										<div style="font-size: 55px; line-height:50px; margin-right: 20px;">{$ON_RATINGS}</div>
 									</div>
-									<div class="pull-left">
+									<div class="float-start">
 										<span data-score="{$ON_RATINGS}" class="rating" data-readonly="true"></span>
 										<div>out of 5</div>
 										<div>({php7_count($CUSTOMER_REVIEWS)} Reviews)</div>
@@ -124,8 +124,8 @@
 								</div>
 								{if ($REGISTRATION_STATUS) and ($PASSWORD_STATUS)}
 									<div class="col-sm-6 col-xs-6">
-										<div class="pull-right">
-											<button type="button" class="writeReview margin0px pull-right {if $MODULE_ACTION neq 'Installed'} hide{/if}">{vtranslate('LBL_WRITE_A_REVIEW', $QUALIFIED_MODULE)}</button>
+										<div class="float-end">
+											<button type="button" class="writeReview margin0px float-end {if $MODULE_ACTION neq 'Installed'} hide{/if}">{vtranslate('LBL_WRITE_A_REVIEW', $QUALIFIED_MODULE)}</button>
 										</div>
 									</div>
 								{/if}
@@ -174,7 +174,7 @@
 			<div class="modal-dialog customerReviewModal hide">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
 						<h3>{vtranslate('LBL_CUSTOMER_REVIEW', $QUALIFIED_MODULE)}</h3>
 					</div>
 					<form class="form-horizontal customerReviewForm">
@@ -200,9 +200,9 @@
 						<div class="modal-footer">
 							<div class="row">
 								<div class="col-sm-12 col-xs-12">
-									<div class="pull-right">
-										<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-											<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+									<div class="float-end">
+										<div class="float-end cancelLinkContainer" style="margin-top:0px;">
+											<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 										</div>
 										<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 									</div>

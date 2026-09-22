@@ -267,18 +267,18 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
             editTagContainer.removeClass('hide');
             var container = element.closest('.modal').length ? element.closest('.modal') : jQuery('body');
             var placement = app.view() == "Detail" ? 'bottom' : 'top';
-            element.popover({
-                'content' : editTagContainer,
-                'html' : true,
-                'placement' : placement,
-                'animation' : true,
-                'trigger' : 'manual',
-                'template' : self.editTagTemplate,
-                'container' : container,
-                'sanitize' : false, /* to allow button / anchor */
-                
+            bootstrap.Popover.getOrCreateInstance(element[0], {
+                content : editTagContainer[0],
+                html : true,
+                placement : placement,
+                animation : true,
+                trigger : 'manual',
+                template : self.editTagTemplate,
+                container : container[0],
+                sanitize : false, /* to allow button / anchor */
+
             });
-            element.popover('show');
+            bootstrap.Popover.getInstance(element[0]).show();
         });
        
         jQuery(document).on('click', '.editTagContainer .saveTag', function(e){
@@ -306,7 +306,8 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
                 tagElement.find('.tagLabel').text(data.name);
                 tagElement.attr('data-type', data.type);
                 var popOverId = element.closest('.popover').attr('id');
-                jQuery('[aria-describedby="'+ popOverId +'"]').popover('destroy');
+                var _popover = bootstrap.Popover.getInstance(document.querySelector('[aria-describedby="'+ popOverId +'"]'));
+                if (_popover) { _popover.dispose(); }
             }, function(error){
                 app.helper.showAlertBox({'message' : error.message});
             });
@@ -315,9 +316,10 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
         jQuery(document).on('click', '.editTagContainer .cancelSaveTag', function(e){
             var element = jQuery(e.currentTarget);
             var popOverId = element.closest('.popover').attr('id');
-            jQuery('[aria-describedby="'+ popOverId +'"]').popover('destroy');
+            var _popover = bootstrap.Popover.getInstance(document.querySelector('[aria-describedby="'+ popOverId +'"]'));
+            if (_popover) { _popover.dispose(); }
         });
-        
+
         jQuery(document).on('keyup', '.editTagContainer [name="tagName"]', function(e) {
             (e.keyCode || e.which) === 13 && 
             jQuery(e.target).closest('.editTagContainer').find('.saveTag').trigger('click');

@@ -416,7 +416,8 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		app.helper.checkServerConfig(module).then(function(data) {
 			if (data == true) {
 				var cb = function(container) {
-					$('#phoneFormatWarningPop').popover();
+					var _phoneFormatWarningPop = document.getElementById('phoneFormatWarningPop');
+					if (_phoneFormatWarningPop) { bootstrap.Popover.getOrCreateInstance(_phoneFormatWarningPop); }
 				}
 				self.sendSMSAction(detailActionUrl, cb);
 			} else {
@@ -2136,7 +2137,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		var currentTarget = jQuery(e.currentTarget);
 		var commentContentBlock = currentTarget.closest('.commentInfoContentBlock');
 		var commentContentInfo = commentContentBlock.find('.commentInfoContent');
-		var toggleElement = jQuery('<div><a class="pull-right toggleComment" style="color: blue;"><small></small></a><div>');
+		var toggleElement = jQuery('<div><a class="float-end toggleComment" style="color: blue;"><small></small></a><div>');
 		var fullComment = vtUtils.linkifyStr(commentContentInfo.data('fullcomment'));
 
 		if (currentTarget.hasClass('showMore')) {
@@ -2452,7 +2453,8 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		this.registerTagSearch();
 
 		jQuery('#saveTag').on('click', function(e){
-			tagContainer.find('.dropdown-toggle').dropdown('toggle');
+			var _dropdownToggle = tagContainer.find('.dropdown-toggle')[0];
+			if (_dropdownToggle) { bootstrap.Dropdown.getOrCreateInstance(_dropdownToggle).toggle(); }
 			var element = jQuery(e.currentTarget);
 			var createTagContainer = element.closest('.createTagContainer');
 			var existingTagContainer = createTagContainer.find('.existingTag');
@@ -2479,7 +2481,8 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		});
 
 		tagContainer.find('.cancelLink').on('click', function(e){
-			tagContainer.find('.dropdown-toggle').dropdown('toggle');
+			var _dropdownToggle = tagContainer.find('.dropdown-toggle')[0];
+			if (_dropdownToggle) { bootstrap.Dropdown.getOrCreateInstance(_dropdownToggle).toggle(); }
 		});
 
 		app.event.on('post.MassTag.save',function(e, modalContainerClone, data){
@@ -2660,7 +2663,9 @@ Vtiger.Class("Vtiger_Detail_Js",{
 
 	registerClickEvent: function() {
 			this.getContentHolder().on('click', '.inventoryLineItemDetails', function(e) {
-				jQuery('.inventoryLineItemDetails').popover({html: true}).show();
+				jQuery('.inventoryLineItemDetails').each(function(){
+					bootstrap.Popover.getOrCreateInstance(this, {html: true}).show();
+				});
 			});
 		},
 	showScroll: function(container) {

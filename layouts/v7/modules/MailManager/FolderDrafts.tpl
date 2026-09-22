@@ -9,7 +9,7 @@
 {strip}
     <div class='col-lg-12 padding0px'>
         <span class="col-lg-1 paddingLeft5px">
-            <input type='checkbox' id='mainCheckBox' class="pull-left">
+            <input type='checkbox' id='mainCheckBox' class="float-start">
         </span>
         <span class="col-lg-6 padding0px">
             <span class="fa-stack fa-sm cursorPointer mmActionIcon" id="mmDeleteMail" title="{vtranslate('LBL_Delete', $MODULE)}">
@@ -17,7 +17,7 @@
             </span>
         </span>
         <span class="col-lg-5 padding0px">
-            <span class="pull-right">
+            <span class="float-end">
                 {if $FOLDER->mails()}<span>{$FOLDER->pageInfo()}&nbsp;&nbsp;</span>{/if}
                 <button type="button" id="PreviousPageButton" class="btn btn-default marginRight0px" {if $FOLDER->hasPrevPage()}data-page='{$FOLDER->pageCurrent(-1)}'{else}disabled="disabled"{/if}>
                     <i class="fa fa-caret-left"></i>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class='col-lg-2' id="mmSearchButtonContainer">
-            <button id='mm_searchButton' class="pull-right" style="width: 72%;">{vtranslate('LBL_Search', $MODULE)}</button>
+            <button id='mm_searchButton' class="float-end" style="width: 72%;">{vtranslate('LBL_Search', $MODULE)}</button>
         </div>
     </div>
     {if $FOLDER->mails()}
@@ -55,7 +55,7 @@
                 {assign var=IS_READ value=1}
                 <div class="col-lg-12 cursorPointer mailEntry {if $IS_READ}mmReadEmail{/if}" data-read='{$IS_READ}'>
                     <span class="col-lg-1 paddingLeft5px">
-                        <input type='checkbox' class='mailCheckBox' class="pull-left">
+                        <input type='checkbox' class='mailCheckBox' class="float-start">
                     </span>
                     <div class="col-lg-11 draftEmail padding0px">
                         <input type="hidden" class="msgNo" value='{$MAIL.id}'>
@@ -63,7 +63,7 @@
                             {strip_tags($MAIL.saved_toid)}<br>{strip_tags($MAIL.subject)}
                         </div>
                         <div class="col-lg-4 padding0px">
-                            <span class="pull-right">
+                            <span class="float-end">
                                 <span class='mmDateTimeValue'>{{$MAIL.date_start}}</span>
                             </span>
                         </div>

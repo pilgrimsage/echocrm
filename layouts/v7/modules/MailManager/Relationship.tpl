@@ -19,7 +19,7 @@
                     </span>
                 </span>
             </div>
-            <div class="pull-left col-lg-5 ">
+            <div class="float-start col-lg-5 ">
                 {if $LINK_TO_AVAILABLE_ACTIONS|count neq 0}
                     <select name="_mlinktotype"  id="_mlinktotype" data-action='associate'
                             style="background: #FFFFFF url('layouts/v7/skins/images/arrowdown.png') no-repeat 95% 40%;">
@@ -64,7 +64,7 @@
                     {/foreach}
                 {/foreach}
             </div>
-            <div class="pull-left col-lg-5 ">
+            <div class="float-start col-lg-5 ">
                 {if $LOOKRECATLEASTONE}
                     {if $LINK_TO_AVAILABLE_ACTIONS|count neq 0}
                         <select name="_mlinktotype"  id="_mlinktotype" data-action='associate'
@@ -102,7 +102,7 @@
         {if isset($LINKEDTO) && $LINKEDTO eq ""}
             <div class="col-lg-12 padding0px">
                 <div class="col-lg-7 padding0px recordScroll" >&nbsp;</div>
-                <div class="pull-left col-lg-5">
+                <div class="float-start col-lg-5">
                     {if $ALLOWED_MODULES|count neq 0}
                         <select name="_mlinktotype"  id="_mlinktotype" data-action='create'
                                 style="background: #FFFFFF url('layouts/v7/skins/images/arrowdown.png') no-repeat 95% 40%;">
