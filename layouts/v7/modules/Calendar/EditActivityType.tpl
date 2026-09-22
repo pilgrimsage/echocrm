@@ -14,7 +14,6 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <input type="hidden" class="selectedType" value="" />
-            <input type="hidden" class="selectedColor" value="" />
             <input type="hidden" class="editorMode" value="edit" />
             <input type=hidden name="moduleDateFields" data-value='{json_encode($EDITVIEWS, $smarty.const.JSON_HEX_APOS)}' />
             <div class="form-group">
@@ -49,7 +48,7 @@
             <div class="form-group">
                 <label class="control-label fieldLabel col-sm-4">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
                 <div class="controls fieldValue col-sm-8">
-                    <p class="calendarColorPicker"></p>
+                    <input type="color" class="calendarColorPicker selectedColor" value="#ffffff" />
                 </div>
             </div>
         </form>

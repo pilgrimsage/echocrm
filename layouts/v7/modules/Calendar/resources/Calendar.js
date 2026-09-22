@@ -449,16 +449,6 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			this.updateRangeFields(container, options);
 		}
 	},
-	initializeColorPicker: function (element, customParams, onChangeFunc) {
-		var params = {
-			flat: true,
-			onChange: onChangeFunc
-		};
-		if (typeof customParams !== 'undefined') {
-			params = jQuery.extend(params, customParams);
-		}
-		element.ColorPicker(params);
-	},
 	getRandomColor: function () {
 		return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
 	},
@@ -487,7 +477,6 @@ Vtiger.Class("Calendar_Calendar_Js", {
 				currentColor = feedCheckbox.data('calendarFeedColor');
 			}
 			modalContainer.find('.selectedColor').val(currentColor);
-			modalContainer.find('.calendarColorPicker').ColorPickerSetColor(currentColor);
 		});
 		modalContainer.find('#calendarviewconditions').on('change', function () {
 			fieldsSelect.trigger('change');
@@ -639,13 +628,6 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		var thisInstance = this;
 		var feedCheckbox = feedIndicator.find('input[type="checkbox"].toggleCalendarFeed');
 
-		var colorPickerHost = modalContainer.find('.calendarColorPicker');
-		var selectedColor = modalContainer.find('.selectedColor');
-		thisInstance.initializeColorPicker(colorPickerHost, {}, function (hsb, hex, rgb) {
-			var selectedColorCode = '#' + hex;
-			selectedColor.val(selectedColorCode);
-		});
-
 		thisInstance.registerDateFieldChangeEvent(modalContainer);
 
 		var modulesSelect = modalContainer.find('[name="modulesList"]');
@@ -782,7 +764,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 				var targetValue = modalContainer.find('[name="targetFieldsList"]').val();
 				fieldName = sourceValue + ',' + targetValue;
 			}
-			var selectedColor = modalContainer.find('.selectedUserColor').val(),
+			var selectedColor = modalContainer.find('.selectedColor').val(),
 					conditions = '';
 			if (moduleName === 'Events') {
 				conditions = modalContainer.find('[name="conditions"]').val();
@@ -803,13 +785,6 @@ Vtiger.Class("Calendar_Calendar_Js", {
 	},
 	registerAddActivityTypeFeedActions: function (modalContainer) {
 		var thisInstance = this;
-		var colorPickerHost = modalContainer.find('.calendarColorPicker');
-		var selectedColor = modalContainer.find('.selectedColor');
-		thisInstance.initializeColorPicker(colorPickerHost, {}, function (hsb, hex, rgb) {
-			var selectedColorCode = '#' + hex;
-			selectedColor.val(selectedColorCode);
-		});
-
 		thisInstance.registerDateFieldChangeEvent(modalContainer);
 
 		var modulesSelect = modalContainer.find('[name="modulesList"]');

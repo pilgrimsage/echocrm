@@ -52,9 +52,7 @@
                     <div class="form-group">
                         <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
                         <div class="controls col-sm-3 col-xs-3">
-                            <input type="hidden" name="selectedColor" />
-                            <div class="colorPicker">
-                            </div>
+                            <input type="color" name="selectedColor" class="colorPicker" value="#ffffff" />
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,6 @@
             {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
             <form id="editColor" class="form-horizontal">
                 <div class="modal-body">
-                    <input type="hidden" class="selectedColor" name="selectedColor" value="" />
                     <div class="form-group">
                         <label class="control-label col-lg-3">{vtranslate('LBL_SELECT_STATUS', $MODULE)}</label>
                         <div class="controls col-lg-9">
@@ -30,7 +29,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-3">{vtranslate('LBL_SELECT_PROJECT_TASK_STATUS_COLOR', $MODULE)}</label>
                         <div class="controls col-lg-9">
-                            <div class="colorPicker"></div>
+                            <input type="color" class="colorPicker selectedColor" name="selectedColor" value="#ffffff" />
                         </div>
                     </div>
                 </div>

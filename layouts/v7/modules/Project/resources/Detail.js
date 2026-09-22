@@ -36,35 +36,11 @@ Vtiger_Detail_Js("Project_Detail_Js",{
 		var selectedColorField = data.find('.selectedColor');
 		var color = element.data('color');
 
-		if (color) {
-			selectedColorField.val(color);
-			var customParams = {
-				color: color
-			};
-		} else {
+		if (!color) {
 			//if color is not present select random color
-			var randomColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-			selectedColorField.val(randomColor);
-			//color picker params for add calendar view
-			var customParams = {
-				color: randomColor
-			};
+			color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
 		}
-
-		//register color picker
-		var params = {
-			flat: true,
-			onChange: function (hsb, hex, rgb) {
-				var selectedColor = '#' + hex;
-				selectedColorField.val(selectedColor);
-			}
-		};
-
-		if (typeof customParams != 'undefined') {
-			params = jQuery.extend(params, customParams);
-		}
-
-		data.find('.colorPicker').ColorPicker(params);
+		selectedColorField.val(color);
 
 		//on change of status, update color picker with the status color
 		var selectElement = data.find('[name=taskstatus]');
@@ -72,7 +48,6 @@ Vtiger_Detail_Js("Project_Detail_Js",{
 			var selectedOption = selectElement.find('option:selected');
 			var color = selectedOption.data('color');
 			selectedColorField.val(color);
-			data.find('.colorPicker').ColorPickerSetColor(color);
 		});
 	},
 

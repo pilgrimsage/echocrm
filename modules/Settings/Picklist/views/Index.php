@@ -66,7 +66,6 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
 
 		$jsFileNames = array(
 			"modules.$moduleName.resources.$moduleName",
-            "~/libraries/jquery/colorpicker/js/colorpicker.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -78,10 +77,8 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 
-		$cssFileNames = array(
-			'~/libraries/jquery/colorpicker/css/colorpicker.css'
-		);
-        
+		$cssFileNames = array();
+
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
         $headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

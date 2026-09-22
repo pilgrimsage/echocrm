@@ -623,17 +623,6 @@ jQuery.Class("Vtiger_Helper_Js",{
 		return jQuery('<div></div>').html(value).text();
 	},
     
-    initializeColorPicker : function(element,customParams,onChangeFunc) {
-        var params = {
-			flat : true,
-			onChange : onChangeFunc
-		};
-		if(typeof customParams !== 'undefined') {
-			params = jQuery.extend(params,customParams);
-		}
-		element.ColorPicker(params);
-    },
-    
     getRandomColor : function() {
         return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
     },

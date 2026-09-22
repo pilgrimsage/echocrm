@@ -155,7 +155,6 @@ class Project_Detail_View extends Vtiger_Detail_View {
 			'~/libraries/jquery/gantt/ganttGridEditor.js',
 			'~/libraries/jquery/gantt/ganttMaster.js',
 			'~/libraries/jquery/gantt/libs/moment.min.js',
-			'~/libraries/jquery/colorpicker/js/colorpicker.js',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -172,7 +171,6 @@ class Project_Detail_View extends Vtiger_Detail_View {
 		$cssFileNames = array(
 			'~/libraries/jquery/gantt/platform.css',
 			'~/libraries/jquery/gantt/gantt.css',
-			'~/libraries/jquery/colorpicker/css/colorpicker.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

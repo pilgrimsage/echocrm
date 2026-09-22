@@ -71,7 +71,6 @@ var Settings_Picklist_Js = {
 				popupShown = false;
                 var select2params = {tags : [], tokenSeparators: [","]};
                 vtUtils.showSelect2ElementView(data.find('[name=newValue]'), select2params);
-                Settings_Picklist_Js.registerColorPickerEvent(data);
 				Settings_Picklist_Js.registerAddItemSaveEvent(data);
 				Settings_Picklist_Js.regiserSelectRolesEvent(data);
 			}   
@@ -157,7 +156,6 @@ var Settings_Picklist_Js = {
 					popupShown = false;
 				}});
                 var form = jQuery('#renameItemForm');
-                Settings_Picklist_Js.registerColorPickerEvent(form);
                 thisInstance.registerScrollForNonEditablePicklistValues(form);
                 Settings_Picklist_Js.registerRenameItemSaveEvent();
             });
@@ -446,13 +444,10 @@ var Settings_Picklist_Js = {
             }
             var picklistColorMap = JSON.parse(form.find('[name="picklistColorMap"]').val());
             var color = picklistColorMap[id];
-            var colorPickerDiv = form.find('.colorPicker');
-            var selectedColorElement = form.find('[name=selectedColor]');
             if(!color) {
                 color = app.helper.getRandomColor();
-                selectedColorElement.val(color);
             }
-            colorPickerDiv.ColorPickerSetColor(color);
+            form.find('[name=selectedColor]').val(color);
         });
 	},
 
@@ -582,21 +577,6 @@ var Settings_Picklist_Js = {
                         '</tr>';
                     
         return template;
-    },
-    
-    registerColorPickerEvent : function(container) {
-        var colorPickerDiv = container.find('.colorPicker');
-        var selectedColorElement = container.find('[name=selectedColor]');
-        app.helper.initializeColorPicker(colorPickerDiv, {}, function(hsb, hex, rgb) {
-            var selectedColorCode = '#'+hex;
-            selectedColorElement.val(selectedColorCode);
-        });
-        var color = selectedColorElement.val();
-        if(!color) {
-            color = '#ffffff';
-            selectedColorElement.val(color);
-        }
-        colorPickerDiv.ColorPickerSetColor(color);
     },
 
 	registerItemActions : function() {

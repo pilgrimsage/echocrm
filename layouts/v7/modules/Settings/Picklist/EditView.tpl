@@ -47,9 +47,8 @@
                     <div class="form-group">
                         <div class="control-label col-sm-3 col-xs-3">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
                         <div class="controls col-sm-3 col-xs-3">
-                            <input type="hidden" name="selectedColor" value="{Settings_Picklist_Module_Model::getPicklistColor($FIELD_MODEL->get('name'), $FIELD_VALUE_ID)}" />
-                            <div class="colorPicker">
-                            </div>
+                            {assign var=PICKLIST_COLOR value=Settings_Picklist_Module_Model::getPicklistColor($FIELD_MODEL->get('name'), $FIELD_VALUE_ID)}
+                            <input type="color" name="selectedColor" class="colorPicker" value="{if $PICKLIST_COLOR}{$PICKLIST_COLOR}{else}#ffffff{/if}" />
                         </div>
                     </div>
                 </div>
