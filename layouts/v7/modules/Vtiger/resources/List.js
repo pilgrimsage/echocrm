@@ -2754,7 +2754,6 @@ Vtiger.Class("Vtiger_List_Js", {
 			'width': width
 		});
 		tableContainer.perfectScrollbar('update');
-		$table.floatThead('reflow');
 	},
 	registerFloatingThead: function () {
 		if (typeof $.fn.perfectScrollbar !== 'function' || typeof $.fn.floatThead !== 'function') {
@@ -2776,32 +2775,15 @@ Vtiger.Class("Vtiger_List_Js", {
 			'wheelPropagation': true
 		});
 
-		$table.floatThead({
-			scrollContainer: function ($table) {
-				return $table.closest('.table-container');
-			}
-		});
-
-		//floatThead locks column widths into a colgroup it adds to the real
-		//table, measured from the header cells at init time. If that
-		//measurement races with layout (seen after adding the navbar height
-		//sync in Footer.tpl) it can catch 0-width cells and zero out every
-		//data column except the first, making list data invisible. Detect
-		//that degenerate case and fall back to natural column sizing rather
-		//than leaving the list unusable.
-		requestAnimationFrame(function () {
-			var dataRow = $table.find('tbody tr.listViewEntries').first();
-			if (!dataRow.length) return;
-			var cells = dataRow.children();
-			var zeroWidthCount = 0;
-			cells.each(function () {
-				if (this.getBoundingClientRect().width === 0) zeroWidthCount++;
-			});
-			if (zeroWidthCount > 1) {
-				$table.find('colgroup').remove();
-				$table.css('table-layout', 'auto');
-			}
-		});
+		// floatThead (sticky header on scroll) is disabled: it clones the real
+		// <thead> into a separately-positioned floating table, measuring
+		// offsets against this container's layout at init time. Under the
+		// modern CSS (different paddings/margins than what it originally
+		// shipped against), that measurement comes out wrong - the clone
+		// lands mispositioned and oversized while the real header's cells
+		// are left empty placeholders, so the column headers (First Name,
+		// Last Name, ...) disappeared from the list view entirely. A plain,
+		// non-sticky header is far more valuable than a broken sticky one.
 	},
 	getSelectedRecordCount: function () {
 		var count = 0;

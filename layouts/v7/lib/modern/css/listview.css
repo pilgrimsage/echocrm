@@ -16,7 +16,7 @@
 	--muted:#4A555F;
 	--line:#DFE2DD;
 	--danger:#E4572E;
-	--radius:8px;
+	--radius:6px;
 	--radius-md:14px;
 	--radius-lg:22px;
 	--shadow:0 1px 2px rgba(11,15,20,.04), 0 18px 40px -24px rgba(11,15,20,.28);
@@ -45,6 +45,9 @@ body{
 	border-radius:var(--radius);
 	padding:10px 12px;
 	margin-bottom:10px;
+}
+.listview-actions-container > .row{
+	align-items:center;
 }
 .listview-actions-container .btn-default{
 	background:var(--paper);
@@ -221,6 +224,22 @@ body{
 .emptyRecordsContent a{
 	color:var(--teal) !important;
 	font-weight:500;
+}
+
+/* Sidebar-essentials (LISTS/TAGS/etc. panel) had 5 different font sizes
+   for text that's all meant to read at the same visual weight: the two
+   section headers ("Lists" is a bare <h5 class="float-start">, "Tags" is
+   <h5 class="lists-header"> - only one of them got prior sizing, so they
+   rendered at different sizes from each other) and the list-filter link
+   names (.filterName, 12px, smaller than the rest of the app's 13.5px
+   base). Normalize both. */
+.sidebar-essentials h5{
+	font-size:15px;
+	font-weight:600;
+	margin:0 0 10px;
+}
+.sidebar-essentials .filterName{
+	font-size:13.5px;
 }
 
 /* left panel toggle */

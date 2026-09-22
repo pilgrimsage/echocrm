@@ -91,11 +91,29 @@
 	border:1px solid var(--line);
 	border-radius:var(--radius);
 	box-shadow:0 12px 32px rgba(16,21,28,.16);
+	background:var(--paper);
+}
+.modal-header,
+.modal-footer{
+	background:var(--mist-dark) !important;
 }
 .modal-footer{
-	background:var(--paper) !important;
 	border-top:1px solid var(--line);
 	border-radius:0 0 var(--radius) var(--radius);
+}
+
+/* None of these templates carry BS5's ".modal-dialog-centered" class, so
+   .modal-dialog uses BS5's plain default: margin-top only, pinned to the
+   top of the viewport with the rest of the screen left empty below it.
+   Center every modal vertically and horizontally instead of touching
+   ~30+ templates to add the class. */
+.modal-dialog{
+	display:flex;
+	align-items:center;
+	min-height:calc(100% - 3.5rem);
+}
+.modal-dialog .modal-content{
+	width:100%;
 }
 
 /* #overlayPage is a shared full-viewport container (loadPageOverlay in
@@ -154,9 +172,6 @@
    bottom while content scrolls above it) but wrong now that this is a
    capped-height card: the footer detached from the card entirely and
    sat as its own bar across the whole browser window. */
-#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .btn{
-	white-space:nowrap;
-}
 #overlayPage:has(.advanceFilterContainer) .modal-overlay-footer{
 	position:static !important;
 	flex:0 0 auto;
@@ -167,6 +182,35 @@
 	border-left:none !important;
 	border-top:1px solid var(--line) !important;
 	background:var(--paper) !important;
+}
+/* The Search/Save As List/Save buttons (AdvanceSearch.tpl) sit 3 grid
+   levels deep - ".actions.col-lg-7 > .row > .col-lg-2/col-lg-10 >
+   .row > .col-lg-12 > .row > buttons" - and each button also carries
+   its own ".col-lg-*" class directly. Bootstrap grid classes force a
+   fixed PERCENTAGE width regardless of the button's own text, so
+   "Save As List" (needs ~95px) got squeezed into a "col-lg-2" slice
+   (~80px) and visibly overflowed its own background; collapsing one
+   level of ".row" to flex (instead of removing every wrapper) also
+   knocked later buttons clean outside the card. Unwrap every nested
+   row/col in between with display:contents - they're not laying out a
+   form grid, just a button row - and flex the real container instead. */
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .actions{
+	display:flex !important;
+	align-items:center;
+	justify-content:flex-end;
+	gap:10px;
+	flex-wrap:wrap;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .actions .row:not(.btn),
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .actions [class^="col-lg-"]:not(.btn),
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .actions [class*=" col-lg-"]:not(.btn){
+	display:contents;
+}
+#overlayPage:has(.advanceFilterContainer) .modal-overlay-footer .btn{
+	white-space:nowrap;
+	width:auto !important;
+	max-width:none !important;
+	margin-left:0 !important;
 }
 
 /* ---- top navbar ---- */
@@ -353,13 +397,29 @@
 }
 
 /* ---- app switcher panel (slide-out) ---- */
+/* toggleAppMenu() (Vtiger.js) sets an inline pixel height on open,
+   computed from the navbar's own offset/height at that instant - it
+   never accounts for the viewport shrinking afterwards (e.g. opening
+   devtools), and nothing here guaranteed a scrollbar for when the menu's
+   real content (all apps + Mail Manager/Documents/Extension Store/
+   Settings) is taller than that snapshot height. Lower items became
+   permanently unreachable instead of just needing a scroll. */
 .app-menu{
 	background:var(--ink);
+	overflow-y:auto !important;
+	max-height:100vh;
 }
+/* Every skins subfolder's style.css sets ".app-item{margin-left:2px;
+   padding:2.5% 2% !important}" - a PERCENTAGE padding (of the item's own
+   width) left from the old BS3 sidebar, at equal specificity, loaded
+   after this file. At this sidebar's width that padding adds up to
+   more than the item's own left inset can absorb, pushing icon+text
+   past the menu's right edge instead of wrapping/eliding cleanly. */
 .app-menu .app-item{
 	color:rgba(255,255,255,.85);
 	border-radius:8px;
-	padding:10px 12px;
+	padding:10px 12px !important;
+	margin-left:0 !important;
 }
 .app-menu .app-item:hover{
 	background:rgba(255,255,255,.08);
@@ -380,6 +440,17 @@
    to avoid showing two carets on the same trigger. */
 .app-item.dropdown-toggle::after{
 	display:none;
+}
+/* skins/marketing/style.css sets ".app-modules-dropdown{font-size:1.2em}"
+   (a leftover BS3 sizing choice) - it shares the ".dropdown-menu" class
+   with every other dropdown menu app-wide, so it has the exact same
+   specificity as the ".dropdown-menu > li > a{font-size:13.5px}" rule in
+   listview.css, and being loaded later in the cascade, silently wins -
+   every submodule name in the app-switcher flyout (Campaigns, Leads,
+   Manage Users, ...) rendered at 16.2px instead of the app's base size,
+   one of several inconsistent text sizes reported around the nav chrome. */
+.app-modules-dropdown{
+	font-size:13.5px !important;
 }
 
 /* BS5 migration: .navbar-right has no BS5 equivalent class; keep the
@@ -598,6 +669,26 @@ input[type="radio"]:disabled{
 	opacity:.5;
 }
 
+/* Plain checkboxes only ever got this treatment in two narrow places
+   (listview row checkboxes, and the Boolean-field toggle-switch in
+   editview.css) - everywhere else app-wide (edit view non-Boolean
+   checkboxes, modals, Calendar's Task Management, Settings > Roles &
+   Permissions, Settings > Configuration, Settings > Sharing Rules, ...)
+   still rendered as tiny unstyled OS-blue checkboxes. One low-specificity
+   base rule instead of chasing every module - the existing class-scoped
+   toggle-switch rules (.checkBoxType, .form-switch) are more specific
+   and win the cascade naturally, so this doesn't need to exclude them. */
+input[type="checkbox"]{
+	accent-color:var(--teal,#00D3B8);
+	width:15px;
+	height:15px;
+	cursor:pointer;
+}
+input[type="checkbox"]:disabled{
+	cursor:not-allowed;
+	opacity:.5;
+}
+
 /* .input-group-addon is another Bootstrap 3 class BS5 never defines
    (renamed to .input-group-text with a completely different flex-based
    layout model) — used in 31 templates for the search-icon/clear/create
@@ -612,10 +703,27 @@ input[type="radio"]:disabled{
    over this rule regardless of load order - confirmed live via
    document.styleSheets, this squeezed the date/time inputs in Quick
    Create Event down to ~22px wide. */
+/* The border/radius now lives on the .input-group container itself,
+   not on individual children. Reason: reference (type-10 lookup) fields
+   add a ".clearReferenceSelection" <a> between the text input and the
+   search-icon addon (Field.tpl) that is NEITHER a ".form-control" NOR
+   an ".input-group-addon" - it fell through with no styling at all,
+   and it also breaks ":first-child"/":last-child" addon-border
+   targeting (a hidden 0x0 companion <input> and this <a> both come
+   before the search addon in the DOM, so it's never really
+   :first-child). Bordering the container and stripping child borders
+   instead is robust to however many/which elements sit in between. */
 .input-group{
 	display:flex !important;
 	align-items:stretch !important;
 	width:100% !important;
+	border:1px solid var(--line,#DFE2DD);
+	border-radius:6px;
+	overflow:hidden;
+	background:var(--mist,#F6F7F5);
+}
+.input-group:focus-within{
+	border-color:var(--teal,#00D3B8);
 }
 .input-group .inputElement,
 .input-group .form-control,
@@ -623,39 +731,31 @@ input[type="radio"]:disabled{
 	flex:1 1 auto !important;
 	width:1% !important;
 	min-width:0;
-	border-top-right-radius:0;
-	border-bottom-right-radius:0;
+	border:none !important;
+	border-radius:0 !important;
+	background:#fff !important;
 }
-.input-group-addon{
+.input-group-addon,
+.input-group .clearReferenceSelection{
 	display:flex !important;
 	align-items:center;
 	justify-content:center;
 	padding:0 12px;
 	background:var(--mist,#F6F7F5);
-	border:1px solid var(--line,#DFE2DD);
-	border-left:none;
+	border:none !important;
+	border-left:1px solid var(--line,#DFE2DD) !important;
+	border-radius:0 !important;
 	color:var(--muted,#4A555F);
 	white-space:nowrap;
 	flex-shrink:0;
+	text-decoration:none;
+	line-height:1;
 }
-.input-group-addon:hover{
+.input-group-addon:hover,
+.input-group .clearReferenceSelection:hover{
 	background:var(--teal-soft,#E4FBF6);
 	color:var(--teal-deep,#06A793);
-}
-.input-group-addon:first-child{
-	border-left:1px solid var(--line,#DFE2DD);
-	border-right:none;
-	border-top-left-radius:6px;
-	border-bottom-left-radius:6px;
-}
-.input-group-addon:last-child{
-	border-top-right-radius:6px;
-	border-bottom-right-radius:6px;
-}
-.input-group .inputElement:not(:first-child),
-.input-group .form-control:not(:first-child){
-	border-top-left-radius:0;
-	border-bottom-left-radius:0;
+	text-decoration:none;
 }
 
 /* ModalFooter.tpl's Cancel is a plain <a class="cancelLink">, not a
@@ -681,4 +781,27 @@ input[type="radio"]:disabled{
 	background:#FDECE7 !important;
 	color:var(--danger,#E4572E) !important;
 	text-decoration:none;
+}
+
+/* Settings > Home ("Summary") page: the shortcut tiles below the
+   Users/Workflows/Modules counters (Vtiger/SettingsIndex.tpl) are
+   "<span class='col-lg-3 moduleBlock' style='width:23.5%'>" with NO
+   ".row" ancestor - BS3 relied on ".col-lg-3" itself for float:left,
+   BS5's grid instead needs a flex ".row" parent to lay columns out at
+   all. Without one, and being bare <span> elements (display:inline by
+   default), the inline "width:23.5%" was simply ignored (width doesn't
+   apply to inline boxes) and every tile stretched to the full container
+   width, stacking as oversized bars instead of a 4-per-row grid. */
+#settingsShortCutsContainer > .col-lg-12{
+	display:flex;
+	flex-wrap:wrap;
+	gap:14px;
+}
+#settingsShortCutsContainer .moduleBlock{
+	display:block;
+	box-sizing:border-box;
+	flex:0 0 calc(25% - 11px);
+	width:auto !important;
+	margin-left:0 !important;
+	border-radius:var(--radius,8px);
 }
