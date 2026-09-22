@@ -31,7 +31,7 @@ body{
     overflow:hidden;
 }
 .brand-mark{
-    font-family:'Sora',sans-serif;
+    font-family:'Roboto',sans-serif;
     font-weight:600;
     font-size:20px;
     letter-spacing:.02em;
@@ -47,7 +47,7 @@ body{
 }
 .brand-copy{max-width:420px;z-index:2;}
 .brand-copy h1{
-    font-family:'Sora',sans-serif;
+    font-family:'Roboto',sans-serif;
     font-weight:600;
     font-size:34px;
     line-height:1.15;
@@ -70,7 +70,7 @@ body{
 }
 .formcard{width:100%;max-width:360px;}
 .formcard h2{
-    font-family:'Sora',sans-serif;
+    font-family:'Roboto',sans-serif;
     font-weight:600;
     font-size:24px;
     margin:0 0 4px;
@@ -160,7 +160,7 @@ body{
 /* marketing panel */
 .mkt-block{margin-bottom:18px;}
 .mkt-block h4{
-    font-family:'Sora',sans-serif;
+    font-family:'Roboto',sans-serif;
     font-size:15px;
     font-weight:600;
     margin:0 0 10px;

@@ -23,8 +23,17 @@
 	--shadow-sm:0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12);
 }
 
+/* !important required: each skins subfolder's style.css (marketing, sales, inventory,
+   etc - one per app context) carries its own bare "body{font-family:
+   OpenSans-Regular,sans-serif;font-size:12px}" left from the original
+   BS3 skin. Same bare "body" selector, equal specificity, loaded after
+   this file, so it silently wins depending which app the user is in -
+   this was the actual cause of fonts looking inconsistent across the
+   app (confirmed live via document.styleSheets: every page's real body
+   font was OpenSans-Regular at 12px, never Roboto). */
 body{
-	font-family:'Inter',-apple-system,sans-serif;
+	font-family:'Roboto',-apple-system,sans-serif !important;
+	font-size:13.5px !important;
 	background:var(--mist);
 	color:var(--ink);
 }
@@ -108,6 +117,37 @@ body{
 }
 .listview-table thead th a.listViewContentHeaderValues:hover{
 	color:var(--ink);
+}
+
+/* .table-actions (select-all checkbox + "manage columns" icon + search
+   toggle button in the header's first <th>) relied purely on float,
+   never restyled for BS5 - the search toggle button dropped onto its
+   own full-width line below the checkbox/column-icon instead of sitting
+   inline with them. Flex row instead, search toggle pushed to the
+   right like the original layout. */
+.table-actions{
+	display:flex;
+	align-items:center;
+	gap:10px;
+	white-space:nowrap;
+}
+.table-actions .dropdown{
+	float:none !important;
+}
+#listColumnFilterContainer{
+	display:flex;
+	align-items:center;
+}
+.listColumnFilter{
+	cursor:pointer;
+	color:var(--muted);
+	font-size:14px;
+}
+.listColumnFilter:hover{
+	color:var(--teal);
+}
+.table-actions button[data-trigger="listSearch"]{
+	margin-left:auto;
 }
 .listview-table tbody tr.listViewEntries{
 	border-bottom:1px solid var(--line);

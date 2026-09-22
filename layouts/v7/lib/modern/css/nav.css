@@ -9,6 +9,10 @@
    Without it, these close buttons had no size/opacity/hover styling at
    all, collapsing to their bare icon's tiny intrinsic size. Loaded here
    since nav.css is the one stylesheet guaranteed on every screen. */
+/* !important on color: each skins subfolder's style.css declares several conflicting
+   literal .close colors (#c3c3c3, #fff, #000 depending on context) at
+   equal specificity, loaded after this file - pin it to one consistent
+   color instead of it varying by which skin/app is active. */
 .close{
 	float:right;
 	padding:0;
@@ -17,10 +21,24 @@
 	font-size:20px;
 	line-height:1;
 	opacity:.6;
+	color:var(--ink,#0B0F14) !important;
 	cursor:pointer;
 }
 .close:hover{
 	opacity:1;
+}
+
+/* #helpPageOverlay (the right-sliding Quick Preview / help panel) is
+   meant to be anchored to the right edge - skins/marketing/style.css
+   correctly sets "right:0" with no "left" - but BS5's own .modal class
+   sets "left:0px" (a different property, so it's not a specificity
+   conflict, both apply at once). With an explicit width also set
+   (550px inline), having both left:0 and right:0 pinned over-constrains
+   the box, and per the CSS spec the browser drops "right" and anchors
+   via "left" instead - confirmed live, computed style showed left:0px
+   AND right:0px simultaneously, rendering the panel on the wrong side. */
+#helpPageOverlay.modal{
+	left:auto !important;
 }
 
 /* ModalHeader.tpl wraps the title + close button in a single
@@ -38,11 +56,26 @@
 }
 
 /* ---- top navbar ---- */
+/* Every skins subfolder's style.css sets the left module-nav sidebar (both the
+   settings menu and the module-icon rail share the .module-nav class)
+   to z-index:1093 - a legacy value from the old BS3 layout. BS5's
+   .fixed-top utility only gives the navbar z-index:1030, so the
+   sidebar renders ON TOP of the fixed navbar's left corner (logo/
+   hamburger) once you scroll a tall page - confirmed live by scrolling
+   Settings > Sharing Rules. The navbar needs to stay above the sidebar
+   (1093), but still below #helpPageOverlay's z-index:1099 - that
+   right-sliding Quick Preview/help panel is designed to visually
+   replace the navbar with its own header (including its own close
+   button) while open, at top:0 same as the navbar; going higher than
+   1099 here would bury that close button under the navbar instead
+   (confirmed live - had to back this off from 1100 after that
+   regression showed up). 1094 sits exactly between the two. */
 .app-fixed-navbar.navbar-inverse{
 	background:var(--ink) !important;
 	border:none;
 	box-shadow:0 1px 0 rgba(0,0,0,.08);
 	min-height:52px;
+	z-index:1094 !important;
 }
 .app-fixed-navbar .app-switcher-container{
 	cursor:pointer;
@@ -90,11 +123,23 @@
 }
 
 /* global search */
+/* Per-app skin files (skins/marketing/style.css etc, one per module
+   group) load AFTER this file and still carry their original BS3-era
+   .search-link rule (thin #DDD border, float:left, old margin/padding) -
+   same class name, same specificity, later in the cascade, so it wins
+   and silently overrides this rule depending which app the user is in.
+   !important on the properties that actually matter neutralizes it
+   without needing to audit and edit all 7 skin files. */
 .search-links-container .search-link{
-	background:rgba(255,255,255,.08);
-	border-radius:8px;
-	padding:6px 12px;
-	display:flex;
+	background:rgba(255,255,255,.08) !important;
+	border:none !important;
+	border-radius:8px !important;
+	padding:6px 12px !important;
+	margin:0 !important;
+	float:none !important;
+	width:auto !important;
+	height:auto !important;
+	display:flex !important;
 	align-items:center;
 	gap:8px;
 }
@@ -143,7 +188,7 @@
 	width:280px;
 }
 .logout-content h4{
-	font-family:'Sora',sans-serif;
+	font-family:'Roboto',sans-serif;
 	font-size:15px;
 	margin:0;
 }
@@ -222,6 +267,16 @@
    markup as-is and push these elements right via flexbox instead. */
 .navbar-right { margin-left: auto; }
 
+/* Dashboard tab bar (ul.nav.nav-tabs) is display:flex under BS5, so
+   .moreSettings's float-end has no effect (floats do nothing on flex
+   items) - it was dropping onto its own line under the tabs instead of
+   sitting at the right end of the row. Same bug, same fix as
+   .navbar-right above. */
+.tabs .moreSettings{
+	margin-left:auto;
+	float:none;
+}
+
 /* Desktop layout: logo/app-switcher left, search centered in the
    remaining space, actions rightmost. Scoped to the navbar-expand-lg
    breakpoint so the existing toggle/collapse behavior on narrower
@@ -287,9 +342,19 @@
    as .close/.caret above: restyle the old class names globally rather
    than rewrite every call site. Loaded here since nav.css is guaranteed
    on every screen. */
+/* !important on padding/font-size/border-radius here: per-app skin
+   files (skins/marketing/style.css etc) carry rules like
+   ".btn-success{font-size:12px;padding:2px 6px}" left over from the
+   BS3 skin - same single-class specificity as these rules, loaded
+   after nav.css, so they silently win and cramp every success/primary
+   button on pages using that skin. Confirmed live via
+   document.styleSheets inspection, same pattern as the .input-group
+   and .search-link conflicts above. */
 .btn{
-	border-radius:6px;
+	border-radius:6px !important;
 	font-weight:500;
+	font-size:13.5px !important;
+	padding:.45rem .9rem !important;
 	transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease,transform .05s ease;
 	box-shadow:var(--shadow-sm, 0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12));
 }
@@ -345,14 +410,14 @@
 	background:var(--teal-soft,#E4FBF6);
 }
 .btn-small,.btn-mini,.btn-xs{
-	padding:.25rem .6rem;
-	font-size:.8rem;
-	border-radius:5px;
+	padding:.25rem .6rem !important;
+	font-size:.8rem !important;
+	border-radius:5px !important;
 }
 .btn-large{
-	padding:.6rem 1.2rem;
-	font-size:1.05rem;
-	border-radius:8px;
+	padding:.6rem 1.2rem !important;
+	font-size:1.05rem !important;
+	border-radius:8px !important;
 }
 .btn-social,.btn-google{
 	background:var(--paper,#fff);
@@ -388,17 +453,23 @@ input[type="radio"]:disabled{
    date fields, and the search-bar icon. Unstyled, these render as a
    floating icon with a visible gap next to the input instead of a
    merged, flush addon. Same fix pattern as .btn-default/.close above:
-   reimplement the BS4/5 input-group model against the old class names. */
+   reimplement the BS4/5 input-group model against the old class names.
+   !important is needed here: per-app skin files (skins/marketing/style.css
+   etc) carry old, MORE SPECIFIC selectors like ".quickCreateContent
+   .input-group{display:table}" (real BS3 behavior) that otherwise win
+   over this rule regardless of load order - confirmed live via
+   document.styleSheets, this squeezed the date/time inputs in Quick
+   Create Event down to ~22px wide. */
 .input-group{
-	display:flex;
-	align-items:stretch;
-	width:100%;
+	display:flex !important;
+	align-items:stretch !important;
+	width:100% !important;
 }
 .input-group .inputElement,
 .input-group .form-control,
 .input-group input[type="text"]{
-	flex:1 1 auto;
-	width:1%;
+	flex:1 1 auto !important;
+	width:1% !important;
 	min-width:0;
 	border-top-right-radius:0;
 	border-bottom-right-radius:0;
@@ -433,4 +504,29 @@ input[type="radio"]:disabled{
 .input-group .form-control:not(:first-child){
 	border-top-left-radius:0;
 	border-bottom-left-radius:0;
+}
+
+/* ModalFooter.tpl's Cancel is a plain <a class="cancelLink">, not a
+   .btn - used in 65 templates. Styled as a proper red/danger button
+   with a light hover instead of a bare text link. !important needed:
+   each skins subfolder's style.css has ".cancelLink, .popoverCancel{font-size:14px;
+   padding-left:10px;color:red}" at equal specificity, loaded after
+   this file, which otherwise wins for those specific properties. */
+.cancelLink{
+	display:inline-block !important;
+	background:#fff !important;
+	border:1px solid var(--danger,#E4572E) !important;
+	color:var(--danger,#E4572E) !important;
+	padding:.375rem .75rem !important;
+	border-radius:6px !important;
+	font-size:13.5px !important;
+	font-weight:500;
+	text-decoration:none;
+	margin-left:6px;
+	transition:background-color .15s ease,color .15s ease;
+}
+.cancelLink:hover{
+	background:#FDECE7 !important;
+	color:var(--danger,#E4572E) !important;
+	text-decoration:none;
 }

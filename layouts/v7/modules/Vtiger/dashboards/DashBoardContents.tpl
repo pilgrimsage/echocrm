@@ -39,7 +39,7 @@
                             <li><a class = "reArrangeTabs" href="#">{vtranslate('LBL_REARRANGE_DASHBOARD_TABS',$MODULE)}</a></li>
                         </ul>
                     </div>
-                    <button class="btn-success updateSequence float-end hide">{vtranslate('LBL_SAVE_ORDER',$MODULE)}</button>
+                    <button class="btn btn-success updateSequence float-end hide">{vtranslate('LBL_SAVE_ORDER',$MODULE)}</button>
                 </div>
             </ul>
             <div class="tab-content">

@@ -16,7 +16,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 		
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/css/bootstrap.min.css")}'>
