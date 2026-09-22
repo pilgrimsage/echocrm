@@ -167,8 +167,11 @@ Vtiger_Index_Js("Settings_Vtiger_Index_Js",{
 				.find("i.indicator")
 				.toggleClass('fa-chevron-down fa-chevron-right');
 		}
-		$('#accordion').on('hidden.bs.collapse', toggleChevron);
-		$('#accordion').on('shown.bs.collapse', toggleChevron);
+		var accordionEl = document.getElementById('accordion');
+		if (accordionEl) {
+			accordionEl.addEventListener('hidden.bs.collapse', toggleChevron);
+			accordionEl.addEventListener('shown.bs.collapse', toggleChevron);
+		}
 	},
 
 	registerBasicSettingsEvents : function() {

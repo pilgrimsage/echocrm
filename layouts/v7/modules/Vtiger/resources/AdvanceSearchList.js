@@ -144,7 +144,7 @@ Vtiger_List_Js('Vtiger_AdvanceSearchList_Js',{},{
                 'bottom': fbottom
             }).appendTo(containerTarget);
            
-            dropdown.on('hidden.bs.dropdown', function () {
+            dropdown[0].addEventListener('hidden.bs.dropdown', function () {
                 dropdown_menu.removeClass('invisible');
                 fixed_dropdown_menu.remove();
             });

@@ -3,6 +3,26 @@
    Loads AFTER bootstrap5.min.css + listview.css + detailview.css.
    ========================================================================== */
 
+/* BS5 removed the .close button class entirely (renamed to .btn-close,
+   a completely different SVG-based approach incompatible with the
+   <span class="fa fa-close"> icon markup used in ~20 templates app-wide).
+   Without it, these close buttons had no size/opacity/hover styling at
+   all, collapsing to their bare icon's tiny intrinsic size. Loaded here
+   since nav.css is the one stylesheet guaranteed on every screen. */
+.close{
+	float:right;
+	padding:0;
+	background:transparent;
+	border:0;
+	font-size:20px;
+	line-height:1;
+	opacity:.6;
+	cursor:pointer;
+}
+.close:hover{
+	opacity:1;
+}
+
 /* ---- top navbar ---- */
 .app-fixed-navbar.navbar-inverse{
 	background:var(--ink) !important;
@@ -23,6 +43,36 @@
 }
 .app-fixed-navbar .company-logo img{
 	max-height:28px;
+	max-width:100%;
+}
+/* .logo-container/.company-logo have a legacy fixed width (150px in
+   style.less, 138px in custom.css). Combined with the 42px app-switcher
+   icon, that needs 192px+ inside .app-navigator-container, which is only
+   ~187px wide at the lg breakpoint (it's a Bootstrap col-lg-3 share of
+   the navbar row) — the 5px shortfall forces the inner flex row to wrap,
+   dropping the logo onto a second line where it overlaps the search box
+   next to it. Let both shrink to fit instead of wrapping. */
+.global-nav .logo-container{
+	width:auto !important;
+	max-width:140px;
+	flex:1 1 auto;
+	min-width:0;
+}
+.global-nav .company-logo{
+	width:auto !important;
+	max-width:100%;
+}
+/* The icon+logo pairing is itself a nested Bootstrap row (col-sm-2 +
+   col-sm-3) inside .app-navigator-container, which is narrower than
+   both columns combined — same wrap-instead-of-shrink issue as above,
+   one level in. Force nowrap so flex-shrink on the logo does its job
+   instead of the row wrapping the logo below the icon (which pushed it
+   down into the breadcrumb bar underneath). */
+.app-navigator-container .row{
+	flex-wrap:nowrap;
+}
+.app-navigator-container .app-switcher-container{
+	flex:0 0 auto;
 }
 
 /* global search */
@@ -117,6 +167,12 @@
 .quickCreateItem a:hover{
 	background:var(--mist);
 }
+/* Same duplicate-caret issue as the app switcher: this trigger has its own
+   manual .fa-caret-down, plus BS5 draws its own ::after arrow on any
+   .dropdown-toggle. */
+.quickCreateModuleSubmenu.dropdown-toggle::after{
+	display:none;
+}
 
 /* ---- app switcher panel (slide-out) ---- */
 .app-menu{
@@ -139,8 +195,69 @@
 	color:#7CF2C0;
 }
 
-/* app modules dropdown (flyout submenu per app) */
-.app-modules-dropdown-container .dropdown-menu{
-	border-radius:10px;
-	min-width:220px;
+/* app modules dropdown (flyout submenu per app): this is a full-height
+   side panel (see layouts/v7/skins/vtiger/style.less .app-modules-dropdown),
+   not a small popover. BS5's dropdown-toggle already draws its own arrow;
+   the app switcher also has its own manual .fa-chevron-right, so hide BS5's
+   to avoid showing two carets on the same trigger. */
+.app-item.dropdown-toggle::after{
+	display:none;
 }
+
+/* BS5 migration: .navbar-right has no BS5 equivalent class; keep the
+   markup as-is and push these elements right via flexbox instead. */
+.navbar-right { margin-left: auto; }
+
+/* Desktop layout: logo/app-switcher left, search centered in the
+   remaining space, actions rightmost. Scoped to the navbar-expand-lg
+   breakpoint so the existing toggle/collapse behavior on narrower
+   screens (.navbar-header's two buttons, collapsed search + actions)
+   is untouched. */
+@media (min-width: 992px) {
+	.app-fixed-navbar .global-nav > .row{
+		display:flex;
+		flex-wrap:nowrap;
+		align-items:center;
+		width:100%;
+	}
+	.app-fixed-navbar .global-nav .app-navigator-container{
+		flex:0 0 auto;
+		width:auto;
+		max-width:none;
+	}
+	.app-fixed-navbar .global-nav .topbar-search-wrapper{
+		flex:1 1 auto;
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		width:auto;
+		max-width:none;
+	}
+	.app-fixed-navbar .global-nav .topbar-search-wrapper .search-links-container{
+		width:100%;
+		max-width:420px;
+	}
+	.app-fixed-navbar .global-nav #navbar{
+		flex:0 0 auto;
+		width:auto;
+		max-width:none;
+		margin-left:16px !important;
+	}
+}
+
+/* navbar-expand-lg forces flex-wrap:nowrap, which squeezes this nav's
+   two stacked .container-fluid rows (user bar + breadcrumb bar) onto
+   one line instead of stacking them. */
+.app-fixed-navbar.navbar-expand-lg { flex-wrap: wrap !important; }
+
+/* The real navbar height varies by breakpoint and by whether a view's
+   breadcrumb bar (.app-nav) is present, so a hardcoded #page padding-top
+   (each skin's style.css has "padding-top: 84px") drifts out of sync and
+   either leaves a gap or hides content under the fixed navbar. Measured
+   and set on --app-navbar-height by the script in Footer.tpl. */
+#page { padding-top: var(--app-navbar-height, 0px) !important; }
+
+/* BS5's .dropdown-toggle already draws its own arrow via ::after.
+   Old markup still has a literal <span class="caret">; hide it
+   instead of restyling it. */
+.caret { display: none; }

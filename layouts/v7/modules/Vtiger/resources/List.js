@@ -2591,10 +2591,16 @@ Vtiger.Class("Vtiger_List_Js", {
 //            }
 //        }
 //      
-		//floatTHead, some timeout so correct height can be caught for computations
-		setTimeout(function () {
-			thisInstance.registerFloatingThead();
-		}, 10);
+		//floatTHead measures header cell widths to lock them onto the real
+		//table's colgroup; a fixed setTimeout races with layout/reflow
+		//(e.g. from the navbar height sync in Footer.tpl) and can catch
+		//0-width header cells, permanently zeroing every data column.
+		//Two rAFs reliably wait for layout to settle before measuring.
+		requestAnimationFrame(function () {
+			requestAnimationFrame(function () {
+				thisInstance.registerFloatingThead();
+			});
+		});
 
 		app.event.on('Vtiger.Post.MenuToggle', function () {
 			thisInstance.reflowList();
@@ -2694,7 +2700,7 @@ Vtiger.Class("Vtiger_List_Js", {
 				}
 			});
 
-			dropdown.on('hidden.bs.dropdown', function () {
+			dropdown[0].addEventListener('hidden.bs.dropdown', function () {
 				dropdown_menu.removeClass('invisible');
 				fixed_dropdown_menu.remove();
 				jQuery('.listViewEntries').removeClass('dropDownOpen');
@@ -2773,6 +2779,27 @@ Vtiger.Class("Vtiger_List_Js", {
 		$table.floatThead({
 			scrollContainer: function ($table) {
 				return $table.closest('.table-container');
+			}
+		});
+
+		//floatThead locks column widths into a colgroup it adds to the real
+		//table, measured from the header cells at init time. If that
+		//measurement races with layout (seen after adding the navbar height
+		//sync in Footer.tpl) it can catch 0-width cells and zero out every
+		//data column except the first, making list data invisible. Detect
+		//that degenerate case and fall back to natural column sizing rather
+		//than leaving the list unusable.
+		requestAnimationFrame(function () {
+			var dataRow = $table.find('tbody tr.listViewEntries').first();
+			if (!dataRow.length) return;
+			var cells = dataRow.children();
+			var zeroWidthCount = 0;
+			cells.each(function () {
+				if (this.getBoundingClientRect().width === 0) zeroWidthCount++;
+			});
+			if (zeroWidthCount > 1) {
+				$table.find('colgroup').remove();
+				$table.css('table-layout', 'auto');
 			}
 		});
 	},

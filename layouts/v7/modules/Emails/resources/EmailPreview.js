@@ -44,8 +44,8 @@ jQuery.Class("Vtiger_EmailPreview_Js",{},{
 					var mode = jQuery(e.currentTarget).data('mode');
 					var params = thisInstance.getEmailActionsParams(mode);
 					var container = jQuery(e.currentTarget).closest('.modal');
-					container.one('hidden.bs.modal',function()
-					{	
+					container[0].addEventListener('hidden.bs.modal',function()
+					{
 						app.helper.hidePopup();
 						app.helper.showProgress();
 						app.request.post({data:params}).then(function(err,data){
@@ -56,8 +56,8 @@ jQuery.Class("Vtiger_EmailPreview_Js",{},{
 								emailEditInstance.registerEvents();
 							}
 						});
-						
-					});
+
+					}, {once:true});
 					var _modal = bootstrap.Modal.getInstance(container[0]);
 					if (_modal) { _modal.hide(); }
 					

@@ -876,8 +876,10 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		var container = this.getContainer();
 		var dashBoardContainer = jQuery(container).closest(".dashBoardContainer");
 
-		dashBoardContainer.on("shown.bs.tab",".dashboardTab",function(e){
-			var currentTarget = jQuery(e.currentTarget);
+		dashBoardContainer[0].addEventListener("shown.bs.tab",function(e){
+			var matchedTarget = e.target.closest('.dashboardTab');
+			if (!matchedTarget || !dashBoardContainer[0].contains(matchedTarget)) return;
+			var currentTarget = jQuery(matchedTarget);
 			var tabid = currentTarget.data('tabid');
 			app.changeURL("index.php?module=Home&view=DashBoard&tabid="+tabid);
 

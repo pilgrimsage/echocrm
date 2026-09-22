@@ -153,13 +153,13 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		vtUtils.applyFieldElementsView(jQuery('.popupModal'));
 		var _popupModalEl = document.querySelector('.popupModal');
 		if (_popupModalEl) { bootstrap.Modal.getOrCreateInstance(_popupModalEl).show(); }
-		jQuery('.popupModal').on('shown.bs.modal', function() {
+		if (_popupModalEl) { _popupModalEl.addEventListener('shown.bs.modal', function() {
 			jQuery('.myModal').css('opacity', .5);
 			jQuery('.myModal').unbind();
-		});
+		}); }
 
-		jQuery('.popupModal').on('hidden.bs.modal', function() {
-			this.remove();
+		if (_popupModalEl) { _popupModalEl.addEventListener('hidden.bs.modal', function() {
+			jQuery(this).remove();
 			jQuery('.myModal').css('opacity', 1);
 			var _myModalEl = document.querySelector('.myModal');
 			if (_myModalEl) {
@@ -168,7 +168,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 				bootstrap.Modal.getOrCreateInstance(_myModalEl, app.helper.defaultModalParams()).show();
 			}
 			jQuery('.myModal').bind();
-		});
+		}); }
 	},
 
 	registerSaveDraftOrSendEmailEvent : function(){

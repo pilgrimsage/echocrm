@@ -9,23 +9,37 @@
 
 <footer class="app-footer">
 	<p>
-		Powered by vtiger CRM - {$VTIGER_VERSION}&nbsp;&nbsp;© 2004 - {date('Y')}&nbsp;&nbsp;
-		<a href="//www.vtiger.com" target="_blank">Vtiger</a>&nbsp;|&nbsp;
-		<a href="https://www.vtiger.com/privacy-policy" target="_blank">Privacy Policy</a>
+		&copy; 2004 - {date('Y')} EchoCrew
 	</p>
 </footer>
 </div>
-<div id='overlayPage'>
-	<!-- arrow is added to point arrow to the clicked element (Ex:- TaskManagement), 
+<div id='overlayPage' class='modal'>
+	<!-- arrow is added to point arrow to the clicked element (Ex:- TaskManagement),
 	any one can use this by adding "show" class to it -->
 	<div class='arrow'></div>
 	<div class='data'>
 	</div>
 </div>
-<div id='helpPageOverlay'></div>
+<div id='helpPageOverlay' class='modal'></div>
 <div id="js_strings" class="hide noprint">{Zend_Json::encode($LANGUAGE_STRINGS)}</div>
 <div id="maxListFieldsSelectionSize" class="hide noprint">{$MAX_LISTFIELDS_SELECTION_SIZE}</div>
 <div class="modal myModal fade"></div>
+<script>
+(function () {
+	var navEl = document.querySelector('.app-fixed-navbar');
+	var resizeTimer;
+	function syncNavbarHeight() {
+		document.documentElement.style.setProperty('--app-navbar-height', (navEl ? navEl.offsetHeight : 0) + 'px');
+	}
+	syncNavbarHeight();
+	if (navEl) {
+		window.addEventListener('resize', function () {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(syncNavbarHeight, 100);
+		});
+	}
+})();
+</script>
 {include file='JSResources.tpl'|@vtemplate_path}
 </body>
 

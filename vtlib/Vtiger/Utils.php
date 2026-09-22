@@ -102,7 +102,7 @@ class Vtiger_Utils {
 	 * @param Array Relative paths within web root directory.
 	 * @param Boolean False to avoid die() if check fails
 	 */
-	static function checkFileAccessIn($filepath, array $relpaths = null, $dieOnFail=true) {
+	static function checkFileAccessIn($filepath, ?array $relpaths = null, $dieOnFail=true) {
 		global $root_directory;
 
 		// Set the base directory to compare with

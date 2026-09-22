@@ -946,15 +946,15 @@ Vtiger.Class("Calendar_Calendar_Js", {
 	},
 	registerCollapseEvents: function (widget) {
 		var thisInstance = this;
-		widget.on('show.bs.collapse hide.bs.collapse', function (e) {
+		widget[0].addEventListener('hide.bs.collapse', function (e) {
 			var widgetStateIndicator = widget.find('i.widget-state-indicator');
-			if (e.type === 'hide') {
-				widgetStateIndicator.removeClass('fa-chevron-down').addClass('fa-chevron-right');
-				thisInstance.changeWidgetDisplayState(widget, 'hide');
-			} else {
-				widgetStateIndicator.removeClass('fa-chevron-right').addClass('fa-chevron-down');
-				thisInstance.changeWidgetDisplayState(widget, 'show');
-			}
+			widgetStateIndicator.removeClass('fa-chevron-down').addClass('fa-chevron-right');
+			thisInstance.changeWidgetDisplayState(widget, 'hide');
+		});
+		widget[0].addEventListener('show.bs.collapse', function (e) {
+			var widgetStateIndicator = widget.find('i.widget-state-indicator');
+			widgetStateIndicator.removeClass('fa-chevron-right').addClass('fa-chevron-down');
+			thisInstance.changeWidgetDisplayState(widget, 'show');
 		});
 	},
 	getWidgetDisplayState: function (widget) {

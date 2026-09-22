@@ -502,7 +502,7 @@ class VtigerLineItemOperation extends VtigerActorOperation {
 			}
 		}
 
-		if(!empty($parent['hdnDiscountAmount']) && ((double)$parent['hdnDiscountAmount']) > 0){
+		if(!empty($parent['hdnDiscountAmount']) && ((float)$parent['hdnDiscountAmount']) > 0){
 			$discount = ($parent['hdnDiscountAmount']);
 		} elseif(!empty($parent['hdnDiscountPercent'])){
 			$discount = ($parent['hdnDiscountPercent']/100 * $parent['hdnSubTotal']);

@@ -103,11 +103,11 @@ PriceBooks_Detail_Js("Products_Detail_Js", {
                 container: 'body',
                 placement: 'top',
             });
-            element.one('shown.bs.popover',function(){
+            element[0].addEventListener('shown.bs.popover',function(){
                 var _tipId = element.attr('aria-describedby');
                 jQuery('#' + _tipId).addClass('productBundlePopover').css({'left':'0px', 'margin-left': '60px'}); /* 60px to overcome sidebar-offset + container-padding */
                 app.helper.showVerticalScroll(jQuery('.productBundlePopover .popover-content'));
-            });
+            }, {once:true});
         });
     },
     /**
@@ -167,9 +167,9 @@ PriceBooks_Detail_Js("Products_Detail_Js", {
         jQuery('.totalCostCalculationInfo').each(function(){
             var _el = jQuery(this);
             bootstrap.Popover.getOrCreateInstance(this, {html: true, container: 'body', placement: 'top'});
-            _el.one('shown.bs.popover', function(){
+            this.addEventListener('shown.bs.popover', function(){
                 jQuery('#' + _el.attr('aria-describedby')).addClass('productBundlePopover');
-            });
+            }, {once:true});
         });
     },
     registerBasicEvents: function(){

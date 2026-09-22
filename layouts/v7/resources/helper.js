@@ -66,13 +66,32 @@ jQuery.Class("Vtiger_Helper_Js",{
 		this.registerPostOverLayPageContentHideEvent();
     },
 
+	/*
+	 * BS5's Modal reads this._dialog = element.querySelector('.modal-dialog')
+	 * once, at instance construction, and later code (_showElement) calls
+	 * querySelector on it unconditionally - if it's null (these vtiger
+	 * overlay containers predate Bootstrap and don't have a .modal-dialog
+	 * wrapper), that throws and silently aborts the show sequence before
+	 * the 'show' class or the shown.bs.modal event ever fire. Ensure a
+	 * (invisible, empty) .modal-dialog exists before constructing/reusing
+	 * the Modal instance so it never hits that null.
+	 */
+	ensureModalDialog : function(container) {
+		if (!container.find(':scope > .modal-dialog').length) {
+			container.append('<div class="modal-dialog" style="display:none;"></div>');
+		}
+	},
+
 	registerPostOverLayPageContentHideEvent : function() {
 		var self = this;
-		jQuery('#overlayPageContent').on('hidden.bs.modal', function() {
-			self.hidePageContentOverlay().then(function() {
-				app.event.trigger('post.overlayPageContent.hide', jQuery('#overlayPageContent'));
+		var overlayPageContentEl = document.getElementById('overlayPageContent');
+		if (overlayPageContentEl) {
+			overlayPageContentEl.addEventListener('hidden.bs.modal', function() {
+				self.hidePageContentOverlay().then(function() {
+					app.event.trigger('post.overlayPageContent.hide', jQuery('#overlayPageContent'));
+				});
 			});
-		});
+		}
 	},
     /*
 	 * Function to get Date Instance
@@ -286,10 +305,15 @@ jQuery.Class("Vtiger_Helper_Js",{
         }
         
         var defaultParams = this.defaultModalParams();
+        //This is a full-width slide-down panel (see #overlayPage's own CSS),
+        //not a centered dialog - it never had a dimming backdrop before it
+        //gained the .modal class (needed for BS5's dismiss-button lookup),
+        //and a backdrop here just intercepts clicks on the panel above it.
+        defaultParams.backdrop = false;
         params = jQuery.extend(defaultParams,params);
         var max_height = (jQuery(window).height()) - ($('.global-nav').height());
         
-        $('#overlayPage').one('shown.bs.modal',function(){
+        overlayPage[0].addEventListener('shown.bs.modal',function(){
             if(!params.hasOwnProperty('ignoreScroll') && params['ignoreScroll'] != true) {
                 var scrollParams = {
                     height: '',
@@ -300,14 +324,14 @@ jQuery.Class("Vtiger_Helper_Js",{
                 app.helper.showVerticalScroll(overlayPage.find('.modal-body'), scrollParams);
             }
             aDeferred.resolve(overlayPage.find('.data'));
-        });
-        
-        $('#overlayPage').one('hidden.bs.modal',function(){    
+        }, {once:true});
+
+        overlayPage[0].addEventListener('hidden.bs.modal',function(){
             // Added to hide custom arrow added for taskmanagement
             overlayPage.find('.arrow').removeClass("show");
             overlayPage.find('.data').html('');
             $('#overlayPage');
-        });
+        }, {once:true});
         
         jQuery(window).one('resize',function(){
             var max_height = (jQuery(window).height()) - ($('.global-nav').height()) - 60;
@@ -318,6 +342,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         overlayPage.find('.data').html(data);
         $('#overlayPage').
             css('max-height',max_height).find('.modal-body').css('max-height',max_height);
+        this.ensureModalDialog(overlayPage);
         bootstrap.Modal.getOrCreateInstance(overlayPage[0], params).show();
         return aDeferred.promise();
     },
@@ -341,16 +366,17 @@ jQuery.Class("Vtiger_Helper_Js",{
         if(overlayPageContent.hasClass('in')) {
             alreadyShown = true;
         }
-        overlayPageContent.one('shown.bs.modal',function(){
+        overlayPageContent[0].addEventListener('shown.bs.modal',function(){
             aDeferred.resolve($('#overlayPageContent'));
-        });
-               
-        overlayPageContent.one('hidden.bs.modal',function(){
+        }, {once:true});
+
+        overlayPageContent[0].addEventListener('hidden.bs.modal',function(){
             overlayPageContent.find('.data').html('');
-        })
+        }, {once:true})
         
         overlayPageContent.find('.data').html(data);
         vtUtils.applyFieldElementsView(overlayPageContent);
+        this.ensureModalDialog(overlayPageContent);
         bootstrap.Modal.getOrCreateInstance(overlayPageContent[0], params).show();
         if(alreadyShown) {
             aDeferred.resolve(jQuery('#overlayPageContent'));
@@ -361,10 +387,10 @@ jQuery.Class("Vtiger_Helper_Js",{
     hidePageContentOverlay : function() {
         var aDeferred = new jQuery.Deferred();
         var overlayPageContent = $('#overlayPageContent');
-        overlayPageContent.one('hidden.bs.modal', function() {
+        overlayPageContent[0].addEventListener('hidden.bs.modal', function() {
             overlayPageContent.find('.data').html('');
             aDeferred.resolve();
-        })
+        }, {once:true})
         var _overlayPageContentModal = bootstrap.Modal.getInstance(document.getElementById('overlayPageContent'));
         if (_overlayPageContentModal) { _overlayPageContentModal.hide(); }
         return aDeferred.promise();
@@ -373,7 +399,10 @@ jQuery.Class("Vtiger_Helper_Js",{
     loadHelpPageOverlay : function(data, params) {
         var aDeferred = new jQuery.Deferred();
         var defaultParams = this.defaultModalParams();
-        
+        //Same reasoning as loadPageOverlay: this is a slide-down panel, not
+        //a centered dialog, and never had a backdrop before it needed the
+        //.modal class for BS5's dismiss-button lookup to work.
+        defaultParams.backdrop = false;
         params = jQuery.extend(defaultParams,params);
         var helpOverlayPageContent = jQuery('#helpPageOverlay');
         
@@ -386,10 +415,11 @@ jQuery.Class("Vtiger_Helper_Js",{
         if(typeof cb != "function") {
             cb = function(){};
         }
-        helpOverlayPageContent.one('shown.bs.modal', function () {
+        helpOverlayPageContent[0].addEventListener('shown.bs.modal', function () {
             aDeferred.resolve(helpOverlayPageContent);
-        });
+        }, {once:true});
         helpOverlayPageContent.html(data);
+        this.ensureModalDialog(helpOverlayPageContent);
         bootstrap.Modal.getOrCreateInstance(helpOverlayPageContent[0], params).show();
         vtUtils.applyFieldElementsView(helpOverlayPageContent);
         cb(helpOverlayPageContent);
@@ -399,10 +429,10 @@ jQuery.Class("Vtiger_Helper_Js",{
     hideHelpPageOverlay : function() {
         var aDeferred = new jQuery.Deferred();
         var overlayPageContent = $('#helpPageOverlay');
-        overlayPageContent.one('hidden.bs.modal', function(){
+        overlayPageContent[0].addEventListener('hidden.bs.modal', function(){
             overlayPageContent.find('.data').html('');
             aDeferred.resolve();
-        })
+        }, {once:true})
         var _helpPageOverlayModal = bootstrap.Modal.getInstance(document.getElementById('helpPageOverlay'));
         if (_helpPageOverlayModal) { _helpPageOverlayModal.hide(); }
         return aDeferred.promise();
@@ -420,20 +450,27 @@ jQuery.Class("Vtiger_Helper_Js",{
         var cb = params.cb;
         var container = jQuery('.myModal');
 		
-        container.on('hidden.bs.modal',function() {
+        container[0].addEventListener('hidden.bs.modal',function() {
 			container.html('');
 			window.onbeforeunload = null;
         });
-		
+
         if(typeof cb === "function") {
-            container.off('shown.bs.modal');
-            //This event is fired when the modal has been made visible to the user
-            container.one('shown.bs.modal', function () {
+            //This event is fired when the modal has been made visible to the user.
+            //container is a reused singleton (.myModal), so remove any handler
+            //from a previous showModal() call before adding this one.
+            if (container[0]._shownBsModalHandler) {
+                container[0].removeEventListener('shown.bs.modal', container[0]._shownBsModalHandler);
+            }
+            var shownHandler = function () {
                 cb(container);
-            });
+            };
+            container[0]._shownBsModalHandler = shownHandler;
+            container[0].addEventListener('shown.bs.modal', shownHandler, {once:true});
         }
 
         container.html(content);
+        this.ensureModalDialog(container);
         var _existingModal = bootstrap.Modal.getInstance(container[0]);
         if (_existingModal) { _existingModal.dispose(); }
         bootstrap.Modal.getOrCreateInstance(container[0], params).show();
@@ -444,9 +481,9 @@ jQuery.Class("Vtiger_Helper_Js",{
     hideModal : function(){
 		var aDeferred = new jQuery.Deferred();
 		var container = jQuery('.myModal');
-        container.one('hidden.bs.modal', function(){
+        container[0].addEventListener('hidden.bs.modal', function(){
             aDeferred.resolve();
-        })
+        }, {once:true})
 		var _modal = bootstrap.Modal.getInstance(container[0]);
 		if (_modal) { _modal.hide(); }
         return aDeferred.promise();
@@ -773,19 +810,19 @@ jQuery.Class("Vtiger_Helper_Js",{
         if(jQuery('#popupModal').length) return;
         var container = jQuery('<div id="popupModal" class="modal"></div>');
 		
-	container.on('hidden.bs.modal',function() {
+	container[0].addEventListener('hidden.bs.modal',function() {
 			container.html('').remove();
 		});
-		
+
         if(typeof cb === "function") {
-            container.off('shown.bs.modal');
             //This event is fired when the modal has been made visible to the user
-            container.on('shown.bs.modal', function () {
+            container[0].addEventListener('shown.bs.modal', function () {
                 cb(container);
             });
         }
 
         container.html(content);
+        app.helper.ensureModalDialog(container);
         bootstrap.Modal.getOrCreateInstance(container[0], params).show();
         vtUtils.applyFieldElementsView(container);
         return container;

@@ -112,12 +112,17 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
             jQuery('#advanceSearchHolder').removeClass('slideDown');
             data = jQuery(data).find('#advanceSearchHolder').html();
             jQuery('#advanceSearchHolder').html(data).addClass('slideDown');
+            aDeferred.resolve();
         }else{
+            //Wait for the overlay to actually finish showing before resolving -
+            //initializing select2/multiselect widgets while the container is
+            //still hidden/mid-transition leaves them permanently 0-width and
+            //invisible, since they measure their size once at init time.
             app.helper.loadPageOverlay(data).then(function(container){
                 jQuery('#advanceSearchHolder').addClass('slideDown');
+                aDeferred.resolve();
             });
         }
-        aDeferred.resolve();
         return aDeferred.promise();
     },
 

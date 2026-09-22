@@ -1827,12 +1827,12 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 container : self.lineItemsHolder[0]
 
             });
-            element.one('shown.bs.popover', function(e) {
+            element[0].addEventListener('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.individualTaxForm'));
 				if(element.next('.popover').find('.popover-content').height() > 300) {
 					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
 				}
-            })
+            }, {once:true})
             bootstrap.Popover.getInstance(element[0]).toggle();
 
 		});
@@ -2020,12 +2020,12 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 container : self.lineItemsHolder[0]
 
             });
-            element.one('shown.bs.popover', function(e) {
+            element[0].addEventListener('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.discountForm'));
 				if(element.next('.popover').find('.popover-content').height() > 300) {
 					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
 				}
-            })
+            }, {once:true})
             bootstrap.Popover.getInstance(element[0]).toggle();
 		});
 	},
@@ -2046,9 +2046,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			'template' : popOverTemplate[0].outerHTML,
             'sanitize' : false, /* to allow button / anchor */
 		});
-		this.finalDiscountEle.on('shown.bs.popover', function(){
-			if(jQuery(this.finalDiscountEle).next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(jQuery(this.finalDiscountEle).next('.popover').find('.popover-content'), {'height': '300px'});
+		this.finalDiscountEle[0].addEventListener('shown.bs.popover', function(){
+			if(jQuery(self.finalDiscountEle).next('.popover').find('.popover-content').height() > 300) {
+				app.helper.showScroll(jQuery(self.finalDiscountEle).next('.popover').find('.popover-content'), {'height': '300px'});
 			}
 			var finalDiscountUI = jQuery('#finalDiscountUI');
 			var finalDiscountPopOver = finalDiscountUI.closest('.popover');
@@ -2124,7 +2124,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'sanitize' : false, /* to allow button / anchor */
         });
 
-		chargesTrigger.on('shown.bs.popover', function(){
+		chargesTrigger[0].addEventListener('shown.bs.popover', function(){
 			if(chargesTrigger.next('.popover').find('.popover-content').height() > 300) {
 				app.helper.showScroll(chargesTrigger.next('.popover').find('.popover-content'), {'height': '300px'});
 			}
@@ -2188,7 +2188,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'sanitize' : false, /* to allow button / anchor */
         });
 
-		finalTaxTriggerer.on('shown.bs.popover', function(){
+		finalTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
 			var finalTaxForm = jQuery('#group_tax_row').find('.finalTaxUI').closest('.lineItemPopover');
 			if(finalTaxTriggerer.next('.popover').find('.popover-content').height() > 300) {
 				app.helper.showScroll(finalTaxTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
@@ -2251,7 +2251,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'sanitize' : false, /* to allow button / anchor */
         });
 
-		chargeTaxTriggerer.on('shown.bs.popover', function(){
+		chargeTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
 			if(chargeTaxTriggerer.next('.popover').find('.popover-content').height() > 300) {
 				app.helper.showScroll(chargeTaxTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
 			}
@@ -2313,7 +2313,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				'sanitize' : false, /* to allow buttons or anchor tag */                
         });
 
-		deductTaxesTriggerer.on('shown.bs.popover', function(){
+		deductTaxesTriggerer[0].addEventListener('shown.bs.popover', function(){
 			if(deductTaxesTriggerer.next('.popover').find('.popover-content').height() > 300) {
 				app.helper.showScroll(deductTaxesTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
 			}

@@ -16,7 +16,7 @@
 	<div class="split">
 
 		<div class="brand">
-			<div class="brand-mark"><span class="dot"></span> VTIGER</div>
+			<div class="brand-mark"><span class="dot"></span> ECHOCREW</div>
 			<div class="brand-copy">
 				<h1>Every deal, moving forward.</h1>
 				<p>Track pipeline, close faster, and keep your whole team looking at the same truth.</p>
@@ -41,15 +41,8 @@
 							</div>
 						{/if}
 					{/foreach}
-				{else}
-					<div class="inactive-promo">
-						<h4>Get more out of Vtiger with extensions from Vtiger Marketplace</h4>
-						<a href="https://marketplace.vtiger.com/app/listings" target="_blank">
-							<img src="layouts/v7/resources/Images/extensionstore.png">
-						</a>
-					</div>
 				{/if}
-				<div style="margin-top:16px;">&copy; 2026 Your Company &middot; vtiger CRM</div>
+				<div style="margin-top:16px;">&copy; {date('Y')} EchoCrew</div>
 			</div>
 		</div>
 

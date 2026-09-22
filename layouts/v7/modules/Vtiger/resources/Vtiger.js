@@ -104,9 +104,9 @@ Vtiger.Class('Vtiger_Index_Js', {
 							if(saveRecipientPref) {
 								var params = form.serializeFormData();
 								emailEditInstance.showComposeEmailForm(params).then(function(response) {
-									jQuery(document).on('shown.bs.modal', function() {
+									document.addEventListener('shown.bs.modal', function() {
 										if (typeof cb === 'function') cb(response);
-									});
+									}, {once:true});
 								});
 							}else {
 								app.helper.hideProgress();
@@ -117,9 +117,9 @@ Vtiger.Class('Vtiger_Index_Js', {
 							emailFields.attr('checked','checked');
 							var params = form.serialize();
 							emailEditInstance.showComposeEmailForm(params).then(function(response) {
-								jQuery(document).on('shown.bs.modal', function() {
+								document.addEventListener('shown.bs.modal', function() {
 									if (typeof cb === 'function') cb(response);
-								});
+								}, {once:true});
 							});
 						}
 					}
@@ -473,10 +473,23 @@ Vtiger.Class('Vtiger_Index_Js', {
 	},
 
 	registerQuickCreateSubMenus : function() {
-		jQuery("#quickCreateModules").on("click",".quickCreateModuleSubmenu",function(e){
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			jQuery(e.currentTarget).closest('.dropdown').toggleClass('open');
+		//This used to toggle a legacy 'open' class and stopImmediatePropagation,
+		//which silently blocked BS5's own (document-delegated) dropdown click
+		//handler from ever running, so the submenu never actually opened.
+		//Let BS5 handle click natively (data-bs-toggle="dropdown" is already
+		//on the trigger) and add hover-to-open for consistency with the app
+		//switcher panel.
+		jQuery("#quickCreateModules").on("mouseenter", ".quickCreateModuleSubmenu", function (e) {
+			bootstrap.Dropdown.getOrCreateInstance(e.currentTarget).show();
+		});
+		jQuery("#quickCreateModules").on("mouseleave", ".quickCreateModuleSubmenu", function (e) {
+			var toggleEl = e.currentTarget;
+			setTimeout(function () {
+				if (!jQuery(toggleEl).is(':hover') && !jQuery(toggleEl).siblings('.dropdown-menu').is(':hover')) {
+					var _dd = bootstrap.Dropdown.getInstance(toggleEl);
+					if (_dd) _dd.hide();
+				}
+			}, 300);
 		});
 	},
 
@@ -570,7 +583,8 @@ Vtiger.Class('Vtiger_Index_Js', {
 			});
 		};
 
-		tabElements.on('shown.bs.tab', function(e) {
+		tabElements.each(function() {
+			this.addEventListener('shown.bs.tab', function(e) {
 			var previousTab = jQuery(e.relatedTarget);
 			var currentTab = jQuery(e.currentTarget);
 
@@ -588,6 +602,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 			//thisInstance.showQuickCreateScrollBar(form);
 			//while switching tabs we have to clear the invalid fields list
 			//form.data('jqv').InvalidFields = [];
+			});
 		});
 
 		//remove name attributes for inactive tab elements
@@ -715,6 +730,8 @@ Vtiger.Class('Vtiger_Index_Js', {
 				}
 				appModulesDropdown.css('left', appModulesDropdown.parent().width() - 8);
 				dropdownContainer.addClass('open').find('.app-item').addClass('active-app-item');
+				var triggerEl = dropdownContainer.find('.dropdown-toggle')[0];
+				if (triggerEl) bootstrap.Dropdown.getOrCreateInstance(triggerEl).show();
 			}
 		}, function(e) {
 			var dropdownContainer = jQuery(e.currentTarget);
@@ -722,6 +739,9 @@ Vtiger.Class('Vtiger_Index_Js', {
 			setTimeout(function() {
 				if(dropdownContainer.find('.app-modules-dropdown').length && !dropdownContainer.find('.app-modules-dropdown').is(':hover') && !dropdownContainer.is(':hover')) {
 					dropdownContainer.removeClass('open');
+					var triggerEl = dropdownContainer.find('.dropdown-toggle')[0];
+					var _dd = triggerEl ? bootstrap.Dropdown.getInstance(triggerEl) : null;
+					if (_dd) _dd.hide();
 				}
 			}, 500);
 

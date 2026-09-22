@@ -30,7 +30,7 @@
 						</div>  
 					</div>
 				</div>
-				<div class="navbar-header paddingTop5">
+				<div class="navbar-header paddingTop5 d-lg-none">
 					<button type="button" class="navbar-toggler collapsed border0" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false">
 						<i class="fa fa-th"></i>
 					</button>
@@ -38,7 +38,7 @@
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-3 topbar-search-wrapper">
 					<div id="search-links-container" class="search-links-container collapse navbar-collapse">
 						<div class="search-link">
 							<span class="fa fa-search" aria-hidden="true"></span>
@@ -59,7 +59,7 @@
 								#quickCreateModules .quickCreateItem  { padding: 5px; }
 								#quickCreateModules [class^="vicon-"] { vertical-align: middle; }
 								</style>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width:500px;">
+								<ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="dropdownMenu1" style="width:500px;">
 									<li class="title" style="padding: 5px 0 0 15px;">
 										<strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong>
 									</li>
@@ -146,7 +146,7 @@
 										  ({$USER_MODEL->get('user_name')})"></span>
 									<span class="link-text-xs-only d-lg-none d-md-none d-sm-none">{$USER_MODEL->getName()}</span>
 								</a>
-								<div class="dropdown-menu logout-content" role="menu">
+								<div class="dropdown-menu dropdown-menu-end logout-content" role="menu">
 									<div class="row">
 										<div class="col-lg-4 col-sm-4">
 											<div class="profile-img-container">
