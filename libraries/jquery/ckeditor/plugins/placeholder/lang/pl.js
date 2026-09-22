@@ -1,6 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+ Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
-
-CKEDITOR.plugins.setLang('placeholder','pl',{placeholder:{title:'Właściwości wypełniacza',toolbar:'Utwórz wypełniacz',text:'Tekst wypełnienia',edit:'Edytuj wypełnienie',textMissing:'Wypełnienie musi posiadać jakiś tekst.'}});
+CKEDITOR.plugins.setLang("placeholder","pl",{title:"Właściwości wypełniacza",toolbar:"Utwórz wypełniacz",name:"Nazwa wypełniacza",invalidName:"Wypełniacz nie może być pusty ani nie może zawierać żadnego z następujących znaków: [, ], \x3c oraz \x3e",pathName:"wypełniacz"});

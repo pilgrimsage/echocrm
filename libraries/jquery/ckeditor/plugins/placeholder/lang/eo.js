@@ -1,6 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+ Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
-
-CKEDITOR.plugins.setLang('placeholder','eo',{placeholder:{title:'Atributoj de la rezervita spaco',toolbar:'Krei la rezervitan spacon',text:'Texto de la rezervita spaco',edit:'Modifi la rezervitan spacon',textMissing:'La rezervita spaco devas enteni tekston.'}});
+CKEDITOR.plugins.setLang("placeholder","eo",{title:"Atributoj de la rezervita spaco",toolbar:"Rezervita Spaco",name:"Nomo de la rezervita spaco",invalidName:"La rezervita spaco ne povas esti malplena kaj ne povas enteni la sekvajn signojn : [, ], \x3c, \x3e",pathName:"rezervita spaco"});

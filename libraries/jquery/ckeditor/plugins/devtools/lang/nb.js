@@ -1,6 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+ Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
-
-CKEDITOR.plugins.setLang('devtools','nb',{devTools:{title:'Elementinformasjon',dialogName:'Navn på dialogvindu',tabName:'Navn på fane',elementId:'Element-ID',elementType:'Elementtype'}});
+CKEDITOR.plugins.setLang("devtools","nb",{title:"Elementinformasjon",dialogName:"Navn på dialogvindu",tabName:"Navn på fane",elementId:"Element-ID",elementType:"Elementtype"});
