@@ -108,6 +108,41 @@ select.form-control{
 	color:#fff !important;
 }
 
+/* flatpickr */
+.flatpickr-calendar{
+	border:1px solid var(--line) !important;
+	border-radius:8px !important;
+	box-shadow:0 4px 16px rgba(16,21,28,.12) !important;
+	font-family:'Inter',sans-serif !important;
+}
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover{
+	background:var(--teal) !important;
+	border-color:var(--teal) !important;
+}
+.flatpickr-day.today{
+	border-color:var(--teal) !important;
+}
+.flatpickr-day:hover{
+	background:var(--teal-soft) !important;
+}
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months{
+	color:var(--ink) !important;
+}
+.flatpickr-footer{
+	display:flex;
+	justify-content:space-between;
+	padding:6px 10px;
+	border-top:1px solid var(--line);
+}
+.flatpickr-footer a{
+	color:var(--teal);
+	font-size:12px;
+	cursor:pointer;
+	text-decoration:none;
+}
+
 /* checkboxes */
 .checkBoxType input[type="checkbox"]{
 	accent-color:var(--teal);

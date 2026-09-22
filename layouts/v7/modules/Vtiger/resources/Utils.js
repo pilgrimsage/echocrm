@@ -143,23 +143,43 @@ var vtUtils = {
                     if(typeof elementDateFormat !== 'undefined') {
                         userDateFormat = elementDateFormat;
                     }
-			let thelang= jQuery('body').data('language');
-                  	 thelang=thelang.substring(0, 2);
-					var defaultPickerParams = {
-                        autoclose: true,
-                        todayBtn: "linked",
-                        format: userDateFormat,
-                        todayHighlight: true,
-						clearBtn : true,
-			language :thelang
+                    var flatpickrFormatMap = {
+                        'dd-mm-yyyy': 'd-m-Y',
+                        'mm-dd-yyyy': 'm-d-Y',
+                        'yyyy-mm-dd': 'Y-m-d'
                     };
-					jQuery.extend(defaultPickerParams, params);
-                    element.datepicker(defaultPickerParams);
+                    var defaultPickerParams = {
+                        dateFormat: flatpickrFormatMap[userDateFormat] || 'm-d-Y',
+                        allowInput: true,
+                        onReady: function(selectedDates, dateStr, instance){
+                            var todayBtn = document.createElement('a');
+                            todayBtn.className = 'flatpickr-today-btn';
+                            todayBtn.textContent = 'Today';
+                            todayBtn.href = 'javascript:void(0)';
+                            todayBtn.onclick = function(){ instance.setDate(new Date(), true); };
+
+                            var clearBtn = document.createElement('a');
+                            clearBtn.className = 'flatpickr-clear-btn';
+                            clearBtn.textContent = 'Clear';
+                            clearBtn.href = 'javascript:void(0)';
+                            clearBtn.onclick = function(){ instance.clear(); instance.close(); };
+
+                            var footer = document.createElement('div');
+                            footer.className = 'flatpickr-footer';
+                            footer.appendChild(todayBtn);
+                            footer.appendChild(clearBtn);
+                            instance.calendarContainer.appendChild(footer);
+                        }
+                    };
+                    jQuery.extend(defaultPickerParams, params);
+                    element.each(function(index, el){
+                        flatpickr(el, defaultPickerParams);
+                    });
 
 					if(element.hasClass('input-daterange')){
 						element = element.find('input');
 					}
-                }   
+                }
             });
         }
     },

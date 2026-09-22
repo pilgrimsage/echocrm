@@ -1517,7 +1517,7 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 				searchBox.parent().append('<span class="date-addon input-group-addon"><i class="fa fa-calendar"></i></span>');
 				vtUtils.registerEventForDateFields(searchBox);
 			} else {
-				searchBox.datepicker('remove');
+				if(searchBox[0]._flatpickr) { searchBox[0]._flatpickr.destroy(); }
 				searchBox.removeClass('dateField');
 				searchBox.parent().find('.date-addon').remove();
 			}

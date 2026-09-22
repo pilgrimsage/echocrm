@@ -1969,12 +1969,16 @@ Vtiger.Class("Calendar_Calendar_Js", {
 	registerGotoDateButtonAction: function (navigationsContainer) {
 		var thisInstance = this;
 		var gotoButton = navigationsContainer.find('.vt-goto-date');
-		gotoButton.datepicker({
-			'autoclose': true,
-			'todayBtn': "linked",
-			'format': thisInstance.getUserPrefered('date_format'),
-		}).on('changeDate', function (e) {
-			thisInstance.getCalendarViewContainer().fullCalendar('gotoDate', moment(e.date));
+		var flatpickrFormatMap = {
+			'dd-mm-yyyy': 'd-m-Y',
+			'mm-dd-yyyy': 'm-d-Y',
+			'yyyy-mm-dd': 'Y-m-d'
+		};
+		flatpickr(gotoButton[0], {
+			dateFormat: flatpickrFormatMap[thisInstance.getUserPrefered('date_format')] || 'm-d-Y',
+			onChange: function (selectedDates) {
+				thisInstance.getCalendarViewContainer().fullCalendar('gotoDate', moment(selectedDates[0]));
+			}
 		});
 	},
 	addGotoDateButton: function () {
