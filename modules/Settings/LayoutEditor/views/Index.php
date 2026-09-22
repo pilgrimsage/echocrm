@@ -248,7 +248,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
-			'~libraries/garand-sticky/jquery.sticky.js',
 			'~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
 		);
 
