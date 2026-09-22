@@ -12,7 +12,7 @@
 	margin-bottom:14px;
 }
 .fieldBlockHeader{
-	font-family:'Space Grotesk',sans-serif;
+	font-family:'Sora',sans-serif;
 	font-size:14.5px;
 	font-weight:600;
 	color:var(--ink);
@@ -64,7 +64,7 @@ textarea.form-control:focus{
 	outline:none;
 	border-color:var(--teal);
 	background:#fff;
-	box-shadow:0 0 0 3px rgba(14,124,102,.12);
+	box-shadow:0 0 0 3px rgba(0,211,184,.18);
 }
 
 /* select / select2 */
@@ -143,6 +143,27 @@ select.form-control{
 	text-decoration:none;
 }
 
+/* jquery.timepicker dropdown — was fully unstyled vendor default
+   (plain white list, OS-blue highlight), inconsistent with flatpickr's
+   modern look right next to it on the same form. */
+.ui-timepicker-wrapper{
+	border:1px solid var(--line) !important;
+	border-radius:8px !important;
+	box-shadow:0 4px 16px rgba(16,21,28,.12) !important;
+	background:#fff !important;
+	font-family:'Inter',sans-serif !important;
+}
+.ui-timepicker-list li{
+	padding:6px 12px !important;
+	color:var(--ink) !important;
+}
+li.ui-timepicker-selected,
+.ui-timepicker-list li:hover,
+.ui-timepicker-list .ui-timepicker-selected:hover{
+	background:var(--teal) !important;
+	color:#fff !important;
+}
+
 /* checkboxes */
 .checkBoxType input[type="checkbox"]{
 	accent-color:var(--teal);
@@ -167,7 +188,7 @@ select.form-control{
 }
 .form-switch .form-check-input:focus{
 	border-color:var(--teal);
-	box-shadow:0 0 0 3px rgba(14,124,102,.15);
+	box-shadow:0 0 0 3px rgba(0,211,184,.18);
 }
 .form-switch .form-check-input:disabled{
 	opacity:.5;

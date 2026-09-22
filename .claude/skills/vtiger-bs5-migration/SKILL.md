@@ -130,6 +130,36 @@ Removed the vendor library (`libraries/jquery/colorpicker/`) and its script/CSS 
 - **Login page** (`Login.tpl`) — full rewrite, self-contained (no shared JS deps), dropped bxSlider/mCustomScrollbar for vanilla JS/CSS. Smarty wiring preserved exactly: `$ERROR`, `$MESSAGE`, `$CUSTOM_SKINS`, `$JSON_DATA`, forgotPassword flow.
 - **List/Detail/Nav/Edit views** — CSS-only skin layers (`listview.css`, `detailview.css`, `nav.css`, `editview.css`), zero markup changes. These views are deeply wired to JS via exact classnames (`.listview-table`, `.fieldBlockContainer`, sort/inline-edit/quick-preview handlers) — a full rewrite here would break core CRM functions. Only the login page was safe to fully rewrite because it's isolated.
 
+## EchoCrew brand tokens + UI stability pass (2026-09-22)
+
+**Design tokens were wrong — corrected by pulling real computed values from `dev.echocrew.in`.** The original tokens set at project start (`--teal:#0E7C66`, `--ink:#10151C`, Space Grotesk headings) were invented, not matched from the actual brand site. Fetched the live site's `:root` custom properties via `getComputedStyle` and remapped our token *values* to match exactly, keeping our variable *names* so no call site needed to change:
+```
+--ink:#0B0F14        (was #10151C)
+--teal:#00D3B8       (was #0E7C66 — much brighter/more saturated real brand accent)
+--teal-deep:#06A793  (was #0A5C4B)
+--teal-soft:#E4FBF6  (was #E8F7F1)
+--mist:#F6F7F5       (was #F4F6F5)
+--mist-dark:#EDEFEC  (was #EDF0EF)
+--muted:#4A555F      (was #6B7280)
+--line:#DFE2DD       (was #E4E8E6)
+```
+Added `--radius-md:14px`, `--radius-lg:22px`, `--shadow`, `--shadow-sm` (all from the real site's tokens) for the "buttons shouldn't look flat" ask. Heading font corrected Space Grotesk → **Sora** (7 usage sites + the Google Fonts `<link>` in `Header.tpl`) — Sora is what the real site actually uses, Space Grotesk was never real.
+`:root` lives in `listview.css` (loaded globally) — but `login.css` loads in isolation (confirmed via grep: `Login.tpl` includes only `login.css`, nothing else), so it had the **old** palette **hardcoded as literal hex**, not `var()`. Gave it its own duplicate `:root` block with the same corrected values instead of leaving it stale. Also caught 2 places using hardcoded `rgba(14,124,102,...)` (old teal's literal RGB) for focus-ring shadows in `editview.css` — `var()` substitution doesn't reach into a raw `rgba()` triplet, had to fix those by hand. **Lesson: after changing a token's hex value, grep for that hex/rgb literal across the whole modern CSS tree — don't assume everything uses `var()` just because the token system exists.**
+
+**Found and fixed a second wave of the exact same bug class as `.close`/`.caret`/`.btn-default` from the original migration: Bootstrap 3 class names BS5 never defines, silently rendering unstyled.** Same root cause every time — a class got renamed or restructured between BS3 and BS5, nobody did a full-tree grep, so every un-migrated instance silently lost all styling. Found this time:
+- **`.btn-default`** (220 templates!) — confirmed zero rules for it anywhere in the BS5 bundle; only two hand-scoped containers (`editViewActions`, `detailViewHeader`) had ad-hoc overrides, leaving ~200 buttons app-wide with no background/border/color at all. This is what "buttons not stable all over the place" actually was.
+- **`.btn-small`/`.btn-large`/`.btn-mini`/`.btn-xs`/`.btn-text`/`.btn-social`/`.btn-google`** — all Bootstrap 2/3 sizing/variant classes with zero BS5 definition, same fate.
+- **`.input-group-addon`** (31 templates) — BS4/5 renamed this to `.input-group-text` with a completely different flex layout model. Confirmed live via `getBoundingClientRect()`: the search/create icon buttons next to every reference (lookup) field rendered with a visible **15px floating gap** from the input instead of a flush, merged addon (`display:block`, no background, no border — just a bare icon floating near the input). This was the "combo inputs breaking" / "add-on buttons UI" / uitype-10-field complaints — reference fields are exactly this markup pattern.
+Fix pattern for all of the above, consistent with the original `.close` precedent: **restyle the dead class names globally in `nav.css`** (guaranteed loaded everywhere) rather than rewrite hundreds of template call sites. `.input-group`/`.input-group-addon` got a real flex-based reimplementation of BS4/5's input-group model (border-merging, flush corners, no-shrink icon column) scoped to the old class names.
+
+**Modal close button was on the wrong side — root-caused via `getBoundingClientRect`, not guesswork.** `ModalHeader.tpl` floats the close button (`float-end`) and title (`float-start`) inside one `<div class="clearfix">`. BS5's `.modal-header` is `display:flex`, and a plain block child with no explicit width inside a flex row **shrinks to fit its content** instead of spanning the full row — confirmed live: the `.clearfix` div measured ~202px inside a 498px-wide header. The floated close button correctly reached the *edge of that 202px box*, which put it immediately next to the title instead of the modal's true right edge. Fixed with one rule, `.modal-header .clearfix{flex:1 1 auto;width:100%}`, in `nav.css` — global, every modal in the app uses this same template.
+
+**Detail-view action buttons could run off-screen on modules with more top-level actions than Leads has.** `DetailViewActions.tpl` hardcodes `col-lg-6` on the button toolbar container regardless of how many `DETAILVIEW_LINKS['DETAILVIEWBASIC']` buttons a given module renders before the "More" dropdown — some modules have far more than others. At a fixed 50% column width with no wrap, extra buttons overflowed past the visible edge. Fixed in `detailview.css`: `.detailViewButtoncontainer{width:auto;flex:none}` plus `flex-wrap:wrap` on the toolbar/btn-group — verified at a 480px mobile viewport that 5 buttons now wrap onto 2 rows instead of overflowing. Also gave `.detailview-header-block` a proper card treatment (background/border/radius) since it previously had none.
+
+**Detail view's "Key Fields" sidebar widget (`.summary-table`) had zero label/value column styling** — a completely separate class from the main `.detailview-table` that already had rules. `table-layout:fixed` auto-sized the label column down to ~49px with no explicit width, so labels and values rendered visually touching (`LAST NAMETestLead`, no gap). Added matching `.summary-table td.fieldLabel`/`td.fieldValue` rules mirroring the main table's treatment.
+
+**Radio buttons and the jquery.timepicker dropdown were both plain unstyled vendor/browser defaults** — never touched since this migration began. Radios fixed with `accent-color:var(--teal)` (same technique already used for checkboxes). Timepicker dropdown themed to match flatpickr's card style (border/radius/shadow) with teal selected-state, since the two sit on the same forms and looked completely inconsistent with each other.
+
 ## Debugging approach that works here
 
 1. Pull the latest repo state before diagnosing (`git pull`; watch for local uncommitted test edits blocking the pull).

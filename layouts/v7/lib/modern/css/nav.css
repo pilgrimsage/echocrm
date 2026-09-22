@@ -23,6 +23,20 @@
 	opacity:1;
 }
 
+/* ModalHeader.tpl wraps the title + close button in a single
+   ".clearfix" div relying on float:left/float:right to place them at
+   opposite ends. BS5's own .modal-header is display:flex, which sizes
+   a plain block child to its content width instead of the full header
+   width — so the floated close button only reaches the edge of that
+   shrunken box (right next to the title) instead of the modal's actual
+   right edge. Confirmed live: clearfix measured ~40% of the header's
+   real width. Stretching it to fill the flex row fixes the float math
+   without touching the template. */
+.modal-header .clearfix{
+	flex:1 1 auto;
+	width:100%;
+}
+
 /* ---- top navbar ---- */
 .app-fixed-navbar.navbar-inverse{
 	background:var(--ink) !important;
@@ -129,7 +143,7 @@
 	width:280px;
 }
 .logout-content h4{
-	font-family:'Space Grotesk',sans-serif;
+	font-family:'Sora',sans-serif;
 	font-size:15px;
 	margin:0;
 }
@@ -261,3 +275,162 @@
    Old markup still has a literal <span class="caret">; hide it
    instead of restyling it. */
 .caret { display: none; }
+
+/* ==========================================================================
+   Buttons — app-wide consistency pass.
+   .btn-default is a Bootstrap 3 class BS5 never defines (renamed to
+   .btn-secondary) — ~220 templates still use it, so outside the couple of
+   containers with their own scoped override (detailview/editview), these
+   buttons had zero background/border/color, just bare browser chrome.
+   .btn-small/.btn-large/.btn-mini/.btn-xs/.btn-text are Bootstrap 2/3
+   sizing/variant classes with no BS5 equivalent at all. Same fix pattern
+   as .close/.caret above: restyle the old class names globally rather
+   than rewrite every call site. Loaded here since nav.css is guaranteed
+   on every screen. */
+.btn{
+	border-radius:6px;
+	font-weight:500;
+	transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease,transform .05s ease;
+	box-shadow:var(--shadow-sm, 0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12));
+}
+.btn:active{
+	transform:translateY(1px);
+	box-shadow:none;
+}
+.btn-default{
+	background:var(--paper,#fff);
+	border:1px solid var(--line,#DFE2DD);
+	color:var(--ink,#0B0F14);
+}
+.btn-default:hover,
+.btn-default:focus{
+	background:var(--mist,#F6F7F5);
+	border-color:var(--line,#DFE2DD);
+	color:var(--ink,#0B0F14);
+}
+.btn-default:disabled,
+.btn-default.disabled{
+	opacity:.55;
+	box-shadow:none;
+}
+.btn-primary,
+.btn-success{
+	background:var(--teal,#00D3B8);
+	border-color:var(--teal,#00D3B8);
+	color:#08201B;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus{
+	background:var(--teal-deep,#06A793);
+	border-color:var(--teal-deep,#06A793);
+	color:#fff;
+}
+.btn-danger{
+	background:var(--danger,#E4572E);
+	border-color:var(--danger,#E4572E);
+}
+.btn-danger:hover,
+.btn-danger:focus{
+	filter:brightness(.92);
+}
+.btn-text{
+	background:transparent;
+	border:none;
+	box-shadow:none;
+	color:var(--teal-deep,#06A793);
+}
+.btn-text:hover{
+	background:var(--teal-soft,#E4FBF6);
+}
+.btn-small,.btn-mini,.btn-xs{
+	padding:.25rem .6rem;
+	font-size:.8rem;
+	border-radius:5px;
+}
+.btn-large{
+	padding:.6rem 1.2rem;
+	font-size:1.05rem;
+	border-radius:8px;
+}
+.btn-social,.btn-google{
+	background:var(--paper,#fff);
+	border:1px solid var(--line,#DFE2DD);
+	color:var(--ink,#0B0F14);
+	display:inline-flex;
+	align-items:center;
+	gap:8px;
+}
+.btn-social:hover,.btn-google:hover{
+	background:var(--mist,#F6F7F5);
+}
+
+/* radio buttons — were plain unstyled browser-default (OS blue), no
+   relation to the brand palette. accent-color recolors native radios
+   without touching any markup, consistent with the checkbox treatment
+   in editview.css. */
+input[type="radio"]{
+	accent-color:var(--teal,#00D3B8);
+	width:15px;
+	height:15px;
+	cursor:pointer;
+}
+input[type="radio"]:disabled{
+	cursor:not-allowed;
+	opacity:.5;
+}
+
+/* .input-group-addon is another Bootstrap 3 class BS5 never defines
+   (renamed to .input-group-text with a completely different flex-based
+   layout model) — used in 31 templates for the search-icon/clear/create
+   buttons attached to reference (lookup) fields, the calendar icon on
+   date fields, and the search-bar icon. Unstyled, these render as a
+   floating icon with a visible gap next to the input instead of a
+   merged, flush addon. Same fix pattern as .btn-default/.close above:
+   reimplement the BS4/5 input-group model against the old class names. */
+.input-group{
+	display:flex;
+	align-items:stretch;
+	width:100%;
+}
+.input-group .inputElement,
+.input-group .form-control,
+.input-group input[type="text"]{
+	flex:1 1 auto;
+	width:1%;
+	min-width:0;
+	border-top-right-radius:0;
+	border-bottom-right-radius:0;
+}
+.input-group-addon{
+	display:flex !important;
+	align-items:center;
+	justify-content:center;
+	padding:0 12px;
+	background:var(--mist,#F6F7F5);
+	border:1px solid var(--line,#DFE2DD);
+	border-left:none;
+	color:var(--muted,#4A555F);
+	white-space:nowrap;
+	flex-shrink:0;
+}
+.input-group-addon:hover{
+	background:var(--teal-soft,#E4FBF6);
+	color:var(--teal-deep,#06A793);
+}
+.input-group-addon:first-child{
+	border-left:1px solid var(--line,#DFE2DD);
+	border-right:none;
+	border-top-left-radius:6px;
+	border-bottom-left-radius:6px;
+}
+.input-group-addon:last-child{
+	border-top-right-radius:6px;
+	border-bottom-right-radius:6px;
+}
+.input-group .inputElement:not(:first-child),
+.input-group .form-control:not(:first-child){
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+}

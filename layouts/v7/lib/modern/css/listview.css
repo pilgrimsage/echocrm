@@ -5,17 +5,22 @@
    ========================================================================== */
 
 :root{
-	--ink:#10151C;
-	--teal:#0E7C66;
-	--teal-deep:#0A5C4B;
-	--teal-soft:#E8F7F1;
+	/* EchoCrew brand tokens, matched from dev.echocrew.in's computed :root values */
+	--ink:#0B0F14;
+	--teal:#00D3B8;
+	--teal-deep:#06A793;
+	--teal-soft:#E4FBF6;
 	--paper:#FFFFFF;
-	--mist:#F4F6F5;
-	--mist-dark:#EDF0EF;
-	--muted:#6B7280;
-	--line:#E4E8E6;
+	--mist:#F6F7F5;
+	--mist-dark:#EDEFEC;
+	--muted:#4A555F;
+	--line:#DFE2DD;
 	--danger:#E4572E;
 	--radius:8px;
+	--radius-md:14px;
+	--radius-lg:22px;
+	--shadow:0 1px 2px rgba(11,15,20,.04), 0 18px 40px -24px rgba(11,15,20,.28);
+	--shadow-sm:0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12);
 }
 
 body{
