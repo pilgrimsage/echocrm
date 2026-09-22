@@ -186,8 +186,12 @@ li.ui-timepicker-selected,
    since these are plain <input type="checkbox"> with no wrapping markup
    to hang a real .form-switch div on. The inline style="width:15px;
    height:15px" on the input (Boolean.tpl) needs !important to override -
-   inline styles beat any class selector otherwise. */
-.checkBoxType input[type="checkbox"]{
+   inline styles beat any class selector otherwise.
+   Calendar's "Mass Select" (input.mass-select) gets the same toggle-
+   switch treatment by explicit request - it's a single on/off control,
+   not a multi-item list checkbox, so the switch look fits it too. */
+.checkBoxType input[type="checkbox"],
+input.mass-select{
 	appearance:none;
 	-webkit-appearance:none;
 	width:2.75em !important;
@@ -200,7 +204,8 @@ li.ui-timepicker-selected,
 	vertical-align:middle;
 	transition:background-color .15s ease,border-color .15s ease;
 }
-.checkBoxType input[type="checkbox"]::before{
+.checkBoxType input[type="checkbox"]::before,
+input.mass-select::before{
 	content:'';
 	position:absolute;
 	top:1px;
@@ -212,12 +217,17 @@ li.ui-timepicker-selected,
 	box-shadow:0 1px 2px rgba(11,15,20,.25);
 	transition:transform .15s ease;
 }
-.checkBoxType input[type="checkbox"]:checked{
+.checkBoxType input[type="checkbox"]:checked,
+input.mass-select:checked{
 	background:var(--teal);
 	border-color:var(--teal);
 }
-.checkBoxType input[type="checkbox"]:checked::before{
+.checkBoxType input[type="checkbox"]:checked::before,
+input.mass-select:checked::before{
 	transform:translateX(1.25em);
+}
+input.mass-select:checked::after{
+	content:none;
 }
 /* nav.css's global checkbox rule draws a checkmark via ::checked::after
    for every plain checkbox app-wide - this toggle-switch already has

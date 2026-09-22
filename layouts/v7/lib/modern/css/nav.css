@@ -695,11 +695,50 @@
    relation to the brand palette. accent-color recolors native radios
    without touching any markup, consistent with the checkbox treatment
    in editview.css. */
+/* Radio buttons redrawn as small slider/toggle switches instead of
+   plain circles, per explicit design request - each radio in a group
+   still behaves like a normal radio (native :checked mutual exclusion
+   within the same "name" is untouched, only the appearance changes).
+   Sized smaller than the Boolean-field toggle switch (.checkBoxType,
+   2.75em) since radios often appear several-to-a-row (Sharing Rules'
+   permission table, History widget's Show filter, Advanced Search's
+   delimiter picker) where a full-size switch wouldn't fit. */
 input[type="radio"]{
+	appearance:none;
+	-webkit-appearance:none;
 	accent-color:var(--teal,#00D3B8);
-	width:15px;
-	height:15px;
+	width:2em;
+	height:1.1em;
+	border-radius:1em;
+	background:var(--mist,#F6F7F5);
+	border:1px solid var(--line,#DFE2DD);
+	position:relative;
 	cursor:pointer;
+	vertical-align:middle;
+	flex-shrink:0;
+	transition:background-color .15s ease,border-color .15s ease;
+}
+input[type="radio"]::before{
+	content:'';
+	position:absolute;
+	top:1px;
+	left:1px;
+	width:calc(1.1em - 4px);
+	height:calc(1.1em - 4px);
+	border-radius:50%;
+	background:#fff;
+	box-shadow:0 1px 2px rgba(11,15,20,.25);
+	transition:transform .15s ease;
+}
+input[type="radio"]:hover{
+	border-color:var(--teal,#00D3B8);
+}
+input[type="radio"]:checked{
+	background:var(--teal,#00D3B8);
+	border-color:var(--teal,#00D3B8);
+}
+input[type="radio"]:checked::before{
+	transform:translateX(0.9em);
 }
 input[type="radio"]:disabled{
 	cursor:not-allowed;
