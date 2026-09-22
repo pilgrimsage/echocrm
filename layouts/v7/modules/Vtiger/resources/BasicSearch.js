@@ -136,7 +136,7 @@ Vtiger.Class('Vtiger_BasicSearch_Js',{},{
 			app.request.get({'url': url}).then(function (error, data) {
 				if (error == null) {
 					app.helper.hideProgress();
-					app.helper.loadPageOverlay(data).then(function (modal) {
+					app.helper.loadPageOverlay(data,{'backdrop':true}).then(function (modal) {
 						modal.find('.keyword-input').val(jQuery('.keyword-input').val());
 						Vtiger_SearchList_Js.intializeListInstances(modal);
 					});

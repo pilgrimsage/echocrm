@@ -108,6 +108,23 @@ select.form-control{
 	color:#fff !important;
 }
 
+/* Advanced Search's "Search In" label + select2 module-picker (AdvanceSearch.tpl)
+   rely on float:left on the label only - the label's own line-height gives it a
+   ~27px box while the select2 choice box next to it is 38px tall, and since both
+   are top-aligned by the float, the label's text sits visibly higher than the
+   select box's text. Flex + center alignment fixes it regardless of the two
+   elements' different intrinsic heights. */
+.searchModuleComponent{
+	display:flex;
+	align-items:center;
+}
+.searchModuleComponent .float-start{
+	float:none;
+	font-size:14px !important;
+	color:var(--muted);
+	font-weight:500;
+}
+
 /* flatpickr */
 .flatpickr-calendar{
 	border:1px solid var(--line) !important;

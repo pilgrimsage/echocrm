@@ -55,6 +55,49 @@
 	width:100%;
 }
 
+/* Advanced Search's modal-header (AdvanceSearch.tpl) uses a plain ".row"
+   instead of ".clearfix" for the same title+close layout - same BS5
+   flex-sizing bug as above: the row shrinks to content width inside the
+   flex modal-header, squeezing the title/close together and forcing the
+   title to wrap. Same fix, different wrapper class. */
+.modal-header > .row{
+	flex:1 1 auto;
+	width:100%;
+	align-items:center;
+}
+.modal-header .search-action-container{
+	display:flex;
+	justify-content:flex-end;
+}
+.modal-header h4{
+	font-family:'Roboto',sans-serif;
+	font-size:16px;
+	font-weight:600;
+	white-space:nowrap;
+}
+
+/* Every skins subfolder's style.css sets a flat, dark ".modal-header{background:#596875;
+   color:#fff}" left over from the old BS3 theme - loaded after this file, so it silently
+   wins on every modal app-wide (not just Advanced Search), which is why modals still look
+   nothing like the rest of the modern skin. Restyle to match the brand tokens instead. */
+.modal-header{
+	background:var(--paper) !important;
+	color:var(--ink) !important;
+	border-bottom:1px solid var(--line) !important;
+	border-radius:var(--radius) var(--radius) 0 0;
+	padding:14px 18px !important;
+}
+.modal-content{
+	border:1px solid var(--line);
+	border-radius:var(--radius);
+	box-shadow:0 12px 32px rgba(16,21,28,.16);
+}
+.modal-footer{
+	background:var(--paper) !important;
+	border-top:1px solid var(--line);
+	border-radius:0 0 var(--radius) var(--radius);
+}
+
 /* ---- top navbar ---- */
 /* Every skins subfolder's style.css sets the left module-nav sidebar (both the
    settings menu and the module-icon rail share the .module-nav class)
@@ -132,7 +175,7 @@
    without needing to audit and edit all 7 skin files. */
 .search-links-container .search-link{
 	background:rgba(255,255,255,.08) !important;
-	border:none !important;
+	border:1px solid rgba(255,255,255,.16) !important;
 	border-radius:8px !important;
 	padding:6px 12px !important;
 	margin:0 !important;
@@ -142,6 +185,11 @@
 	display:flex !important;
 	align-items:center;
 	gap:8px;
+	transition:border-color .15s ease,background .15s ease;
+}
+.search-links-container .search-link:focus-within{
+	border-color:var(--teal,#00D3B8) !important;
+	background:rgba(255,255,255,.12) !important;
 }
 .search-links-container .keyword-input{
 	background:transparent;

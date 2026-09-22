@@ -118,7 +118,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
             //initializing select2/multiselect widgets while the container is
             //still hidden/mid-transition leaves them permanently 0-width and
             //invisible, since they measure their size once at init time.
-            app.helper.loadPageOverlay(data).then(function(container){
+            app.helper.loadPageOverlay(data,{'backdrop':true}).then(function(container){
                 jQuery('#advanceSearchHolder').addClass('slideDown');
                 aDeferred.resolve();
             });
