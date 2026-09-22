@@ -219,6 +219,13 @@ li.ui-timepicker-selected,
 .checkBoxType input[type="checkbox"]:checked::before{
 	transform:translateX(1.25em);
 }
+/* nav.css's global checkbox rule draws a checkmark via ::checked::after
+   for every plain checkbox app-wide - this toggle-switch already has
+   its own ::before knob, so suppress the checkmark here or it'd draw a
+   tick mark on top of the sliding knob. */
+.checkBoxType input[type="checkbox"]:checked::after{
+	content:none;
+}
 
 /* modern rounded switches (replacing bootstrapSwitch) */
 .form-switch input.form-check-input[type="checkbox"]{
@@ -234,6 +241,9 @@ li.ui-timepicker-selected,
 .form-switch input.form-check-input[type="checkbox"]:checked{
 	background-color:var(--teal) !important;
 	border-color:var(--teal) !important;
+}
+.form-switch input.form-check-input[type="checkbox"]:checked::after{
+	content:none;
 }
 .form-switch .form-check-input:focus{
 	border-color:var(--teal);

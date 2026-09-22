@@ -715,11 +715,61 @@ input[type="radio"]:disabled{
    base rule instead of chasing every module - the existing class-scoped
    toggle-switch rules (.checkBoxType, .form-switch) are more specific
    and win the cascade naturally, so this doesn't need to exclude them. */
+/* accent-color alone only recolors the CHECKED state in most browsers -
+   left unchecked, a plain native checkbox is still just a thin gray
+   square with square corners, visually out of step with the rounded,
+   bordered look everything else in this redesign uses (inputs, buttons,
+   .select2-choice). Custom-drawn via appearance:none instead, matching
+   the same --line border / --teal fill used everywhere else - this is
+   the actual "new design" checkboxes were meant to follow, not just a
+   recolor. Excludes the two spots with their own real toggle-switch
+   styling (.checkBoxType, .form-switch), which are more specific and
+   still win the cascade. */
 input[type="checkbox"]{
+	appearance:none;
+	-webkit-appearance:none;
 	accent-color:var(--teal,#00D3B8);
-	width:15px;
-	height:15px;
+	width:16px;
+	height:16px;
+	border:1.5px solid var(--line,#DFE2DD);
+	border-radius:4px;
+	background:#fff;
 	cursor:pointer;
+	position:relative;
+	vertical-align:middle;
+	transition:background-color .15s ease,border-color .15s ease;
+	flex-shrink:0;
+}
+input[type="checkbox"]:hover{
+	border-color:var(--teal,#00D3B8);
+}
+input[type="checkbox"]:checked{
+	background:var(--teal,#00D3B8);
+	border-color:var(--teal,#00D3B8);
+}
+input[type="checkbox"]:checked::after{
+	content:'';
+	position:absolute;
+	left:4px;
+	top:0px;
+	width:5px;
+	height:9px;
+	border:solid #fff;
+	border-width:0 2px 2px 0;
+	transform:rotate(45deg);
+}
+input[type="checkbox"]:indeterminate{
+	background:var(--teal,#00D3B8);
+	border-color:var(--teal,#00D3B8);
+}
+input[type="checkbox"]:indeterminate::after{
+	content:'';
+	position:absolute;
+	left:3px;
+	top:6.5px;
+	width:8px;
+	height:2px;
+	background:#fff;
 }
 input[type="checkbox"]:disabled{
 	cursor:not-allowed;
@@ -870,4 +920,74 @@ input[type="checkbox"]:disabled{
 .blockHeader th{
 	background:var(--ink,#0B0F14) !important;
 	color:#fff !important;
+}
+
+/* CKEditor 4 (EmailTemplates, Documents, Users signature, Workflows,
+   Mass Edit) is replaced with no "width" config anywhere it's called -
+   only "height". Its own bundled skin CSS doesn't stretch it to fill
+   the container by default, and its width gets measured/locked in once
+   at CKEDITOR.replace() time rather than tracking the container
+   responsively, so it renders squeezed to a few hundred px in a full-
+   width field block regardless of how much room is actually available. */
+.cke_chrome,
+.cke{
+	width:100% !important;
+}
+
+/* DetailViewHeaderTitle.tpl puts BOTH "bg_{module}" (e.g. "bgleads") and
+   "app-{category}" (e.g. "app-MARKETING") on the same recordImage div.
+   The ".app-{category}" classes (skins/marketing/style.css) are really
+   meant for the small breadcrumb app-indicator icon, and use a bare
+   class selector with !important - so every record's avatar showed the
+   current APP's generic accent color (identical orange for Leads,
+   Contacts and Organizations, all in the MARKETING app) instead of each
+   MODULE's own distinct color from its "bg_*"/"bgXXX" class, which the
+   :not() below restores by excluding recordImage from the app-color
+   rule entirely (same colors, just correctly scoped). */
+/* The :not() above stops MY styles from double-applying, but the
+   ORIGINAL skins/marketing/style.css ".app-MARKETING{background:...
+   !important}" rule (bare class, no :not()) still exists and still
+   matches - !important beats plain specificity outright regardless of
+   how many classes the other rule has, so ".bgleads"'s 3-class but
+   NON-important background never got a chance. Countering it needs its
+   own !important with equal-or-higher specificity - re-declare every
+   module's real color (same values as the .bgXXX rules above) directly
+   against ".recordImage.bgXXX", which beats the single-class ".app-*"
+   rule on specificity while matching it on importance. */
+.recordImage.bgAccounts{ background:#6cc4b9 !important; }
+.recordImage.bgcontacts{ background:#03A678 !important; }
+.recordImage.bghelpdesk{ background:#d1026c !important; }
+.recordImage.bginvoice{ background:#d1026c !important; }
+.recordImage.bgleads{ background:#F47983 !important; }
+.recordImage.bgpotentials{ background:#492d61 !important; }
+.recordImage.bgproducts{ background:#FFB3A7 !important; }
+.recordImage.bgvendors{ background:#875F9A !important; }
+.recordImage.bgpurchaseorder{ background:#C93756 !important; }
+.recordImage.bgquotes{ background:#d1026c !important; }
+.recordImage.bgsalesorder{ background:#d1026c !important; }
+.recordImage.bgproject{ background:#d1026c !important; }
+.recordImage.bg_ServiceContracts{ background:#FFB61E !important; }
+.recordImage.bg_Assets{ background:#8DB255 !important; }
+.recordImage.bg_Services{ background:#d1026c !important; }
+.recordImage.bg_Calendar{ background:#ed4c57 !important; }
+.recordImage.bg_Campaigns{ background:#A17917 !important; }
+.recordImage.bg_Cases{ background:#42A5F5 !important; }
+
+/* DetailViewHeaderTitle.tpl marks .recordImage "d-none d-md-block" (BS5
+   responsive-visibility utility: hidden on mobile, block from the "md"
+   breakpoint up) - but BS5's ".d-md-block{display:block!important}" is
+   unconditional !important, which clobbers the skin's own
+   ".recordImage{display:table}" (needed so its ".name" child, styled
+   display:table-cell/vertical-align:middle, actually centers the
+   module icon in the 80x80 box). With the parent forced to plain
+   "block", the table-cell child had no table to size against and
+   shrank to fit just the icon glyph, anchored top-left instead of
+   filling and centering in the square - "icon and bg not consistent"
+   was this, not the icon itself. Re-declare "table" at the same
+   breakpoint .d-md-block uses, so the responsive hide/show behavior on
+   mobile is untouched. */
+@media (min-width:768px){
+	.recordImage.d-md-block{
+		display:table !important;
+	}
 }
