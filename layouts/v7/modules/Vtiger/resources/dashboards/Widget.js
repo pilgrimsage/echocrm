@@ -346,28 +346,15 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
         var adjustedHeight = this.getContainer().height()-50;
         app.helper.showVerticalScroll(widgetContent,{'setHeight' : adjustedHeight});
 		widgetContent.css({height: widgetContent.height()-40});
-        //this.initSelect2Elements(widgetContent);
 		this.registerLoadMore();
 	},
-    
+
     postResizeWidget: function() {
 		var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
         var slimScrollDiv = jQuery('.slimScrollDiv', this.getContainer());
         var adjustedHeight = this.getContainer().height()-100;
         widgetContent.css({height: adjustedHeight});
         slimScrollDiv.css({height: adjustedHeight});
-	},
-        
-	initSelect2Elements : function(widgetContent) {
-		var container = widgetContent.closest('.dashboardWidget');
-		var select2Elements = container.find('.select2');
-		if(select2Elements.length > 0 && jQuery.isArray(select2Elements)) {
-			select2Elements.each(function(index, domElement){
-				domElement.chosen();
-			});
-		}else{
-			select2Elements.chosen();
-		}
 	},
 
 	postRefreshWidget: function() {
