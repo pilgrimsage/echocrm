@@ -197,18 +197,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetail",
 			'~/libraries/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
-			'~/libraries/jquery/VtJqplotInterface.js',
+			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
 			'~/libraries/jquery/vtchart.js',
 		);
 
@@ -225,9 +214,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 	public function getHeaderCss(Vtiger_Request $request) {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
-		$headerCss = array(
-			'~libraries/jquery/jqplot/jquery.jqplot.min.css'
-		);
+		$headerCss = array();
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);
 		return $headerCssScriptInstances;

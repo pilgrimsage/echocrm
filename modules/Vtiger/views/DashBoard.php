@@ -113,21 +113,9 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 
 		$jsFileNames = array(
 			'~/libraries/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
-			'~/libraries/jquery/VtJqplotInterface.js',
+			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
 			'~/libraries/jquery/vtchart.js',
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/vtchart.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.'.$moduleName.'.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
@@ -156,7 +144,6 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$headerCss = array(
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/gridster/jquery.gridster.min.css',
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/bootstrap-daterangepicker/daterangepicker.css',
-			'~libraries/jquery/jqplot/jquery.jqplot.min.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);

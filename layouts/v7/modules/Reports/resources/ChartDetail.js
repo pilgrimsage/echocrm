@@ -455,7 +455,6 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 		if (this.data['links'])
 			chartOptions.links = this.data['links'];
 		this.getPlotContainer().vtchart(data, chartOptions);
-		jQuery('table.jqplot-table-legend').css('width', '95px');
 	}
 });
 
@@ -504,6 +503,5 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 		if (this.data['links'])
 			chartOptions.links = this.data['links'];
 		this.getPlotContainer().vtchart(data, chartOptions);
-		jQuery('table.jqplot-table-legend').css('width', '95px');
 	}
 });
