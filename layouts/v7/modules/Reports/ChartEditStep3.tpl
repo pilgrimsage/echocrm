@@ -41,7 +41,7 @@
                     <div>
                         <ul class="nav nav-tabs charttabs" name="charttab" style="text-align:center;font-size:14px;font-weight: bold;margin:0 3%;border:0px">
                             <li class="active marginRight5px" >
-                                <a data-type="pieChart" data-bs-toggle="tab">
+                                <a class="active" data-type="pieChart" data-bs-toggle="tab">
                                     <div><img src="layouts/v7/skins/images/pie.PNG" style="border:1px solid #ccc;"/></div>
                                     <div class="chartname">{vtranslate('LBL_PIE_CHART', $MODULE)}</div>
                                 </a>

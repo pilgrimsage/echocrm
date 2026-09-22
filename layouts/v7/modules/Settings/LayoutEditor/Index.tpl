@@ -35,9 +35,9 @@
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs marginBottom10px">
 					{assign var=URL value="index.php?module=LayoutEditor&parent=Settings&view=Index"}
-					<li class="{if $SELECTED_TAB eq 'detailViewTab'}active {/if}detailViewTab"><a data-bs-toggle="tab" href="#detailViewLayout" data-url="{$URL}" data-mode="showFieldLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-					<li class="{if $SELECTED_TAB eq 'relatedListTab'}active {/if}relatedListTab"><a data-bs-toggle="tab" href="#relatedTabOrder" data-url="{$URL}" data-mode="showRelatedListLayout"><strong>{vtranslate('LBL_RELATION_SHIPS', $QUALIFIED_MODULE)}</strong></a></li>
-					<li class="{if $SELECTED_TAB eq 'duplicationTab'}active {/if}duplicationTab"><a data-bs-toggle="tab" href="#duplicationContainer" data-url="{$URL}" data-mode="showDuplicationHandling"><strong>{vtranslate('LBL_DUPLICATE_HANDLING', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="{if $SELECTED_TAB eq 'detailViewTab'}active {/if}detailViewTab"><a class="{if $SELECTED_TAB eq 'detailViewTab'}active{/if}" data-bs-toggle="tab" href="#detailViewLayout" data-url="{$URL}" data-mode="showFieldLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="{if $SELECTED_TAB eq 'relatedListTab'}active {/if}relatedListTab"><a class="{if $SELECTED_TAB eq 'relatedListTab'}active{/if}" data-bs-toggle="tab" href="#relatedTabOrder" data-url="{$URL}" data-mode="showRelatedListLayout"><strong>{vtranslate('LBL_RELATION_SHIPS', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="{if $SELECTED_TAB eq 'duplicationTab'}active {/if}duplicationTab"><a class="{if $SELECTED_TAB eq 'duplicationTab'}active{/if}" data-bs-toggle="tab" href="#duplicationContainer" data-url="{$URL}" data-mode="showDuplicationHandling"><strong>{vtranslate('LBL_DUPLICATE_HANDLING', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
 				<div class="tab-content layoutContent themeTableColor overflowVisible">
 					<div class="tab-pane{if $SELECTED_TAB eq 'detailViewTab'} active{/if}" id="detailViewLayout">

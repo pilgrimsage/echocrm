@@ -41,6 +41,24 @@
 	left:auto !important;
 }
 
+/* #overlayPageContent (mass-edit, mass-delete confirm, add-block,
+   convert-lead and every other modal loaded via
+   helper.js:loadPageContentOverlay) is hardcoded in 4 templates as
+   class="fade modal overlayPageContent ..." - every skins subfolder's
+   style.css has ".overlayPageContent.fade{top:700px;opacity:0}" with
+   the "shown" state keyed off ".fade.in" (".overlayPageContent.fade.in
+   {top:83px;opacity:1}"), real Bootstrap 3 behavior. BS5's own JS only
+   ever adds ".show", never ".in", so that shown state can never trigger
+   - the modal stayed permanently parked 700px below the viewport at
+   opacity 0 no matter what content was loaded into it. This is the
+   dashboard tab-pane bug's twin, just in a skin file instead of a
+   template, so a class rename in the markup can't fix it - overriding
+   the shown state for the class BS5 actually uses. */
+.overlayPageContent.show{
+	top:83px !important;
+	opacity:1 !important;
+}
+
 /* ModalHeader.tpl wraps the title + close button in a single
    ".clearfix" div relying on float:left/float:right to place them at
    opposite ends. BS5's own .modal-header is display:flex, which sizes
@@ -106,14 +124,28 @@
    .modal-dialog uses BS5's plain default: margin-top only, pinned to the
    top of the viewport with the rest of the screen left empty below it.
    Center every modal vertically and horizontally instead of touching
-   ~30+ templates to add the class. */
-.modal-dialog{
+   ~30+ templates to add the class. Scoped away from ".modal-content" -
+   a few templates (e.g. LayoutEditor's "Add Block") put BOTH classes on
+   the SAME element instead of nesting ".modal-content" inside
+   ".modal-dialog"; align-items:center there collapsed the header/body/
+   footer to their own content width (align-items:center sizes flex
+   items to content on the cross axis) instead of the full modal width,
+   breaking that modal's layout completely. */
+.modal-dialog:not(.modal-content){
 	display:flex;
 	align-items:center;
 	min-height:calc(100% - 3.5rem);
 }
 .modal-dialog .modal-content{
 	width:100%;
+}
+/* The combined ".modal-dialog.modal-content" case: center it via the
+   outer ".modal" instead, since there's no separate dialog wrapper to
+   flex against here. */
+.modal.show:has(> .modal-dialog.modal-content){
+	display:flex !important;
+	align-items:center;
+	justify-content:center;
 }
 
 /* #overlayPage is a shared full-viewport container (loadPageOverlay in
@@ -804,4 +836,33 @@ input[type="checkbox"]:disabled{
 	width:auto !important;
 	margin-left:0 !important;
 	border-radius:var(--radius,8px);
+}
+
+/* Settings > Layout Editor's field tiles (FieldsList.tpl): each field
+   name is wrapped in "<div class='fieldLabelContainer row'>" nested
+   several ".row"/".col-sm-*" levels deep inside a narrow field-block
+   card, using ".row" only for its old clearfix side-effect (a <br>
+   inside it splits the name from a "Text"/"Picklist" type caption on
+   the next line) - never meant to be a real BS5 flex row. Once ".row"
+   became flex, that nesting squeezed the row down to a sliver, and the
+   field name's <span> - not given any explicit sizing - shrank with
+   it far enough that every letter wrapped onto its own line ("F/I/R/S/
+   T/N/A/M/E" stacked vertically) instead of reading as one word. */
+.fieldLabelContainer.row{
+	display:block;
+}
+
+/* .blockHeader (Sharing Rules, Profiles detail/edit, Picklist Dependency
+   Graph) is a plain <tr> styled BS3-style with background set on the
+   ROW - ".blockHeader{background:#474747}" + ".blockHeader th{color:
+   #fff}" (skins/marketing/style.css), meant to show through since old
+   browsers left table cells transparent by default. BS5's own .table
+   CSS explicitly sets background-color on every cell (needed for its
+   striping/hover support), which overrides the row's background at
+   higher specificity - leaving literal white text on a white cell
+   background, invisible. Give the header cells their own background
+   directly instead of relying on the row showing through. */
+.blockHeader th{
+	background:var(--ink,#0B0F14) !important;
+	color:#fff !important;
 }

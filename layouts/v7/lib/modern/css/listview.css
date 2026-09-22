@@ -137,6 +137,15 @@ body{
 .table-actions .dropdown{
 	float:none !important;
 }
+/* The "select all" checkbox's wrapping <span> carries
+   data-bs-toggle="dropdown" (FieldSearchView.tpl / ListViewHeader.tpl)
+   but has no actual dropdown-menu sibling - it's just a checkbox, not a
+   real dropdown trigger. BS5 draws a caret on every .dropdown-toggle
+   via ::after regardless of whether one is ever opened, so a stray
+   arrow appeared next to the checkbox for no reason. */
+.table-actions .dropdown-toggle.input::after{
+	display:none;
+}
 #listColumnFilterContainer{
 	display:flex;
 	align-items:center;

@@ -13,7 +13,7 @@
 			<br>
 			<form id="customerPortalForm" name="customerPortalForm" action="index.php" method="POST" class="form-horizontal">
 				<input type="hidden" name="portalModulesInfo" value="" />
-				<div class="col-sm-12 col-xs-12 input-group">					
+				<div class="col-sm-12 col-xs-12">
 					<div class="form-group">
 						<label for="defaultAssignee" class="col-sm-4 control-label fieldLabel"><span>{vtranslate('LBL_DEFAULT_ASSIGNEE', $QUALIFIED_MODULE)}</span></label>
 						<div class="fieldValue col-lg-3 col-md-3 col-sm-3 input-group">
@@ -37,7 +37,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-12 col-xs-12 input-group">
+				<div class="col-sm-12 col-xs-12">
 					<div class="form-group">
 						<label for="portal-url" class="col-sm-4 control-label fieldLabel">{vtranslate('LBL_PORTAL_URL', $QUALIFIED_MODULE)}</label>
 						<div class="col-sm-5">

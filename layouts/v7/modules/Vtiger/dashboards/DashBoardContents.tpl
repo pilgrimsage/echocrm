@@ -14,7 +14,7 @@
             <ul class="nav nav-tabs tabs sortable container-fluid">
                 {foreach key=index item=TAB_DATA from=$DASHBOARD_TABS}
                     <li class="{if $TAB_DATA["id"] eq $SELECTED_TAB}active{/if} dashboardTab" data-tabid="{$TAB_DATA["id"]}" data-tabname="{$TAB_DATA["tabname"]}">
-                        <a data-bs-toggle="tab" href="#tab_{$TAB_DATA["id"]}">
+                        <a class="{if $TAB_DATA["id"] eq $SELECTED_TAB}active{/if}" data-bs-toggle="tab" href="#tab_{$TAB_DATA["id"]}">
                             <div>
                                 <span class="name textOverflowEllipsis" value="{$TAB_DATA["tabname"]}" style="width:10%">
                                     <strong>{$TAB_DATA["tabname"]}</strong>

@@ -22,7 +22,7 @@
     </style>
     {assign var=NON_DELETABLE_VALUES value=$SELECTED_PICKLIST_FIELDMODEL->getNonEditablePicklistValues($SELECTED_PICKLIST_FIELDMODEL->getName())}
     <ul class="nav nav-tabs massEditTabs" style="margin-bottom: 0;">
-        <li class="active"><a href="#allValuesLayout" data-bs-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
+        <li class="active"><a class="active" href="#allValuesLayout" data-bs-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
             <li id="assignedToRoleTab"><a href="#AssignedToRoleLayout" data-bs-toggle="tab"><strong>{vtranslate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>
                     {/if}

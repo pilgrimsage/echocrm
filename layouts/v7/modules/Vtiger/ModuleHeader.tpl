@@ -50,7 +50,7 @@
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-7 col-xs-1 padding0 float-end">
 				<div id="appnav" class="navbar-right">
-					<nav class="navbar navbar-inverse border0 margin0">
+					<nav class="navbar navbar-expand-lg navbar-inverse border0 margin0">
 						{if $MODULE_BASIC_ACTIONS|@count gt 0}
 						<div class="container-fluid">
 							<div class="navbar-header bg-white marginTop5px">
@@ -59,7 +59,7 @@
 								</button>
 							</div>
 
-							<div class="navbar-collapse collapse" id="appnavcontent" aria-expanded="false" style="height: 1px;">
+							<div class="navbar-collapse collapse" id="appnavcontent" aria-expanded="false">
 								<ul class="nav navbar-nav">
 									{foreach item=BASIC_ACTION from=$MODULE_BASIC_ACTIONS}
 										{if $BASIC_ACTION->getLabel() == 'LBL_IMPORT'}

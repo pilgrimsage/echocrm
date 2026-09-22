@@ -61,7 +61,7 @@
 			<div class="tabbable-panel">
 				<div class="tabbable-line margin0px" style="padding-bottom: 20px;">
 					<ul id="extensionTab" class="nav nav-tabs" style="margin-bottom: 0px; padding-bottom: 0px;text-align: left;">
-						<li class="active"><a href="#description" data-bs-toggle="tab"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</strong></a></li>
+						<li class="active"><a class="active" href="#description" data-bs-toggle="tab"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</strong></a></li>
 						<li class="divider-vertical"></li>
 						<li><a href="#CustomerReviews" data-bs-toggle="tab"><strong>{vtranslate('LBL_CUSTOMER_REVIEWS', $QUALIFIED_MODULE)}</strong></a></li>
 						<li class="divider-vertical"></li>

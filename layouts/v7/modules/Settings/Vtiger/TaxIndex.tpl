@@ -17,7 +17,7 @@
 		<br>
 		<div class="contents tabbable clearfix">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
-				<li class="tab-item taxesTab active"><a data-bs-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li class="tab-item taxesTab active"><a class="active" data-bs-toggle="tab" href="#taxes"><strong>{vtranslate('LBL_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li class="tab-item chargesTab"><a data-bs-toggle="tab" href="#charges"><strong>{vtranslate('LBL_CHARGES_AND ITS_TAXES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li class="tab-item taxRegionsTab"><a data-bs-toggle="tab" href="#taxRegions"><strong>{vtranslate('LBL_TAX_REGIONS', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
