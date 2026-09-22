@@ -82,7 +82,12 @@ If you find more `.modal(`/`.tooltip(`/`.popover(`/`.dropdown(`/`.collapse(` cal
 
 ## Plugin tier audit (don't re-litigate without new evidence)
 
-**Tier 1 — deleted** (confirmed dead or zero real usage): `html5shim`, `handsontable`, `jstorage`, `garand-sticky`, `libraries/bootstrap-legacy`, `colorpicker`.
+**Tier 1 — verified dead and deleted 2026-09-22** (previously claimed done, but the files were still present with zero references — `git grep` for each name found nothing): `html5shim` (`libraries/html5shim/`), `jstorage.min.js` (both `libraries/jquery/` and `layouts/v7/lib/jquery/` copies). `handsontable` was already genuinely gone.
+
+**⚠️ NOT actually dead — still load-bearing, do not delete:**
+- `colorpicker` (`libraries/jquery/colorpicker/`) — actively registered by `modules/Settings/Picklist/views/Index.php`, `modules/Calendar/views/Calendar.php`, and `modules/Project/views/Detail.php` (picklist color swatches, calendar/project color fields). Replacing it means swapping these 3 controllers to a native `<input type="color">` or a maintained picker, then testing each of those 3 screens — not a deletion.
+- `garand-sticky` (`libraries/garand-sticky/jquery.sticky.js`) — actively registered by `modules/Settings/LayoutEditor/views/Index.php`. Modern CSS `position: sticky` can very likely replace this outright, but needs verifying on that one screen before removal.
+- `libraries/bootstrap-legacy` — its CSS is actively loaded by `modules/Migration/views/Index.php` (the upgrade-wizard UI, a different, older skin layer than the main v7 login/app skin). Confirm whether the migration wizard is still reachable/used before touching this; it may be intentionally isolated from the BS5 migration.
 
 **Tier 2 — deferred to advanced-customization phase** (deep functional coupling, not a safe "UI pass" item):
 - `select2` — v3.4.8 in use, ~22 modules call `.select2("val"/"data", ...)` setter syntax which breaks in v4's changed API. CSS-only visual refresh applied instead of version bump.
