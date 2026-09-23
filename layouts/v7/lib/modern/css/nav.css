@@ -860,17 +860,27 @@ input[type="checkbox"]:disabled{
    before the search addon in the DOM, so it's never really
    :first-child). Bordering the container and stripping child borders
    instead is robust to however many/which elements sit in between. */
+/* Currency/date/time/reference fields all share this ".input-group
+   .inputElement" wrapper (Field.tpl-style markup puts BOTH classes on the
+   same div). Per-app skin files (skins/marketing/style.css etc) carry a
+   generic ".inputElement{border:thin solid #ccc;border-radius:1px}" rule
+   left over from BS3 - same single-class specificity as ".input-group"
+   here, so on this shared div the skin's later-loaded rule silently won,
+   making every currency/date/time/reference field render with a flat grey
+   1px-radius border instead of matching plain text fields. Same class of
+   bug as the other per-app-skin conflicts already documented above -
+   !important wins the tie regardless of load order. */
 .input-group{
 	display:flex !important;
 	align-items:stretch !important;
 	width:100% !important;
-	border:1px solid var(--line,#DFE2DD);
-	border-radius:6px;
+	border:1px solid var(--line,#DFE2DD) !important;
+	border-radius:6px !important;
 	overflow:hidden;
-	background:var(--mist,#F6F7F5);
+	background:var(--mist,#F6F7F5) !important;
 }
 .input-group:focus-within{
-	border-color:var(--teal,#00D3B8);
+	border-color:var(--teal,#00D3B8) !important;
 }
 .input-group .inputElement,
 .input-group .form-control,
