@@ -96,10 +96,14 @@ h1{
 	border-bottom-right-radius: var(--md-radius);
 	background: var(--md-paper);
 }
+/* height:15px used to fight its own 8px/8px vertical padding plus a
+   19.5px line-height, so the box was forced to expand past its declared
+   height anyway (rendered ~17px) - text sat right against the top/bottom
+   edges with almost no breathing room. Sized like the app's other tab-like
+   controls instead: no fixed height, comfortable padding driving it. */
 .md-tab{
 	float: left;
-	padding: 8px 12px;
-	height: 15px;
+	padding: 10px 16px;
 	border-top-left-radius: var(--md-radius);
 	border-top-right-radius: var(--md-radius);
 	margin-right: 2px;
@@ -109,6 +113,7 @@ h1{
 	border-bottom: none;
 	cursor: pointer;
 	font-size: 13px;
+	line-height: 1.2;
 	color: var(--md-muted);
 	transition: background-color .15s ease, color .15s ease;
 }
