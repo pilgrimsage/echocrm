@@ -892,12 +892,23 @@ input[type="checkbox"]:disabled{
 	border-radius:0 !important;
 	background:#fff !important;
 }
+/* min-width (not just padding) so every icon-only addon renders at least
+   the same size regardless of the icon glyph's natural width (fa-calendar
+   vs fa-clock-o measured ~37.5px vs ~30px at identical padding) or a JS
+   library setting its own inline width on the addon (jquery.timepicker's
+   trigger icon does this) - date and date-time field pairs were rendering
+   with different usable input widths even though their .input-group
+   containers matched exactly. min-width (not a hard width) so the longer
+   text addons elsewhere (currency symbol, "to", translated "MB") can still
+   grow past it instead of clipping. !important overrides both the inline
+   style and the per-app skin conflicts noted above. */
 .input-group-addon,
 .input-group .clearReferenceSelection{
 	display:flex !important;
 	align-items:center;
 	justify-content:center;
-	padding:0 12px;
+	min-width:38px !important;
+	padding:0 12px !important;
 	background:var(--mist,#F6F7F5);
 	border:none !important;
 	border-left:1px solid var(--line,#DFE2DD) !important;
@@ -907,6 +918,7 @@ input[type="checkbox"]:disabled{
 	flex-shrink:0;
 	text-decoration:none;
 	line-height:1;
+	box-sizing:border-box;
 }
 .input-group-addon:hover,
 .input-group .clearReferenceSelection:hover{
