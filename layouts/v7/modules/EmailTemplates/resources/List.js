@@ -26,7 +26,7 @@ Vtiger_List_Js("EmailTemplates_List_Js", {
                 var message = app.vtranslate('LBL_CUTOMER_LOGIN_DETAILS_TEMPLATE_DELETE_MESSAGE');
             }
 
-            app.helper.showConfirmationBox({'message': message}).then(
+            app.helper.showConfirmation({'message': message}).then(
                     function (e) {
                         var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
                         var listViewInstance = Vtiger_List_Js.getInstance();
@@ -63,7 +63,7 @@ Vtiger_List_Js("EmailTemplates_List_Js", {
             var message = app.vtranslate('LBL_CUTOMER_LOGIN_DETAILS_TEMPLATE_DELETE_MESSAGE');
         }
 
-        app.helper.showConfirmationBox({'message': message}).then(
+        app.helper.showConfirmation({'message': message}).then(
                 function (e) {
                     var module = app.getModuleName();
                     var postData = {

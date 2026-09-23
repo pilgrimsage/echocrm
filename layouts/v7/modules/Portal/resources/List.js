@@ -124,7 +124,7 @@ Vtiger_List_Js("Portal_List_Js", {
             var currentTarget = jQuery(e.currentTarget);
             var id = currentTarget.closest('ul').data('id');
             var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-            app.helper.showConfirmationBox({'message': message}).then(function (e) {
+            app.helper.showConfirmation({'message': message}).then(function (e) {
                 var params = {
                     'module': app.getModuleName(),
                     'parent': app.getParentModuleName(),

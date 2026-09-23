@@ -32,7 +32,7 @@ Settings_Vtiger_Index_Js('Settings_MailConverter_List_Js', {
 	},
 
 	triggerDelete: function (url) {
-		app.helper.showConfirmationBox({'message': app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function () {
+		app.helper.showConfirmation({'message': app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function () {
 			app.helper.showProgress();
 			app.request.post({'url': url}).then(function (err, data) {
 				jQuery('#SCANNER_'+data.id).remove();

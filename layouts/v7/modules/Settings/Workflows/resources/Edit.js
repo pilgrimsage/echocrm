@@ -753,7 +753,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       var container = this.getActionContainer();
       container.on('click', '.deleteTask', function (e) {
          var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-         app.helper.showConfirmationBox({
+         app.helper.showConfirmation({
             'message': message
          }).then( 
             function () {

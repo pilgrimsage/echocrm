@@ -52,7 +52,7 @@ Vtiger_Edit_Js("Contacts_Edit_Js",{},{
 	referenceSelectionEventHandler :  function(data, container) {
 		var thisInstance = this;
 		var message = app.vtranslate('OVERWRITE_EXISTING_MSG1')+app.vtranslate('SINGLE_'+data['source_module'])+' ('+data['selectedName']+') '+app.vtranslate('OVERWRITE_EXISTING_MSG2');
-		app.helper.showConfirmationBox({'message' : message}).then(function(e){
+		app.helper.showConfirmation({'message' : message}).then(function(e){
 			thisInstance.copyAddressDetails(data, container);
 		},
 		function(error,err){});

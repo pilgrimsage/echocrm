@@ -216,7 +216,7 @@ Settings_Vtiger_List_Js("Settings_Webforms_List_Js",{
 	 */
     DeleteRecord : function(deleteRecordActionUrl) {
         var thisInstance = this;
-        app.helper.showConfirmationBox({
+        app.helper.showConfirmation({
             message:app.vtranslate('LBL_DELETE_CONFIRMATION')
         }).then(function() {
             app.request.post({'url':deleteRecordActionUrl+'&ajaxDelete=true'}).then(

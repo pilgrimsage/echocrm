@@ -60,7 +60,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js",{
 			var element = jQuery(e.currentTarget);
 			if (jQuery('.bootbox-confirm .in').length == 0) {
 				var message = app.vtranslate('JS_APPENDED_TO_EXISTING_LIST',self.relatedModulename)+'<br><br>'+app.vtranslate('JS_WISH_TO_PROCEED');
-				app.helper.showConfirmationBox({'message':message}).then(function(e){
+				app.helper.showConfirmation({'message':message}).then(function(e){
 					var cvId = element.find('option:selected').data('id');
 					var params = {
 						'sourceRecord' : self.parentRecordId,

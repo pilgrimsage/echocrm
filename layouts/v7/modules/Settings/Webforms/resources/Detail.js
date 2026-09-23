@@ -14,7 +14,7 @@ Settings_Vtiger_Detail_Js('Settings_Webforms_Detail_Js', {
 	 * @params: delete record url.
 	 */
     deleteRecord : function(deleteRecordActionUrl) {
-        app.helper.showConfirmationBox({
+        app.helper.showConfirmation({
             message:app.vtranslate('LBL_DELETE_CONFIRMATION')
         }).then(function() {
             app.request.post({'url':deleteRecordActionUrl}).then(

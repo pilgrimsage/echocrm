@@ -237,7 +237,7 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                 }
             }
             
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
+            app.helper.showConfirmation({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
                 thisInstance.getImportModuleStepView(params).then(function(installationLogData) {
                     var callBackFunction = function(data) {
                         var installationStatus = jQuery(data).find('[name="installationStatus"]').val();
@@ -384,7 +384,7 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                 return false;
             }
             
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
+            app.helper.showConfirmation({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_INSTALL')+'?</b>'}).then(function(){
 				var extensionId = jQuery('[name="extensionId"]').val();
 				var targetModule = jQuery('[name="targetModule"]').val();
 				var moduleType = jQuery('[name="moduleType"]').val();
@@ -431,7 +431,7 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                 return false;
             }
             
-            app.helper.showConfirmationBox({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_UNINSTALL')+'?</b>'}).then(function(){
+            app.helper.showConfirmation({message:'<b>'+app.vtranslate('JS_ARE_YOU_SURE_UNINSTALL')+'?</b>'}).then(function(){
                 var params = {
                 'module': app.getModuleName(),
                 'parent': app.getParentModuleName(),

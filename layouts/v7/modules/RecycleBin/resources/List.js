@@ -11,7 +11,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 	recordSelectTrackerInstance: false,
 	emptyRecycleBin: function (url) {
 		var message = app.vtranslate('JS_MSG_EMPTY_RB_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmation({'message': message}).then(
 			function (e) {
 				var deleteURL = url + '&mode=emptyRecycleBin';
 				var instance = new RecycleBin_List_Js();
@@ -36,7 +36,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 			var selectedIds = listInstance.readSelectedIds(true);
 			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(
+			app.helper.showConfirmation({'message': message}).then(
 				function (e) {
 					var sourceModule = jQuery('#sourceModule').val();
 					var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&mode=deleteRecords&sourceModule=' + sourceModule;
@@ -66,7 +66,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 			var excludedIds = listInstance.readExcludedIds(true);
 			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('JS_LBL_RESTORE_RECORDS_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(
+			app.helper.showConfirmation({'message': message}).then(
 				function (e) {
 					var sourceModule = jQuery('#sourceModule').val();
 					var restoreURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&mode=restoreRecords&sourceModule=' + sourceModule+"&search_params="+JSON.stringify(listInstance.getListSearchParams());
@@ -113,7 +113,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		var sourceModule = jQuery('#sourceModule').val();
 		var cvId = listInstance.getCurrentCvId();
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmation({'message': message}).then(
 			function (e) {
 				var module = app.getModuleName();
 				var postData = {
@@ -179,7 +179,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 	 */
 	restoreRecord: function (recordId) {
 		var message = app.vtranslate('JS_LBL_RESTORE_RECORD_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmation({'message': message}).then(
 			function (e) {
 				RecycleBin_List_Js.restoreAction(recordId, false);
 			},

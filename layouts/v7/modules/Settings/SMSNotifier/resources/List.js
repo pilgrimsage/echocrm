@@ -109,7 +109,7 @@ Settings_Vtiger_List_Js("Settings_SMSNotifier_List_Js", {
 	DeleteRecord: function (url) {
 		var thisInstance = this;
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(
+		app.helper.showConfirmation({'message': message}).then(
 			function (e) {
 				app.request.post({url: url}).then(
 					function (err, data) {

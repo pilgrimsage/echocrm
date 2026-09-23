@@ -227,7 +227,7 @@ Vtiger_List_Js("Rss_List_Js",{},{
         var thisInstance = this;
         var recordId = container.find('#recordId').val();
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message' : message}).then(function(e) {
+		app.helper.showConfirmation({'message' : message}).then(function(e) {
 				var module = app.getModuleName();
 				var postData = {
 					"module": module,

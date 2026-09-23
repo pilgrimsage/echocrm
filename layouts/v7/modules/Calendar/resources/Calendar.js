@@ -127,7 +127,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 	},
 	markAsHeld: function (recordId) {
 		var thisInstance = this;
-		app.helper.showConfirmationBox({
+		app.helper.showConfirmation({
 			message: app.vtranslate('JS_CONFIRM_MARK_AS_HELD')
 		}).then(function () {
 			var requestParams = {
@@ -715,7 +715,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		jQuery('#calendarview-feeds').on('click', '.deleteCalendarFeed',
 				function () {
 					var feedIndicator = jQuery(this).closest('.calendar-feed-indicator');
-					app.helper.showConfirmationBox({
+					app.helper.showConfirmation({
 						message: app.vtranslate('JS_CALENDAR_VIEW_DELETE_CONFIRMATION')
 					}).then(function () {
 						thisInstance.deleteFeed(feedIndicator);
@@ -1352,7 +1352,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 				thisInstance._deleteCalendarEvent(eventId, sourceModule, postData);
 			});
 		} else {
-			app.helper.showConfirmationBox({
+			app.helper.showConfirmation({
 				message: app.vtranslate('LBL_DELETE_CONFIRMATION')
 			}).then(function () {
 				thisInstance._deleteCalendarEvent(eventId, sourceModule);

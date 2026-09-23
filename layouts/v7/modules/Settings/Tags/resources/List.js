@@ -48,7 +48,7 @@ Settings_Vtiger_List_Js('Settings_Tags_List_Js',{
     
     deleteTag : function(url) {
         var self = this;
-        app.helper.showConfirmationBox({'message' : app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).then(function(){
+        app.helper.showConfirmation({'message' : app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).then(function(){
             app.request.post({'url' : url}).then(function(error, data){
                 if(data){
                     self.loadListViewRecords();

@@ -1016,7 +1016,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		var initialFormData = form.serialize();
 		jQuery('.modal .close,.modal .cancelLink').click(function(e) {
 			if (initialFormData != form.serialize() && form.data('submit') != "true") {
-				app.helper.showConfirmationBox({'message' : app.vtranslate("JS_CHANGES_WILL_BE_LOST") +' '+ app.vtranslate('JS_WISH_TO_PROCEED')}).then(function(){
+				app.helper.showConfirmation({'message' : app.vtranslate("JS_CHANGES_WILL_BE_LOST") +' '+ app.vtranslate('JS_WISH_TO_PROCEED')}).then(function(){
 					window.onbeforeunload = null;
 					if(form.closest('#overlayPageContent').length > 0) {
 						app.helper.hidePageContentOverlay();

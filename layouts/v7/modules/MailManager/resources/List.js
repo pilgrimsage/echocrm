@@ -348,7 +348,7 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 				app.helper.showAlertBox({message:app.vtranslate('JSLBL_NO_EMAILS_SELECTED')});
 				return false;
 			} else {
-				app.helper.showConfirmationBox({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
+				app.helper.showConfirmation({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
 					app.helper.showProgress(app.vtranslate("JSLBL_Deleting")+"...");
 					var params = {
 						'module' : 'MailManager',
@@ -809,7 +809,7 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 		container.find('#mmDelete').click(function() {
 			var msgNo = jQuery('#mmMsgNo').val();
 			var folder = jQuery('#mmFolder').val();
-			app.helper.showConfirmationBox({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
+			app.helper.showConfirmation({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
 				app.helper.showProgress(app.vtranslate("JSLBL_Deleting")+"...");
 				var params = {
 					'module' : 'MailManager',
@@ -1172,7 +1172,7 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 				app.helper.showAlertBox({message:app.vtranslate('JSLBL_NO_EMAILS_SELECTED')});
 				return false;
 			} else {
-				app.helper.showConfirmationBox({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
+				app.helper.showConfirmation({'message' : app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function() {
 					app.helper.showProgress(app.vtranslate("JSLBL_Deleting")+"...");
 					var params = {
 						'module' : 'MailManager',

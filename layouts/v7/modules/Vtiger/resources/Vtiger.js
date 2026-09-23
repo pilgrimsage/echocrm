@@ -1633,7 +1633,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 
 	confirmAndFillDetails : function(container, data, message) {
 		var thisInstance = this;
-		app.helper.showConfirmationBox({'message' : message}).then(
+		app.helper.showConfirmation({'message' : message}).then(
 			function(e) {
 				thisInstance.setReferenceFieldValue(container, data);
 			},

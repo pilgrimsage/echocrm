@@ -74,7 +74,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 			});
 		} else {
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+			app.helper.showConfirmation({'message' : message}).then(function(data) {
 				thisInstance.deleteActivityRelation(postData);
 			},
 			function(error,err) {
@@ -761,7 +761,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 				function(error, err) {
 				});
 			} else {
-				app.helper.showConfirmationBox({'message' : message}).then(
+				app.helper.showConfirmation({'message' : message}).then(
 					function(e) {
 						if(relatedModuleName == 'Emails') {
 							var parentId = row.find('.parentId').data('parent-id');
@@ -867,7 +867,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 	*/
 	remove : function(deleteRecordActionUrl){
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmation({'message' : message}).then(function(data) {
 				var params = app.convertUrlToDataParams(deleteRecordActionUrl+"&ajaxDelete=true");
 				app.request.post({data:params}).then(
 				function(err,data){

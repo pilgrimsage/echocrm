@@ -76,7 +76,7 @@ Vtiger_Detail_Js("Users_Detail_Js",{
 	triggerChangeAccessKey: function (url) {
 		var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
 		var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
-		app.helper.showConfirmationBox({'title': title,'message': message}).then(function (data) {
+		app.helper.showConfirmation({'title': title,'message': message}).then(function (data) {
 			app.helper.showProgress(app.vtranslate('JS_PLEASE_WAIT'));
 			app.request.post({'url': url}).then(function (err, data) {
 				app.helper.hideProgress();
@@ -99,7 +99,7 @@ Vtiger_Detail_Js("Users_Detail_Js",{
 	 */
 	triggerDeleteUser : function(deleteUserUrl) {
 		var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmation({'message' : message}).then(function(data) {
 				app.request.post({'url':deleteUserUrl}).then(
 				function(err, data){
 					if(err === null){

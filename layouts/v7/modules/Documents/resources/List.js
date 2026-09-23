@@ -275,7 +275,7 @@ Vtiger_List_Js("Documents_List_Js", {
             
             var deletable = element.data('deletable');
             if(deletable == '1') {
-                app.helper.showConfirmationBox({
+                app.helper.showConfirmation({
                     'message' : app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
                 }).then(function() {
                     var folderId = element.data('folderId');

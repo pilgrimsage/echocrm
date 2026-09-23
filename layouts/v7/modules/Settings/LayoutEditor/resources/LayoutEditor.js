@@ -1508,7 +1508,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 			var blockId = table.data('blockId');
 
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			app.helper.showConfirmationBox({'message': message}).then(
+			app.helper.showConfirmation({'message': message}).then(
 				function (data) {
 					thisInstance.deleteCustomBlock(blockId);
 				});
@@ -1572,12 +1572,8 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 						, currentTarget.data('currentTabLabel'), currentTarget.data('currentModuleLabel'));
 			}
 
-			app.helper.showConfirmationBox({'title': app.vtranslate('LBL_WARNING'),
-				'message'	: message,
-				buttons		:{
-								cancel	: {label: 'No', className: 'btn-default confirm-box-btn-pad float-end'},
-								confirm	: {label: app.vtranslate('JS_FIELD_DELETE_CONFIRMATION'), className: 'confirm-box-ok confirm-box-btn-pad btn-primary'}
-							 }
+			app.helper.showConfirmation({'title': app.vtranslate('LBL_WARNING'),
+				'message'	: message
 					}).then(function (data) {
 						thisInstance.deleteCustomField(fieldId).then(
 							function (data) {

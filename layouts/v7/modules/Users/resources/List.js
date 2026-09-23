@@ -62,7 +62,7 @@ Settings_Vtiger_List_Js("Settings_Users_List_Js",{
 		} else {
 			var message = app.vtranslate('LBL_DELETE_USER_PERMANENT_CONFIRMATION');
 		}
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmation({'message' : message}).then(function(data) {
 				app.request.post({'url':deleteUserUrl}).then(
 				function(err, data){
 					if(err === null){
@@ -130,7 +130,7 @@ Settings_Vtiger_List_Js("Settings_Users_List_Js",{
 		};
 
 		var message = app.vtranslate('LBL_SIGN_IN_AS_USER');
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmation({'message' : message}).then(function(data) {
 			app.request.post(params).then(
 				function(err, data){
 					if(err === null){
@@ -147,7 +147,7 @@ Settings_Vtiger_List_Js("Settings_Users_List_Js",{
 	*@param userId, event
 	*/
 	restoreUser : function(userId) {
-		app.helper.showConfirmationBox({
+		app.helper.showConfirmation({
 			'message' : app.vtranslate('LBL_RESTORE_CONFIRMATION')
 		}).then( function() {
 			var params = {

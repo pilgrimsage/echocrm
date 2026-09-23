@@ -333,7 +333,7 @@ Vtiger.Class("Vtiger_List_Js", {
 		listSelectParams = jQuery.extend(listSelectParams, params);
 		if (listSelectParams) {
 			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			app.helper.showConfirmationBox({'message': message}).then(function (e) {
+			app.helper.showConfirmation({'message': message}).then(function (e) {
 				listSelectParams['module'] = app.getModuleName();
 				listSelectParams['action'] = 'MassDelete';
 				listSelectParams['search_params'] = JSON.stringify(listInstance.getListSearchParams());
@@ -1931,7 +1931,7 @@ Vtiger.Class("Vtiger_List_Js", {
 	deleteRecord: function (recordId, extraParams) {
 		var thisInstance = this;
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message': message}).then(function () {
+		app.helper.showConfirmation({'message': message}).then(function () {
 			thisInstance._deleteRecord(recordId, extraParams);
 		});
 	},
@@ -2256,7 +2256,7 @@ Vtiger.Class("Vtiger_List_Js", {
 		var tagElement = jQuery("#listViewTagContainer").find('[data-id="' + tagId + '"]');
 		var tagName = tagElement.find('.tagLabel').text();
 		var message = app.vtranslate('JS_REMOVE_MASS_TAG_WARNING', tagName);
-		app.helper.showConfirmationBox({'message': message}).then(function () {
+		app.helper.showConfirmation({'message': message}).then(function () {
 			var tagInstance = self.getComponentInstance('Vtiger_Tag_Js');
 			var deleteParams = {};
 			var cvId = self.getCurrentCvId();

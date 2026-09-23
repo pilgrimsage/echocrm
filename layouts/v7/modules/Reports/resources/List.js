@@ -56,7 +56,7 @@ Vtiger_List_Js("Reports_List_Js",{
 			var cvId = listInstance.getCurrentCvId();
 
 			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			app.helper.showConfirmationBox({'message' : message}).then(
+			app.helper.showConfirmation({'message' : message}).then(
 				function(e) {
 					var deleteURL = url+'&viewname='+cvId+'&selected_ids='+selectedIds+'&excluded_ids='+excludedIds+'&search_params='+searchParams;
 					var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
@@ -264,7 +264,7 @@ Vtiger_List_Js("Reports_List_Js",{
 			thisInstance.getFilterSelectElement().data('select2').close();
 			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			app.helper.showConfirmationBox({'message' : message}).then(
+			app.helper.showConfirmation({'message' : message}).then(
 				function(e) {
 					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 					var deleteUrl = currentOptionElement.data('deleteurl');
@@ -437,7 +437,7 @@ Vtiger_List_Js("Reports_List_Js",{
 			var url = jQuery(e.currentTarget).data('url');
 			var folderId = jQuery(e.currentTarget).data('id');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			app.helper.showConfirmationBox({'message' : message}).then(function(e) {
+			app.helper.showConfirmation({'message' : message}).then(function(e) {
 				app.request.post({url:url}).then(function(error,data){
 					if(data.success){
 						app.helper.showSuccessNotification({"message":data.message});

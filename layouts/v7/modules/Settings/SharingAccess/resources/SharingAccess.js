@@ -195,7 +195,7 @@ Vtiger.Class('Settings_Sharing_Access_Js', {}, {
 		var deleteUrl = deleteElement.data('url');
 		var currentRow = deleteElement.closest('tr.customRuleEntries');
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		app.helper.showConfirmationBox({'message' : message}).then(function(data) {
+		app.helper.showConfirmation({'message' : message}).then(function(data) {
 			app.request.post({'url' : deleteUrl}).then(
 				function(err, data){
 					if(err === null){

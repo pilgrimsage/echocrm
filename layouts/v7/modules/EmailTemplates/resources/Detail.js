@@ -21,7 +21,7 @@ Vtiger_Detail_Js("EmailTemplates_Detail_Js",{
             var message = app.vtranslate('LBL_CUTOMER_LOGIN_DETAILS_TEMPLATE_DELETE_MESSAGE');
         }
         
-		app.helper.showConfirmationBox({'message' : message}).then(
+		app.helper.showConfirmation({'message' : message}).then(
             function(e) {
 				app.request.post({url: deleteRecordActionUrl+'&ajaxDelete=true'}).then(
                     function(error, data){

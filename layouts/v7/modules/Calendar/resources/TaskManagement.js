@@ -534,7 +534,7 @@ Vtiger_Index_Js("Vtiger_TaskManagement_Js",{},{
 			   'record' : recordId
 		   };
 		   var message = app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			app.helper.showConfirmationBox({'message' : message}).then(function() {
+			app.helper.showConfirmation({'message' : message}).then(function() {
 				app.helper.showProgress();
 				app.request.post({"data":params}).then(function(err,data){
 					if(err === null){

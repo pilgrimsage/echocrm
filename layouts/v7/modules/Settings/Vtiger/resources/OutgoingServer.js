@@ -117,7 +117,7 @@ Vtiger.Class("Settings_Vtiger_OutgoingServer_Js",{},{
 		resetButton.click(function(e) {
 			jQuery('[name="default"]', form).val('true');
 			var message = app.vtranslate('JS_CONFIRM_DEFAULT_SETTINGS');
-			app.helper.showConfirmationBox({'message' : message}).then(
+			app.helper.showConfirmation({'message' : message}).then(
 				function(e) {
                    app.helper.showProgress();
 					thisInstance.saveOutgoingDetails(form);

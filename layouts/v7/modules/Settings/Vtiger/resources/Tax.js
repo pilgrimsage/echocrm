@@ -702,7 +702,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
     
     deleteRegion : function(url, currentElement) {
 		var message = app.vtranslate('JS_DELETE_REGION_DESC');
-		app.helper.showConfirmationBox({'message' : message}).then(function(e) {    
+		app.helper.showConfirmation({'message' : message}).then(function(e) {    
             app.helper.showProgress();
             app.request.post({url:url}).then(function(err,data){
                 app.helper.hideProgress();

@@ -386,7 +386,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 
 					Products_Edit_Js.getMessageForChildProductDeletionOrInActivation(params).then(function(message) {
 						if (message != '') {
-							app.helper.showConfirmationBox({'message': message}).then(
+							app.helper.showConfirmation({'message': message}).then(
 								function(data) {
 									self.checkMoreCurrenciesUI(e, form);
 									self.issetInActivationMessage = true;
