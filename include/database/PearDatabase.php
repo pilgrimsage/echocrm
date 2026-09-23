@@ -14,7 +14,7 @@
  ********************************************************************************/
 
 require_once 'include/logging.php';
-require_once 'libraries/adodb_vtigerfix/adodb.inc.php';
+require_once 'include/database/PDOConnectionCompat.php';
 
 $log = Logger::getLogger('VT');
 $logsqltm = Logger::getLogger('SQLTIME');
@@ -826,32 +826,11 @@ class PearDatabase{
     function connect($dieOnError = false) {
 		global $dbconfigoption,$dbconfig;
 		if(!isset($this->dbType)) {
-		    $this->println("ADODB Connect : DBType not specified");
+		    $this->println("PDO Connect : DBType not specified");
 		    return;
 		}
 
-		// Backward compatible mode for adodb library.
-		if ($this->dbType == 'mysqli') {
-			mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT ^ MYSQLI_REPORT_INDEX);
-		}
-
-		$this->database = ADONewConnection($this->dbType);
-	
-		// Setting client flag for Import csv to database(LOAD DATA LOCAL INFILE.....)
-		if ($this->database->clientFlags == 0 && isset($dbconfigoption['clientFlags'])) {
-			$this->database->clientFlags = $dbconfigoption['clientFlags'];
-		}
-
-		if ($this->dbType == 'mysqli') {
-			$optionFlags = array();
-			if ($this->database->optionFlags) {
-				$optionFlags = $this->database->optionFlags;
-			}
-
-			$optionFlags = array_merge($optionFlags, array(array(MYSQLI_OPT_LOCAL_INFILE, true)));
-			$this->database->optionFlags = $optionFlags;
-		}
-		// End
+		$this->database = new PDOConnectionCompat();
 
 		$result = $this->database->PConnect($this->dbHostName, $this->userName, $this->userPassword, $this->dbName);
 		if ($result) {
@@ -862,6 +841,11 @@ class PearDatabase{
 			// We will notice problem reading UTF8 characters otherwise.
 			if($this->isdb_default_utf8_charset) {
 				$this->executeSetNamesUTF8SQL(true);
+			}
+		} else {
+			$this->println("PDO Connect failed: " . $this->database->ErrorMsg());
+			if ($dieOnError || $this->dieOnError) {
+				die('Database connection failed: ' . $this->database->ErrorMsg());
 			}
 		}
 	}
@@ -918,17 +902,10 @@ class PearDatabase{
     }
 
     function disconnect() {
-		$this->println("ADODB disconnect");
+		$this->println("PDO disconnect");
 		if(isset($this->database)){
-	    	if($this->dbType == "mysql"){
-			mysql_close($this->database->_connectionID);
-	    }else if($this->dbType=="mysqli"){
-                mysqli_close($this->database->_connectionID);
-            } 
-            else {
 			$this->database->disconnect();
-	    }
-	    unset($this->database);
+			unset($this->database);
 		}
     }
 
@@ -936,62 +913,28 @@ class PearDatabase{
 		$this->database->debug = $value;
     }
 
-    // ADODB newly added methods
+    // ADODB compatibility notice: createTables()/createTable()/alterTable() used ADOdb's
+    // XML-schema parser and data dictionary. Confirmed via a full call-site audit
+    // (2026-09-24) that createTable()/alterTable() have zero external callers -
+    // real schema changes (e.g. custom field creation) go through raw ALTER TABLE
+    // SQL in vtlib/Vtiger/Utils.php via query()/pquery(), not these. createTables()
+    // is only used by the fresh-install wizard (modules/Install/models/InitSchema.php)
+    // and future core-version migrations; reimplementing ADOdb's XML schema parser
+    // on PDO was out of scope for this pass, so it now fails loudly instead of
+    // fatally erroring on a missing class. Flagged as a follow-up.
     function createTables($schemaFile, $dbHostName=false, $userName=false, $userPassword=false, $dbName=false, $dbType=false) {
-		$this->println("ADODB createTables ".$schemaFile);
-		if($dbHostName!=false) $this->dbHostName=$dbHostName;
-		if($userName!=false) $this->userName=$userPassword;
-		if($userPassword!=false) $this->userPassword=$userPassword;
-		if($dbName!=false) $this->dbName=$dbName;
-		if($dbType!=false) $this->dbType=$dbType;
-
-		$this->checkConnection();
-		$db = $this->database;
-
-		require_once 'libraries/adodb_vtigerfix/adodb-xmlschema.inc.php';
-		$schema = new adoSchema( $db );
-		
-		//Debug Adodb XML Schema
-		// $schema->XMLS_DEBUG = TRUE; // adoSchema does not support AllowDynamicProperties
-		//Debug Adodb
-		$schema->debug = true;
-		$sql = $schema->ParseSchema( $schemaFile );
-
-		$this->println("--------------Starting the table creation------------------");
-		$result = $schema->ExecuteSchema( $sql, $this->continueInstallOnError );
-		if($result) print $db->errorMsg();
-		// needs to return in a decent way
-		$this->println("ADODB createTables ".$schemaFile." status=".$result);
-		return $result;
+		$this->println("createTables: not supported after the ADOdb removal - XML schema installer needs a PDO-based reimplementation. schemaFile=".$schemaFile);
+		return false;
     }
 
     function createTable($tablename, $flds) {
-		$this->println("ADODB createTable table=".$tablename." flds=".$flds);
-		$this->checkConnection();
-		$dict = NewDataDictionary($this->database);
-		$sqlarray = $dict->CreateTableSQL($tablename, $flds);
-		$result = $dict->ExecuteSQLArray($sqlarray);
-		$this->println("ADODB createTable table=".$tablename." flds=".$flds." status=".$result);
-		return $result;
+		$this->println("createTable: not supported after the ADOdb removal (no callers found in this codebase). table=".$tablename);
+		return false;
     }
 
     function alterTable($tablename, $flds, $oper) {
-		$this->println("ADODB alterTableTable table=".$tablename." flds=".$flds." oper=".$oper);
-		$this->checkConnection();
-		$dict = NewDataDictionary($this->database);
-
-		if($oper == 'Add_Column') {
-		    $sqlarray = $dict->AddColumnSQL($tablename, $flds);
-		} else if($oper == 'Delete_Column') {
-		    $sqlarray = $dict->DropColumnSQL($tablename, $flds);
-		}
-		$this->println("sqlarray");
-		$this->println($sqlarray);
-
-		$result = $dict->ExecuteSQLArray($sqlarray);
-
-		$this->println("ADODB alterTableTable table=".$tablename." flds=".$flds." oper=".$oper." status=".$result);
-		return $result;
+		$this->println("alterTable: not supported after the ADOdb removal (no callers found in this codebase). table=".$tablename." oper=".$oper);
+		return false;
     }
 
     function getColumnNames($tablename) {
@@ -1062,7 +1005,9 @@ class PearDatabase{
 	function sql_escape_string($str)
 	{
 		if($this->isMySql()){
-			$result_data = ($str === null) ? '' : (($this->dbType=='mysqli')?mysqli_real_escape_string($this->database->_connectionID,$str):mysql_real_escape_string($str));
+			// PDO::quote() escapes and wraps in a pair of single quotes -
+			// strip that outer pair back off to match the old raw-escape contract.
+			$result_data = ($str === null) ? '' : substr($this->database->Quote((string)$str), 1, -1);
                 }
 		elseif($this->isPostgres())
 			$result_data = pg_escape_string($str);
