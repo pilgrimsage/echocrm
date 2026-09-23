@@ -580,7 +580,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 				if (is_array($chargeInfo['taxes'])) {
 					foreach ($chargeInfo['taxes'] as $taxId) {
-						$taxInfo = $chargeTaxesForRegions[$taxId];
+						$taxInfo = $chargeTaxesForRegions[$taxId] ?? array('values' => array());
 
 						$taxValue = $taxInfo['values']['default'];
 						if (array_key_exists($regionId, $taxInfo['values'])) {
@@ -648,7 +648,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 			if (is_array($chargeInfo['taxes'])) {
 				foreach ($chargeInfo['taxes'] as $taxId) {
-					$taxInfo = $chargeTaxesForRegions[$taxId];
+					$taxInfo = $chargeTaxesForRegions[$taxId] ?? array('values' => array());
 					$taxValue = $taxInfo['values']['default'];
 
 					$taxChecked = $checked;

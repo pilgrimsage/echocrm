@@ -17,8 +17,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 	groupTaxType :  'group',
     
     lineItemPopOverTemplate : '<div class="popover lineItemPopover" role="tooltip"><div class="arrow"></div>\n\
-                                <h3 class="popover-title"></h3>\n\
-								<div class="popover-content"></div>\n\
+                                <h3 class="popover-header"></h3>\n\
+								<div class="popover-body"></div>\n\
 									<div class="modal-footer lineItemPopupModalFooter">\n\
 										<center>\n\
 										<button class="btn btn-success popoverButton" type="button"><strong>'+app.vtranslate('JS_LBL_SAVE')+'</strong></button>\n\
@@ -1829,8 +1829,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             });
             element[0].addEventListener('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.individualTaxForm'));
-				if(element.next('.popover').find('.popover-content').height() > 300) {
-					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
+				if(element.next('.popover').find('.popover-body').height() > 300) {
+					app.helper.showScroll(element.next('.popover').find('.popover-body'), {'height': '300px'});
 				}
             }, {once:true})
             bootstrap.Popover.getInstance(element[0]).toggle();
@@ -2022,8 +2022,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             });
             element[0].addEventListener('shown.bs.popover', function(e) {
 				callBackFunction(element, jQuery('.discountForm'));
-				if(element.next('.popover').find('.popover-content').height() > 300) {
-					app.helper.showScroll(element.next('.popover').find('.popover-content'), {'height': '300px'});
+				if(element.next('.popover').find('.popover-body').height() > 300) {
+					app.helper.showScroll(element.next('.popover').find('.popover-body'), {'height': '300px'});
 				}
             }, {once:true})
             bootstrap.Popover.getInstance(element[0]).toggle();
@@ -2047,8 +2047,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             'sanitize' : false, /* to allow button / anchor */
 		});
 		this.finalDiscountEle[0].addEventListener('shown.bs.popover', function(){
-			if(jQuery(self.finalDiscountEle).next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(jQuery(self.finalDiscountEle).next('.popover').find('.popover-content'), {'height': '300px'});
+			if(jQuery(self.finalDiscountEle).next('.popover').find('.popover-body').height() > 300) {
+				app.helper.showScroll(jQuery(self.finalDiscountEle).next('.popover').find('.popover-body'), {'height': '300px'});
 			}
 			var finalDiscountUI = jQuery('#finalDiscountUI');
 			var finalDiscountPopOver = finalDiscountUI.closest('.popover');
@@ -2070,9 +2070,10 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
        this.finalDiscountEle.on('click', function(e){
 		   self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
+		   //Never call bootstrap's .show() a second time on this manual-trigger
+		   //instance - see comment in registerChargeBlockShowEvent.
           if(popOverEle.css('opacity') == '0') {
-              bootstrap.Popover.getOrCreateInstance(self.finalDiscountEle[0]).show();
-              popOverEle.find('.popover-title').text(popOverEle.find('.popover_title').text());
+              popOverEle.find('.popover-header').text(popOverEle.find('.popover_title').text());
               popOverEle.css('opacity',1).css('z-index','');
           }else{
               popOverEle.css('opacity',0).css('z-index','-1');
@@ -2125,8 +2126,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         });
 
 		chargesTrigger[0].addEventListener('shown.bs.popover', function(){
-			if(chargesTrigger.next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(chargesTrigger.next('.popover').find('.popover-content'), {'height': '300px'});
+			if(chargesTrigger.next('.popover').find('.popover-body').height() > 300) {
+				app.helper.showScroll(chargesTrigger.next('.popover').find('.popover-body'), {'height': '300px'});
 			}
 			var chargesForm = jQuery('#chargesBlock').closest('.lineItemPopover');
 
@@ -2146,8 +2147,14 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         chargesTrigger.on('click', function(e){
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
+			//Never call bootstrap's .show() a second time on this manual-trigger
+			//instance: Tooltip.prototype.show()'s completion callback sets
+			//this._isHovered = false unconditionally, and a *second* show() then
+			//sees _isHovered === false and calls this._leave(), which
+			//self-schedules this.hide() via setTimeout - silently destroying the
+			//popover moments after it opens. The popover was already created and
+			//shown once at page load; reopening is pure CSS opacity toggling.
            if(popOverEle.css('opacity') == '0') {
-               bootstrap.Popover.getOrCreateInstance(chargesTrigger[0]).show();
                popOverEle.css('opacity',1).css('z-index','');
            }else{
 			   // chargesTrigger.popover('hide'); /* disabled to avoid removal of input DOM elements. */
@@ -2190,8 +2197,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 
 		finalTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
 			var finalTaxForm = jQuery('#group_tax_row').find('.finalTaxUI').closest('.lineItemPopover');
-			if(finalTaxTriggerer.next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(finalTaxTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
+			if(finalTaxTriggerer.next('.popover').find('.popover-body').height() > 300) {
+				app.helper.showScroll(finalTaxTriggerer.next('.popover').find('.popover-body'), {'height': '300px'});
 			}
 
 			finalTaxForm.find('.popoverButton').on('click', function(e){
@@ -2211,8 +2218,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         finalTaxTriggerer.on('click', function(e){
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
+			//Never call bootstrap's .show() a second time on this manual-trigger
+			//instance - see comment in registerChargeBlockShowEvent.
 			if(popOverEle.css('opacity') == '0') {
-				bootstrap.Popover.getOrCreateInstance(finalTaxTriggerer[0]).show();
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
 				// finalTaxTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
@@ -2252,8 +2260,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         });
 
 		chargeTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
-			if(chargeTaxTriggerer.next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(chargeTaxTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
+			if(chargeTaxTriggerer.next('.popover').find('.popover-body').height() > 300) {
+				app.helper.showScroll(chargeTaxTriggerer.next('.popover').find('.popover-body'), {'height': '300px'});
 			}
 			var chargesTaxForm = self.chargeTaxesContainer.closest('.lineItemPopover');
 
@@ -2273,9 +2281,10 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         chargeTaxTriggerer.on('click', function(e){
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
+			//Never call bootstrap's .show() a second time on this manual-trigger
+			//instance - see comment in registerChargeBlockShowEvent.
 			if(popOverEle.css('opacity') == '0') {
-				bootstrap.Popover.getOrCreateInstance(chargeTaxTriggerer[0]).show();
-				popOverEle.find('.popover-title').text(popOverEle.find('.popover_title').text());
+				popOverEle.find('.popover-header').text(popOverEle.find('.popover_title').text());
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
 				// chargeTaxTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
@@ -2314,8 +2323,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         });
 
 		deductTaxesTriggerer[0].addEventListener('shown.bs.popover', function(){
-			if(deductTaxesTriggerer.next('.popover').find('.popover-content').height() > 300) {
-				app.helper.showScroll(deductTaxesTriggerer.next('.popover').find('.popover-content'), {'height': '300px'});
+			if(deductTaxesTriggerer.next('.popover').find('.popover-body').height() > 300) {
+				app.helper.showScroll(deductTaxesTriggerer.next('.popover').find('.popover-body'), {'height': '300px'});
 			}
 			var deductTaxForm = self.dedutTaxesContainer.closest('.lineItemPopover');
 
@@ -2335,8 +2344,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         deductTaxesTriggerer.on('click', function(e){
 			self.getForm().find('.popover.lineItemPopover').css('opacity', 0).css('z-index', '-1');
 
+			//Never call bootstrap's .show() a second time on this manual-trigger
+			//instance - see comment in registerChargeBlockShowEvent.
 			if(popOverEle.css('opacity') == '0') {
-				bootstrap.Popover.getOrCreateInstance(deductTaxesTriggerer[0]).show();
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
 				// deductTaxesTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
