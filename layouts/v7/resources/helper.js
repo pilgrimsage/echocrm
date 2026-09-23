@@ -407,7 +407,8 @@ jQuery.Class("Vtiger_Helper_Js",{
         var helpOverlayPageContent = jQuery('#helpPageOverlay');
         
         //first hide helpoverlay if already shown
-        if(helpOverlayPageContent.hasClass('in')) {
+        //BS5's bootstrap.Modal uses .show as its open-state class, not BS3's .in
+        if(helpOverlayPageContent.hasClass('show')) {
             this.hideHelpPageOverlay();
         }
         
@@ -423,9 +424,17 @@ jQuery.Class("Vtiger_Helper_Js",{
         bootstrap.Modal.getOrCreateInstance(helpOverlayPageContent[0], params).show();
         vtUtils.applyFieldElementsView(helpOverlayPageContent);
         cb(helpOverlayPageContent);
+        //backdrop is off (see above), so BS5's own backdrop-click-close never
+        //fires here - wire up an explicit outside-click close instead.
+        jQuery(document).off('mousedown.helpPageOverlay').on('mousedown.helpPageOverlay', function(e) {
+            var overlay = jQuery('#helpPageOverlay');
+            if (overlay.hasClass('show') && !jQuery(e.target).closest('#helpPageOverlay').length) {
+                app.helper.hideHelpPageOverlay();
+            }
+        });
         return aDeferred.promise();
     },
-    
+
     hideHelpPageOverlay : function() {
         var aDeferred = new jQuery.Deferred();
         var overlayPageContent = $('#helpPageOverlay');
@@ -433,6 +442,7 @@ jQuery.Class("Vtiger_Helper_Js",{
             overlayPageContent.find('.data').html('');
             aDeferred.resolve();
         }, {once:true})
+        jQuery(document).off('mousedown.helpPageOverlay');
         var _helpPageOverlayModal = bootstrap.Modal.getInstance(document.getElementById('helpPageOverlay'));
         if (_helpPageOverlayModal) { _helpPageOverlayModal.hide(); }
         return aDeferred.promise();

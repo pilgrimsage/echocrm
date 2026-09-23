@@ -139,6 +139,20 @@
 .modal-dialog .modal-content{
 	width:100%;
 }
+/* .modelContainer templates (ChangePassword, DeleteUser, MassEditForm, etc -
+   36 templates) put ModalHeader.tpl as a sibling BEFORE .modal-content
+   instead of nesting it inside, unlike every other modal template. The
+   .modal-dialog:not(.modal-content) flex-row rule above collapses both
+   siblings to content width and lays them out side by side instead of
+   stacking, breaking the header completely. */
+.modal-dialog.modelContainer{
+	flex-direction:column;
+	align-items:stretch;
+}
+.modal-dialog.modelContainer > .modal-header,
+.modal-dialog.modelContainer > .modal-content{
+	width:100%;
+}
 /* The combined ".modal-dialog.modal-content" case: center it via the
    outer ".modal" instead, since there's no separate dialog wrapper to
    flex against here. */
@@ -590,6 +604,13 @@
    Old markup still has a literal <span class="caret">; hide it
    instead of restyling it. */
 .caret { display: none; }
+
+/* BS5 dropped .hide (renamed .d-none) with nothing loaded to replace it -
+   List.js still toggles 30+ elements via addClass('hide')/removeClass('hide'),
+   all of which silently stopped hiding anything after the BS5 migration. */
+.hide{
+	display:none !important;
+}
 
 /* ==========================================================================
    Buttons — app-wide consistency pass.
