@@ -564,7 +564,7 @@
 	}
 	.app-fixed-navbar .global-nav .topbar-search-wrapper .search-links-container{
 		width:100%;
-		max-width:420px;
+		max-width:600px;
 	}
 	.app-fixed-navbar .global-nav #navbar{
 		flex:0 0 auto;
@@ -1074,3 +1074,58 @@ input[type="checkbox"]:disabled{
 .nav-stacked > li{
 	width:100%;
 }
+
+/* Task Management (#overlayPage:has(#taskManagementContainer)) already
+   gets a real dimming .modal-backdrop (Vtiger.js passes backdrop:
+   'static'), but the panel itself is stretched edge-to-edge/top-to-
+   bottom with no margin, leaving no exposed area for that backdrop to
+   actually darken - "backdrop not showing" was a real symptom (the
+   element exists, correctly styled, just has nothing left to dim
+   around it). Inset the panel like a real large modal instead of a
+   full-viewport takeover, and differentiate its header/footer from the
+   body the same way real Bootstrap modals already are. */
+#overlayPage:has(#taskManagementContainer){
+	top:24px !important;
+	bottom:24px;
+	left:24px;
+	right:24px;
+	width:auto !important;
+	height:auto !important;
+	max-height:none !important;
+	border-radius:var(--radius,6px);
+	box-shadow:0 20px 60px rgba(11,15,20,.35);
+	overflow:hidden;
+}
+#overlayPage:has(#taskManagementContainer) #taskManagementContainer{
+	height:100% !important;
+	display:flex;
+	flex-direction:column;
+}
+#overlayPage:has(#taskManagementContainer) .overlayHeader{
+	flex:0 0 auto;
+}
+#overlayPage:has(#taskManagementContainer) .overlayHeader .modal-header{
+	background:var(--mist-dark,#EDEFEC) !important;
+	border-radius:var(--radius,6px) var(--radius,6px) 0 0;
+}
+
+/* .app-fixed-navbar's 8px padding wraps the WHOLE 2-row navbar
+   (global-nav search/actions row + app-nav breadcrumb row), not each
+   row individually - so the search box sits flush against the
+   breadcrumb row right below it with zero gap, while only having
+   space above it from the navbar's own top padding. Looked like the
+   search box was "touching the bottom" with no spacing there. */
+.global-nav{
+	padding-bottom:6px;
+}
+.app-nav{
+	padding-top:2px;
+}
+
+/* Dashboard's tab row sits directly under the black .app-nav breadcrumb
+   bar with zero top margin/padding, so it visually reads as "stuck to
+   the top" of the white content area beneath the navbar. */
+.tabs.sortable{
+	margin-top:8px;
+}
+
