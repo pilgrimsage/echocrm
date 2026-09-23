@@ -1047,6 +1047,19 @@ jQuery.Class("Vtiger_Helper_Js",{
     }
 });
 
+/* BS5's tab.js only toggles ".active" on the clicked <a>.nav-link - several
+   screens still render the initial tab's "active" class on the <li> itself
+   (BS3-era markup, e.g. Settings > Tax Calculations), and that <li> class
+   never gets cleared on switch, leaving the first tab visually "stuck"
+   active (color/underline) alongside whichever tab is really open. Keep
+   the <li> active class in sync with the real active link, app-wide. */
+jQuery(document).on('shown.bs.tab', '[data-bs-toggle="tab"]', function(e) {
+	var currentLink = jQuery(e.target);
+	var tabList = currentLink.closest('.nav, ul');
+	tabList.children('li').removeClass('active');
+	currentLink.closest('li').addClass('active');
+});
+
 function VtError(params) {
 	this.name	= 'VtError';
 	this.stack	= (new Error()).stack;

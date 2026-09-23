@@ -21,6 +21,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
 		$this->exposeMethod('deleteTaxRegion');
 		$this->exposeMethod('saveCharge');
 		$this->exposeMethod('deleteCharge');
+		$this->exposeMethod('saveTaxSystem');
 	}
 
 	public function process(Vtiger_Request $request) {
@@ -248,6 +249,20 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action {
 			}
 		} else {
 			$response->setError();
+		}
+		$response->emit();
+	}
+
+	public function saveTaxSystem(Vtiger_Request $request) {
+		$taxSystem = $request->get('taxSystem');
+		$response = new Vtiger_Response();
+		if (in_array($taxSystem, array('india', 'us', 'all'))) {
+			$db = PearDatabase::getInstance();
+			$db->pquery('UPDATE vtiger_organizationdetails SET tax_system=?', array($taxSystem));
+			Vtiger_Cache::delete('vtiger', 'organization');
+			$response->setResult(array('taxSystem' => $taxSystem));
+		} else {
+			$response->setError('INVALID_VALUE', 'Invalid tax system value');
 		}
 		$response->emit();
 	}

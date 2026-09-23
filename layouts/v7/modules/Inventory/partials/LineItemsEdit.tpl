@@ -88,7 +88,7 @@
 								<span class="float-end">
 									<i class="fa fa-info-circle"></i>&nbsp;
 									<label>{vtranslate($LINEITEM_FIELDS['region_id']->get('label'), $MODULE)}</label>&nbsp;
-									<select class="select2" id="region_id" name="region_id" style="width: 164px;">
+									<select class="select2" id="region_id" name="region_id" style="width: 164px;" data-org-state="{$ORG_STATE}">
 										<option value="0" data-info="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($DEFAULT_TAX_REGION_INFO))}">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
 										{foreach key=TAX_REGION_ID item=TAX_REGION_INFO from=$TAX_REGIONS}
 											<option value="{$TAX_REGION_ID}" data-info='{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($TAX_REGION_INFO))}' {if $TAX_REGION_ID eq $RECORD->get('region_id')}selected{/if}>{$TAX_REGION_INFO['name']}</option>

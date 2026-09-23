@@ -32,7 +32,7 @@
 					</div>
 					<div class="sortable appContainer" data-appname="{$APP_NAME}">
 						{foreach key=moduleName item=moduleModel from=$APP_MAPPED_MODULES[$APP_NAME]}
-							<div class="modules noConnect" data-module="{$moduleName}">
+							<div class="modules" data-module="{$moduleName}">
 								<i data-appname="{$APP_NAME}" class="fa fa-times float-end whiteIcon menuEditorRemoveItem" style="margin: 5%;padding-top:15px;"></i>
 								<div class="menuEditorItem menuEditorModuleItem">
 									<span class="float-start marginRight10px marginTop5px">

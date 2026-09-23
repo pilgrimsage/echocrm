@@ -2386,7 +2386,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		this.regionElement.change(function(e) {
 			var element = jQuery(e.currentTarget);
 			var message = app.vtranslate('JS_CONFIRM_TAXES_AND_CHARGES_REPLACE');
-			app.helper.showConfirmationBox({'message' : message}).then(
+			app.helper.showConfirmation({'message' : message}).then(
 			function(e) {
 				var prevRegionId = jQuery('#prevRegionId').val();
 				var selectedRegion = element.find('option:selected');
@@ -2788,7 +2788,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 		var self = this;
 		if (data['selectedName']) {
 			var message = app.vtranslate('OVERWRITE_EXISTING_MSG1')+app.vtranslate('SINGLE_'+data['source_module'])+' ('+data['selectedName']+') '+app.vtranslate('OVERWRITE_EXISTING_MSG2');
-			app.helper.showConfirmationBox({'message' : message}).then(
+			app.helper.showConfirmation({'message' : message}).then(
 			function(e) {
 				self.copyAddressDetails(data, container);
 			},

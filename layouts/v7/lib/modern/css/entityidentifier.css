@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Modern skin — Settings > Entity Identifier
+   ========================================================================== */
+
+.entityIdentifierFieldsList{
+	background:var(--paper);
+	border:1px solid var(--line);
+	border-radius:var(--radius);
+	padding:10px 14px;
+	max-height:320px;
+	overflow-y:auto;
+}
+.entityIdentifierFieldOption{
+	padding:6px 0;
+	border-bottom:1px solid var(--line);
+}
+.entityIdentifierFieldOption:last-child{
+	border-bottom:none;
+}
+.entityIdentifierSelectedList{
+	list-style:none;
+	margin:0 0 14px 0;
+	padding:0;
+	min-height:40px;
+	background:var(--mist);
+	border:1px dashed var(--line);
+	border-radius:var(--radius);
+	padding:8px;
+}
+.entityIdentifierChip{
+	display:inline-flex;
+	align-items:center;
+	gap:6px;
+	background:var(--paper);
+	border:1px solid var(--line);
+	border-radius:2em;
+	padding:4px 10px;
+	margin:4px;
+	font-size:12.5px;
+	color:var(--ink);
+}
+.entityIdentifierChip .chipIndex{
+	background:var(--teal);
+	color:#fff;
+	border-radius:50%;
+	width:18px;
+	height:18px;
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	font-size:11px;
+}
+.entityIdentifierChip .chipRemove{
+	cursor:pointer;
+	color:var(--muted);
+}
+.entityIdentifierChip .chipRemove:hover{
+	color:var(--danger);
+}

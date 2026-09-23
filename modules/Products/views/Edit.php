@@ -71,7 +71,8 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
-			'libraries.jquery.multiplefileupload.jquery_MultiFile'
+			'libraries.jquery.multiplefileupload.jquery_MultiFile',
+			'modules.Products.resources.GSTFieldVisibility'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

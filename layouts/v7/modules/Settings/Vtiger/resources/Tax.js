@@ -987,5 +987,31 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
         this.registerChargesClickEvent();
         this.registerRegionsClickEvent();
         this.registerActions();
+        this.registerTaxSystemChangeEvent();
+    },
+
+    registerTaxSystemChangeEvent : function() {
+        var container = this.getContainer();
+        container.find('#taxSystemSelect').on('change', function(e) {
+            var taxSystem = jQuery(e.currentTarget).val();
+            app.helper.showProgress();
+            var params = {
+                'module' : app.getModuleName(),
+                'parent' : app.getParentModuleName(),
+                'action' : 'TaxAjax',
+                'mode' : 'saveTaxSystem',
+                'taxSystem' : taxSystem
+            };
+            app.request.post({data:params}).then(
+                function(data) {
+                    app.helper.hideProgress();
+                    app.helper.showAlertBox({message: app.vtranslate('JS_TAX_SYSTEM_UPDATED')});
+                },
+                function(error) {
+                    app.helper.hideProgress();
+                    app.helper.showAlertBox({message: app.vtranslate('JS_ERROR_OCCURED_PLS_TRY_AGAIN')});
+                }
+            );
+        });
     }
 });

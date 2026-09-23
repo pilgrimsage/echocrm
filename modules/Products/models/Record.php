@@ -32,8 +32,12 @@ class Products_Record_Model extends Vtiger_Record_Model {
 								INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
 								INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
 								WHERE vtiger_producttaxrel.productid = ? AND vtiger_inventorytaxinfo.deleted = 0', array($this->getId()));
+		vimport('~~/include/utils/InventoryUtils.php');
 		$taxes = array();
 		while ($rowData = $db->fetch_array($result)) {
+			if (!isTaxAllowedByTaxSystem($rowData['taxlabel'])) {
+				continue;
+			}
 			$rowData['regions']			= Zend_Json::decode(html_entity_decode($rowData['regions']));
 			$rowData['compoundOn']		= Zend_Json::decode(html_entity_decode($rowData['compoundon']));
 			$taxes[$rowData['taxname']]	= $rowData;

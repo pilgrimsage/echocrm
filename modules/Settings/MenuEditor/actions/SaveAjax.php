@@ -55,7 +55,17 @@ Class Settings_MenuEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	function saveSequence(Vtiger_Request $request) {
 		$moduleSequence = $request->get('sequence');
 		$appName = $request->get('appname');
+		$oldAppName = $request->get('oldAppname');
 		$db = PearDatabase::getInstance();
+
+		$movedModuleName = $request->get('movedModule');
+		if ($oldAppName && $oldAppName != $appName && $movedModuleName) {
+			// The dragged module's row still belongs to its old app group -
+			// reparent it first so the sequence UPDATE below (scoped to the
+			// new appname) actually matches a row.
+			Settings_MenuEditor_Module_Model::updateModuleApp($movedModuleName, $appName, $oldAppName);
+		}
+
 		foreach ($moduleSequence as $moduleName => $sequence) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$db->pquery('UPDATE vtiger_app2tab SET sequence = ? WHERE tabid = ? AND appname = ?', array($sequence, $moduleModel->getId(), $appName));

@@ -130,20 +130,17 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 	registerSortModule : function(container) {
 		var sortableElement = container.find('.sortable');
 		var thisInstance = this;
-		var stopSorting = false;
 		var move = false;
+		var sourceAppname = false;
 		sortableElement.sortable({
 			items: '.modules',
 			'revert' : true,
+			connectWith: '.sortable',
+			start: function(event, ui) {
+				sourceAppname = jQuery(ui.item).closest('.sortable').data('appname');
+			},
 			receive: function (event, ui) {
 				move = true;
-				if (jQuery(ui.item).hasClass("noConnect")) {
-					stopSorting = true;
-					jQuery(ui.sender).sortable("cancel");
-				}
-			},
-			over : function(event, ui){
-				stopSorting = false;
 			},
 			stop: function(e, ui) {
 				var element = jQuery(ui.item);
@@ -155,24 +152,18 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 					moduleSequenceArray[jQuery(element).data('module')] = ++i;
 				});
 				var moved = move;
-				if(move) {
-					move = false;
-				}
-				if(!stopSorting) {
-					thisInstance.saveSequence(moduleSequenceArray, appname, moved);
-				} else {
-					if(!element.hasClass('noConnect')) {
-						thisInstance.saveSequence(moduleSequenceArray, appname);
-					} else {
-						app.helper.showErrorNotification({message: app.vtranslate('JS_MODULE_NOT_DRAGGABLE')});
-					}
-				}
+				var oldAppname = sourceAppname;
+				var movedModule = element.data('module');
+				move = false;
+				sourceAppname = false;
+
+				thisInstance.saveSequence(moduleSequenceArray, appname, moved, (moved && oldAppname !== appname) ? oldAppname : false, movedModule);
 			}
 		});
 		sortableElement.disableSelection();
 	},
 
-	saveSequence : function(moduleSequenceArray, appname, move) {
+	saveSequence : function(moduleSequenceArray, appname, move, oldAppname, movedModule) {
 		var params = {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -180,6 +171,10 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 			mode: 'saveSequence',
 			sequence: JSON.stringify(moduleSequenceArray),
 			appname: appname
+		}
+		if (oldAppname) {
+			params.oldAppname = oldAppname;
+			params.movedModule = movedModule;
 		}
 
 		app.helper.showProgress();

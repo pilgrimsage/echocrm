@@ -176,6 +176,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 
 		$viewer->assign('TAX_REGIONS', $taxRegions);
 		$viewer->assign('DEFAULT_TAX_REGION_INFO', $defaultRegionInfo);
+		$viewer->assign('ORG_STATE', Vtiger_CompanyDetails_Model::getInstanceById()->get('state'));
 		$viewer->assign('INVENTORY_CHARGES', Inventory_Charges_Model::getInventoryCharges());
 		$viewer->assign('RELATED_PRODUCTS', $relatedProducts);
 		$viewer->assign('DEDUCTED_TAXES', $deductTaxes);
@@ -220,6 +221,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 
 		$jsFileNames = array(
 				'modules.Inventory.resources.Edit',
+				'modules.Inventory.resources.GSTAutoRegion',
 				'modules.Inventory.resources.Popup',
 				'modules.PriceBooks.resources.Popup',
 		);
@@ -236,6 +238,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
 
 		$jsFileNames = array(
+			'modules.Inventory.resources.GSTAutoRegion',
 			'modules.Inventory.resources.Popup',
 			'modules.PriceBooks.resources.Popup',
 		);

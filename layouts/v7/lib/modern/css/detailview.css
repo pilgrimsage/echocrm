@@ -205,9 +205,20 @@
 	font-size:13px;
 	font-weight:500;
 }
+/* BS5's own tab.js toggles ".active" on the <a>.nav-link itself, not on the
+   parent <li> - markup left over from BS3 (e.g. Settings > Tax Calculations'
+   tabs) still has "active" hardcoded on the initial <li> server-side and it
+   never gets removed on tab switch, so matching only "li.active > a" left
+   the FIRST tab looking permanently active/teal after clicking another one.
+   Match the <a> itself so the color follows the real active tab. */
 .nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover{
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li > a.active,
+.nav-tabs > li > a.active:hover{
 	color:var(--teal);
 	border-bottom:2px solid var(--teal);
 	background:transparent;
+}
+.nav-tabs > li > a:not(.active){
+	border-bottom:2px solid transparent;
 }

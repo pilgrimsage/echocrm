@@ -9,6 +9,40 @@
  **************************************************************************************/
 
 /**
+ * Whether a tax should be shown given the admin's chosen Tax System
+ * (Settings > Inventory > Tax > Tax System: india/us/all). Only 'all' shows
+ * every tax (including legacy sample taxes like VAT/Sales/Service). 'india'
+ * shows only CGST/SGST/IGST; 'us' shows only US Sales Tax - the generic
+ * VAT/Sales/Service sample taxes aren't relevant to either specific system
+ * and are hidden along with the other system's GST/US tax.
+ * @param string $taxLabel
+ * @return bool
+ */
+function isTaxAllowedByTaxSystem($taxLabel) {
+	static $taxSystem = null;
+	if ($taxSystem === null) {
+		vimport('~~/modules/Vtiger/models/CompanyDetails.php');
+		$taxSystem = Vtiger_CompanyDetails_Model::getInstanceById()->get('tax_system');
+		if (!$taxSystem) {
+			$taxSystem = 'all';
+		}
+	}
+
+	if ($taxSystem == 'all') {
+		return true;
+	}
+
+	$gstLabels = array('CGST', 'SGST', 'IGST');
+	if ($taxSystem == 'india') {
+		return in_array($taxLabel, $gstLabels);
+	}
+	if ($taxSystem == 'us') {
+		return $taxLabel == 'US Sales Tax';
+	}
+	return true;
+}
+
+/**
  * This function updates the stock information once the product is ordered.
  * Param $productid - product id
  * Param $qty - product quantity in no's
@@ -335,6 +369,10 @@ function getAllTaxes($available='all', $sh='',$mode='',$id='')
 	}
 	$log->debug("Exit from the function getAllTaxes($available,$sh,$mode,$id)");
 
+	$taxtypes = array_values(array_filter($taxtypes, function($taxInfo) {
+		return isTaxAllowedByTaxSystem($taxInfo['taxlabel']);
+	}));
+
 	return $taxtypes;
 }
 
@@ -394,6 +432,11 @@ function getTaxDetailsForProduct($productid, $available='all')
 	}
 
 	$log->debug("Exit from function getTaxDetailsForProduct($productid)");
+
+	$tax_details = array_values(array_filter($tax_details, function($taxInfo) {
+		return isTaxAllowedByTaxSystem($taxInfo['taxlabel']);
+	}));
+
 	return $tax_details;
 }
 

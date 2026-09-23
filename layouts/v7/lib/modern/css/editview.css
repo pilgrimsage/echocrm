@@ -42,7 +42,9 @@
 	color:var(--danger);
 }
 
-/* text/number/date inputs — covers most uitype templates via shared class */
+/* text/number/date inputs — covers most uitype templates via shared class.
+   Height pinned to 30px to match the compact size date/time inputs already
+   render at, so every field on a form reads as the same size. */
 input.inputElement,
 input.form-control,
 textarea.inputElement,
@@ -50,12 +52,16 @@ textarea.form-control{
 	width:100%;
 	border:1px solid var(--line);
 	border-radius:6px;
-	padding:9px 11px;
+	padding:3px 6px;
 	font-size:13.5px;
 	color:var(--ink);
 	background:var(--mist);
 	transition:border-color .15s ease,background .15s ease;
 	box-sizing:border-box;
+}
+input.inputElement,
+input.form-control{
+	height:30px !important;
 }
 input.inputElement:focus,
 input.form-control:focus,
@@ -71,9 +77,10 @@ textarea.form-control:focus{
 select.inputElement,
 select.form-control{
 	width:100%;
+	height:30px !important;
 	border:1px solid var(--line);
 	border-radius:6px;
-	padding:8px 11px;
+	padding:3px 6px;
 	font-size:13.5px;
 	background:var(--mist);
 	box-sizing:border-box;
@@ -81,8 +88,8 @@ select.form-control{
 .select2-container .select2-choice{
 	border:1px solid var(--line) !important;
 	border-radius:6px !important;
-	height:36px !important;
-	line-height:34px !important;
+	height:30px !important;
+	line-height:20px !important;
 	background:var(--mist) !important;
 	color:var(--ink) !important;
 }
@@ -191,6 +198,7 @@ li.ui-timepicker-selected,
    switch treatment by explicit request - it's a single on/off control,
    not a multi-item list checkbox, so the switch look fits it too. */
 .checkBoxType input[type="checkbox"],
+.checkbox-inline input[type="checkbox"],
 input.mass-select{
 	appearance:none;
 	-webkit-appearance:none;
@@ -205,6 +213,7 @@ input.mass-select{
 	transition:background-color .15s ease,border-color .15s ease;
 }
 .checkBoxType input[type="checkbox"]::before,
+.checkbox-inline input[type="checkbox"]::before,
 input.mass-select::before{
 	content:'';
 	position:absolute;
@@ -218,11 +227,13 @@ input.mass-select::before{
 	transition:transform .15s ease;
 }
 .checkBoxType input[type="checkbox"]:checked,
+.checkbox-inline input[type="checkbox"]:checked,
 input.mass-select:checked{
 	background:var(--teal);
 	border-color:var(--teal);
 }
 .checkBoxType input[type="checkbox"]:checked::before,
+.checkbox-inline input[type="checkbox"]:checked::before,
 input.mass-select:checked::before{
 	transform:translateX(1.25em);
 }
@@ -233,7 +244,8 @@ input.mass-select:checked::after{
    for every plain checkbox app-wide - this toggle-switch already has
    its own ::before knob, so suppress the checkmark here or it'd draw a
    tick mark on top of the sliding knob. */
-.checkBoxType input[type="checkbox"]:checked::after{
+.checkBoxType input[type="checkbox"]:checked::after,
+.checkbox-inline input[type="checkbox"]:checked::after{
 	content:none;
 }
 

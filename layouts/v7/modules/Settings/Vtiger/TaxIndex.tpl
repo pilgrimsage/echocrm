@@ -14,6 +14,19 @@
 			<h4>{vtranslate('LBL_TAX_CALCULATIONS', $QUALIFIED_MODULE)}</h4>
 		</div>
 		<hr>
+		<div class="row" style="padding:10px 15px;">
+			<div class="col-lg-6">
+				<label>{vtranslate('LBL_TAX_SYSTEM', $QUALIFIED_MODULE)}&nbsp;
+					<i class="fa fa-info-circle" title="{vtranslate('LBL_TAX_SYSTEM_INFO', $QUALIFIED_MODULE)}"></i>
+				</label>&nbsp;&nbsp;
+				<select id="taxSystemSelect" class="select2" style="width:220px">
+					<option value="india" {if $TAX_SYSTEM eq 'india'}selected{/if}>{vtranslate('LBL_TAX_SYSTEM_INDIA', $QUALIFIED_MODULE)}</option>
+					<option value="us" {if $TAX_SYSTEM eq 'us'}selected{/if}>{vtranslate('LBL_TAX_SYSTEM_US', $QUALIFIED_MODULE)}</option>
+					<option value="all" {if $TAX_SYSTEM eq 'all'}selected{/if}>{vtranslate('LBL_TAX_SYSTEM_ALL', $QUALIFIED_MODULE)}</option>
+				</select>
+			</div>
+		</div>
+		<hr>
 		<br>
 		<div class="contents tabbable clearfix">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
