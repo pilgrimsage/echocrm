@@ -1030,3 +1030,47 @@ input[type="checkbox"]:disabled{
 		display:table !important;
 	}
 }
+
+/* Calendar/Events' DateTime uitype template (uitypes/DateTime.tpl)
+   renders the date input and the time input as two plain sibling
+   "<div>"s with no flex/inline styling - always stacked as separate
+   block-level rows even in the original BS3 markup, since nothing
+   ever floated or flexed them. "Start Date & Time" in Quick Create
+   Task/Event rendered as two full-width rows instead of one combined
+   date+time row. Flex the wrapper that contains them - scoped to
+   ".col-sm-5" holding a ".dateField" so it doesn't touch unrelated
+   col-sm-5 usage elsewhere. */
+.col-sm-5:has(.dateField){
+	display:flex;
+	gap:6px;
+	align-items:flex-start;
+}
+.col-sm-5:has(.dateField) > div{
+	flex:1 1 auto;
+	min-width:135px;
+}
+
+/* Quick Create's footer (Calendar/QuickCreate.tpl, Vtiger/QuickCreate.tpl)
+   is "<center><button id=goToFullForm>...<button saveButton>...
+   <a class=cancelLink>...</center>" - .cancelLink already carries its
+   own margin-left (an earlier fix), which is why Save/Cancel had a
+   visible gap but "Go to full form"/Save sat flush against each other
+   with none at all. */
+#goToFullForm{
+	margin-right:8px;
+}
+
+/* Customer Portal's module-order list (#portalModulesTable, CustomerPortal/
+   Index.tpl) is "<ul class='nav nav-tab nav-stacked'>" - ".nav-stacked" is
+   a dead BS3 class (never defined in BS5, meant to force the tab list to
+   stack vertically instead of BS3's default horizontal float layout).
+   With nothing overriding it, BS5's own ".nav{display:flex;flex-wrap:wrap}"
+   takes over and each <li> (~100px) just wraps left-to-right instead of
+   stacking - "Home" and "FAQ" landed side by side on the same row instead
+   of each module getting its own row. */
+.nav-stacked{
+	display:block !important;
+}
+.nav-stacked > li{
+	width:100%;
+}
