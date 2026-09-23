@@ -1129,3 +1129,15 @@ input[type="checkbox"]:disabled{
 	margin-top:8px;
 }
 
+/* SweetAlert2's default z-index (1060) sits below the shared ".myModal"
+   BS5 modal container (z-index:1100, per Bootstrap's own stacking calc
+   for a modal opened via app.helper.showModal). Any Swal.fire() call
+   triggered from inside an open .myModal (e.g. a validation alert in a
+   Settings extension's own popup) renders fully hidden behind it -
+   present in the DOM with correct styling, just invisible. Confirmed
+   live in Module Designer's Add/Edit popups. Raising Swal's own
+   container above every modal fixes this app-wide, not just there. */
+.swal2-container{
+	z-index:1200 !important;
+}
+
