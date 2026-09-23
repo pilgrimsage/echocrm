@@ -4,17 +4,21 @@
    drag/drop JS (ModuleDesigner.js) and must not be changed casually.
    ========================================================================== */
 
+/* These used to be a separately-hardcoded palette that predated the
+   EchoCrew brand-token correction (see listview.css's :root) and had drifted
+   out of sync with it (old dark teal #0E7C66 vs the real #00D3B8, etc).
+   Aliased to the real global tokens so this file can't drift again. */
 :root{
-	--md-ink:#10151C;
-	--md-teal:#0E7C66;
-	--md-teal-soft:#E8F7F1;
-	--md-paper:#FFFFFF;
-	--md-mist:#F4F6F5;
-	--md-mist-dark:#EDF0EF;
-	--md-muted:#6B7280;
-	--md-line:#E4E8E6;
-	--md-danger:#E4572E;
-	--md-radius:8px;
+	--md-ink:var(--ink);
+	--md-teal:var(--teal);
+	--md-teal-soft:var(--teal-soft);
+	--md-paper:var(--paper);
+	--md-mist:var(--mist);
+	--md-mist-dark:var(--mist-dark);
+	--md-muted:var(--muted);
+	--md-line:var(--line);
+	--md-danger:var(--danger);
+	--md-radius:var(--radius);
 }
 
 h1{
@@ -30,6 +34,55 @@ h1{
 #md-container h2, #md-container h3{
 	font-size: 13px;
 	color: var(--md-ink);
+}
+
+/* The ported legacy templates (General.tpl, BlocksFields.tpl, etc.) use bare
+   <table>/<input>/<select> markup with no form-control classes at all, so
+   none of the app-wide field styling (editview.css's .form-control) ever
+   applied to them - they rendered as unstyled native browser controls.
+   Style them directly by element, scoped to this module, rather than
+   retrofitting classes onto 13 legacy template files. */
+#md-container table{
+	border-collapse:collapse;
+	margin-bottom:14px;
+}
+#md-container table td{
+	padding:6px 10px 6px 0;
+	vertical-align:middle;
+	font-size:12.5px;
+	color:var(--md-ink);
+}
+#md-container input[type="text"],
+#md-container input[type="password"]{
+	border:1px solid var(--md-line);
+	border-radius:6px;
+	padding:3px 8px;
+	height:30px;
+	font-size:13px;
+	color:var(--md-ink);
+	background:var(--md-mist);
+	box-sizing:border-box;
+	transition:border-color .15s ease,background .15s ease;
+}
+#md-container input[type="text"]:focus,
+#md-container input[type="password"]:focus{
+	outline:none;
+	border-color:var(--md-teal);
+	background:var(--md-paper);
+	box-shadow:0 0 0 3px rgba(0,211,184,.18);
+}
+#md-container select{
+	border:1px solid var(--md-line);
+	border-radius:6px;
+	padding:3px 8px;
+	height:30px;
+	font-size:13px;
+	color:var(--md-ink);
+	background:var(--md-paper);
+	box-sizing:border-box;
+}
+#md-container a{
+	color:var(--md-teal);
 }
 #md-header{
 	float: left;
