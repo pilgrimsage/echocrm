@@ -78,7 +78,7 @@ class Emails_Mailer_Model extends Vtiger_Mailer {
 	 * @return type
 	 */
 	public static function generateMessageID() {
-		$generateId = sprintf("<%s.%s@%s>", base_convert(microtime(), 10, 36), base_convert(bin2hex(openssl_random_pseudo_bytes(8)), 16, 36), gethostname());
+		$generateId = sprintf("<%s.%s@%s>", base_convert(str_replace('.', '', microtime(true)), 10, 36), base_convert(bin2hex(openssl_random_pseudo_bytes(8)), 16, 36), gethostname());
 		return $generateId;
 	}
 

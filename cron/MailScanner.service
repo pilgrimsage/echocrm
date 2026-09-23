@@ -20,9 +20,9 @@ require_once('modules/Settings/MailConverter/handlers/MailScanner.php');
 //Added as sometimes the php.ini file used for command line php and
 //for Apache php is different.
 if(!function_exists('imap_open')) {
-	echo $installationStrings['LBL_NO'].' '.$installationStrings['LBL_IMAP_SUPPORT'];
+	echo 'No IMAP support';
 } elseif(!function_exists('openssl_encrypt')) {
-	echo $installationStrings['LBL_NO'].' '.$installationStrings['LBL_OPENSSL_SUPPORT'];
+	echo 'No OpenSSL support';
 }
 
 /**

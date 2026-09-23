@@ -321,6 +321,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		foreach ($scheduledReports as $reportId => $scheduledReport) {
 			$reportRecordModel = Reports_Record_Model::getInstanceById($reportId);
 			$reportType = $reportRecordModel->get('reporttype');
+			$status = null;
 			if($reportType == 'chart') {
 				$status = $scheduledReport->sendEmail();
 			} else {
