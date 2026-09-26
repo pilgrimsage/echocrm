@@ -1,7 +1,7 @@
 <?php
 /*********************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
- * ("License"); You may not use this file except in compliance with the
+ * ("License"); You may not use this file except in compliance with the 
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
  * Software distributed under the License is distributed on an  "AS IS"  basis,
  * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
@@ -14,9 +14,9 @@
 ********************************************************************************/
 
 // Adjust error_reporting favourable to deployment.
-version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & E_ERROR) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED  & E_ERROR); // PRODUCTION
+version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & E_ERROR) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED  & E_ERROR & ~E_STRICT); // PRODUCTION
 //ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);   // DEBUGGING
-ini_set('display_errors','on'); error_reporting(E_ALL); // STRICT DEVELOPMENT
+//ini_set('display_errors','on'); error_reporting(E_ALL); // STRICT DEVELOPMENT
 
 
 include('vtigerversion.php');
@@ -25,13 +25,13 @@ include('vtigerversion.php');
 // memory limit default value = 64M
 ini_set('memory_limit','512M');
 
-// show or hide calendar, world clock, calculator, chat and CKEditor
-// Do NOT remove the quotes if you set these to false!
+// show or hide calendar, world clock, calculator, chat and CKEditor 
+// Do NOT remove the quotes if you set these to false! 
 $CALENDAR_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
-$HELPDESK_SUPPORT_EMAIL_ID = 'support@example.com';
+$HELPDESK_SUPPORT_EMAIL_ID = '_USER_SUPPORT_EMAIL_';
 $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 
@@ -44,13 +44,13 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-$dbconfig['db_server'] = 'localhost';
-$dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'root';
-$dbconfig['db_password'] = ''; // XAMPP default has no root password locally
-$dbconfig['db_name'] = 'vtigercrm';
-$dbconfig['db_type'] = 'mysqli';
-$dbconfig['db_status'] = 'true';
+$dbconfig['db_server'] = '_DBC_SERVER_';
+$dbconfig['db_port'] = ':_DBC_PORT_';
+$dbconfig['db_username'] = '_DBC_USER_';
+$dbconfig['db_password'] = '_DBC_PASS_';
+$dbconfig['db_name'] = '_DBC_NAME_';
+$dbconfig['db_type'] = '_DBC_TYPE_';
+$dbconfig['db_status'] = '_DB_STAT_';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
@@ -79,33 +79,33 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://localhost/vtiger/';
+$site_URL = '_SITE_URL_';
 
 // url for customer portal (Example: http://vtiger.com/portal)
 $PORTAL_URL = $site_URL.'/customerportal';
 // root directory path
-$root_directory = '/var/www/html/vtiger/';
+$root_directory = '_VT_ROOTDIR_';
 
 // cache direcory path
-$cache_dir = 'cache/';
+$cache_dir = '_VT_CACHEDIR_';
 
 // tmp_dir default value prepended by cache_dir = images/
-$tmp_dir = 'cache/images/';
+$tmp_dir = '_VT_TMPDIR_';
 
 // import_dir default value prepended by cache_dir = import/
 $import_dir = 'cache/import/';
 
 // upload_dir default value prepended by cache_dir = upload/
-$upload_dir = 'cache/upload/';
+$upload_dir = '_VT_UPLOADDIR_';
 
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
 $upload_maxsize = 3145728;//3MB
 
 // flag to allow export functionality
-// 'all' to allow anyone to use exports
-// 'admin' to only allow admins to export
-// 'none' to block exports completely
+// 'all' to allow anyone to use exports 
+// 'admin' to only allow admins to export 
+// 'none' to block exports completely 
 // allow_exports default value = all
 $allow_exports = 'all';
 
@@ -139,15 +139,15 @@ $default_password = '';
 $create_default_user = false;
 
 //Master currency name
-$currency_name = 'India, Rupees';
+$currency_name = '_MASTER_CURRENCY_';
 
 // default charset
 // default charset default value = 'UTF-8' or 'ISO-8859-1'
-$default_charset = 'UTF-8';
+$default_charset = '_VT_CHARSET_';
 
 // default language
 // default_language default value = en_us
-$default_language = 'en_us';
+$default_language = '_VT_DEFAULT_LANGUAGE_';
 
 //Option to hide empty home blocks if no entries.
 $display_empty_home_blocks = false;
@@ -156,8 +156,7 @@ $display_empty_home_blocks = false;
 $disable_stats_tracking = false;
 
 // Generating Unique Application Key
-// Generate your own, e.g.: php -r "echo bin2hex(random_bytes(16));"
-$application_unique_key = 'CHANGE_ME_GENERATE_A_RANDOM_32_CHAR_KEY';
+$application_unique_key = '_VT_APP_UNIQKEY_';
 
 // trim descriptions, titles in listviews to this value
 $listview_max_textlength = 40;
@@ -173,7 +172,7 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
-//Set the default layout
+//Set the default layout 
 $default_layout = 'v7';
 
 //Maximum Listview Fields Selection Size

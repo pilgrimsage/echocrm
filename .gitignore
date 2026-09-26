@@ -19,21 +19,18 @@ vendor/*
 !vendor/.htaccess
 
 # PHP / project config and secrets (local config files containing DB / secret keys)
-config.php
-config.inc.php
-config.db.php
 config.csrf-secret.php
-config.security.php
-config.template.php
-config_override.php
-config_override.*.php
-config_override.dev.php
-config_override.sample.php
+config.inc.php
 
 # vtiger runtime / generated files
 cache/
 cache/*
 !cache/index.html
+/includes/runtime/cache/*
+!/includes/runtime/cache/
+!/includes/runtime/cache/index.html
+!/includes/runtime/cache/Connector.php
+!/includes/runtime/cache/Connectors.php
 storage/
 logs/
 logs/*
