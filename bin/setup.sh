@@ -13,6 +13,15 @@ prompt() {
 	echo "${reply:-$default}"
 }
 
+# BSD sed (macOS) requires -i '' ; GNU sed (Linux) errors on that form.
+sed_inplace() {
+	if sed --version >/dev/null 2>&1; then
+		sed -i "$@"
+	else
+		sed -i '' "$@"
+	fi
+}
+
 DB_HOST=$(prompt "DB host" "localhost")
 DB_PORT=$(prompt "DB port" "3306")
 DB_NAME=$(prompt "DB name" "vtigercrm")
@@ -31,7 +40,7 @@ done
 APP_KEY=$(php -r "echo bin2hex(random_bytes(16));")
 CSRF_SECRET=$(php -r "echo bin2hex(random_bytes(20));")
 
-sed -i '' \
+sed_inplace \
 	-e "s/\$dbconfig\['db_server'\] = '[^']*';/\$dbconfig['db_server'] = '${DB_HOST}';/" \
 	-e "s/\$dbconfig\['db_port'\] = '[^']*';/\$dbconfig['db_port'] = ':${DB_PORT}';/" \
 	-e "s/\$dbconfig\['db_username'\] = '[^']*';/\$dbconfig['db_username'] = '${DB_USER}';/" \
