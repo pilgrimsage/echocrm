@@ -36,6 +36,11 @@ logs/
 logs/*
 output.txt
 
+# Smarty compiled templates - generated per-machine; committing these risks
+# serving a stale compiled .tpl that doesn't match the source after a pull.
+test/templates_c/
+test/templates_c/*
+
 # User data, uploads and temporary import files
 upload/
 uploads/
