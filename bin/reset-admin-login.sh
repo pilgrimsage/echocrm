@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Sets a working login for the admin account after importing db/schema.sql,
-# whose admin row ships with a placeholder credential (see bin/dump-db.sh).
+# Resets an EXISTING admin login's password - the same fix vtiger's own
+# community help threads give for a lost admin password, just scripted:
+#   UPDATE vtiger_users SET user_password = ... WHERE user_name = 'admin';
 # Uses PHP's own password_hash(), matching modules/Users/Users.php's PHASH
-# path, so vtiger accepts it on the next login.
+# path, so vtiger accepts it on the next login. Touches only the password
+# fields - never creates or otherwise alters the user row, so nothing else
+# (access_key, preferences, etc.) is affected.
 #
 # Usage: bin/reset-admin-login.sh [db_name] [db_user] [db_host] [db_port]
 set -euo pipefail
@@ -30,20 +33,15 @@ EXISTING=$(mysql -N "${mysql_args[@]}" "$DB_NAME" -e \
 	"SELECT COUNT(*) FROM vtiger_users WHERE user_name = '${ADMIN_USER}';")
 
 if [ "$EXISTING" -eq 0 ]; then
-	# db/schema.sql intentionally ships vtiger_users empty (see bin/dump-db.sh),
-	# while every other table's data - including role/permission links keyed
-	# to user id 1 - is imported as-is. Recreate that same user id so those
-	# links resolve correctly.
-	mysql "${mysql_args[@]}" "$DB_NAME" <<SQL
-INSERT INTO vtiger_users (id, user_name, user_password, is_admin, status, crypt_type, first_name, last_name, email1)
-VALUES (1, '${ADMIN_USER}', '${HASHED}', 'on', 'Active', 'PHASH', 'Admin', 'User', '${ADMIN_USER}@example.com');
-SQL
-	echo "Created ${ADMIN_USER} (id=1). You can now log in with the credential you just entered."
-else
-	mysql "${mysql_args[@]}" "$DB_NAME" <<SQL
+	echo "No user '${ADMIN_USER}' found in vtiger_users - nothing to reset."
+	echo "This script only resets an existing admin's password; it does not create users."
+	echo "Run vtiger's install wizard, or create the user first, then re-run this script."
+	exit 1
+fi
+
+mysql "${mysql_args[@]}" "$DB_NAME" <<SQL
 UPDATE vtiger_users
-SET user_password = '${HASHED}', crypt_type = 'PHASH', status = 'Active'
+SET user_password = '${HASHED}', crypt_type = 'PHASH'
 WHERE user_name = '${ADMIN_USER}';
 SQL
-	echo "Updated. You can now log in as ${ADMIN_USER} with the credential you just entered."
-fi
+echo "Password updated. You can now log in as ${ADMIN_USER} with the credential you just entered."

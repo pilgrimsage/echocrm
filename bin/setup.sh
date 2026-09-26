@@ -37,6 +37,14 @@ for f in config.inc.php config.csrf-secret.php kcfinder/config.php; do
 	fi
 done
 
+# cache/ and logs/ are entirely gitignored (no tracked files), so a fresh
+# clone never has them. Several code paths (e.g. Module Designer's temp
+# dir) do a non-recursive mkdir() that fails outright if the parent is
+# missing, so these must exist before first use.
+mkdir -p cache/images cache/import cache/upload cache/tempModuleDesigner cache/Connector logs
+chmod -R 755 cache logs
+echo "Created cache/ and logs/ runtime directories"
+
 APP_KEY=$(php -r "echo bin2hex(random_bytes(16));")
 CSRF_SECRET=$(php -r "echo bin2hex(random_bytes(20));")
 
