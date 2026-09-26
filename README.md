@@ -2,6 +2,20 @@
 
 Vtiger is a PHP based web application that enables businesses to increase sales wins, marketing ROI, and support satisfaction by providing tools for employees and management work more effectively, capture more data, and derive new actionable insights from across the customer lifecycle.
 
+## Local setup
+
+The `config*.php` files (DB credentials, CSRF secret, etc.) are gitignored since they hold local/secret values and differ per machine. After cloning, copy each `.sample` file to its real name and fill in your own values:
+
+    cp config.php.sample config.php
+    cp config.inc.php.sample config.inc.php
+    cp config.security.php.sample config.security.php
+    cp config.csrf-secret.php.sample config.csrf-secret.php
+    cp kcfinder/config.php.sample kcfinder/config.php
+
+At minimum, edit `config.inc.php` for your DB credentials, `site_URL`, and `root_directory`, and generate a fresh `application_unique_key`. Generate your own `config.csrf-secret.php` secret rather than reusing the sample placeholder, e.g.:
+
+    php -r "echo bin2hex(random_bytes(20));"
+
 ## Get involved
 
 Development on vtiger is done at https://code.vtiger.com
