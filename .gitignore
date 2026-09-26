@@ -54,6 +54,8 @@ sessions/
 *.sql.gz
 *.sqlite
 *.sqlite3
+# Except the tracked fresh-clone schema dump (see bin/dump-db.sh)
+!/db/schema.sql
 
 # Backups and generated archives
 *.bak

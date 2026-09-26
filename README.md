@@ -4,17 +4,23 @@ Vtiger is a PHP based web application that enables businesses to increase sales 
 
 ## Local setup
 
-The `config*.php` files (DB credentials, CSRF secret, etc.) are gitignored since they hold local/secret values and differ per machine. After cloning, copy each `.sample` file to its real name and fill in your own values:
+`config.inc.php`, `config.csrf-secret.php`, and `kcfinder/config.php` are gitignored since they hold DB credentials and secrets that differ per machine. Everything else needed to run (schema + config, no real customer data) is in the repo.
 
-    cp config.php.sample config.php
-    cp config.inc.php.sample config.inc.php
-    cp config.security.php.sample config.security.php
-    cp config.csrf-secret.php.sample config.csrf-secret.php
-    cp kcfinder/config.php.sample kcfinder/config.php
+Run the setup script after cloning:
 
-At minimum, edit `config.inc.php` for your DB credentials, `site_URL`, and `root_directory`, and generate a fresh `application_unique_key`. Generate your own `config.csrf-secret.php` secret rather than reusing the sample placeholder, e.g.:
+    bin/setup.sh
 
-    php -r "echo bin2hex(random_bytes(20));"
+It prompts for DB host/name/credentials and the site URL, writes `config.inc.php` and `config.csrf-secret.php` (generating a fresh `application_unique_key` and CSRF secret for you), creates the database, and imports `db/schema.sql` if present. Then set a working admin login:
+
+    bin/reset-admin-login.sh
+
+(`db/schema.sql` ships with `vtiger_users` empty on purpose — `reset-admin-login.sh` creates the admin row with a real password hash rather than a checked-in one.)
+
+To regenerate `db/schema.sql` after DB-level changes (Module Designer edits, workflows, picklists) so future clones pick them up:
+
+    bin/dump-db.sh
+
+If you'd rather set things up by hand, copy `config.inc.php.sample` → `config.inc.php`, `config.csrf-secret.php.sample` → `config.csrf-secret.php`, and `kcfinder/config.php.sample` → `kcfinder/config.php`, then edit DB credentials, `site_URL`, `root_directory`, and `application_unique_key` yourself.
 
 ## Get involved
 
