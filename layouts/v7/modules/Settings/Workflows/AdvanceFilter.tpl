@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-	{assign var=ALL_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[1] }
-	{assign var=ANY_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[2] }
+	{assign var=ALL_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[1]|default:null}
+	{assign var=ANY_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[2]|default:null}
 
 	{if empty($ALL_CONDITION_CRITERIA) }
 		{assign var=ALL_CONDITION_CRITERIA value=array()}
@@ -38,7 +38,7 @@
         <br>
 		<div class="contents">
 			<div class="conditionList">
-			 {foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA['columns']}
+			 {foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA["columns"]|default:array()}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
 			{/foreach}
 			{if php7_count($ALL_CONDITION_CRITERIA) eq 0}
@@ -72,7 +72,7 @@
         <br>
 		<div class="contents">
 			<div class="conditionList">
-			{foreach item=CONDITION_INFO from=$ANY_CONDITION_CRITERIA['columns']}
+			{foreach item=CONDITION_INFO from=$ANY_CONDITION_CRITERIA["columns"]|default:array()}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
 			{/foreach}
 			{if php7_count($ANY_CONDITION_CRITERIA) eq 0}
