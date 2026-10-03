@@ -1253,3 +1253,14 @@ input[type="checkbox"]:disabled{
 	word-break:normal !important;
 	overflow-wrap:break-word !important;
 }
+
+/* BS3 gave every .form-group margin-bottom:15px; BS5 has no .form-group at
+   all, so the ~180 templates that still use it (notably "row form-group",
+   which the .form-horizontal rule above deliberately skips) rendered with
+   their rows touching: Send Mail task editor, Add Tag modal, Config Editor,
+   Picklist. 1rem matches the spacing already given to .form-horizontal
+   groups. Trialled live on those screens plus Roles/Customer Portal/Webforms
+   with no overflow and no regressions. */
+.form-group{
+	margin-bottom:1rem;
+}
