@@ -1264,3 +1264,23 @@ input[type="checkbox"]:disabled{
 .form-group{
 	margin-bottom:1rem;
 }
+
+/* Settings content area: BS5 .row has -12px side margins and needs 12px of
+   parent padding on BOTH sides to absorb them. The skin gives .settingsPageDiv
+   padding-left:230px (sidebar clearance, only at >=992px, none below) and no
+   right padding, so:
+   - right: rows poke 12px past the viewport and the whole page scrolls
+     sideways (Picklist, Customer Portal; Webforms' table cell adds 4px more);
+   - left: the first column starts 12px under the sidebar (or off-screen
+     below 992px), clipping right-aligned labels that are slightly wider than
+     their box ("AXIMUM ENTRIES PER PAGE" on Config Editor).
+   Same cause and fix as .editViewPageDiv in editview.css. */
+.settingsPageDiv.content-area{
+	padding-left:12px !important;
+	padding-right:12px !important;
+}
+@media (min-width:992px){
+	.main-container .settingsPageDiv.content-area{
+		padding-left:242px !important;
+	}
+}
