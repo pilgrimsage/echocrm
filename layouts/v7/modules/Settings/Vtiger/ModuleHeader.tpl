@@ -20,7 +20,7 @@
 					&nbsp;<span class="fa fa-angle-right float-start {if $VIEW eq 'Index' && $MODULE eq 'Vtiger'} hide {/if}" aria-hidden="true" style="padding-top: 12px;padding-left: 5px; padding-right: 5px;"></span>
 				{/if}
 				{if $MODULE neq 'Vtiger' or $REQ->get('view') neq 'Index'}
-					{if $ACTIVE_BLOCK['block']}
+					{if !empty($ACTIVE_BLOCK['block'])}
 						<span class="current-filter-name filter-name float-start">
 							{vtranslate($ACTIVE_BLOCK['block'], $QUALIFIED_MODULE)}&nbsp;
 							<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
@@ -107,7 +107,7 @@
 						{elseif $REQ->get('view') eq 'TermsAndConditionsEdit'}
 							{assign var=SELECTED_MODULE value='LBL_TERMS_AND_CONDITIONS'}
 						{else}
-							{assign var=SELECTED_MODULE value=$ACTIVE_BLOCK['menu']}
+							{assign var=SELECTED_MODULE value=$ACTIVE_BLOCK['menu']|default:''}
 						{/if}
 						<span class="current-filter-name filter-name float-start" style='width:50%;'><span class="display-inline-block">{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}</span></span>
 					{/if}

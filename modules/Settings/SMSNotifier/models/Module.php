@@ -14,6 +14,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model {
 	var $nameFields = array();
 	var $listFields = array('providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active');
 	var $name = 'SMSNotifier';
+	var $allProviders = null;
 
 	/**
 	 * Function to get editable fields from this module
