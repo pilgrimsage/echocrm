@@ -19,12 +19,16 @@ Self-hosted vtiger CRM 8.4 open-source install being modernized. Phase 1 (curren
 - SweetAlert2 (replaced bootbox + bootstrap-notify)
 
 ## Design tokens (established)
+Matched from the real EchoCrew site (`dev.echocrew.in`) — the project's original invented palette was replaced. Source of truth is the `:root` block in `layouts/v7/lib/modern/css/listview.css` (globally loaded); `login.css` carries its own copy because that page loads no other stylesheet — keep the two in sync.
 ```
---ink:#10151C  --teal:#0E7C66  --teal-deep:#0A5C4B  --teal-soft:#E8F7F1
---paper:#FFFFFF  --mist:#F4F6F5  --mist-dark:#EDF0EF  --muted:#6B7280
---line:#E4E8E6  --danger:#E4572E  --radius:8px
+--ink:#0B0F14  --teal:#00D3B8  --teal-deep:#06A793  --teal-soft:#E4FBF6
+--paper:#FFFFFF  --mist:#F6F7F5  --mist-dark:#EDEFEC  --muted:#4A555F
+--line:#DFE2DD  --danger:#E4572E
+--radius:6px  --radius-md:14px  --radius-lg:22px
+--shadow, --shadow-sm  (see listview.css)
 ```
-Fonts: Space Grotesk (headings), Inter (body/UI).
+Font: Roboto, app-wide (headings and body/UI) — a deliberate user choice that replaced Sora/Inter. Loaded via the Google Fonts `<link>` in `layouts/v7/modules/Vtiger/Header.tpl`.
+After changing a token's value, grep the modern CSS for the old hex/`rgba()` literal — `var()` substitution doesn't reach hardcoded copies.
 
 ## Working rules
 - **Ask before editing.** Direct edits to the user's local files are allowed once the user has explicitly approved the specific change in chat — state the file/line change and get a go-ahead first, then apply it. Don't generalize a past approval to later, unrelated changes. A cloned copy can still be used for analysis/testing before touching the real files.
