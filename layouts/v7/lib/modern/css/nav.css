@@ -57,6 +57,24 @@
 .overlayPageContent.show{
 	top:83px !important;
 	opacity:1 !important;
+	/* The skin animates "all" (including top) from its parked top:700px.
+	   Mass Edit and Merge Records measure .datacontent's offset().top the
+	   moment the modal is shown to size their scroll area; mid-animation
+	   that reads ~780px, the computed height goes negative, and the
+	   scrollbar plugin clamps it to 0px - a blank dialog. Jump top
+	   instantly and animate only the fade. */
+	transition:opacity .3s ease !important;
+}
+
+/* In Settings this overlay also carries .content-area, which supplies
+   margin-left:230px to clear the sidebar. BS3's .modal had no width, so
+   left:0/right:0 filled what was left; BS5's .modal is width:100%, which
+   plus that margin pushes the right 230px (workflow task editors' right
+   column and the Close button) off-screen. Let it size to the free
+   space instead; with no margin this is still full width. */
+.overlayPageContent.modal{
+	width:auto !important;
+	right:0 !important;
 }
 
 /* ModalHeader.tpl wraps the title + close button in a single
