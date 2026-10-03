@@ -1284,3 +1284,19 @@ input[type="checkbox"]:disabled{
 		padding-left:242px !important;
 	}
 }
+
+/* Below the navbar-expand-lg breakpoint (992px) the top bar's two
+   .container-fluid blocks stay display:flex (BS5), which sizes each child
+   .row to its content instead of the full width: at 768px the top row was
+   304px and the module row 152px, so their columns squeezed and wrapped and
+   the header grew to 247px (a quarter of a tablet screen, with the logo
+   squashed to 34px). BS3's block containers gave the row full width. The
+   JS that pads #page for the fixed header measures this height, so fixing
+   it here also removes the oversized gap under the header. Desktop (>=992px)
+   already lays out correctly and is deliberately left alone. */
+@media (max-width:991.98px){
+	.app-fixed-navbar > .container-fluid > .row{
+		flex:1 1 auto;
+		width:100%;
+	}
+}
