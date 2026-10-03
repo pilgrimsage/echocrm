@@ -1184,3 +1184,43 @@ input[type="checkbox"]:disabled{
 	z-index:1200 !important;
 }
 
+
+/* BS3's .form-horizontal turned every .form-group into a row (negative
+   margins + clearfix) so its col-* label/controls children sat side by
+   side. BS5 dropped that; bare .form-group is a plain block, so the
+   children stack and the label shrinks to an inline-block. Rebuild the
+   row behaviour against the old class names (groups that already carry
+   .row are left alone) so the ~116 templates using it need no markup
+   changes. */
+.form-horizontal .form-group:not(.row){
+	display:flex;
+	flex-wrap:wrap;
+	align-items:flex-start;
+	margin-bottom:1rem;
+}
+.form-horizontal .form-group:not(.row) > [class*="col-"]{
+	padding-left:.75rem;
+	padding-right:.75rem;
+}
+.form-horizontal .control-label{
+	text-align:right;
+	padding-top:.5rem;
+	margin-bottom:0;
+}
+@media (max-width:575.98px){
+	.form-horizontal .form-group:not(.row) > .control-label,
+	.form-horizontal .form-group:not(.row) > .controls{
+		flex:0 0 100%;
+		max-width:100%;
+		text-align:left;
+	}
+}
+
+/* Each skin's style.css pins .editViewContents radios/checkboxes to
+   15x15, which beats the generic radio rule above (more specific, loads
+   later) and squashes the toggle pill so its knob spills over the label
+   text. Restore the pill size for radios only; checkboxes keep 15x15. */
+.editViewContents input[type="radio"]{
+	width:2em !important;
+	height:1.1em !important;
+}
