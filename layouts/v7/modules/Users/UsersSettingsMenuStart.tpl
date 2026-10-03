@@ -56,7 +56,7 @@
 {/if}
 <div class="main-container clearfix">
         <div class="module-nav clearfix" id="modnavigator">
-            <div class="d-none d-md-block">
+            <div class="d-none d-lg-block">
                 {include file="modules/Users/UsersSidebar.tpl"}
             </div>
         </div>

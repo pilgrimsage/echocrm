@@ -95,7 +95,7 @@
 										{/foreach}
 									</select>
 									<input type="hidden" id="prevRegionId" value="{$RECORD->get('region_id')}" />
-									<a class="fa fa-wrench d-none d-sm-block" href="index.php?module=Vtiger&parent=Settings&view=TaxIndex" target="_blank" style="vertical-align:middle;"></a>
+									<a class="fa fa-wrench d-none d-md-block" href="index.php?module=Vtiger&parent=Settings&view=TaxIndex" target="_blank" style="vertical-align:middle;"></a>
 										</span>
 							{/if}
 						</div>

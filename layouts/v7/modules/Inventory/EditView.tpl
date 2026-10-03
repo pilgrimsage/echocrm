@@ -9,7 +9,7 @@
 
 <div class="main-container clearfix">
         <div id="modnavigator" class="module-nav editViewModNavigator">
-            <div class="d-none d-md-block mod-switcher-container">
+            <div class="d-none d-lg-block mod-switcher-container">
                 {include file="modules/Vtiger/partials/Menubar.tpl"}
             </div>
         </div>
