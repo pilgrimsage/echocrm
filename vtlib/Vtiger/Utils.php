@@ -358,7 +358,7 @@ class Vtiger_Utils {
             }
             $fileName =self::$logFileName;
             $fp = fopen("logs/$fileName", 'a+');
-            fputcsv($fp, $log);
+            fputcsv($fp, $log, ',', '"', '\\');
             fclose($fp);
         }
     }

@@ -1345,6 +1345,8 @@ class CRMEntity {
 	function trash($module, $id) {
 		global $log, $current_user, $adb;
 
+		$em = null;
+		$entityData = null;
 		if(!self::isBulkSaveMode()) {
 			require_once("include/events/include.inc");
 			$em = new VTEventsManager($adb);

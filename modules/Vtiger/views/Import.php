@@ -254,6 +254,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			exit;
 		}
+		global $VTIGER_BULK_SAVE_MODE;
 		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
 		$VTIGER_BULK_SAVE_MODE = true;
 		$query = "SELECT recordid FROM $dbTableName WHERE status = ? AND recordid IS NOT NULL";

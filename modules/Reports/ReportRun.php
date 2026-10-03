@@ -4693,13 +4693,13 @@ class ReportRun extends CRMEntity {
 				unset($csv_values[php7_count($csv_values) - 1]); //removed action header in csv file
 				$unsetValue = true;
 			}
-			fputcsv($fp, Vtiger_Functions::sanitizeForCSVExport($csv_values));
+			fputcsv($fp, Vtiger_Functions::sanitizeForCSVExport($csv_values), ',', '"', '\\');
 			foreach ($arr_val as $key => $array_value) {
 				if ($unsetValue) {
 					array_pop($array_value); //removed action link
 				}
 				$csv_values = array_map('decode_html', array_values($array_value));
-				fputcsv($fp, Vtiger_Functions::sanitizeForCSVExport($csv_values));
+				fputcsv($fp, Vtiger_Functions::sanitizeForCSVExport($csv_values), ',', '"', '\\');
 			}
 		}
 		fclose($fp);
@@ -4710,7 +4710,7 @@ class ReportRun extends CRMEntity {
 		if (!empty($totalcsv)) {
 
 			$fp = fopen($fileName, 'a+');
-			fputcsv($fp, array());
+			fputcsv($fp, array(), ',', '"', '\\');
 
 			$size = sizeof($totalcsv);
 
@@ -4734,12 +4734,12 @@ class ReportRun extends CRMEntity {
 
 			foreach ($colTotHdrs as $key => $hdr) {
 				$hdr_values = $hdr;
-				fputcsv($fp, $hdr_values);
+				fputcsv($fp, $hdr_values, ',', '"', '\\');
 			}
 
 			foreach ($totalcsv as $key => $value) {
 				$csv_values = array_map('decode_html', $value);
-				fputcsv($fp, $csv_values);
+				fputcsv($fp, $csv_values, ',', '"', '\\');
 			}
 			ob_clean();
 			fclose($fp);
