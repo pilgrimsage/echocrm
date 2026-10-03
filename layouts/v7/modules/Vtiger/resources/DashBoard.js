@@ -9,11 +9,49 @@
 
 Vtiger.Class("Vtiger_DashBoard_Js",{
 
-	gridster : false,
+	//GridStack instance of the active tab
+	grid : false,
+
+	//Layout is edited and saved only at the full column count (4). Below that
+	//the grid is a read-only reflow of the saved layout, so a phone or laptop
+	//view can never overwrite the layout arranged on a wide screen.
+	fullGridColumns : 4,
 
 	//static property which will store the instance of dashboard
 	currentInstance : false,
 	dashboardTabsLimit : 10,
+
+	/**
+	 * Mirror a widget's grid position/size into the data-row/col/sizex/sizey
+	 * attributes (1-based, as stored on the server). savePositions() and
+	 * saveWidgetSize() read those attributes, so keeping them in sync is all
+	 * the persistence code needs.
+	 */
+	syncWidgetAttrs : function(element) {
+		var node = element.gridstackNode;
+		if (!node) return;
+		jQuery(element).attr({
+			'data-col' : node.x + 1,
+			'data-row' : node.y + 1,
+			'data-sizex' : node.w,
+			'data-sizey' : node.h
+		});
+	},
+
+	/**
+	 * Put a freshly created widget <li> into the active grid, in the first free
+	 * spot, and save the layout.
+	 */
+	addToGrid : function(widgetContainer, width, height) {
+		var grid = Vtiger_DashBoard_Js.grid;
+		widgetContainer.addClass('grid-stack-item').append('<div class="grid-stack-item-content"></div>');
+		grid.el.appendChild(widgetContainer[0]);
+		grid.makeWidget(widgetContainer[0], {
+			w : Math.min(parseInt(width) || 1, grid.getColumn()),
+			h : parseInt(height) || 1,
+			autoPosition : true
+		});
+	},
 
 	addWidget : function(element, url) {
 		var element = jQuery(element);
@@ -27,7 +65,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		widgetContainer.data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
+		Vtiger_DashBoard_Js.addToGrid(widgetContainer, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
 	},
 
@@ -140,7 +178,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 			widgetContainer.data('url', url);
 			var width = element.data('width');
 			var height = element.data('height');
-			Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
+			Vtiger_DashBoard_Js.addToGrid(widgetContainer, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
 			app.helper.hideModal();
 		}
@@ -187,7 +225,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 								widgetContainer.data('url', url);
 								var width = element.data('width');
 								var height = element.data('height');
-								Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
+								Vtiger_DashBoard_Js.addToGrid(widgetContainer, width, height);
 								Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
 							}
 						});
@@ -224,7 +262,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		if(typeof tabid == 'undefined'){
 			tabid = this.getActiveTabId();
 		}
-		return jQuery(".gridster_"+tabid).find('ul');
+		return jQuery(".dashboardGrid_"+tabid).find('ul.grid-stack');
 	},
 
 	getWidgetInstance : function(widgetContainer) {
@@ -250,24 +288,6 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		return jQuery(".tab-pane.active").data("tabname");
 	},
 
-	getgridColumns: function(){
-		var _device_width = $(window).innerWidth();
-		var gridWidth = _device_width;
-
-		if (_device_width < 480) {
-			gridWidth = 1;
-		} else if (_device_width >= 480 && _device_width < 768) {
-			gridWidth = 1;
-		} else if (_device_width >= 768 && _device_width < 992) {
-			gridWidth = 2;
-		} else if (_device_width >= 992 && _device_width < 1440) {
-			gridWidth = 3;
-		} else {
-			gridWidth = 4;
-		}
-		return gridWidth;
-	},
-
 	saveWidgetSize: function (widget) {
 		var dashboardTabId = widget.closest('.tab-pane.active').data('tabid');
 		var widgetSize = {
@@ -291,90 +311,155 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		return '<div class="wait_resizing_msg"><p class="text-info">'+app.vtranslate('JS_WIDGET_RESIZING_WAIT_MSG')+'</p></div>';
 	},
 
-	registerGridster : function() {
+	registerGrid : function() {
 		var thisInstance = this;
-		var widgetMargin = 10;
-		var activeTabId = this.getActiveTabId();
-		var activeGridster = jQuery(".gridster_"+activeTabId);
-		var items = activeGridster.find('ul li');
-		items.detach();
+		var container = this.getContainer();
+		if (!container.length) return;
 
-		// Constructing the grid based on window width
-		var cols = this.getgridColumns();
-		$(".mainContainer").css('min-width', "500px");
-		var col_width = (Math.floor(($(window).width()-30)/cols) - (2*widgetMargin));
-
-
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridster({
-			widget_margins: [widgetMargin, widgetMargin],
-			widget_base_dimensions: [col_width, 300],
-			min_cols: 1,
-			max_cols: 4,
-			min_rows: 20,
-			resize : {
-				enabled : true,
-				start: function (e, ui, widget) {
-					var widgetContent = widget.find('.dashboardWidgetContent');
-					widgetContent.before(thisInstance.getWaitingForResizeCompleteMsg());
-					widgetContent.addClass('hide');
-				},
-				stop : function(e, ui, widget) {
-					var widgetContent = widget.find('.dashboardWidgetContent');
-					widgetContent.prev('.wait_resizing_msg').remove();
-					widgetContent.removeClass('hide');
-
-					var widgetName = widget.data('name');
-					 /**
-					 * we are setting default height in DashBoardWidgetContents.tpl
-					 * need to overwrite based on resized widget height
-					 */ 
-					var widgetChartContainer = widget.find(".widgetChartContainer");
-					if(widgetChartContainer.length > 0){
-						widgetChartContainer.css("height",widget.height() - 60);
-					}
-					widgetChartContainer.html('');
-					Vtiger_Widget_Js.getInstance(widget, widgetName);
-					widget.trigger(Vtiger_Widget_Js.widgetPostResizeEvent);
-					thisInstance.saveWidgetSize(widget);
-				}
+		var grid = GridStack.init({
+			column : 4,
+			columnOpts : {
+				// same window-width thresholds the old getgridColumns() used:
+				// <768px 1 col, <992px 2 cols, <1440px 3 cols, else 4
+				breakpoints : [{w : 767, c : 1}, {w : 991, c : 2}, {w : 1439, c : 3}],
+				// above the last breakpoint the grid would otherwise fall back to 12 columns
+				columnMax : 4,
+				breakpointForWindow : true,
+				// keep reading order, but pull later widgets up into gaps
+				layout : 'compact'
 			},
-			draggable: {
-				'stop': function(event, ui) {
-					 thisInstance.savePositions(activeGridster.find('.dashboardWidget'));
-				}
-			}
-		}).data('gridster');
+			cellHeight : 300,
+			margin : 10,
+			auto : false,
+			handle : '.dashboardWidgetHeader',
+			resizable : {handles : 'se'}
+		}, container[0]);
+		Vtiger_DashBoard_Js.grid = grid;
 
-
-		items.sort(function(a,b){
-			var widgetA = jQuery(a);
-			var widgetB = jQuery(b);
-			var rowA = parseInt(widgetA.attr('data-row'));
-			var rowB = parseInt(widgetB.attr('data-row'));
-			var colA = parseInt(widgetA.attr('data-col'));
-			var colB = parseInt(widgetB.attr('data-col'));
-
-			if(rowA === rowB && colA === colB) {
-				return 0;
-			}
-
-			if(rowA > rowB || (rowA === rowB && colA > colB)) {
-				return 1;
-			}
-			return -1;
+		// Init may already have picked 1-3 columns from the window width. Place the
+		// saved layout into the full-width space, exactly as saved, and only then
+		// reflow it: clamping widgets one by one makes them collide and push each
+		// other down.
+		grid.column(Vtiger_DashBoard_Js.fullGridColumns, 'none');
+		var cols = grid.getColumn();
+		var items = container.children('li.dashboardWidget').get();
+		items.sort(function(a, b) {
+			var rowA = parseInt(jQuery(a).attr('data-row'));
+			var rowB = parseInt(jQuery(b).attr('data-row'));
+			var colA = parseInt(jQuery(a).attr('data-col'));
+			var colB = parseInt(jQuery(b).attr('data-col'));
+			if (rowA === rowB) return colA - colB;
+			return rowA - rowB;
 		});
-		jQuery.each(items , function (i, e) {
-			var item = $(this);
-			var columns = parseInt(item.attr("data-sizex")) > cols ? cols : parseInt(item.attr("data-sizex"));
-			var rows = parseInt(item.attr("data-sizey"));
-			if(item.attr("data-position")=="false"){
-				Vtiger_DashBoard_Js.gridster.add_widget(item, columns, rows);
+
+		// Saved widgets go in first, in reading order, so that their places are
+		// authoritative; widgets that were never positioned then flow into
+		// whatever space is left instead of taking a saved widget's slot.
+		var isUnpositioned = function(li) {
+			return jQuery(li).attr('data-position') == 'false';
+		};
+		items = items.filter(function(li) { return !isUnpositioned(li); })
+			.concat(items.filter(isUnpositioned));
+
+		grid.batchUpdate();
+		jQuery.each(items, function(i, li) {
+			var item = jQuery(li);
+			var width = Math.min(parseInt(item.attr('data-sizex')) || 1, cols);
+			var options = {w : width, h : parseInt(item.attr('data-sizey')) || 1};
+			if (isUnpositioned(li)) {
+				options.autoPosition = true;
 			} else {
-				Vtiger_DashBoard_Js.gridster.add_widget(item, columns, rows);
+				options.x = Math.min(Math.max((parseInt(item.attr('data-col')) || 1) - 1, 0), cols - width);
+				options.y = Math.max((parseInt(item.attr('data-row')) || 1) - 1, 0);
 			}
+			grid.makeWidget(li, options);
 		});
-		//used when after gridster is loaded
-		thisInstance.savePositions(activeGridster.find('.dashboardWidget'));
+		grid.batchUpdate(false);
+		// reflow to the window's column count (a no-op on wide screens)
+		grid.onResize();
+		items.forEach(function(li) {
+			Vtiger_DashBoard_Js.syncWidgetAttrs(li);
+		});
+		thisInstance.updateEditMode(grid);
+		// GridStack reflows by itself through a ResizeObserver on the grid; also
+		// do it explicitly on window resize so the read-only switch below always
+		// follows the real column count. Always acts on the active tab's grid.
+		var reflowTimer;
+		jQuery(window).off('resize.dashboardGrid').on('resize.dashboardGrid', function() {
+			clearTimeout(reflowTimer);
+			reflowTimer = setTimeout(function() {
+				thisInstance.reflowActiveGrid();
+			}, 200);
+		});
+
+		// Positions are saved only after a user action. Saving on load would
+		// store whatever column layout the first device happened to render.
+		grid.on('resizestart', function(event, el) {
+			var widgetContent = jQuery(el).find('.dashboardWidgetContent');
+			widgetContent.before(thisInstance.getWaitingForResizeCompleteMsg());
+			widgetContent.addClass('hide');
+		});
+		grid.on('resizestop', function(event, el) {
+			var widget = jQuery(el);
+			var widgetContent = widget.find('.dashboardWidgetContent');
+			widgetContent.prev('.wait_resizing_msg').remove();
+			widgetContent.removeClass('hide');
+			// let the grid apply the final size before reading it back
+			setTimeout(function() {
+				Vtiger_DashBoard_Js.syncWidgetAttrs(el);
+				var widgetName = widget.data('name');
+				/**
+				 * we are setting default height in DashBoardWidgetContents.tpl
+				 * need to overwrite based on resized widget height
+				 */
+				var widgetChartContainer = widget.find(".widgetChartContainer");
+				if(widgetChartContainer.length > 0){
+					widgetChartContainer.css("height",widget.height() - 60);
+				}
+				widgetChartContainer.html('');
+				Vtiger_Widget_Js.getInstance(widget, widgetName);
+				widget.trigger(Vtiger_Widget_Js.widgetPostResizeEvent);
+				thisInstance.saveWidgetSize(widget);
+				thisInstance.persistLayout();
+			}, 0);
+		});
+		grid.on('dragstop', function() {
+			setTimeout(function() {
+				thisInstance.persistLayout();
+			}, 0);
+		});
+	},
+
+	/**
+	 * Apply the responsive column count to the active tab's grid, then
+	 * re-evaluate whether it may be edited.
+	 */
+	reflowActiveGrid : function() {
+		var grid = Vtiger_DashBoard_Js.grid;
+		if (!grid) return;
+		grid.onResize();
+		this.updateEditMode(grid);
+	},
+
+	/**
+	 * Dragging and resizing are allowed only at the full column count.
+	 */
+	updateEditMode : function(grid) {
+		grid.setStatic(grid.getColumn() < Vtiger_DashBoard_Js.fullGridColumns);
+	},
+
+	/**
+	 * Sync every widget of the active tab from the grid and save the positions.
+	 */
+	persistLayout : function() {
+		var grid = Vtiger_DashBoard_Js.grid;
+		// a reflowed (narrower) layout must never replace the full-width one
+		if (!grid || grid.getColumn() < Vtiger_DashBoard_Js.fullGridColumns) return;
+		var widgets = jQuery('.tab-pane.active .dashboardWidget');
+		widgets.each(function(i, el) {
+			Vtiger_DashBoard_Js.syncWidgetAttrs(el);
+		});
+		this.savePositions(widgets);
 	},
 
 	savePositions: function(widgets) {
@@ -388,7 +473,8 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		var params = {
 			module: 'Vtiger', 
 			action: 'SaveWidgetPositions', 
-			positionsmap: widgetRowColPositions
+			positionsmap: widgetRowColPositions,
+			tabid: widgets.first().closest('.tab-pane').data('tabid')
 		};
 		app.request.post({"data":params}).then(function(err,data){
 		});
@@ -444,7 +530,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		app.helper.showProgress();
 		if(mode == 'open') {
 			app.request.post({"url":urlParams}).then(function(err,data){
-				widgetContainer.prepend(data);
+				widgetContainer.children('.grid-stack-item-content').prepend(data);
 				vtUtils.applyFieldElementsView(widgetContainer);
 
 				var widgetChartContainer = widgetContainer.find(".widgetChartContainer");
@@ -459,6 +545,12 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 					widgetContainer.find('[name="chartcontent"]').html('<div>'+app.vtranslate('JS_NO_DATA_AVAILABLE')+'</div>').css({'text-align': 'center', 'position': 'relative', 'top': '100px'});
 				}
 				app.helper.hideProgress();
+				// A widget added from the menu only gets its server row when this request runs,
+				// so its place can only be saved now (saving earlier updates zero rows)
+				if (widgetContainer.hasClass('new')) {
+					widgetContainer.removeClass('new');
+					thisInstance.persistLayout();
+				}
 			});
 		} else {
 		}
@@ -483,7 +575,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 			var height = listItem.attr('data-sizey');
 
 			var url = element.data('url');
-			var parent = element.closest('.dashBoardWidgetFooter').parent();
+			var parent = element.closest('li.dashboardWidget');
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
 			var activeTabId = element.closest(".tab-pane").data("tabid");
@@ -498,8 +590,9 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 							var nonReversableWidgets = ['MiniList','Notebook','ChartReportWidget']
 
 							parent.fadeOut('slow', function() {
-								Vtiger_DashBoard_Js.gridster.remove_widget(parent);
+								Vtiger_DashBoard_Js.grid.removeWidget(parent[0], false);
 								parent.remove();
+								Vtiger_DashBoard_Js.currentInstance.persistLayout();
 							});
 							if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
 								var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \''+response.url+'\')" href="javascript:void(0);"';
@@ -883,20 +976,15 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 			var tabid = currentTarget.data('tabid');
 			app.changeURL("index.php?module=Home&view=DashBoard&tabid="+tabid);
 
-			// If tab is already loaded earlier then we shouldn't reload tab and register gridster
+			// If tab is already loaded earlier then we shouldn't reload tab or rebuild its grid
 			if(typeof jQuery("#tab_"+tabid).find(".dashBoardTabContainer").val() !== 'undefined'){
-				// We should overwrite gridster with current tab which is clicked
-
-				var widgetMargin = 10;
-				var cols = thisInstance.getgridColumns();
-				$(".mainContainer").css('min-width', "500px");
-				var col_width = (cols === 1)?(Math.floor(($(".mainContainer").width()-41)/cols) - (2*widgetMargin)):(Math.floor(($(window).width()-41)/cols) - (2*widgetMargin));
-
-				Vtiger_DashBoard_Js.gridster = thisInstance.getContainer(tabid).gridster({ 
-					// Need to set the base dimensions to eliminate widgets overlapping
-					widget_base_dimensions: [col_width,300]
-				}).data("gridster");
-
+				// Point the shared reference at the grid of the tab that was just clicked
+				var tabGrid = thisInstance.getContainer(tabid)[0];
+				if (tabGrid && tabGrid.gridstack) {
+					Vtiger_DashBoard_Js.grid = tabGrid.gridstack;
+					// the window may have been resized while this tab was hidden
+					thisInstance.reflowActiveGrid();
+				}
 				return;
 			}
 			var data = {
@@ -996,7 +1084,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 				instance = dashBoardInstance;
 				instance.registerEvents();
 			}
-			instance.registerGridster();
+			instance.registerGrid();
 			instance.loadWidgets();
 			instance.registerRefreshWidget();
 			instance.removeWidget();
