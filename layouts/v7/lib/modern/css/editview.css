@@ -34,6 +34,13 @@
 	vertical-align:top;
 	width:18%;
 }
+/* Some templates (Picklist) nest <label class="fieldLabel"> inside a
+   .fieldLabel column; without this the inner one gets 18% of its parent
+   (25px) and its text spills out of the box. */
+.fieldLabel .fieldLabel{
+	width:auto;
+	padding:0;
+}
 .fieldValue{
 	padding:8px 10px;
 	vertical-align:top;
@@ -310,4 +317,15 @@ input.mass-select:checked::after{
 }
 .duplicationMessageHeader{
 	color:#8A6100;
+}
+/* The skins pad .content-area by 3% on the left, which only clears the
+   42px module rail (.editViewModNavigator) above ~1400px viewport width;
+   on narrower desktops the first ~11px of the heading and labels slide
+   under the rail. Floor the padding at rail width + breathing room. */
+.editViewPageDiv .content-area{
+	padding-left:max(3%,54px) !important;
+	/* BS5 .row has -12px side margins and needs 12px of parent padding to
+	   absorb them; with none on the right the row pokes out 12px and the
+	   whole Edit page scrolls sideways. */
+	padding-right:12px !important;
 }
