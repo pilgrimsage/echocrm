@@ -238,8 +238,8 @@ class Import_Utils_Helper {
 	public static function neutralizeAndMoveFile($uploadedFileName, $temporaryFileName, $delimiter = ','){
 		$file_read = fopen($uploadedFileName,'r');
 		$file_write = fopen($temporaryFileName,'w+');
-		while($data = fgetcsv($file_read, 0, $delimiter)){
-			fputcsv($file_write, $data, $delimiter);
+		while($data = fgetcsv($file_read, 0, $delimiter, '"', '\\')){
+			fputcsv($file_write, $data, $delimiter, '"', '\\');
 		}
 		fclose($file_read);
 		fclose($file_write);

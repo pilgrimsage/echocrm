@@ -84,7 +84,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader {
 		
 		// NOTE: Retaining row-read and insert as LOAD DATA command is being disabled by default.
 		$i = -1;
-		while($data = fgetcsv($fileHandler, 0, $delimiter)) {
+		while($data = fgetcsv($fileHandler, 0, $delimiter, '"', '\\')) {
 			$i++;
 			if($hasHeader && $i == 0) continue;
 			$mappedData = array();

@@ -130,7 +130,7 @@ class Vtiger_ExportExtensionLog_View extends Vtiger_View_Controller {
 		if (isset($arr_val)) {
 			foreach ($arr_val as $key => $array_value) {
 				$csv_values = array_map('decode_html', array_values($array_value));
-				fputcsv($fp, $csv_values);
+				fputcsv($fp, $csv_values, ',', '"', '\\');
 			}
 		}
 
