@@ -155,7 +155,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		if (_popupModalEl) { bootstrap.Modal.getOrCreateInstance(_popupModalEl).show(); }
 		if (_popupModalEl) { _popupModalEl.addEventListener('shown.bs.modal', function() {
 			jQuery('.myModal').css('opacity', .5);
-			jQuery('.myModal').unbind();
+			jQuery('.myModal').off();
 		}); }
 
 		if (_popupModalEl) { _popupModalEl.addEventListener('hidden.bs.modal', function() {
@@ -167,7 +167,6 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 				if (_existingModal) { _existingModal.dispose(); }
 				bootstrap.Modal.getOrCreateInstance(_myModalEl, app.helper.defaultModalParams()).show();
 			}
-			jQuery('.myModal').bind();
 		}); }
 	},
 

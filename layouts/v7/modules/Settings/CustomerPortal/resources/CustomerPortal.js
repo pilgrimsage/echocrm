@@ -662,13 +662,13 @@ Vtiger.Class('Settings_Customer_Portal_Js', {}, {
 				'z-index': 100000
 			}
 		});
-		jQuery('#portalAnnouncement[name="announcement"]').bind('keyup', function () {
+		jQuery('#portalAnnouncement[name="announcement"]').on('keyup', function () {
 			jQuery('#savePortalInfo').trigger('change');
 		});
-		jQuery('#portalAnnouncement[name="announcement"]').bind('input propertychange', function () {
+		jQuery('#portalAnnouncement[name="announcement"]').on('input propertychange', function () {
 			jQuery('#savePortalInfo').trigger('change');
 		});
-		jQuery('input[type="text"][name="renewalPeriod"]').bind('input propertychange', function () {
+		jQuery('input[type="text"][name="renewalPeriod"]').on('input propertychange', function () {
 			jQuery('#savePortalInfo').trigger('change');
 		});
 		thisInstance.registerEventForAddCustomModule();

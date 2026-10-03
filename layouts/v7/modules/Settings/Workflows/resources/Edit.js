@@ -1165,7 +1165,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		});
 		vtUtils.registerEventForTimeFields('#schtime', true);
 		vtUtils.registerEventForDateFields(jQuery('#scheduleByDate'));
-        jQuery(".weekDaySelect").bind("mousedown", function(e) {
+        jQuery(".weekDaySelect").on("mousedown", function(e) {
             e.metaKey = true;
         }).selectable();
         jQuery( ".weekDaySelect" ).on( "selectableselected selectableunselected", function( event, ui ) {
