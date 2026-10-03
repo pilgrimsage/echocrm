@@ -65,7 +65,7 @@ class VtigerWebserviceObject{
 			}
 		}
 		
-		$rowData = self::$_fromNameCache[$entityName];
+		$rowData = self::$_fromNameCache[$entityName] ?? null;
 		
 		if($rowData) {
 			return new VtigerWebserviceObject($rowData['id'],$rowData['name'],
