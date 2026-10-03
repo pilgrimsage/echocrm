@@ -23,31 +23,31 @@
 			<input type="hidden" name="mode" value="updateCardDetails" />
 			<div class="modal-body">
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="control-label col-sm-3 col-3">
 						{vtranslate('LBL_CARD_NUMBER', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
-					<div class="controls col-sm-5 col-xs-5">
-						<input class="col-sm-8 col-xs-8 inputElement" type="text" placeholder="{vtranslate('LBL_CARD_NUMBER_PLACEHOLDER', $QUALIFIED_MODULE)}" name="cardNumber" value="" data-rule-required="true" data-rule-WholeNumber="true"/>
+					<div class="controls col-sm-5 col-5">
+						<input class="col-sm-8 col-8 inputElement" type="text" placeholder="{vtranslate('LBL_CARD_NUMBER_PLACEHOLDER', $QUALIFIED_MODULE)}" name="cardNumber" value="" data-rule-required="true" data-rule-WholeNumber="true"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="control-label col-sm-3 col-3">
 						{vtranslate('LBL_EXPIRY_DATE', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
-					<div class="controls col-sm-9 col-xs-9"> 
+					<div class="controls col-sm-9 col-9"> 
 						<input class="inputElement" style="width: 50px;" placeholder="mm" type="text" name="expMonth" value="" data-rule-required="true" data-mask="99" />
 						&nbsp;-&nbsp;
 						<input class="inputElement" style="width: 50px;" placeholder="yyyy" type="text" name="expYear" value="" data-rule-required="true" data-mask="9999" />
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label col-sm-3 col-xs-3">
+					<span class="control-label col-sm-3 col-3">
 						{vtranslate('LBL_SECURITY_CODE', $QUALIFIED_MODULE)}
 						<span class="redColor">*</span>
 					</span>
-					<div class="controls col-sm-9 col-xs-9">
+					<div class="controls col-sm-9 col-9">
 						<input class="inputElement" style="width: 50px;" type="text" name="cvccode" value="" data-rule-required="true" data-mask="999"/>
 						&nbsp;&nbsp;
 						<span class="fa fa-info-circle" id="helpSecurityCode" onmouseover="Settings_ExtensionStore_ExtensionStore_Js.showPopover(this)" data-title="{vtranslate('LBL_WHAT_IS_SECURITY_CODE', $QUALIFIED_MODULE)}" data-content="{vtranslate('LBL_SECURITY_CODE_HELP_CONTENT', $QUALIFIED_MODULE)}" data-position="right"></span>
@@ -56,10 +56,10 @@
 			</div>
 			<div class="modal-footer">
 				<div class="row">
-					<div class="col-sm-3 col-xs-3">
+					<div class="col-sm-3 col-3">
 						<span class="float-start"><button class="btn btn-danger" type="button" name="resetButton"><strong>{vtranslate('LBL_RESET', $QUALIFIED_MODULE)}</strong></button></span>
 					</div>
-					<div class="col-sm-9 col-xs-9">
+					<div class="col-sm-9 col-9">
 						<div class="float-end">
 							<div class="float-end cancelLinkContainer" style="margin-top:5px;">
 								<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
@@ -81,22 +81,22 @@
 		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 		<div class="modal-body">
 			<div class="row marginBottom10px">
-				<div class="col-sm-3 col-xs-3">
+				<div class="col-sm-3 col-3">
 					{vtranslate('LBL_CARD_NUMBER', $QUALIFIED_MODULE)}
 				</div>
-				<div class="col-sm-4 col-xs-4 cardNumber">{(isset($CUSTOMER_CARD_INFO['number'])) ? $CUSTOMER_CARD_INFO['number'] : ''}</div>
+				<div class="col-sm-4 col-4 cardNumber">{(isset($CUSTOMER_CARD_INFO['number'])) ? $CUSTOMER_CARD_INFO['number'] : ''}</div>
 			</div>
 			<div class="row marginBottom10px">
-				<div class="col-sm-3 col-xs-3">
+				<div class="col-sm-3 col-3">
 					{vtranslate('LBL_EXPIRY_DATE', $QUALIFIED_MODULE)}
 				</div>
-				<div class="col-sm-4 col-xs-4 expiryDate">{(isset($CUSTOMER_CARD_INFO['expmonth'])) ? $CUSTOMER_CARD_INFO['expmonth'] : ''}&nbsp;-&nbsp;{(isset($CUSTOMER_CARD_INFO['expyear'])) ? $CUSTOMER_CARD_INFO['expyear'] : ''}</div>
+				<div class="col-sm-4 col-4 expiryDate">{(isset($CUSTOMER_CARD_INFO['expmonth'])) ? $CUSTOMER_CARD_INFO['expmonth'] : ''}&nbsp;-&nbsp;{(isset($CUSTOMER_CARD_INFO['expyear'])) ? $CUSTOMER_CARD_INFO['expyear'] : ''}</div>
 			</div>
 			<div class="row marginBottom10px">
-				<div class="col-sm-3 col-xs-3 securityCode">
+				<div class="col-sm-3 col-3 securityCode">
 					{vtranslate('LBL_SECURITY_CODE', $QUALIFIED_MODULE)}
 				</div>
-				<div class="col-sm-4 col-xs-4">***</div>
+				<div class="col-sm-4 col-4">***</div>
 			</div>
 		</div>
 		<div class="modal-footer">

@@ -36,7 +36,7 @@
 								{vtranslate('LBL_NEW_PASSWORD', $MODULE)}&nbsp;
 								<span class="redColor">*</span>
 							</label>
-							<div class="controls col-xs-6">
+							<div class="controls col-6">
 								<input type="password" class="form-control inputElement	" name="new_password" data-rule-required="true" autofocus="autofocus"/>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 								{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}&nbsp;
 								<span class="redColor">*</span>
 							</label>
-							<div class="controls col-xs-6">
+							<div class="controls col-6">
 								<input type="password" class="form-control inputElement	" name="confirm_password" data-rule-required="true"/>
 							</div>
 						</div>

@@ -10,7 +10,7 @@
 
 {strip}
 	<div class="editViewPageDiv">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="editViewContainer">
 				<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 					<input type="hidden" name="module" value="Groups">

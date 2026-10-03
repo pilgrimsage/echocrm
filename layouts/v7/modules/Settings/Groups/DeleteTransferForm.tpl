@@ -26,7 +26,7 @@
                                     {vtranslate('LBL_TRANSFORM_OWNERSHIP', $QUALIFIED_MODULE)} {vtranslate('LBL_TO', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
                                 </strong>
                             </span>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <select id="transfer_record" name="transfer_record" class="select2">
                                     <optgroup label="{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}">
                                         {foreach from=$ALL_USERS key=USER_ID item=USER_MODEL}

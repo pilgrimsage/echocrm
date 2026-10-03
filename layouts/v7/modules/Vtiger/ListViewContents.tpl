@@ -15,7 +15,7 @@
 	{assign var=SELECTED_MENU_CATEGORY value=""}
 {/if}
 
-<div class="col-sm-12 col-xs-12 ">
+<div class="col-sm-12 col-12 ">
 	{if $MODULE neq 'EmailTemplates' && $SEARCH_MODE_RESULTS neq true}
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
 		<div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">

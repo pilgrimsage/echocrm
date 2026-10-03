@@ -9,7 +9,7 @@
 
 {strip}
 	<div class="listViewPageDiv" id="listViewContent">
-		<div class="col-sm-12 col-xs-12 full-height">
+		<div class="col-sm-12 col-12 full-height">
                     <input type='hidden' name='pwd_regex' value= {ZEND_json::encode($PWD_REGEX)} />
 			<div id="listview-actions" class="listview-actions-container">
 				<div class = "row">

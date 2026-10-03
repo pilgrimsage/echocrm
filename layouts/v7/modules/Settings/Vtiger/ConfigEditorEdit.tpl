@@ -8,7 +8,7 @@
 ************************************************************************************}
 {strip}
 	<div class="editViewPageDiv " id="editViewContent">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
 			<div class="contents">
 				<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 					{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}

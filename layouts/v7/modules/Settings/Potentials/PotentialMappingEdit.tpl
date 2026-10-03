@@ -10,7 +10,7 @@
 
 {strip}
     <div class="potentialsFieldMappingEditPageDiv">
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-12 col-12">
             <div class="editViewContainer ">
                 <form id="potentialsMapping" method="POST">
                     <div class="editViewBody ">

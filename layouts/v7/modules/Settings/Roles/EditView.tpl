@@ -10,7 +10,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <div class="editViewPageDiv viewContent">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="editViewHeader">
                 {if $RECORD_MODEL->getId()}
                     <h4>

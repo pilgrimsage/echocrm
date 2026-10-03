@@ -41,7 +41,7 @@
                     {else if $FIELD_TYPE == 'password'}
                         <input type="password" id="{$FIELD_NAME}" class="form-control" data-rule-required="true" name="{$FIELD_NAME}" value="{$FIELD_VALUE}" />
                     {else if $FIELD_TYPE == 'url'}
-                        <div class="input-group float-start col-lg-11 col-sm-11 col-xs-11">
+                        <div class="input-group float-start col-lg-11 col-sm-11 col-11">
                             <input type="text" id="{$FIELD_NAME}" class="form-control" data-rule-required="true" readonly="readonly" name="{$FIELD_NAME}" value="{$FIELD_VALUE}" />
                             <span class="input-group-addon cursorPointer"><i class="fa fa-clipboard copyToClipboard"></i></span>
                         </div>

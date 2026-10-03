@@ -40,8 +40,8 @@
 								{/if}
 								{if $FIELD_NAME neq 'callduration' && $FIELD_NAME neq 'othereventduration' && $FIELD_NAME neq 'defaulteventstatus' && $FIELD_NAME neq 'defaultactivitytype' && $FIELD_NAME neq 'hidecompletedevents'}
 									<div class="form-group">
-										<label class="fieldLabel col-lg-4 col-sm-4 col-xs-4">{vtranslate($FIELD_MODEL->get('label'),$TRANSLATION_MODULE)}</label>
-										<div class="fieldValue col-lg-8 col-sm-8 col-xs-8">
+										<label class="fieldLabel col-lg-4 col-sm-4 col-4">{vtranslate($FIELD_MODEL->get('label'),$TRANSLATION_MODULE)}</label>
+										<div class="fieldValue col-lg-8 col-sm-8 col-8">
 											{if $FIELD_NAME == 'hour_format' || $FIELD_NAME == 'activity_view'}
 												{foreach key=ID item=LABEL from=$FIELD_MODEL->getPicklistValues()}
 													{if $LABEL neq 'This Year' }
@@ -73,8 +73,8 @@
 							{assign var=EVENT_STATUS_MODEL value=$EVENTS_MODULE_MODEL->getField('eventstatus')}
 							{assign var=ACTIVITY_TYPE_MODEL value=$EVENTS_MODULE_MODEL->getField('activitytype')}
 							<div class="form-group">
-								<label class="fieldLabel col-lg-4 col-sm-4 col-xs-4">{vtranslate('LBL_DEFAULT_STATUS_TYPE',$MODULE)}</label>
-								<div class="fieldValue col-lg-8 col-sm-8 col-xs-8">
+								<label class="fieldLabel col-lg-4 col-sm-4 col-4">{vtranslate('LBL_DEFAULT_STATUS_TYPE',$MODULE)}</label>
+								<div class="fieldValue col-lg-8 col-sm-8 col-8">
 									<span class="alignMiddle">{vtranslate('LBL_STATUS',$MODULE)}</span>&nbsp;&nbsp;
 									<select class="select2" style="min-width: 133px" name="{$DEFAULT_EVENT_STATUS_MODEL->get('name')}">
 										<option value="{vtranslate('LBL_SELECT_OPTION',$MODULE)}">{vtranslate('LBL_SELECT_OPTION',$MODULE)}</option>
@@ -92,8 +92,8 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="fieldLabel col-lg-4 col-sm-4 col-xs-4">{vtranslate('LBL_DEFAULT_EVENT_DURATION',$MODULE)}</label>
-								<div class="fieldValue col-lg-8 col-sm-8 col-xs-8">
+								<label class="fieldLabel col-lg-4 col-sm-4 col-4">{vtranslate('LBL_DEFAULT_EVENT_DURATION',$MODULE)}</label>
+								<div class="fieldValue col-lg-8 col-sm-8 col-8">
 									<span class="alignMiddle">{vtranslate('LBL_CALL',$MODULE)}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<select class="select2" name="{$CALL_DURATION_MODEL->get('name')}">
 										{foreach key=ID item=LABEL from=$CALL_DURATION_MODEL->getPicklistValues()}
@@ -109,15 +109,15 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="fieldLabel col-lg-4 col-sm-4 col-xs-4">{vtranslate($HIDE_COMPLETED_EVENTS_MODEL->get('label'),$MODULE)}</label>
-								<div class="fieldValue col-lg-8 col-sm-8 col-xs-8">
+								<label class="fieldLabel col-lg-4 col-sm-4 col-4">{vtranslate($HIDE_COMPLETED_EVENTS_MODEL->get('label'),$MODULE)}</label>
+								<div class="fieldValue col-lg-8 col-sm-8 col-8">
 									{include file=vtemplate_path($HIDE_COMPLETED_EVENTS_MODEL->getUITypeModel()->getTemplateName(),$MODULE) FIELD_MODEL=$HIDE_COMPLETED_EVENTS_MODEL FIELD_NAME='hidecompletedevents'}
 								</div>
 							</div>
 							{assign var=SHARED_TYPE value=$SHAREDTYPE}
 							<div class="form-group">
 								<label class="fieldLabel col-lg-4">{vtranslate('LBL_CALENDAR_SHARING',$MODULE)}</label>
-								<div class="fieldValue col-lg-8 col-sm-8 col-xs-8" style="margin-top: -8px; padding-left: 35px;">
+								<div class="fieldValue col-lg-8 col-sm-8 col-8" style="margin-top: -8px; padding-left: 35px;">
 									<label class="radio inline"><input type="radio" value="private"{if $SHARED_TYPE == 'private'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Private',$MODULE)}&nbsp;</label>
 									<label class="radio inline"><input type="radio" value="public" {if $SHARED_TYPE == 'public'} checked="" {/if} name="sharedtype" />&nbsp;{vtranslate('Public',$MODULE)}&nbsp;</label>
 									<label class="radio inline"><input type="radio" value="selectedusers" {if $SHARED_TYPE == 'selectedusers'} checked="" {/if} data-sharingtype="selectedusers" name="sharedtype" id="selectedUsersSharingType" />&nbsp;{vtranslate('Selected Users',$MODULE)}</label><br><br>

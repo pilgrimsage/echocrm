@@ -15,7 +15,7 @@
 {strip}
     <div class="listViewActionsContainer" id="listview-actions">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="btn-group col-md-3" role="group" araia-label="Portal actions">
                     <button type="button" class="btn btn-default" id="{$MODULE}_listview_massAction" onclick="Portal_List_Js.massDeleteRecords()" disabled="disabled">
                         <i class="fa fa-trash"></i>

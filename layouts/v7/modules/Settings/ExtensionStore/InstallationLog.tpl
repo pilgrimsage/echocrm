@@ -31,7 +31,7 @@
 					<p style="color:red;">{vtranslate($ERROR_MESSAGE, $QUALIFIED_MODULE)}</p>
 				{else}
 					<div class="row">
-						<span class="col-sm-12 col-xs-12 font-x-x-large">{vtranslate('LBL_INSTALLATION_LOG', $QUALIFIED_MODULE)}</span>
+						<span class="col-sm-12 col-12 font-x-x-large">{vtranslate('LBL_INSTALLATION_LOG', $QUALIFIED_MODULE)}</span>
 					</div>
 					<div id="extensionInstallationInfo" class="backgroundImageNone" style="background-color: white;padding: 2%;">
 						{if $MODULE_ACTION eq "Upgrade"}

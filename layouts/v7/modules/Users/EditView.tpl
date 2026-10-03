@@ -8,7 +8,7 @@
 ************************************************************************************}
 
 <div class="editViewPageDiv detailViewContainer">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             <div class="editViewHeader">
                 <div class='row'>

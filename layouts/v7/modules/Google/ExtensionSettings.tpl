@@ -13,9 +13,9 @@
 	{assign var=RETURN_URL value=$MODULE_MODEL->getExtensionSettingsUrl($SOURCEMODULE)|cat:"&parent=Settings"}
 {/if}
 <input type="hidden" name="settingsPage" value="{$RETURN_URL}">
-<div class="col-sm-12 col-xs-12 extensionContents">
+<div class="col-sm-12 col-12 extensionContents">
 	<div class="row">
-		<div class="col-sm-12 col-xs-12">
+		<div class="col-sm-12 col-12">
 			<h3 class="module-title float-start"> {vtranslate('LBL_SELECT_MODULES_TO_SYNC', $MODULE)} </h3>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 		<input type="hidden" name="sourceModule" value="{$SOURCEMODULE}" />
 		<input type="hidden" name="parent" value="{$PARENT}">
 		<div class="row">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-sm-12 col-12">
 				<table class="listview-table table-bordered" align="center">
 					<thead>
 					<th> {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_DATA', $MODULE)} </th>
@@ -88,48 +88,48 @@
 			<div id="scroller_wrapper" class="bottom-fixed-scroll">
 				<div id="scroller" class="scroller-div"></div>
 			</div>
-			<div class="col-sm-2 col-xs-2">
+			<div class="col-sm-2 col-2">
 			</div>
 		</div>
 		<br>
 		{if !$IS_SYNC_READY}
 			<div class="row">
-				<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-12 col-12">
 					<h3 class="module-title float-start"> {vtranslate('LBL_GOOGLE_CONNECT_MSG', $MODULE)} </h3>
 				</div>
 			</div>
 			<br>
 			<div class="row">
-				<div class="col-sm-3 col-xs-3">
+				<div class="col-sm-3 col-3">
 					<a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULE}&view=List&operation=sync&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i>{vtranslate('LBL_SIGN_IN_WITH_GOOGLE', $MODULE)}</a>
 				</div>
 			</div>
 		{else}
 			<div class="row">
-				<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-12 col-12">
 					<h3 class="module-title float-start"> {vtranslate('LBL_GOOGLE_ACCOUNT_DETAILS', $MODULE)} </h3>
 				</div>
 			</div>
 			<br>
 			{if $USER_EMAIL}
 				<div class="row">
-					<div class="col-sm-3 col-xs-3">
+					<div class="col-sm-3 col-3">
 						<h5 class="module-title float-start fieldLabel"> {vtranslate('LBL_GOOGLE_ACCOUNT_SYNCED_WITH', $MODULE)} </h5>
 					</div>
-					<div class="col-sm-4 col-xs-4">
-						<input class="listSearchContributor col-sm-12 col-xs-12" type="text" value="{$USER_EMAIL}" disabled="disabled" style="height: 30px;">
+					<div class="col-sm-4 col-4">
+						<input class="listSearchContributor col-sm-12 col-12" type="text" value="{$USER_EMAIL}" disabled="disabled" style="height: 30px;">
 					</div>
 				</div>
 			{/if}
 			<div class="row">
-				<div class="col-sm-3 col-xs-3">
+				<div class="col-sm-3 col-3">
 					<a id="authorizeButton" class="btn btn-block btn-social btn-lg btn-google-plus" data-url='index.php?module={$MODULE}&view=List&operation=changeUser&sourcemodule={$SOURCEMODULE}'><i class="fa fa-google-plus"></i> {vtranslate('LBL_CHANGE_USER', $MODULE)} </a>
 				</div>
 			</div>
 		{/if}
 		<br>
 		<div class="row">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-sm-12 col-12">
 				<div class="vt-default-callout vt-info-callout"> 
 					<h4 class="vt-callout-header"><span class="fa fa-info-circle"></span>&nbsp; Info </h4><br>
 					<div>

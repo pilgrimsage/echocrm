@@ -11,7 +11,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
 <div class="detailViewContainer">
-    <div class="col-sm-12 col-xs-12">
+    <div class="col-sm-12 col-12">
         <div class="detailViewTitle" id="userPageHeader">
             <div class = "row">
                 <div class="col-md-5">

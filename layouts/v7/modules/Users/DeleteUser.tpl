@@ -26,7 +26,7 @@
                         
                     <div class="form-group">
                        <label class="control-label fieldLabel col-sm-5">{vtranslate('Transfer records to user', $MODULE)}</label>
-                       <div class="controls fieldValue col-xs-6">
+                       <div class="controls fieldValue col-6">
                            <select class="select2 {if $OCCUPY_COMPLETE_WIDTH} row-fluid {/if}" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
                                {foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
                                    <option value="{$USER_ID}" >{$USER_MODEL->getName()}</option>

@@ -23,7 +23,7 @@
                     <div class="modal-body">
                             <div class="col-sm-5"><div class="control-label fieldLabel float-end ">{vtranslate('LBL_TRANSFER_TO_OTHER_ROLE',$QUALIFIED_MODULE)}
                                 &nbsp;<span class="redColor">*</span></div></div>
-                            <div class="input-group fieldValue col-xs-6">
+                            <div class="input-group fieldValue col-6">
                                 <input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField" data-rule-required="true">
                                 
                                 <input id="transfer_record_display" data-rule-required='true' name="transfer_record_display" type="text" class="inputElement" value="">

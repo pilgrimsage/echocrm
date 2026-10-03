@@ -14,22 +14,22 @@
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
 		<div class="detailViewTitle" id="prefPageHeader">
-			<div class="col-lg-12 col-sm-12 col-xs-12">
-				<div class="col-xs-8">
+			<div class="col-lg-12 col-sm-12 col-12">
+				<div class="col-8">
 					{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 					{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 						{if !empty($IMAGE_INFO.url)}
-							<span class="logo col-xs-2">
+							<span class="logo col-2">
 								<img height="75px" width="75px" src="{$IMAGE_INFO.url}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
 							</span>
 						{/if}
 					{/foreach}
 					{if $IMAGE_DETAILS[0]['id'] eq null}
-						<span class="logo col-xs-2">
+						<span class="logo col-2">
 							<i class="fa fa-user" style="font-size: 75px"></i>
 						</span>
 					{/if}
-					<span class="col-xs-9">
+					<span class="col-9">
 						<span id="myPrefHeading">
 							<h3>{vtranslate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
 						</span>
@@ -38,7 +38,7 @@
 						</span>
 					</span>
 				</div>
-				<div class="col-xs-4">
+				<div class="col-4">
 					<div class="row detailViewButtoncontainer">
 						<div class="btn-group float-end">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
@@ -76,6 +76,6 @@
 				</div>
 			</div>
 			<div class="detailViewInfo userPreferences">
-				<div class="details col-xs-12">
+				<div class="details col-12">
 					<br>
 {/strip}

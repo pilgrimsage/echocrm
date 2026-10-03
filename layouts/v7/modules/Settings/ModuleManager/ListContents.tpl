@@ -10,7 +10,7 @@
 
 {strip}
 	<div class="listViewPageDiv detailViewContainer" id="moduleManagerContents">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
 			<div id="listview-actions" class="listview-actions-container">
 				<div class="clearfix">
 					<h4 class="float-start">{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h4>

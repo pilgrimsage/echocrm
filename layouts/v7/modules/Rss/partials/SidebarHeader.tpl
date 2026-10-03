@@ -8,7 +8,7 @@
 ************************************************************************************}
 
 {assign var=APP_IMAGE_MAP value=Vtiger_MenuStructure_Model::getAppIcons()}
-<div id="appnavigator" class="col-sm-12 col-xs-12 app-switcher-container app-{$SELECTED_MENU_CATEGORY}">
+<div id="appnavigator" class="col-sm-12 col-12 app-switcher-container app-{$SELECTED_MENU_CATEGORY}">
     <a id="menu-toggle" class="menu-toggle" href="#">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>

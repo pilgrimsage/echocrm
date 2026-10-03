@@ -12,22 +12,22 @@
 	<input type="hidden" name="selectedFields_{$MODULE}" value='{Vtiger_Functions::jsonEncode($SELECTED_FIELDS)}' />
 	<input type="hidden" name="relatedModules_{$MODULE}" value='{Vtiger_Functions::jsonEncode($RELATED_MODULES[$MODULE])}' />
 	<input type="hidden" name="recordPermissions_{$MODULE}" value='{Vtiger_Functions::jsonEncode($RECORD_PERMISSIONS)}'/>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" id="moduleData_{$MODULE}">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-12 row" id="moduleData_{$MODULE}">
 		<h4 style="margin-top: 15px;">{vtranslate('LBL_PORTAL_FIELDS_PRIVILEGES',$QUALIFIED_MODULE)}</h4>
 		<hr style="margin-top: 0px;">
-		<div class="col-sm-6 col-xs-6 portal-fields-container-wrapper">
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-6 col-xs-6" style="padding-right:50px;">
+		<div class="col-sm-6 col-6 portal-fields-container-wrapper">
+			<div class="col-sm-12 col-12">
+				<div class="col-sm-6 col-6" style="padding-right:50px;">
 					<label>{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</label>
 					{* <div class="col-sm-1 portal-slider-legend" id="readonlySlider" ></div> *}
 					<div class="portal-fields-switch" id="readOnlySwitch" disabled></div>
 				</div>
-				<div class="col-sm-6 col-xs-6">
+				<div class="col-sm-6 col-6">
 					<label>{vtranslate('LBL_READ_AND_WRITE',$QUALIFIED_MODULE)}</label>
 					{* <div class="col-sm-1 portal-slider-legend"  id="readwriteSlider" ></div> *}
 					<div class="portal-fields-switch portal-fields-switchOn" id="readWriteSwitch" disabled></div>
 				</div>
-				<div class="col-sm-10 col-xs-10" style="padding:10px;">
+				<div class="col-sm-10 col-10" style="padding:10px;">
 					<span class="redColor">*</span>Mandatory Fields
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-6 col-xs-6 portal-related-information">
+		<div class="col-sm-6 col-6 portal-related-information">
 			<h4 style="margin-top: 0px;">{vtranslate('LBL_RECORD_VISIBILITY',$QUALIFIED_MODULE)}</h4>
 			<div class="portal-record-privilege  radio-group">
 				<div class="radio label-radio">

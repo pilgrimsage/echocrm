@@ -45,7 +45,7 @@
                         <td class="fieldValue {$WIDTHTYPE}">
                             <span class="filterContainer" >
                                 <input type=hidden name="moduleFields" data-value='{Vtiger_Functions::jsonEncode($ALL_FIELDS)}' />
-                                <span class="col-sm-4 col-xs-4 conditionRow">
+                                <span class="col-sm-4 col-4 conditionRow">
                                     <select class="inputElement select2" name="modulename" data-rule-required="true">
                                         <option value="">{vtranslate('LBL_SELECT_MODULE',$MODULE)}</option>
                                         {foreach key=MODULENAME item=FIELDS from=$ALL_FIELDS}
@@ -53,8 +53,8 @@
                                         {/foreach}
                                     </select>
                                 </span>&nbsp;&nbsp;
-                                <span class="col-sm-6 col-xs-6">
-                                    <select class="inputElement select2 col-sm-5 col-xs-5" id="templateFields" name="templateFields">
+                                <span class="col-sm-6 col-6">
+                                    <select class="inputElement select2 col-sm-5 col-5" id="templateFields" name="templateFields">
                                         <option value="">{vtranslate('LBL_NONE',$MODULE)}</option>
                                     </select>
                                 </span>
@@ -64,8 +64,8 @@
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_GENERAL_FIELDS', $MODULE)}</td>
                         <td class="fieldValue {$WIDTHTYPE}">
-                            <span class="col-sm-6 col-xs-6">
-                                <select class="inputElement select2 col-sm5 col-xs-5" id="generalFields" name="generalFields">
+                            <span class="col-sm-6 col-6">
+                                <select class="inputElement select2 col-sm5 col-5" id="generalFields" name="generalFields">
                                     <option value="">{vtranslate('LBL_NONE',$MODULE)}</option>
                                     <optgroup label="{vtranslate('LBL_COMPANY_DETAILS','Settings:Vtiger')}">
                                         {foreach key=index item=COMPANY_FIELD from=$COMPANY_FIELDS}
@@ -84,7 +84,7 @@
                     <tr>
                         <td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_SUBJECT', $MODULE)}&nbsp;<span class="redColor">*</span></td>
                         <td class="fieldValue {$WIDTHTYPE}">
-                            <div class="col-sm-6 col-xs-6">
+                            <div class="col-sm-6 col-6">
                                 <input id="{$MODULE}_editView_fieldName_subject" type="text" {if $IS_SYSTEM_TEMPLATE_EDIT} disabled="disabled" {/if} class="inputElement col-lg-12" data-rule-required="true" name="subject" value="{$RECORD->get('subject')}"  spellcheck="true" />
                             </div>
                         </td>

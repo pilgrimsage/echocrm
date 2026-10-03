@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12 ">
+	<div class="col-sm-12 col-12 ">
 		<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 		<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 		<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		<div class="list-content row">
-			<div class="col-sm-12 col-xs-12 ">
+			<div class="col-sm-12 col-12 ">
 				<div id="table-content" class="table-container" style="padding-top:0px !important;">
 					<table id="listview-table" class="workflow-table table listview-table">
 						{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}

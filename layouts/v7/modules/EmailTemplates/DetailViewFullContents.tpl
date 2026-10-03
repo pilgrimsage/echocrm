@@ -39,7 +39,7 @@
 						<tr>
 							<td class="fieldLabel {$WIDTHTYPE}"><label class="muted marginRight10px">{vtranslate('Message',$MODULE_NAME)}</label></td>
 							<td class="fieldValue {$WIDTHTYPE}">
-								<iframe id="TemplateIFrame" style="height:400px;" class="col-sm-12 col-xs-12 overflowScrollBlock"></iframe>
+								<iframe id="TemplateIFrame" style="height:400px;" class="col-sm-12 col-12 overflowScrollBlock"></iframe>
 							</td>
 						</tr>
 					</tbody>

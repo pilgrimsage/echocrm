@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="editViewPageDiv viewContent">
-            <div class="col-sm-12 col-xs-12 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
+            <div class="col-sm-12 col-12 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
                 <form class="form-horizontal recordEditView" id="EditView" name="edit" method="post" action="index.php" enctype="multipart/form-data">
                     <div class="editViewHeader">
                         <div class='row'>

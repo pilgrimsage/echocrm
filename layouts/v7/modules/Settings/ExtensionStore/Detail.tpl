@@ -17,7 +17,7 @@
 			<input type="hidden" name="targetModule" value="{$EXTENSION_DETAIL->get('name')}" />
 			<input type="hidden" name="moduleAction" value="{$MODULE_ACTION}" />
 			<div class="row contentHeader extension_header" style="margin-bottom: 10px;">
-				<div class="col-sm-6 col-xs-6" style="margin-bottom: 5px;">
+				<div class="col-sm-6 col-6" style="margin-bottom: 5px;">
 					<div style="margin-bottom: 5px;">
 						<span class="font-x-x-large">{$EXTENSION_DETAIL->get('name')}</span>&nbsp;
 						<span class="muted">{vtranslate('LBL_BY', $QUALIFIED_MODULE)}&nbsp;{$AUTHOR_INFO['firstname']}&nbsp;{$AUTHOR_INFO['lastname']}</span>
@@ -28,7 +28,7 @@
 						<span class="">{if $ON_RATINGS}({$ON_RATINGS} {vtranslate('LBL_RATINGS', $QUALIFIED_MODULE)}){/if}</span>
 					</div>
 				</div>
-				<div class="col-sm-6 col-xs-6">
+				<div class="col-sm-6 col-6">
 					<div class="float-end extensionDetailActions">
 						<span style="margin: 5px;">
 							<a class="btn btn-default" id="declineExtension"><i class="fa fa-chevron-left"></i> {vtranslate('LBL_BACK', $MODULE)}</a>&nbsp;
@@ -71,8 +71,8 @@
 						<div class="tab-pane active" id="description">
 							<div style="width:90%;padding: 0px 5%;">
 								<div class="row">
-									<div class="col-sm-2 col-xs-2">&nbsp;</div>
-									<div class="col-sm-8 col-xs-8">
+									<div class="col-sm-2 col-2">&nbsp;</div>
+									<div class="col-sm-8 col-8">
 										<div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
 											<!-- Indicators -->
 											<ol class="carousel-indicators">
@@ -101,7 +101,7 @@
 											</a>
 										</div>
 									</div>
-									<div class="col-sm-2 col-xs-2">&nbsp;</div>
+									<div class="col-sm-2 col-2">&nbsp;</div>
 								</div>
 							</div>
 							<br>
@@ -112,7 +112,7 @@
 						</div>
 						<div class="tab-pane" id="CustomerReviews">
 							<div class="row boxSizingBorderBox" style="padding-bottom: 15px;">
-								<div class="col-sm-6 col-xs-6">
+								<div class="col-sm-6 col-6">
 									<div class="float-start">
 										<div style="font-size: 55px; line-height:50px; margin-right: 20px;">{$ON_RATINGS}</div>
 									</div>
@@ -123,7 +123,7 @@
 									</div>
 								</div>
 								{if ($REGISTRATION_STATUS) and ($PASSWORD_STATUS)}
-									<div class="col-sm-6 col-xs-6">
+									<div class="col-sm-6 col-6">
 										<div class="float-end">
 											<button type="button" class="writeReview margin0px float-end {if $MODULE_ACTION neq 'Installed'} hide{/if}">{vtranslate('LBL_WRITE_A_REVIEW', $QUALIFIED_MODULE)}</button>
 										</div>
@@ -134,7 +134,7 @@
 								<div class="customerReviewContainer" style="">
 									{foreach $CUSTOMER_REVIEWS as $key=>$CUSTOMER_REVIEW}
 										<div class="row" style="margin: 8px 0 15px;">
-											<div class="col-sm-3 col-xs-3">
+											<div class="col-sm-3 col-3">
 												{assign var=ON_RATINGS value=$CUSTOMER_REVIEW['rating']}
 												<div data-score="{$ON_RATINGS}" class="rating" data-readonly="true"></div>
 												{assign var=CUSTOMER_INFO value= $CUSTOMER_REVIEW['customer']}
@@ -144,7 +144,7 @@
 												</div>
 												<div class="muted">{Vtiger_Util_Helper::formatDateTimeIntoDayString($REVIEW_CREATED_TIME)|substr:4}</div>
 											</div>
-											<div class="col-sm-9 col-xs-9">{$CUSTOMER_REVIEW['comment']}</div>
+											<div class="col-sm-9 col-9">{$CUSTOMER_REVIEW['comment']}</div>
 										</div>
 										<hr>
 									{/foreach}
@@ -154,7 +154,7 @@
 						<div class="tab-pane" id="Author">
 							<div class="scrollableTab">
 								<div class="row extension_header">
-									<div class="col-sm-6 col-xs-6">
+									<div class="col-sm-6 col-6">
 										{if !empty($AUTHOR_INFO['company'])}
 											<div class="font-x-x-large authorInfo">{$AUTHOR_INFO['company']}</div>
 										{else}
@@ -164,7 +164,7 @@
 											<div class="authorInfo">{$AUTHOR_INFO['email']}</div>
 											<div class="authorInfo"><a href="{$AUTHOR_INFO['website']}" target="_blank">{$AUTHOR_INFO['website']}</a></div>
 									</div>
-									<div class="col-sm-6 col-xs-6"> &nbsp; </div>
+									<div class="col-sm-6 col-6"> &nbsp; </div>
 								 </div>
 							</div>
 						</div>
@@ -181,25 +181,25 @@
 						<input type="hidden" name="extensionId" value="{$EXTENSION_ID}" />
 						<div class="modal-body">
 							<div class="form-group">
-								<span class="control-label col-sm-2 col-xs-2">
+								<span class="control-label col-sm-2 col-2">
 									{vtranslate('LBL_REVIEW', $QUALIFIED_MODULE)}
 								</span>
-								<div class="controls col-sm-4 col-xs-4">
+								<div class="controls col-sm-4 col-4">
 									<textarea class="form-control" name="customerReview" data-rule-required="true"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<span class="control-label col-sm-2 col-xs-2">
+								<span class="control-label col-sm-2 col-2">
 									{vtranslate('LBL_RATE_IT', $QUALIFIED_MODULE)}
 								</span>
-								<div class="controls col-sm-4 col-xs-4">
+								<div class="controls col-sm-4 col-4">
 									<div class="rating"></div>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<div class="row">
-								<div class="col-sm-12 col-xs-12">
+								<div class="col-sm-12 col-12">
 									<div class="float-end">
 										<div class="float-end cancelLinkContainer" style="margin-top:0px;">
 											<a class="cancelLink" type="reset" data-bs-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
@@ -214,7 +214,7 @@
 			</div>
 		{else}
 			<div class="row">
-				<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-12 col-12">
 					{$ERROR_MESSAGE}
 				</div>
 			</div>

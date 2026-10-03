@@ -11,7 +11,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
     <div class="row">
-        <div class="col-sm-12 col-xs-12 accordion">
+        <div class="col-sm-12 col-12 accordion">
             <span><i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
             <a class="cursorPointer accordion-heading accordion-toggle" data-bs-toggle="collapse" data-bs-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
             <div id="dependencyHelp" class="accordion-body collapse">
@@ -25,12 +25,12 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-sm-2 col-xs-2">
+        <div class="col-sm-2 col-2">
             <div class="btn-group">
                 <button class="btn btn-default sourceValues" type="button">{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</button>
             </div>
         </div>
-        <div class="col-sm-10 col-xs-10">
+        <div class="col-sm-10 col-10">
             <div class="btn-group">
                 <button class="btn btn-default selectAllValues" type="button">{vtranslate('LBL_SELECT_ALL_VALUES', $QUALIFIED_MODULE)}</button>
                 <button class="btn btn-default unSelectAllValues" type="button">{vtranslate('LBL_UNSELECT_ALL_VALUES', $QUALIFIED_MODULE)}</button>
@@ -50,7 +50,7 @@
     <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable" style="padding-right: 10px;">
-        <div class="col-sm-2 col-xs-2" style="padding-right: 0px;">
+        <div class="col-sm-2 col-2" style="padding-right: 0px;">
             <table class="listview-table table-bordered table-condensed" style="width: 100%; border-collapse:collapse;">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
@@ -71,7 +71,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-10 col-xs-10 dependencyMapping">
+        <div class="col-sm-10 col-10 dependencyMapping">
             <table class="listview-table table-bordered pickListDependencyTable" style="width:auto;">
                 <thead>
                     <tr class="blockHeader">

@@ -28,10 +28,10 @@
                <div id="scrollContainer">
                   <div class="tabbable">
                      <div class="row form-group">
-                        <div class="col-sm-6 col-xs-6">
+                        <div class="col-sm-6 col-6">
                             <div class="row">
-                                <div class="col-sm-3 col-xs-3">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-                                <div class="col-sm-9 col-xs-9"><input name="summary" class="inputElement" data-rule-required="true" type="text" value="{$TASK_MODEL->get('summary')}" /></div>
+                                <div class="col-sm-3 col-3">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
+                                <div class="col-sm-9 col-9"><input name="summary" class="inputElement" data-rule-required="true" type="text" value="{$TASK_MODEL->get('summary')}" /></div>
                             </div>
                         </div>
                      </div>
@@ -48,31 +48,31 @@
                            {/if}
                         {/if}
                         <div class="row form-group">
-                            <div class="col-sm-9 col-xs-9">
+                            <div class="col-sm-9 col-9">
                                 <div class="row">
-                                    <div class="col-sm-2 col-xs-2"> {vtranslate('LBL_DELAY_ACTION', $QUALIFIED_MODULE)} </div>
-                                    <div class="col-sm-10 col-xs-10">
+                                    <div class="col-sm-2 col-2"> {vtranslate('LBL_DELAY_ACTION', $QUALIFIED_MODULE)} </div>
+                                    <div class="col-sm-10 col-10">
                                         <div class="row">
-                                            <div class="col-sm-1 col-xs-1" style="margin-top: 7px;">
+                                            <div class="col-sm-1 col-1" style="margin-top: 7px;">
                                                 <input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>
                                             </div>
-                                            <div class="col-sm-10 col-xs-10 {if $trigger neq null}show {else} hide {/if}" id="checkSelectDateContainer">
+                                            <div class="col-sm-10 col-10 {if $trigger neq null}show {else} hide {/if}" id="checkSelectDateContainer">
                                                 <div class="row">
-                                                    <div class="col-sm-2 col-xs-2">
+                                                    <div class="col-sm-2 col-2">
                                                         <div class="row">
-                                                            <div class="col-sm-6 col-xs-6" style="padding: 0px;">
+                                                            <div class="col-sm-6 col-6" style="padding: 0px;">
                                                                 <input class="inputElement" type="text" name="select_date_days" value="{$days}" data-rule-WholeNumber=="true" >&nbsp;
                                                             </div>
-                                                            <div class="alignMiddle col-sm-5 col-xs-5" style="padding: 0px; margin-left: 2px;"><span style="position:relative;top:3px;">&nbsp;{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span></div>
+                                                            <div class="alignMiddle col-sm-5 col-5" style="padding: 0px; margin-left: 2px;"><span style="position:relative;top:3px;">&nbsp;{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span></div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3 col-xs-3" >
+                                                    <div class="col-sm-3 col-3" >
                                                        <select class="select2" name="select_date_direction" style="width: 100px">
                                                           <option {if $direction eq 'after'} selected="" {/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
                                                           <option {if $direction eq 'before'} selected="" {/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
                                                        </select>
                                                     </div>
-                                                    <div class="col-sm-6 col-xs-6 marginLeftZero">
+                                                    <div class="col-sm-6 col-6 marginLeftZero">
                                                        <select class="select2" name="select_date_field">
                                                           {foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
                                                              <option {if $trigger['field'] eq $DATETIME_FIELD->get('name')} selected="" {/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>

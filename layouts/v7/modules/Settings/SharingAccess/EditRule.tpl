@@ -26,7 +26,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <select class="select2 col-sm-9" name="source_id">
                                     {foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                         <optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
-                        <div class="controls fieldValue col-xs-6">
+                        <div class="controls fieldValue col-6">
                             <select class="select2 col-sm-9" name="target_id">
                                 {foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                     <optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">

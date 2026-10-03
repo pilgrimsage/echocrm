@@ -22,8 +22,8 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</label>
-							<div class="controls fieldValue col-xs-6">
-								<select id="transfer_record" name="transfer_record" class="select2 col-xs-9">
+							<div class="controls fieldValue col-6">
+								<select id="transfer_record" name="transfer_record" class="select2 col-9">
 									<optgroup label="{vtranslate('LBL_PROFILES', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
