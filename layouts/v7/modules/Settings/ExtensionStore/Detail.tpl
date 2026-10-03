@@ -92,11 +92,11 @@
 
 											<!-- Controls -->
 											<a class="left carousel-control" href="#imageSlider" role="button" data-bs-slide="prev">
-												<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+												<span class="fa fa-chevron-left" aria-hidden="true"></span>
 												<span class="sr-only"></span>
 											</a>
 											<a class="right carousel-control" href="#imageSlider" role="button" data-bs-slide="next">
-												<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+												<span class="fa fa-chevron-right" aria-hidden="true"></span>
 												<span class="sr-only"></span>
 											</a>
 										</div>

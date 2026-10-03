@@ -76,7 +76,7 @@
 
                     <div>
                         <span id='phoneFormatWarning'> 
-                            <i data-trigger="hover" data-toggle ="popover" data-placement="right" id="phoneFormatWarningPop" class="glyphicon glyphicon-info-sign" style="padding-right : 5px; padding-left : 5px" data-original-title="{vtranslate('LBL_WARNING',$MODULE)}" data-trigger="hover" data-content="{vtranslate('LBL_PHONEFORMAT_WARNING_CONTENT',$MODULE)}"></i>
+                            <i data-trigger="hover" data-toggle ="popover" data-placement="right" id="phoneFormatWarningPop" class="fa fa-info-circle" style="padding-right : 5px; padding-left : 5px" data-original-title="{vtranslate('LBL_WARNING',$MODULE)}" data-trigger="hover" data-content="{vtranslate('LBL_PHONEFORMAT_WARNING_CONTENT',$MODULE)}"></i>
                             {vtranslate('LBL_PHONE_FORMAT_WARNING', $MODULE)}
                         </span>
                     </div>
