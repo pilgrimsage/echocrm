@@ -27,6 +27,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View {
 		// Plain array on purpose: vtlib_array() returns an ArrayAccess-only
 		// wrapper that cannot be foreach'd, which made this action save nothing.
 		$positionsMap = $request->get('positionsmap');
+		$tabId = $request->get('tabid');
 
 		if (is_array($positionsMap)) {
 			foreach ($positionsMap as $id => $position) {
@@ -34,9 +35,9 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View {
 				$linkid = $idParts[0];
 				$widgetid = $idParts[1] ?? null;
 				if ($widgetid) {
-					Vtiger_Widget_Model::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
+					Vtiger_Widget_Model::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId(), $tabId);
 				} else {
-					Vtiger_Widget_Model::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId());
+					Vtiger_Widget_Model::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId(), $tabId);
 				}
 			}
 		}

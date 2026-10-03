@@ -143,7 +143,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 		return $self;
 	}
 
-	public static function updateWidgetPosition($position, $linkId, $widgetId, $userId) {
+	public static function updateWidgetPosition($position, $linkId, $widgetId, $userId, $tabId = null) {
 		if (!$linkId && !$widgetId) return;
 
 		$db = PearDatabase::getInstance();
@@ -155,6 +155,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 		} else if ($widgetId) {
 			$sql .= ' AND id = ?';
 			$params[] = $widgetId;
+		}
+		// The same widget type can sit on several tabs; without this a position
+		// saved on one tab overwrote the others (updateWidgetSize already scopes by tab).
+		if ($tabId) {
+			$sql .= ' AND dashboardtabid = ?';
+			$params[] = $tabId;
 		}
 		$db->pquery($sql, $params);
 	}
