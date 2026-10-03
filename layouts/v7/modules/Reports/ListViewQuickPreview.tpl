@@ -17,7 +17,7 @@
                     <div class="row qp-heading">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="record-header clearfix">
-                                <div class="d-none d-md-block recordImage">
+                                <div class="d-none d-lg-block recordImage">
                                     <div class="name"><span class='fa fa-bar-chart'></span></div>
                                 </div>
                                 <div class="recordBasicInfo">

@@ -86,7 +86,7 @@
                                 </div>
                     <div>&nbsp;</div>
                 </div>
-                  <div class="col-lg-2 col-md-1 d-none d-md-block">&nbsp;</div>
+                  <div class="col-lg-2 col-md-1 d-none d-lg-block">&nbsp;</div>
 </div></div>
 {/strip}
 
