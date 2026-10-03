@@ -1,0 +1,40 @@
+/* Dashboard grid (GridStack). Loaded only on the dashboard view.
+
+   Every skin's style.css still carries the old gridster-era rules for the
+   grid: a fixed `width:1260px` on `.dashBoardTabContents ul` and a 3px border,
+   15px padding and `position:absolute` on every `li`. They load after this
+   file and have equal or lower specificity than the selectors below, so these
+   win by specificity and no skin file needs touching.
+
+   GridStack positions each `.grid-stack-item` itself and puts the gap between
+   widgets on the inner `.grid-stack-item-content`, so the widget "card" look
+   (background, border, padding) belongs on the content wrapper, not the <li>. */
+
+.dashBoardContainer .tab-pane .dashBoardTabContents ul.grid-stack{
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+.dashBoardContainer .dashBoardTabContents .grid-stack > .grid-stack-item{
+	border:0;
+	padding:0;
+	list-style:none;
+	overflow:visible;
+}
+
+.dashBoardContainer .dashBoardTabContents .grid-stack > .grid-stack-item > .grid-stack-item-content{
+	background:var(--paper,#fff);
+	border:1px solid var(--line,#DFE2DD);
+	border-radius:var(--radius-md,14px);
+	box-shadow:var(--shadow-sm);
+	padding:15px;
+	overflow:hidden;
+}
+
+/* drop target shown while dragging a widget */
+.dashBoardContainer .grid-stack > .grid-stack-placeholder > .placeholder-content{
+	border:2px dashed var(--teal,#00D3B8);
+	background:var(--teal-soft,#E4FBF6);
+	border-radius:var(--radius-md,14px);
+}

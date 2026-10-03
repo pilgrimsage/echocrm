@@ -196,7 +196,6 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit2",
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetail",
-			'~/libraries/jquery/gridster/jquery.gridster.min.js',
 			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
 			'~/libraries/jquery/vtchart.js',
 		);

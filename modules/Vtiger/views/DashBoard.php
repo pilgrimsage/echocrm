@@ -112,10 +112,9 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~/libraries/jquery/gridster/jquery.gridster.min.js',
+			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/gridstack/js/gridstack-all.js',
 			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
 			'~/libraries/jquery/vtchart.js',
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/gridster/jquery.gridster.min.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.'.$moduleName.'.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
@@ -142,7 +141,8 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/gridster/jquery.gridster.min.css',
+			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/gridstack/css/gridstack.min.css',
+			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/modern/css/dashboard.css',
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/bootstrap-daterangepicker/daterangepicker.css',
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
