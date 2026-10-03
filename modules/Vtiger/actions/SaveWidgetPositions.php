@@ -24,11 +24,15 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View {
 	public function process(Vtiger_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		
-		$positionsMap = vtlib_array($request->get('positionsmap'));
-		
-		if ($positionsMap) {
+		// Plain array on purpose: vtlib_array() returns an ArrayAccess-only
+		// wrapper that cannot be foreach'd, which made this action save nothing.
+		$positionsMap = $request->get('positionsmap');
+
+		if (is_array($positionsMap)) {
 			foreach ($positionsMap as $id => $position) {
-				list ($linkid, $widgetid) = explode('-', $id);
+				$idParts = explode('-', (string)$id);
+				$linkid = $idParts[0];
+				$widgetid = $idParts[1] ?? null;
 				if ($widgetid) {
 					Vtiger_Widget_Model::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
 				} else {
