@@ -90,7 +90,8 @@ class Vtiger_Viewer extends Smarty {
 			$classes = array_merge($classes, array(
 				'Settings_Vtiger_MenuItem_Model', 'Settings_Webforms_Record_Model',
 				'Settings_Vtiger_CompanyDetails_Model', 'Inventory_Charges_Model', 'Settings_PBXManager_Module_Model',
-				'PBXManager_PBXManager_Connector', 'Settings_Webforms_Record_Model', 'Google_Config_Connector'
+				'PBXManager_PBXManager_Connector', 'Settings_Webforms_Record_Model', 'Google_Config_Connector',
+				'Settings_SMSNotifier_ProviderField_Model'
 			));
 		}
 
