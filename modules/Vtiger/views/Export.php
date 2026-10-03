@@ -61,6 +61,7 @@ class Vtiger_Export_View extends Vtiger_Index_View {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$moduleName = $request->getModule();
+		$jsFileNames = array();
 		if (in_array($moduleName, getInventoryModules())) {
 			$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
 			unset($headerScriptInstances[$moduleEditFile]);
