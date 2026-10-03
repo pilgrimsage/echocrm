@@ -44,7 +44,7 @@ test/templates_c/*
 # User data, uploads and temporary import files
 upload/
 uploads/
-import/
+/import/
 kcfinder/upload/
 kcfinder/config.php
 
@@ -81,7 +81,7 @@ phpunit.xml.dist
 
 # Operating system files
 ehthumbs.db
-Icon?
+Icon[^[:alnum:]]
 
 # Misc
 .env
