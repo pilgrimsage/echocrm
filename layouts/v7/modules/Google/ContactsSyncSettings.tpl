@@ -21,7 +21,7 @@
             <input id="google_fields" type="hidden" value='{Zend_Json::encode($GOOGLE_FIELDS)}' />
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12 col-xs-12">
+                    <div class="col-sm-12 col-12">
                         <div class="float-end">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                         <div class="btn-group float-end">
                             <button id="googlesync_addcustommapping" class="btn btn-default btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">

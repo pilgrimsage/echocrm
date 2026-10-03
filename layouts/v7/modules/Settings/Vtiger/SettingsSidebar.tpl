@@ -18,10 +18,10 @@
 			<div class="settings-menu">
 				{foreach item=MENU from=$SETTINGS_MENUS}
 					<div class="col-sm-12 settings-flip show_hide" style="width:100% !important">
-						<span class="col-sm-10 col-xs-10" style="font-size: 18px;color: #fff">
+						<span class="col-sm-10 col-10" style="font-size: 18px;color: #fff">
 							{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}
 						</span>
-						<span class="col-sm- col-xs-2">
+						<span class="col-sm- col-2">
 							<i class="fa fa-chevron-down"></i> 
 						</span>
 					</div>

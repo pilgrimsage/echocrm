@@ -19,13 +19,13 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CURRENT_CURRENCY', $QUALIFIED_MODULE)}</label>
-                    <div class="controls fieldValue col-xs-6">
+                    <div class="controls fieldValue col-6">
                         <span>{vtranslate($RECORD_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</span>
                     </div>	
                 </div>
                 <div class="form-group">
                     <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>
-                    <div class="controls fieldValue col-xs-6">
+                    <div class="controls fieldValue col-6">
                         <select class="select2 " name="transform_to_id">
                             {foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$CURRENCY_LIST}
                                 <option value="{$CURRENCY_ID}">{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>

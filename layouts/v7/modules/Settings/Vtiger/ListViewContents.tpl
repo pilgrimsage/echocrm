@@ -20,7 +20,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{(isset($LISTVIEW_ENTRIES_COUNT)) ? $LISTVIEW_ENTRIES_COUNT : ''}" id="noOfEntries">
 
-	<div class="col-sm-12 col-xs-12 ">
+	<div class="col-sm-12 col-12 ">
 		<div id="listview-actions" class="listview-actions-container">
 			{if $MODULE neq 'Currency' and $MODULE neq 'PickListDependency' and $MODULE neq 'CronTasks'}
 				<div class = "row">
@@ -36,7 +36,7 @@
 				</div>
 			{/if}
 			<div class="list-content row">
-				<div class="col-sm-12 col-xs-12 ">
+				<div class="col-sm-12 col-12 ">
 					<div id="table-content" class="table-container" style="padding-top:0px !important;">
 						<table id="listview-table" class="table listview-table">
 							{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}

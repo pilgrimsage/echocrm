@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="editViewPageDiv viewContent">
-			<div class="col-sm-12 col-xs-12 content-area">
+			<div class="col-sm-12 col-12 content-area">
 				<form id="EditView" class="form-horizontal recordEditView" name="EditView" method="post" action="index.php">
 					<div class="editViewHeader">
 						<div class='row'>

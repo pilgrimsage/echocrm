@@ -21,7 +21,7 @@
 						<textarea name="commentcontent" class="commentcontent form-control"  placeholder="{vtranslate('LBL_POST_YOUR_COMMENT_HERE', $MODULE_NAME)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 					</div>
 					<div class="row">
-						<div class="col-xs-4 float-end">
+						<div class="col-4 float-end">
 							<div class="float-end">
 								{if in_array($MODULE_NAME, $PRIVATE_COMMENT_MODULES)}
 									<input type="checkbox" id="is_private" checked>&nbsp;&nbsp;{vtranslate('LBL_INTERNAL_COMMENT')}&nbsp;
@@ -31,7 +31,7 @@
 							</div>
 						</div>
                                                 {if $FIELD_MODEL->getProfileReadWritePermission()}
-                                                    <div class="col-xs-8 float-start">
+                                                    <div class="col-8 float-start">
                                                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) MODULE="ModComments"}
                                                     </div>
                                                 {/if}

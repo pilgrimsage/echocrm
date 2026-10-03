@@ -14,14 +14,14 @@
 	<nav class="navbar navbar-expand-lg navbar-inverse fixed-top app-fixed-navbar">
 		<div class="container-fluid global-nav">
 			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-4 col-xs-8 app-navigator-container">
+				<div class="col-lg-3 col-md-3 col-sm-4 col-8 app-navigator-container">
 					<div class="row">
-						<div id="appnavigator" class="col-sm-2 col-xs-2 cursorPointer app-switcher-container" data-app-class="{if $MODULE eq 'Home' || !$MODULE}fa-dashboard{else}{$APP_IMAGE_MAP[$SELECTED_MENU_CATEGORY]}{/if}">
+						<div id="appnavigator" class="col-sm-2 col-2 cursorPointer app-switcher-container" data-app-class="{if $MODULE eq 'Home' || !$MODULE}fa-dashboard{else}{$APP_IMAGE_MAP[$SELECTED_MENU_CATEGORY]}{/if}">
 							<div class="row app-navigator">
 								<span class="app-icon fa fa-bars"></span>
 							</div>
 						</div>
-						<div class="logo-container col-sm-3 col-xs-9">
+						<div class="logo-container col-sm-3 col-9">
 							<div class="row">
 								<a href="index.php" class="company-logo">
 									<img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="navbar" class="col-sm-6 col-xs-12 collapse navbar-collapse navbar-right global-actions">
+				<div id="navbar" class="col-sm-6 col-12 collapse navbar-collapse navbar-right global-actions">
 					<ul class="nav navbar-nav">
 						<li>
 							<div class="dropdown float-start">
@@ -77,16 +77,16 @@
 															{* Adding two links,Event and Task if module is Calendar *}
 															{if $singularLabel == 'SINGLE_Calendar'}
 																{assign var='singularLabel' value='LBL_TASK'}
-																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-xs-4{/if}">
+																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-4{/if}">
 																	<a id="menubar_quickCreate_Events" class="quickCreateModule" data-name="Events"
 																	   data-url="index.php?module=Events&view=QuickCreateAjax" href="javascript:void(0)">{$moduleModel->getModuleIcon('Event')}<span class="quick-create-module">{vtranslate('LBL_EVENT',$moduleName)}</span></a>
 																</div>
-																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-xs-4{/if}">
+																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-4{/if}">
 																	<a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModule" data-name="{$moduleModel->getName()}"
 																	   data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)">{$moduleModel->getModuleIcon('Task')}<span class="quick-create-module">{vtranslate($singularLabel,$moduleName)}</span></a>
 																</div>
 															{else if $singularLabel == 'SINGLE_Documents'}
-																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-xs-4{/if} dropdown">
+																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-4{/if} dropdown">
 																	<a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModuleSubmenu dropdown-toggle" data-name="{$moduleModel->getName()}" data-bs-toggle="dropdown" 
 																	   data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)">
 																		{$moduleModel->getModuleIcon()}
@@ -110,7 +110,7 @@
 																	</ul>
 																</div>
 															{else}
-																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-xs-4{/if}">
+																<div class="quickCreateItem {if $hideDiv}create_restricted_{$moduleModel->getName()} hide{else}col-lg-4 col-4{/if}">
 																	<a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModule" data-name="{$moduleModel->getName()}"
 																	   data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)">
 																		{$moduleModel->getModuleIcon()}

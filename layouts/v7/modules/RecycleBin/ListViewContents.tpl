@@ -9,7 +9,7 @@
 
 {strip}
     {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
-    <div class="col-sm-12 col-xs-12">
+    <div class="col-sm-12 col-12">
         {assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
         <div class="essentials-toggle" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
             <span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>

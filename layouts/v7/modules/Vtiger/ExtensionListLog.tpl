@@ -6,13 +6,13 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 ************************************************************************************}
-<div class="col-sm-12 col-xs-12 extensionContents">
+<div class="col-sm-12 col-12 extensionContents">
     <div class="row">
         {if !$MODAL}
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-6 col-6">
                 <h3 class="module-title float-start"> {vtranslate($MODULE,$MODULE)} - {vtranslate('LBL_SYNC_LOG', $MODULE)} </h3>
             </div>
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-6 col-6">
                 <div class="float-end">
                     <span class="module-title">
                         <h3><a data-url="{$MODULE_MODEL->getExtensionSettingsUrl($SOURCE_MODULE)}" class="btn addButton btn-default settingsPage" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-cog"></span> {vtranslate('LBL_SYNC_SETTINGS', $MODULE)}</a></h3>
@@ -24,16 +24,16 @@
     <br>
     <div class="row">
         {if !$MODAL}
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-6 col-6">
                 {if $IS_SYNC_READY}
                     <button class="btn addButton btn-success syncNow" type="button" id="Contacts_basicAction_LBL_Sync_Settings"><span aria-hidden="true" class="fa fa-refresh"></span><strong>&nbsp; {vtranslate('LBL_SYNC_NOW', $MODULE)} </strong></button>
                         {/if}
             </div>
         {/if}
         {if !$MODAL}
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-6 col-6">
             {else}
-                <div class="col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-12">
         {/if}
                 <input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" /> 
 	            <input type="hidden" name="pageEndRange" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" /> 

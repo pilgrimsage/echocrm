@@ -22,7 +22,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                        <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_TRANSFER_OWNERSHIP_TO_USER', $MODULE)}</label>
-                       <div class="controls fieldValue col-xs-6">
+                       <div class="controls fieldValue col-6">
                            <select class="select2" name="record" style="width: 50%;">
                                 {foreach from=$USERS_MODEL key=USER_ID item=USER_MODEL}
                                     <option value="{$USER_ID}">{$USER_MODEL->getDisplayName()}</option>

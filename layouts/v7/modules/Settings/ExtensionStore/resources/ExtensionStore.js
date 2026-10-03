@@ -490,12 +490,12 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
                             if (!error) {
                                 if (result) {
                                     var html = '<div class="row" style="margin: 8px 0 15px;">' +
-                                                '<div class="col-sm-3 col-xs-3">'+
+                                                '<div class="col-sm-3 col-3">'+
                                                     '<div data-score="' + rating + '" class="rating" data-readonly="true"></div>'+
                                                     '<div>'+result.Customer.firstname + ' ' + result.Customer.lastname + '</div>'+
                                                     '<div class="muted">'+(result.createdon).substring(4) +'</div>'+
                                                  '</div>'+
-                                                 '<div class="col-sm-9 col-xs-9">'+ result.comment+'</div>'+
+                                                 '<div class="col-sm-9 col-9">'+ result.comment+'</div>'+
                                                 '</div><hr>';
                                     container.find('.customerReviewContainer').append(html);
                                     thisInstance.registerRaty();

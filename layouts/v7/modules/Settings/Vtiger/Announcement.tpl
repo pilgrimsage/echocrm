@@ -9,7 +9,7 @@
 -->*}
 {strip}
     <div class="listViewPageDiv" id="listViewContent">
-        <div class="col-sm-12 col-xs-12 ">
+        <div class="col-sm-12 col-12 ">
             <div class="container-fluid" id="AnnouncementContainer">
                 <div class="widget_header">
                     <h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3>

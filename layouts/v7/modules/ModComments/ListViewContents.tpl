@@ -9,7 +9,7 @@
 
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
-<div class="col-sm-12 col-xs-12 ">
+<div class="col-sm-12 col-12 ">
     <input type="hidden" name="view" id="view" value="{$VIEW}" />
     <input type="hidden" name="cvid" value="{(isset($VIEWID)) ? $VIEWID : ''}" />
     <input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />

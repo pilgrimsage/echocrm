@@ -32,7 +32,7 @@
 					</div>
 					<div style="padding-left:3px;">
 						<div class="row extension_contents" style="border:none;">
-							<div class="col-sm-8 col-xs-8">
+							<div class="col-sm-8 col-8">
 								<div class="row extensionDescription" style="word-wrap:break-word;margin: 0px;">
 									{assign var=SUMMARY value=$EXTENSION->get('summary')}
 									{if empty($SUMMARY)}
@@ -41,7 +41,7 @@
 									{$SUMMARY}
 								</div>
 							</div>
-							<div class="col-sm-4 col-xs-4">
+							<div class="col-sm-4 col-4">
 								{if $EXTENSION->get('thumbnailURL') neq NULL}
 									{assign var=imageSource value=$EXTENSION->get('thumbnailURL')}
 									<img width="100%" height="100%" class="thumbnailImage" src="{$imageSource}"/>
@@ -54,11 +54,11 @@
 						<div class="extensionInfo">
 							<div class="row">
 								{assign var=ON_RATINGS value=$EXTENSION->get('avgrating')}
-								<div class="col-sm-5 col-xs-5">
+								<div class="col-sm-5 col-5">
 									<span class="rating" data-score="{$ON_RATINGS}" data-readonly=true></span>
 									<span>{if $EXTENSION->get('avgrating')}&nbsp;({$EXTENSION->get('avgrating')}){/if}</span>
 								</div>
-								<div class="col-sm-7 col-xs-7">
+								<div class="col-sm-7 col-7">
 									<div class="float-end">
 										{if $EXTENSION->isVtigerCompatible()}
 											<button class="btn btn-sm btn-default installExtension addButton" style="margin-right:5px;">{vtranslate('LBL_MORE_DETAILS', $QUALIFIED_MODULE)}</button>
@@ -98,14 +98,14 @@
 		{/foreach}
 		{if empty($EXTENSIONS_LIST) || $EXTENSIONS_COUNT eq 0}
 			<div class="row">
-				<div class="col-sm-2 col-xs-2"></div>
-				<div class="col-sm-8 col-xs-8">
+				<div class="col-sm-2 col-2"></div>
+				<div class="col-sm-8 col-8">
 					<br>
 					<br>
 					<br>
 					<h3><center> {vtranslate('LBL_NO_EXTENSIONS_FOUND', $QUALIFIED_MODULE)} </center></h3>
 				</div>
-				<div class="col-sm-2 col-xs-2"></div>
+				<div class="col-sm-2 col-2"></div>
 			</div>
 		{/if}
 	</div>

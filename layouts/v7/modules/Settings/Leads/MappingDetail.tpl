@@ -10,7 +10,7 @@
 
 {strip}
     <div class="leadsFieldMappingListPageDiv">
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-12 col-12">
             <div class="row settingsHeader">
                 <span class="col-sm-12">
                     <span class="float-end">

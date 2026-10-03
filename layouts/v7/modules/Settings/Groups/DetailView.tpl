@@ -10,7 +10,7 @@
 
 {strip}
 	<div class="detailViewContainer full-height">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-scroll">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-12 main-scroll">
 			<div class="detailViewInfo" >
 				<form id="detailView" class="form-horizontal" method="POST">
 					<div class="clearfix">

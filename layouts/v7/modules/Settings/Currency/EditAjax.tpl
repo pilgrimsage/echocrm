@@ -30,7 +30,7 @@
                             <label class="control-label fieldLabel col-sm-5">
                                 {vtranslate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span>
                             </label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <select class="select2 inputElement" name="currency_name">
                                     {foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$ALL_CURRENCIES name=currencyIterator}
                                         {if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
@@ -45,19 +45,19 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <input type="text" class="inputElement bgColor cursorPointerNotAllowed" name="currency_code" readonly value="{$RECORD_MODEL->get('currency_code')}" data-rule-required = "true" />
                             </div>	
                         </div>
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <input type="text"  class="inputElement bgColor cursorPointerNotAllowed" name="currency_symbol" readonly value="{$RECORD_MODEL->get('currency_symbol')}" data-rule-required = "true" />
                             </div>	
                         </div>
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <input type="text" class="inputElement" name="conversion_rate" data-rule-required = "true" data-rule-positive ="true" data-rule-greater_than_zero = "true" placeholder="{vtranslate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
                                        value="{$RECORD_MODEL->get('conversion_rate')}"/>
                                 <br><span class="muted">({vtranslate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-5">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-                            <div class="controls fieldValue col-xs-6">
+                            <div class="controls fieldValue col-6">
                                 <label class="checkbox">
                                     <input type="hidden" name="currency_status" value="Inactive" />
                                     <input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 

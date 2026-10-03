@@ -10,7 +10,7 @@
 <div class="app-menu hide" id="app-menu">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-2 col-xs-2 cursorPointer app-switcher-container">
+			<div class="col-sm-2 col-2 cursorPointer app-switcher-container">
 				<div class="row app-navigator">
 					<span id="menu-toggle-action" class="app-icon fa fa-bars"></span>
 				</div>

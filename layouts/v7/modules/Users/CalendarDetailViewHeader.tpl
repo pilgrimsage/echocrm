@@ -16,5 +16,5 @@
         <div class="detailViewTitle" id="prefPageHeader">
         </div>
         <div class="detailViewInfo userPreferences row-fluid">
-            <div class="details col-xs-12">
+            <div class="details col-12">
             {/strip}

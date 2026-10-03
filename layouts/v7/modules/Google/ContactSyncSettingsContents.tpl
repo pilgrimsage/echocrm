@@ -18,10 +18,10 @@
         <input id="google_fields" type="hidden" value='{Zend_Json::encode($GOOGLE_FIELDS)}' />
         <div class="sync-settings">
             <div class="row">
-                <div class="col-sm-3 col-xs-3">
+                <div class="col-sm-3 col-3">
                     <h5 class="module-title float-start">{vtranslate('LBL_SELECT_GOOGLE_GROUP_TO_SYNC',$MODULENAME)}&nbsp;</h5>
                 </div>
-                <div class="col-sm-4 col-xs-4">
+                <div class="col-sm-4 col-4">
                     <select class="select2" name="google_group" style="width:250px;">
                         <option value="all">{vtranslate('LBL_ALL',$MODULENAME)}</option>
                         {assign var=IS_GROUP_DELETED value=1}

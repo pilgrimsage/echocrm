@@ -25,7 +25,7 @@
 <div class="container-fluid main-container">
     <div class="row">
         <div class="detailViewContainer viewContent clearfix">
-            <div class="col-sm-12 col-xs-12 content-area" style="padding-left: 15px;">
+            <div class="col-sm-12 col-12 content-area" style="padding-left: 15px;">
                 {include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE}
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">

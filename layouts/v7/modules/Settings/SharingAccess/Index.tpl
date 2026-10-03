@@ -12,7 +12,7 @@
 
 {strip}
 <div class="listViewPageDiv " id="sharingAccessContainer">
-    <div class="col-sm-12 col-xs-12">
+    <div class="col-sm-12 col-12">
         <form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
             <input type="hidden" name="module" value="SharingAccess" />
             <input type="hidden" name="action" value="SaveAjax" />

@@ -36,7 +36,7 @@
 			&nbsp;
 		</div>
 	</div>
-	<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 listViewContentDiv" id="listViewContents">
+	<div class="col-md-12 col-sm-12 col-12 col-lg-12 listViewContentDiv" id="listViewContents">
 		<div id="table-content" class="table-container">
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 			<table id="listview-table" class="table listview-table portal-table">

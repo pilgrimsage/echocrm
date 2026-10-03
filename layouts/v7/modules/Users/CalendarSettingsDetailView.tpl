@@ -20,8 +20,8 @@
                 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
                 <input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
                 <div class="row">
-                    <h4 class="col-xs-8">{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
-                    <div class="col-xs-4 marginTop5px">
+                    <h4 class="col-8">{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+                    <div class="col-4 marginTop5px">
                         <div class=" float-end detailViewButtoncontainer">
                             <div class="btn-group  float-end">
                                 <a class="btn btn-default" href="{$RECORD->getCalendarSettingsEditViewUrl()}">Edit</a>

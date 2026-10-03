@@ -11,7 +11,7 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {strip}
     <div  class="detailViewContainer" id="ConfigEditorDetails">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
             {assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
             <div class="contents ">
                 <div class="clearfix">

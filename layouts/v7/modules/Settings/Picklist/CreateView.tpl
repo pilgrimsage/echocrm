@@ -25,18 +25,18 @@
                 {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
-                        <div class="controls col-sm-3 col-xs-3"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
+                        <div class="control-label col-sm-4 col-4">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
+                        <div class="controls col-sm-3 col-3"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
                     </div>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
                         <div class="form-group">	
-                            <div class="control-label col-sm-4 col-xs-4">
+                            <div class="control-label col-sm-4 col-4">
                                 {vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}
                                 <span class="input-info-addon cursorPointer"> 
                                     <i class="fa fa-info-circle" data-bs-toggle="tooltip" data-placement="bottom" title="{vtranslate('LBL_ASSIGN_TO_ROLE_INFO',$QUALIFIED_MODULE)}"></i>
                                 </span>
                             </div>
-                            <div class="controls col-sm-3 col-xs-3">
+                            <div class="controls col-sm-3 col-3">
                                 <select class="rolesList form-control" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
                                     <option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
                                     {foreach from=$ROLES_LIST item=ROLE}
@@ -50,8 +50,8 @@
                         </div>
                     {/if}
                     <div class="form-group">
-                        <div class="control-label col-sm-4 col-xs-4">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
-                        <div class="controls col-sm-3 col-xs-3">
+                        <div class="control-label col-sm-4 col-4">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</div>
+                        <div class="controls col-sm-3 col-3">
                             <input type="color" name="selectedColor" class="colorPicker" value="#ffffff" />
                         </div>
                     </div>

@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="col-sm-12 col-xs-12">
+	<div class="col-sm-12 col-12">
 		<div class="container-fluid" id="AsteriskServerDetails">
 			<input type="hidden" name="module" value="PBXManager"/>
 			<input type="hidden" name="action" value="SaveAjax"/>
@@ -40,8 +40,8 @@
 				</table>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xs-12">
-			<div class="col-sm-8 col-xs-8">
+		<div class="col-sm-12 col-12">
+			<div class="col-sm-8 col-8">
 				<div class="alert alert-danger container-fluid">
 					<b>{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}</b>&nbsp;
 					{vtranslate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
