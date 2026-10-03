@@ -291,7 +291,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		if(!empty($conditions) && is_array($conditions)) {
 			foreach($conditions as $filter) {
 				if($fieldname == $filter['fieldname']) {
-					return $filter['valuetype'];
+					return $filter['valuetype'] ?? null;
 				}
 			}
 		}
