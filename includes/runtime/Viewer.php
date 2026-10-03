@@ -88,7 +88,7 @@ class Vtiger_Viewer extends Smarty {
 
 		if ($inSettings) {
 			$classes = array_merge($classes, array(
-				'getInventoryModules', 'Settings_Vtiger_MenuItem_Model', 'Settings_Webforms_Record_Model',
+				'Settings_Vtiger_MenuItem_Model', 'Settings_Webforms_Record_Model',
 				'Settings_Vtiger_CompanyDetails_Model', 'Inventory_Charges_Model', 'Settings_PBXManager_Module_Model',
 				'PBXManager_PBXManager_Connector', 'Settings_Webforms_Record_Model', 'Google_Config_Connector'
 			));
@@ -105,7 +105,7 @@ class Vtiger_Viewer extends Smarty {
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities', 'purifyHtmlEventAttributes',
 			'getCurrencySymbolandCRate', 'getProductBaseCurrency', 'mb_substr', 'isPermitted', 'getOwnerName', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric','preg_match',
-			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array','array_keys', 'json_decode', 'getCurrencyDecimalPlaces', 'number_format', 'isRecordExists');
+			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array','array_keys', 'json_decode', 'getCurrencyDecimalPlaces', 'number_format', 'isRecordExists', 'getInventoryModules');
 		foreach ($modifiers as $modifier) {
 			if (function_exists($modifier)) {
 				$this->registerPlugin('modifier', $modifier, $modifier);

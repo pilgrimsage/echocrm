@@ -449,10 +449,11 @@ class CurrencyField {
 			}
 
 			$fieldValue = vtlib_array(explode(decode_html($decimalSeparator), $value));
-			if(strlen($fieldValue[1]) <= 1){
-				if(strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0].$decimalSeparator.$fieldValue[1];
-				} else if (!strlen($fieldValue[1])) {
+			$decimalPart = (string)($fieldValue[1] ?? '');
+			if(strlen($decimalPart) <= 1){
+				if(strlen($decimalPart) == 1) {
+					return $value = $fieldValue[0].$decimalSeparator.$decimalPart;
+				} else if (!strlen($decimalPart)) {
 					return $value = $fieldValue[0];
 				} else {
 					return $value = $fieldValue[0].$decimalSeparator;
