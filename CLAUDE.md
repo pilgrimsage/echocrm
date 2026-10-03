@@ -45,7 +45,7 @@ See `.claude/skills/vtiger-bs5-migration/SKILL.md` for the complete migration lo
 As of 2026-10-03, the BS3→BS5 class/attribute sweep, the jQuery-plugin→vanilla-JS conversion, the `col-xs-*`, glyphicon and `.bind()/.unbind()` leftovers, and PHP 8.4 deprecations on every page checked are done and verified in the browser — see the skill log for exact scope and gotchas.
 
 Still open:
-- **Browser spot-checks not yet done:** Merge Records dialog, MailConverter rule-edit form (needs a scanner configured), anything narrower than 1024px beyond the 480px detail-view test, and the Inventory line-item popovers, Leads/Potentials collapsible field blocks and Import wizard end-to-end.
+- **Browser spot-checks not yet done:** Merge Records dialog, MailConverter rule-edit form (needs a scanner configured), anything narrower than 1024px beyond the 480px detail-view test, and the Inventory line-item popovers and Leads/Potentials collapsible field blocks. (Import wizard was run end-to-end on 2026-10-03 and works; only merge/overwrite modes, saved mappings and large files are untested.)
 - **Decision needed:** `row form-group` markup (47 templates) has no bottom margin in BS5 (BS3 gave 15px). A global `.form-group{margin-bottom:1rem}` would fix cramped rows (e.g. Send Mail task editor) but changes spacing everywhere — trial it and click through a few screens first.
 - **Low priority:** `$.isArray` / `$.trim` / `$.parseJSON` (~45 files, deprecated but working in jQuery 3.7); `composer outdated` shows only a safe patch bump for monolog (majors for smarty, phpmailer, tcpdf, oauth2-google deferred).
 - **Before deploying:** `config.inc.php` forces `display_errors` on / `E_ALL` ("STRICT DEVELOPMENT") — switch to the PRODUCTION line.
