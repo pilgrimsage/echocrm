@@ -1445,7 +1445,7 @@ Vtiger.Class("Vtiger_List_Js", {
 		var rows = jQuery('tr.listViewEntries');
 
 		if (selectAllMode == true) {
-			jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').addClass('show');
+			jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').removeClass('hide').addClass('show');
 			//jQuery(".listViewEntriesMainCheckBox").prop('checked', true);
 			if (this.isStarFilterMode()) {
 				rows = this.getStarRecordRows();
@@ -1585,12 +1585,12 @@ Vtiger.Class("Vtiger_List_Js", {
 	showSelectAllMsgDiv: function () {
 		jQuery("#deSelectAllMsgDiv").closest('div.messageContainer').removeClass('show');
 		jQuery("#deSelectAllMsgDiv").closest('div.messageContainer').addClass('hide');
-		jQuery("#selectAllMsgDiv").closest('div.messageContainer').addClass("show");
+		jQuery("#selectAllMsgDiv").closest('div.messageContainer').removeClass('hide').addClass('show');
 	},
 	showDeSelectAllMsgDiv: function () {
 		jQuery('#selectAllMsgDiv').closest('div.messageContainer').removeClass("show");
 		jQuery('#selectAllMsgDiv').closest('div.messageContainer').addClass("hide");
-		jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').addClass('show');
+		jQuery('#deSelectAllMsgDiv').closest('div.messageContainer').removeClass('hide').addClass('show');
 	},
 	deSelectAllWithNoMessage: function () {
 		jQuery('#selectAllMsgDiv').closest('div.messageContainer').removeClass("show");

@@ -29,7 +29,7 @@ if (typeof (Vtiger_Import_Js) == 'undefined') {
         bactToStep1: function() {
             jQuery('#step2').removeClass('active');
             jQuery('#step1').addClass('active');
-            jQuery('#uploadFileContainer').addClass('show');
+            jQuery('#uploadFileContainer').removeClass('hide').addClass('show');
             jQuery('#importStep2Conatiner').removeClass('show');
             jQuery('#importStep2Conatiner').addClass('hide');
 
@@ -49,7 +49,7 @@ if (typeof (Vtiger_Import_Js) == 'undefined') {
 				jQuery('#step1').removeClass('active');
 				jQuery('#step2').addClass('active');
 
-				jQuery('#importStep2Conatiner').addClass('show');
+				jQuery('#importStep2Conatiner').removeClass('hide').addClass('show');
 
 				jQuery('#importStepTwoButtonsDiv').removeClass('hide');
 				jQuery('#importStepTwoButtonsDiv').addClass('show');
