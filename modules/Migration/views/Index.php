@@ -145,7 +145,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 			echo "<table class='config-table'>";
 	
 			//Update existing package modules
-			Install_Utils_Model::installModules();
+			self::installPackagedModules();
 
 			echo "<table class='config-table'><tr><th><span><b><font color='red'>Upgrading Modules -- Ends.</font></b></span></th></tr></table>";
 			
@@ -155,6 +155,44 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		$migrationModuleModel->updateVtigerVersion();
 		// To carry out all the necessary actions after migration
 		$migrationModuleModel->postMigrateActivities();
+	}
+
+	/**
+	 * Install or update every module package shipped under packages/vtiger.
+	 * (Moved here from the retired Install module; the upgrade wizard is its only caller.)
+	 */
+	public static function installPackagedModules() {
+		require_once('vtlib/Vtiger/Package.php');
+		require_once('vtlib/Vtiger/Module.php');
+		require_once('include/utils/utils.php');
+
+		$moduleFolders = array('packages/vtiger/mandatory', 'packages/vtiger/optional', 'packages/vtiger/marketplace');
+		foreach($moduleFolders as $moduleFolder) {
+			if ($handle = opendir($moduleFolder)) {
+				while (false !== ($file = readdir($handle))) {
+					$packageNameParts = explode(".",$file);
+					if($packageNameParts[php7_count($packageNameParts)-1] != 'zip'){
+						continue;
+					}
+					array_pop($packageNameParts);
+					$packageName = implode("",$packageNameParts);
+					if (!empty($packageName)) {
+						$packagepath = "$moduleFolder/$file";
+						$package = new Vtiger_Package();
+						$module = $package->getModuleNameFromZip($packagepath);
+						if($module != null) {
+							$moduleInstance = Vtiger_Module::getInstance($module);
+							if($moduleInstance) {
+								updateVtlibModule($module, $packagepath);
+							} else {
+								installVtlibModule($module, $packagepath);
+							}
+						}
+					}
+				}
+				closedir($handle);
+			}
+		}
 	}
 
 	public static function ExecuteQuery($query, $params){

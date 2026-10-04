@@ -144,8 +144,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 		}
 
 		try {
-			if($this->isInstalled() === false && $module != 'Install') {
-				header('Location:index.php?module=Install&view=Index');
+			if($this->isInstalled() === false) {
+				// The web installer was retired; a fresh checkout is set up from the shell.
+				header('HTTP/1.1 503 Service Unavailable');
+				header('Content-Type: text/plain; charset=UTF-8');
+				echo "EchoCRM is not set up yet.\nRun bin/setup.sh from the project root (see README.md), then reload this page.\n";
 				exit;
 			}
 
