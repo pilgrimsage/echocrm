@@ -323,11 +323,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	function getHeaderScripts(Vtiger_Request $request){
 		$headerScriptInstances = array();
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
-		$fileName = "libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
+		$fileName = 'layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/validation-engine/js/languages/jquery.validationEngine-'.$languageHandlerShortName.'.js';
 		if (!file_exists($fileName)) {
-			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
+			$fileName = '~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/validation-engine/js/languages/jquery.validationEngine-en.js';
 		} else {
-			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
+			$fileName = '~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/validation-engine/js/languages/jquery.validationEngine-'.$languageHandlerShortName.'.js';
 		}
 		$jsFileNames = array($fileName);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

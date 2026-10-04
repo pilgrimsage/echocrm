@@ -186,7 +186,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/jquery/ckeditor/ckeditor.js',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
 			"modules.Vtiger.resources.CkEditor",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/datepick/js/jquery.datepick.js",
 		);

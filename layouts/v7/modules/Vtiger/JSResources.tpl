@@ -36,8 +36,8 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/moment.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.timeago.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/jquery/ckeditor/ckeditor.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/jquery/ckeditor/adapters/jquery.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/ckeditor.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/adapters/jquery.js')}"></script>
 	<script type='text/javascript' src="{vresource_url('layouts/v7/lib/anchorme_js/anchorme.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/Class.js')}"></script>
     <script type='text/javascript' src="{vresource_url('layouts/v7/resources/helper.js')}"></script>
@@ -54,7 +54,7 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Google/resources/Settings.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/CkEditor.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Documents/resources/Documents.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/DOMPurify/dist/purify.min.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/dompurify/js/purify.min.js')}"></script>
    
     {foreach key=index item=jsModel from=$SCRIPTS}
         <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>

@@ -15,33 +15,33 @@
 			<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-			<link rel=stylesheet href="libraries/jquery/gantt/platform.css" type="text/css">
-			<link rel=stylesheet href="libraries/jquery/gantt/libs/dateField/jquery.dateField.css" type="text/css">
+			<link rel=stylesheet href="layouts/v7/lib/gantt/platform.css" type="text/css">
+			<link rel=stylesheet href="layouts/v7/lib/gantt/libs/dateField/jquery.dateField.css" type="text/css">
 
-			<link rel=stylesheet href="libraries/jquery/gantt/gantt.css" type="text/css">
-			<link rel=stylesheet href="libraries/jquery/gantt/print.css" type="text/css" media="print">
+			<link rel=stylesheet href="layouts/v7/lib/gantt/gantt.css" type="text/css">
+			<link rel=stylesheet href="layouts/v7/lib/gantt/print.css" type="text/css" media="print">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css" type="text/css">
 
 			<script src="layouts/v7/lib/jquery/jquery.min.js"></script>
 
-			<script src="libraries/jquery/gantt/libs/jquery.livequery.min.js"></script>
-			<script src="libraries/jquery/gantt/libs/jquery.timers.js"></script>
-			<script src="libraries/jquery/gantt/libs/platform.js"></script>
-			<script src="libraries/jquery/gantt/libs/date.js"></script>
-			<script src="libraries/jquery/gantt/libs/i18nJs.js"></script>
-			<script src="libraries/jquery/gantt/libs/dateField/jquery.dateField.js"></script>
-			<script src="libraries/jquery/gantt/libs/JST/jquery.JST.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/jquery.livequery.min.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/jquery.timers.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/platform.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/date.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/i18nJs.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/dateField/jquery.dateField.js"></script>
+			<script src="layouts/v7/lib/gantt/libs/JST/jquery.JST.js"></script>
 
-			<link rel="stylesheet" type="text/css" href="libraries/jquery/gantt/libs/jquery.svg.css">
+			<link rel="stylesheet" type="text/css" href="layouts/v7/lib/gantt/libs/jquery.svg.css">
 
-			<script type="text/javascript" src="libraries/jquery/gantt/libs/jquery.svg.min.js"></script>
-			<script type="text/javascript" src="libraries/jquery/gantt/libs/jquery.svgdom.1.8.js"></script>
-			<script src="libraries/jquery/gantt/ganttUtilities.js"></script>
-			<script src="libraries/jquery/gantt/ganttTask.js"></script>
-			<script src="libraries/jquery/gantt/ganttDrawerSVG.js"></script>
-			<script src="libraries/jquery/gantt/ganttGridEditor.js"></script>
-			<script src="libraries/jquery/gantt/ganttMaster.js"></script> 
-			<script src="libraries/jquery/gantt/libs/moment.min.js"></script>
+			<script type="text/javascript" src="layouts/v7/lib/gantt/libs/jquery.svg.min.js"></script>
+			<script type="text/javascript" src="layouts/v7/lib/gantt/libs/jquery.svgdom.1.8.js"></script>
+			<script src="layouts/v7/lib/gantt/ganttUtilities.js"></script>
+			<script src="layouts/v7/lib/gantt/ganttTask.js"></script>
+			<script src="layouts/v7/lib/gantt/ganttDrawerSVG.js"></script>
+			<script src="layouts/v7/lib/gantt/ganttGridEditor.js"></script>
+			<script src="layouts/v7/lib/gantt/ganttMaster.js"></script> 
+			<script src="layouts/v7/lib/gantt/libs/moment.min.js"></script>
 			<style>
 				{foreach from=$TASK_STATUS_COLOR item=COLOR key=STATUS}
 					{Project_Record_Model::getGanttStatusCss($STATUS, $COLOR)}
