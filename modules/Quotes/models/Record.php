@@ -33,7 +33,7 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 	/**
 	 * Function to get this record and details as PDF
 	 */
-	public function getPDF() {
+	public function getPDF($layout = null) {
 		$recordId = $this->getId();
 		$moduleName = $this->getModuleName();
 

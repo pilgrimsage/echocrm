@@ -278,8 +278,9 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	 * Function to get URL for Export the record as PDF
 	 * @return <type>
 	 */
-	public function getExportPDFUrl() {
-		return "index.php?module=".$this->getModuleName()."&action=ExportPDF&record=".$this->getId();
+	public function getExportPDFUrl($layout = null) {
+		$url = "index.php?module=".$this->getModuleName()."&action=ExportPDF&record=".$this->getId();
+		return $layout ? $url."&layout=".$layout : $url;
 	}
 
 	/**
@@ -293,7 +294,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	/**
 	 * Function to get this record and details as PDF
 	 */
-	public function getPDF() {
+	public function getPDF($layout = null) {
 		$recordId = $this->getId();
 		$moduleName = $this->getModuleName();
 
@@ -301,6 +302,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 		$controller = new $controllerClassName($moduleName);
 		$controller->loadRecord($recordId);
+		$controller->setPrintLayout($layout);
 
 		$fileName = $moduleName.'_'.getModuleSequenceNumber($moduleName, $recordId);
 		$controller->Output($fileName.'.pdf', 'D');
@@ -311,7 +313,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	 * @return <String>
 	 *
 	 */
-	public function getPDFFileName() {
+	public function getPDFFileName($layout = null) {
 		$moduleName = $this->getModuleName();
 		if ($moduleName == 'Quotes') {
 			vimport("~~/modules/$moduleName/QuotePDFController.php");
@@ -324,6 +326,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		$recordId = $this->getId();
 		$controller = new $controllerClassName($moduleName);
 		$controller->loadRecord($recordId);
+		$controller->setPrintLayout($layout);
 
 		$sequenceNo = getModuleSequenceNumber($moduleName,$recordId);
 		$translatedName = vtranslate($moduleName, $moduleName);

@@ -400,3 +400,13 @@ Seven commits, 2,713 files, ~23 MB: `1196ed7` 64 unreferenced skin fonts (7.7 MB
 
 **Still open.** Terms & Conditions print on their own last page (vtiger's footer design) and the default text mentions VAT; the logo is still the stock vtiger one (Settings → Company Details); no GSTIN format validation on Accounts save; Quotes, Sales Order and Purchase Order still use the standard layout; credit/debit notes (no module exists), the 80 mm receipt, bank details/UPI QR and e-invoice IRN/QR are separate pieces of work.
 
+## Two print formats, chosen by the company's tax system — 2026-10-04
+
+**Rule** (`Vtiger_GST_Utils::printLayoutsForTaxSystem()`, Settings → Taxes → Tax System): **India** = GST print only; **US** = standard print only; **All** = both. Only Invoice has a GST layout today (`moduleHasGstPrint()`); the other inventory documents have the standard print only.
+- Detail view menu: under **All** the single "Export to PDF" is replaced by "Export to PDF (GST tax invoice)" and "Export to PDF (Standard)" (`layout=gst|standard` on `ExportPDF`); under India or US there is one "Export to PDF" entry, and it produces the only format that system allows.
+- Without a `layout` (the one-click paths: Send Mail with PDF, scheduled attachments, the old CreatePDF entry) the format is chosen automatically: GST when the system is India, or when it is All and the document carries GST; standard otherwise. A requested format is ignored when the tax system does not allow it, an unknown `layout` value is ignored, and **a document with any non-GST tax never uses the GST layout** (it would drop that tax from the totals).
+- The title is "Tax Invoice" exactly when the GST layout is used, otherwise "Invoice".
+- Code: `Vtiger_InventoryPDFController::setPrintLayout()` / `isGstLayout()`; `Inventory_Record_Model::getExportPDFUrl($layout)`, `getPDF($layout)`, `getPDFFileName($layout)` (Quotes' override takes the same argument, PHP requires matching signatures); labels `LBL_EXPORT_TO_PDF_GST` and `LBL_EXPORT_TO_PDF_STANDARD` are in `languages/en_us/Invoice.php` only.
+
+**Verified:** all 15 combinations of tax system × requested layout × document kind (GST invoice, GST plus a VAT line, zero-tax) choose the expected layout; the Detail view menu was read in the browser under all three systems (two entries, one, one); the real `ExportPDF` action returned valid PDFs for `gst`, `standard` and an invalid value (the last falling back to automatic); the four inventory record models load with compatible signatures. Test setting changes were reverted (tax system is back to `india`). Not done: translations of the two new labels, and the Send Mail with PDF path has no format choice (it uses the automatic rule).
+

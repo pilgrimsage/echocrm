@@ -32,6 +32,25 @@ class Vtiger_GST_Utils {
 		'daman & diu' => 'Dadra and Nagar Haveli and Daman and Diu',
 	);
 
+	/**
+	 * Print formats a company's tax system allows: India = GST only, US = standard only,
+	 * "all" (or unset) = both. Layout names: 'gst' and 'standard'.
+	 */
+	public static function printLayoutsForTaxSystem($taxSystem) {
+		if ($taxSystem == 'india') {
+			return array('gst');
+		}
+		if ($taxSystem == 'us') {
+			return array('standard');
+		}
+		return array('gst', 'standard');
+	}
+
+	/** Modules whose PDF has a GST layout (the others only have the standard print). */
+	public static function moduleHasGstPrint($moduleName) {
+		return $moduleName === 'Invoice';
+	}
+
 	public static function normalizeGSTIN($value) {
 		return strtoupper(preg_replace('/\s+/', '', (string)$value));
 	}

@@ -298,6 +298,7 @@ class Vtiger_InventoryPDFController {
 	// ---- GST tax invoice (HSN/SAC, CGST/SGST/IGST per line, HSN-wise summary, amount in words) ----
 
 	private $gstData = null;
+	private $requestedPrintLayout = null;
 
 	/** Money with full decimals regardless of the user's "truncate trailing zeros" preference (3,350.00, not 3,350). */
 	function formatMoney($value) {
@@ -404,18 +405,26 @@ class Vtiger_InventoryPDFController {
 	 * keeps the standard layout and nothing is lost from its totals.
 	 */
 	function isGstLayout() {
-		$system = $this->getTaxSystem();
-		if ($system == 'us') {
+		$available = Vtiger_GST_Utils::printLayoutsForTaxSystem($this->getTaxSystem());
+		if (!in_array('gst', $available)) {
 			return false;
 		}
 		$data = $this->getGstData();
 		if ($data['totals']['other'] > 0) {
-			return false;
+			return false; // the GST layout would leave the other taxes out of the totals
 		}
-		if ($system == 'india') {
-			return true;
+		if (!in_array('standard', $available)) {
+			return true; // India: the GST print is the only one
+		}
+		if ($this->requestedPrintLayout !== null) {
+			return $this->requestedPrintLayout === 'gst';
 		}
 		return ($data['totals']['CGST'] + $data['totals']['SGST'] + $data['totals']['IGST']) > 0;
+	}
+
+	/** Ask for a print format ('gst' or 'standard'); honoured only where the tax system allows both. */
+	function setPrintLayout($layout) {
+		$this->requestedPrintLayout = in_array($layout, array('gst', 'standard'), true) ? $layout : null;
 	}
 
 	private function formatRate($rate) {
