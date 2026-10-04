@@ -26,6 +26,10 @@ class Vtiger_PDF_Generator {
 
 		$this->pdf->setPrintHeader(false);
 		$this->pdf->setPrintFooter(false);
+		// The viewers paginate by hand; TCPDF's own automatic break would split a row across pages.
+		// Keep the bottom margin: SetAutoPageBreak(false) alone resets it to 0, which would make every
+		// table frame (derived from the margins) taller than the printable area.
+		$this->pdf->SetAutoPageBreak(false, $this->pdf->getBreakMargin());
 	}
 
 	function setHeaderViewer($viewer) {

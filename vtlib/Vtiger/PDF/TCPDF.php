@@ -35,7 +35,9 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 		$sa = substr($sa,0,-1);
 
 		$blocks = explode("\n",$sa);
-		$wmax = $w - (2 * isset($this->cMargin) ? $this->cMargin : 0);
+		// Both left and right cell margins reduce the usable width (the unparenthesised form
+		// `2 * isset(..) ? .. : ..` only subtracted one margin and under-estimated wrapped lines).
+		$wmax = $w - (2 * (isset($this->cMargin) ? $this->cMargin : 0));
 
 		$lines = 0;
 		$spacesize = $this->GetCharWidth(32);
