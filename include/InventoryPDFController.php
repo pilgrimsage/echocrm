@@ -14,6 +14,7 @@ include_once 'vtlib/Vtiger/PDF/inventory/HeaderViewer.php';
 include_once 'vtlib/Vtiger/PDF/inventory/FooterViewer.php';
 include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer.php';
 include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer2.php';
+include_once 'vtlib/Vtiger/PDF/inventory/GSTContentViewer.php';
 include_once 'vtlib/Vtiger/PDF/viewers/PagerViewer.php';
 include_once 'vtlib/Vtiger/PDF/PDFGenerator.php';
 include_once 'data/CRMEntity.php';
@@ -268,13 +269,16 @@ class Vtiger_InventoryPDFController {
 	 * Customer GSTIN and place of supply rows for the header. Empty when the document has no GST
 	 * context (no customer GSTIN, and neither an Indian tax system nor a GSTIN as company tax id).
 	 */
-	function buildGstHeaderRows() {
-		$customerGSTIN = $this->getCustomerGSTIN();
+	function isGstContext() {
 		$companyTaxId = Vtiger_CompanyDetails_Model::getInstanceById()->get('vatid');
-		$isGst = $customerGSTIN !== '' || $this->getTaxSystem() == 'india' || Vtiger_GST_Utils::isValidGSTIN($companyTaxId);
-		if (!$isGst) {
+		return $this->getCustomerGSTIN() !== '' || $this->getTaxSystem() == 'india' || Vtiger_GST_Utils::isValidGSTIN($companyTaxId);
+	}
+
+	function buildGstHeaderRows() {
+		if (!$this->isGstContext()) {
 			return array();
 		}
+		$customerGSTIN = $this->getCustomerGSTIN();
 
 		$rows = array();
 		if ($customerGSTIN !== '') {
@@ -289,6 +293,273 @@ class Vtiger_InventoryPDFController {
 			$rows['Place of Supply'] = $placeOfSupply;
 		}
 		return $rows;
+	}
+
+	// ---- GST tax invoice (HSN/SAC, CGST/SGST/IGST per line, HSN-wise summary, amount in words) ----
+
+	private $gstData = null;
+
+	/** Money with full decimals regardless of the user's "truncate trailing zeros" preference (3,350.00, not 3,350). */
+	function formatMoney($value) {
+		global $current_user;
+		$user = clone $current_user;
+		$user->truncate_trailing_zeros = false;
+		$currencyField = new CurrencyField($value);
+		return $currencyField->getDisplayValue($user, true);
+	}
+
+	/** Splits a tax list into CGST / SGST / IGST percentages and "anything else". */
+	private function splitGstPercentages($taxes) {
+		$split = array('CGST' => 0.0, 'SGST' => 0.0, 'IGST' => 0.0, 'OTHER' => 0.0);
+		if (!is_array($taxes)) {
+			return $split;
+		}
+		foreach ($taxes as $tax) {
+			$label = isset($tax['taxlabel']) ? $tax['taxlabel'] : '';
+			$percentage = isset($tax['percentage']) ? (float)$tax['percentage'] : 0.0;
+			if (isset($split[$label]) && $label !== 'OTHER') {
+				$split[$label] += $percentage;
+			} else {
+				$split['OTHER'] += $percentage;
+			}
+		}
+		return $split;
+	}
+
+	private function lookupHsnCode($entityType, $productId) {
+		global $adb;
+		if (empty($productId)) {
+			return '';
+		}
+		$table = ($entityType === 'Services') ? 'vtiger_service' : 'vtiger_products';
+		$idColumn = ($entityType === 'Services') ? 'serviceid' : 'productid';
+		if (!in_array('hsn_sac_code', $adb->getColumnNames($table))) {
+			return '';
+		}
+		$result = $adb->pquery("SELECT hsn_sac_code FROM $table WHERE $idColumn = ?", array($productId));
+		return $adb->num_rows($result) ? trim(decode_html($adb->query_result($result, 0, 'hsn_sac_code'))) : '';
+	}
+
+	/**
+	 * Per-line GST figures and document totals, computed once from the loaded line items. Works for
+	 * both individual (per line) and group tax types. Amounts are kept unrounded so totals match
+	 * vtiger's own arithmetic; they are rounded only for display.
+	 */
+	function getGstData() {
+		if ($this->gstData !== null) {
+			return $this->gstData;
+		}
+		$products = $this->associated_products;
+		$final = isset($products[1]['final_details']) ? $products[1]['final_details'] : array();
+		$isGroup = isset($final['taxtype']) && $final['taxtype'] == 'group';
+
+		// Share of an overall (document level) discount carried by each line, for group tax
+		$factor = 1.0;
+		$subTotal = isset($final['hdnSubTotal']) ? (float)$final['hdnSubTotal'] : 0.0;
+		$finalDiscount = isset($final['discountTotal_final']) ? (float)$final['discountTotal_final'] : 0.0;
+		if ($isGroup && $subTotal > 0 && $finalDiscount > 0) {
+			$factor = 1 - ($finalDiscount / $subTotal);
+		}
+		$groupPercentages = $isGroup ? $this->splitGstPercentages(isset($final['taxes']) ? $final['taxes'] : array()) : null;
+
+		$lines = array();
+		$totals = array('taxable' => 0.0, 'CGST' => 0.0, 'SGST' => 0.0, 'IGST' => 0.0, 'other' => 0.0);
+		$index = 0;
+		foreach ($products as $line) {
+			++$index;
+			$percentages = $isGroup ? $groupPercentages : $this->splitGstPercentages(isset($line['taxes']) ? $line['taxes'] : array());
+			$taxable = (float)$line["totalAfterDiscount{$index}"] * $factor;
+
+			$row = array(
+				'name' => decode_html($line["productName{$index}"]),
+				'code' => decode_html($line["hdnProductcode{$index}"]),
+				'comment' => decode_html($line["comment{$index}"]),
+				'hsn' => $this->lookupHsnCode(isset($line["entityType{$index}"]) ? $line["entityType{$index}"] : 'Products', $line["hdnProductId{$index}"]),
+				'qty' => $line["qty{$index}"],
+				'price' => (float)$line["listPrice{$index}"],
+				'discount' => (float)$line["discountTotal{$index}"],
+				'discountPercent' => $line["discount_percent{$index}"],
+				'taxable' => $taxable,
+			);
+			$lineTax = 0.0;
+			foreach (array('CGST', 'SGST', 'IGST') as $label) {
+				$row[$label . 'Rate'] = $percentages[$label];
+				$row[$label] = $taxable * $percentages[$label] / 100;
+				$totals[$label] += $row[$label];
+				$lineTax += $row[$label];
+			}
+			$otherTax = $taxable * $percentages['OTHER'] / 100;
+			$totals['other'] += $otherTax;
+			$row['total'] = $taxable + $lineTax + $otherTax;
+			$totals['taxable'] += $taxable;
+			$lines[] = $row;
+		}
+		$this->gstData = array('lines' => $lines, 'totals' => $totals, 'final' => $final);
+		return $this->gstData;
+	}
+
+	/**
+	 * The GST layout is used when the company's tax system is India, or (for "all") when the
+	 * document actually carries GST and no other kind of tax, so a mixed or non-GST document
+	 * keeps the standard layout and nothing is lost from its totals.
+	 */
+	function isGstLayout() {
+		$system = $this->getTaxSystem();
+		if ($system == 'us') {
+			return false;
+		}
+		$data = $this->getGstData();
+		if ($data['totals']['other'] > 0) {
+			return false;
+		}
+		if ($system == 'india') {
+			return true;
+		}
+		return ($data['totals']['CGST'] + $data['totals']['SGST'] + $data['totals']['IGST']) > 0;
+	}
+
+	private function formatRate($rate) {
+		$text = rtrim(rtrim(number_format((float)$rate, 2, '.', ''), '0'), '.');
+		return ($text === '' ? '0' : $text) . '%';
+	}
+
+	/** "9%\n90.00" for a tax cell, or "-" when this tax does not apply to the line. */
+	private function formatTaxCell($rate, $amount) {
+		if ((float)$rate == 0) {
+			return '-';
+		}
+		return $this->formatRate($rate) . "\n" . $this->formatMoney($amount);
+	}
+
+	function buildGstContentModels() {
+		$models = array();
+		foreach ($this->getGstData()['lines'] as $row) {
+			$model = new Vtiger_PDF_Model();
+			$name = $row['name'] . ($row['code'] !== '' ? "\n(" . $row['code'] . ")" : '');
+			$model->set('Name', $name);
+			$model->set('HSN', $row['hsn'] !== '' ? $row['hsn'] : '-');
+			$model->set('Quantity', $row['qty']);
+			$model->set('Price', $this->formatMoney($row['price']));
+			$model->set('Discount', $row['discount'] > 0 ? $this->formatMoney($row['discount']) . "\n(" . $this->formatRate($row['discountPercent']) . ")" : '-');
+			$model->set('Taxable', $this->formatMoney($row['taxable']));
+			foreach (array('CGST', 'SGST', 'IGST') as $label) {
+				$model->set($label, $this->formatTaxCell($row[$label . 'Rate'], $row[$label]));
+			}
+			$model->set('Total', $this->formatMoney($row['total']));
+			$model->set('Comment', $row['comment']);
+			$models[] = $model;
+		}
+		return $models;
+	}
+
+	function buildGstContentLabelModel() {
+		$labelModel = new Vtiger_PDF_Model();
+		$labelModel->set('Name', getTranslatedString('Product Name', $this->moduleName));
+		$labelModel->set('HSN', 'HSN/SAC');
+		$labelModel->set('Quantity', 'Qty');
+		$labelModel->set('Price', 'Rate');
+		$labelModel->set('Discount', getTranslatedString('Discount', $this->moduleName));
+		$labelModel->set('Taxable', 'Taxable Value');
+		$labelModel->set('CGST', 'CGST');
+		$labelModel->set('SGST', 'SGST');
+		$labelModel->set('IGST', 'IGST');
+		$labelModel->set('Total', getTranslatedString('Total', $this->moduleName));
+		return $labelModel;
+	}
+
+	/** Totals block: taxable value, each GST component that applies, charges, adjustment, grand total. */
+	function buildGstSummaryModel() {
+		$data = $this->getGstData();
+		$totals = $data['totals'];
+		$final = $data['final'];
+		$summary = new Vtiger_PDF_Model();
+
+		$summary->set('Taxable Value', $this->formatMoney($totals['taxable']));
+		$anyTax = false;
+		foreach (array('CGST', 'SGST', 'IGST') as $label) {
+			if (round($totals[$label], 2) > 0) {
+				$summary->set($label, $this->formatMoney($totals[$label]));
+				$anyTax = true;
+			}
+		}
+		if (!$anyTax) {
+			$summary->set('GST', $this->formatMoney(0));
+		}
+		if (!empty($final['shipping_handling_charge']) && (float)$final['shipping_handling_charge'] != 0) {
+			$summary->set(getTranslatedString('Shipping & Handling Charges', $this->moduleName), $this->formatMoney($final['shipping_handling_charge']));
+			if (!empty($final['shtax_totalamount']) && (float)$final['shtax_totalamount'] != 0) {
+				$summary->set(getTranslatedString('Shipping & Handling Tax:', $this->moduleName), $this->formatMoney($final['shtax_totalamount']));
+			}
+		}
+		if (!empty($final['adjustment']) && (float)$final['adjustment'] != 0) {
+			$summary->set(getTranslatedString('Adjustment', $this->moduleName), $this->formatMoney($final['adjustment']));
+		}
+		$summary->set(getTranslatedString('Grand Total:', $this->moduleName) . ' (' . $this->buildCurrencySymbol() . ')', $this->formatMoney($final['grandTotal']));
+
+		if ($this->moduleName == 'Invoice') {
+			$received = (float)$this->focusColumnValue('received');
+			if ($received > 0) {
+				$summary->set(getTranslatedString('Received', $this->moduleName), $this->formatMoney($received));
+				$summary->set(getTranslatedString('Balance', $this->moduleName), $this->formatMoney($this->focusColumnValue('balance')));
+			}
+		}
+		return $summary;
+	}
+
+	/** HSN-wise tax summary rows (grouped by HSN and GST rates) followed by a total row. */
+	function buildGstHsnSummary() {
+		$groups = array();
+		foreach ($this->getGstData()['lines'] as $row) {
+			$key = $row['hsn'] . '|' . $row['CGSTRate'] . '|' . $row['SGSTRate'] . '|' . $row['IGSTRate'];
+			if (!isset($groups[$key])) {
+				$groups[$key] = array('hsn' => $row['hsn'], 'taxable' => 0.0, 'CGSTRate' => $row['CGSTRate'], 'SGSTRate' => $row['SGSTRate'], 'IGSTRate' => $row['IGSTRate'], 'CGST' => 0.0, 'SGST' => 0.0, 'IGST' => 0.0);
+			}
+			$groups[$key]['taxable'] += $row['taxable'];
+			foreach (array('CGST', 'SGST', 'IGST') as $label) {
+				$groups[$key][$label] += $row[$label];
+			}
+		}
+		$models = array();
+		$sum = array('taxable' => 0.0, 'CGST' => 0.0, 'SGST' => 0.0, 'IGST' => 0.0);
+		foreach ($groups as $group) {
+			$model = new Vtiger_PDF_Model();
+			$model->set('HSN', $group['hsn'] !== '' ? $group['hsn'] : '-');
+			$model->set('Taxable', $this->formatMoney($group['taxable']));
+			$tax = 0.0;
+			foreach (array('CGST', 'SGST', 'IGST') as $label) {
+				$model->set($label, (float)$group[$label . 'Rate'] == 0 ? '-' : $this->formatRate($group[$label . 'Rate']) . '  ' . $this->formatMoney($group[$label]));
+				$tax += $group[$label];
+				$sum[$label] += $group[$label];
+			}
+			$model->set('TotalTax', $this->formatMoney($tax));
+			$sum['taxable'] += $group['taxable'];
+			$models[] = $model;
+		}
+		$total = new Vtiger_PDF_Model();
+		$total->set('HSN', 'Total');
+		$total->set('Taxable', $this->formatMoney($sum['taxable']));
+		foreach (array('CGST', 'SGST', 'IGST') as $label) {
+			$total->set($label, round($sum[$label], 2) == 0 ? '-' : $this->formatMoney($sum[$label]));
+		}
+		$total->set('TotalTax', $this->formatMoney($sum['CGST'] + $sum['SGST'] + $sum['IGST']));
+		$models[] = $total;
+		return $models;
+	}
+
+	function getGstContentViewer() {
+		$viewer = new Vtiger_PDF_InventoryGSTContentViewer();
+		$viewer->setContentModels($this->buildGstContentModels());
+		$viewer->setSummaryModel($this->buildGstSummaryModel());
+		$viewer->setLabelModel($this->buildGstContentLabelModel());
+		$viewer->setWatermarkModel($this->buildWatermarkModel());
+		$viewer->setHsnSummary(
+			array('HSN' => 'HSN/SAC', 'Taxable' => 'Taxable Value', 'CGST' => 'CGST', 'SGST' => 'SGST', 'IGST' => 'IGST', 'TotalTax' => 'Total Tax'),
+			$this->buildGstHsnSummary()
+		);
+		$final = $this->getGstData()['final'];
+		$amount = isset($final['grandTotal']) ? $final['grandTotal'] : 0;
+		$viewer->setAmountInWords('Amount in Words', Vtiger_GST_Utils::amountInWords($amount));
+		return $viewer;
 	}
 
 	function buildHeaderModelColumnLeft() {
@@ -311,6 +582,10 @@ class Vtiger_InventoryPDFController {
 			if(!empty($resultrow['phone']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Phone: ", $this->moduleName). $resultrow['phone'];
 			if(!empty($resultrow['fax']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Fax: ", $this->moduleName). $resultrow['fax'];
 			if(!empty($resultrow['website']))	$additionalCompanyInfo[]= "\n".getTranslatedString("Website: ", $this->moduleName). $resultrow['website'];
+			if (!empty($resultrow['state']) && $this->isGstContext()) {
+				$sellerStateCode = Vtiger_GST_Utils::stateCodeFromName($resultrow['state']);
+				$additionalCompanyInfo[]= "\nState: ".decode_html($resultrow['state']).($sellerStateCode !== null ? " (Code: $sellerStateCode)" : '');
+			}
 			if(!empty($resultrow['vatid'])) {
 				$sellerTaxIdLabel = Vtiger_GST_Utils::isValidGSTIN($resultrow['vatid']) ? 'GSTIN: ' : getTranslatedString("VAT ID: ", $this->moduleName);
 				$additionalCompanyInfo[]= "\n".$sellerTaxIdLabel.$resultrow['vatid'];

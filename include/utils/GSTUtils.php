@@ -71,6 +71,70 @@ class Vtiger_GST_Utils {
 		return isset(self::$stateCodes[$code]) ? self::$stateCodes[$code] : null;
 	}
 
+	private static $ones = array('', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+		'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen');
+	private static $tens = array('', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety');
+
+	/** Words for an integer 0..999 (no unit). */
+	private static function belowThousand($n) {
+		$parts = array();
+		if ($n >= 100) {
+			$parts[] = self::$ones[intdiv($n, 100)] . ' Hundred';
+			$n %= 100;
+		}
+		if ($n >= 20) {
+			$parts[] = self::$tens[intdiv($n, 10)] . ($n % 10 ? ' ' . self::$ones[$n % 10] : '');
+		} elseif ($n > 0) {
+			$parts[] = self::$ones[$n];
+		}
+		return implode(' ', $parts);
+	}
+
+	/** Words for a non-negative integer using the Indian system (Thousand, Lakh, Crore). */
+	public static function integerInWords($n) {
+		$n = (int)$n;
+		if ($n === 0) {
+			return 'Zero';
+		}
+		$parts = array();
+		if ($n >= 10000000) {
+			$parts[] = self::integerInWords(intdiv($n, 10000000)) . ' Crore';
+			$n %= 10000000;
+		}
+		if ($n >= 100000) {
+			$parts[] = self::belowThousand(intdiv($n, 100000)) . ' Lakh';
+			$n %= 100000;
+		}
+		if ($n >= 1000) {
+			$parts[] = self::belowThousand(intdiv($n, 1000)) . ' Thousand';
+			$n %= 1000;
+		}
+		if ($n > 0) {
+			$parts[] = self::belowThousand($n);
+		}
+		return implode(' ', $parts);
+	}
+
+	/** "One Thousand Two Hundred Thirty Four Rupees and Fifty Paise Only" */
+	public static function amountInWords($amount, $major = 'Rupees', $minor = 'Paise') {
+		$amount = round((float)$amount, 2);
+		$prefix = '';
+		if ($amount < 0) {
+			$prefix = 'Minus ';
+			$amount = abs($amount);
+		}
+		$total = (int)round($amount * 100);
+		$whole = intdiv($total, 100);
+		$fraction = $total % 100;
+		$majorWord = ($whole === 1 && $major === 'Rupees') ? 'Rupee' : $major;
+		$minorWord = ($fraction === 1 && $minor === 'Paise') ? 'Paisa' : $minor;
+		$words = $prefix . self::integerInWords($whole) . ' ' . $majorWord;
+		if ($fraction > 0) {
+			$words .= ' and ' . self::integerInWords($fraction) . ' ' . $minorWord;
+		}
+		return $words . ' Only';
+	}
+
 	/** "29-Karnataka" for a state name or GSTIN-derived code; falls back to the text as given. */
 	public static function placeOfSupplyLabel($stateName, $fallbackGSTIN = '') {
 		$code = self::stateCodeFromName($stateName);
