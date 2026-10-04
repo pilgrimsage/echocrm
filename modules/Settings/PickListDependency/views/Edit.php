@@ -72,36 +72,6 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View {
 		return $viewer->view('DependencyGraph.tpl',$qualifiedName, true);
 	}
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
-			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(Vtiger_Request $request) {
-		$headerCssInstances = parent::getHeaderCss($request);
-
-		$cssFileNames = array(
-			'~/libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
-	}
-
 	// Added to override the parent
 	public function setModuleInfo($request, $moduleModel){
 

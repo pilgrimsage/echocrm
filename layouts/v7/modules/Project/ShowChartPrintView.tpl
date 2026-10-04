@@ -22,7 +22,7 @@
 			<link rel=stylesheet href="libraries/jquery/gantt/print.css" type="text/css" media="print">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css" type="text/css">
 
-			<script src="libraries/jquery/jquery.min.js"></script>
+			<script src="layouts/v7/lib/jquery/jquery.min.js"></script>
 
 			<script src="libraries/jquery/gantt/libs/jquery.livequery.min.js"></script>
 			<script src="libraries/jquery/gantt/libs/jquery.timers.js"></script>

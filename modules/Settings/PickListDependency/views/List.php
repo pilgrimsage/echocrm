@@ -44,7 +44,6 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js",
 		);
@@ -58,7 +57,6 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~/libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
