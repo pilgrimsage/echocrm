@@ -44,21 +44,4 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	/**
-	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
-	 */
-	function getHeaderCss(Vtiger_Request $request) {
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-
-		$cssFileNames = array(
-			'libraries.jquery.jqTree.jqtree'
-		);
-
-		$cssStyleInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssStyleInstances);
-		return $headerCssInstances;
-	}
 }

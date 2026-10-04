@@ -240,23 +240,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
-
-		$jsFileNames = array(
-			'~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
-
-	/**
 	 * Setting module related Information to $viewer (for Vtiger7)
 	 * @param type $request
 	 * @param type $moduleModel
@@ -288,16 +271,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 			}
 			$viewer->assign('MODULE_BASIC_ACTIONS', $basicLinks);
 		}
-	}
-
-	public function getHeaderCss(Vtiger_Request $request) {
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~/libraries/jquery/bootstrapswitch/css/bootstrap2/bootstrap-switch.min.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
 	}
 
 }

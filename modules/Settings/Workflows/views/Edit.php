@@ -188,7 +188,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
 			"modules.Vtiger.resources.CkEditor",
-            '~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
 			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 		);
 
@@ -202,7 +201,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
 			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
-            '~/libraries/jquery/bootstrapswitch/css/bootstrap3/bootstrap-switch.min.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
