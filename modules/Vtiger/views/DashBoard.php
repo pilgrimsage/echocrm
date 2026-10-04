@@ -114,7 +114,7 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$jsFileNames = array(
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/gridstack/js/gridstack-all.js',
 			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
-			'~/libraries/jquery/vtchart.js',
+			'modules.Vtiger.resources.vtchart',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.'.$moduleName.'.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',

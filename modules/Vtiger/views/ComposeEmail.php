@@ -349,8 +349,8 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 			"modules.Emails.resources.EmailPreview",
 			"modules.Vtiger.resources.CkEditor",
 			'modules.Vtiger.resources.Popup',
-			'libraries.jquery.jquery_windowmsg',
-			'libraries.jquery.multiplefileupload.jquery_MultiFile'
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/multifile/js/jquery_MultiFile.js"
 		);
 
 		$jsHeaderScriptNames = array(

@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="layouts/v7/lib/jquery/select2/select2.min.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.class.min.js"></script>
-	<script type="text/javascript" src="libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
+	<script type="text/javascript" src="layouts/v7/lib/pjax/js/jquery.pjax.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/autosize/jquery.autosize-min.js"></script>
 
 	<script type="text/javascript" src="layouts/vlayout/lib/slimscroll/slimScroll.min.js"></script>
@@ -35,7 +35,7 @@
 	<script type="text/javascript" src="layouts/vlayout/lib/guidersjs/guiders-1.2.6.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/datepicker/js/datepicker.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/daterangepicker/date.js"></script>
-	<script type="text/javascript" src="libraries/jquery/jquery.ba-outside-events.min.js"></script>
+	<script type="text/javascript" src="layouts/v7/lib/outside-events/js/jquery.ba-outside-events.min.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/placeholder/js/jquery.placeholder.js"></script>
 
 	{foreach key=index item=jsModel from=$SCRIPTS}

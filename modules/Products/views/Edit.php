@@ -71,7 +71,7 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
-			'libraries.jquery.multiplefileupload.jquery_MultiFile',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/multifile/js/jquery_MultiFile.js",
 			'modules.Products.resources.GSTFieldVisibility'
 		);
 

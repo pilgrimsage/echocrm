@@ -20,7 +20,7 @@ class Products_List_View extends Vtiger_List_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-            'libraries.jquery.multiplefileupload.jquery_MultiFile',
+            "~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/multifile/js/jquery_MultiFile.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

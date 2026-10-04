@@ -65,7 +65,7 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
 		$jsFileNames = array(
-			'~libraries/jquery/boxslider/jquery.bxslider.min.js',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/boxslider/js/jquery.bxslider.min.js",
 			'modules.PriceBooks.resources.Detail',
 		);
 		$jsFileNames[] = $moduleDetailFile;
@@ -82,7 +82,7 @@ class Products_Detail_View extends Vtiger_Detail_View {
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
 		$jsFileNames = array(
-			'~libraries/jquery/boxslider/jquery.bxslider.min.js', 
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/boxslider/js/jquery.bxslider.min.js", 
 			'modules.PriceBooks.resources.Detail',
 			'modules.PriceBooks.resources.RelatedList',
 		);
