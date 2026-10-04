@@ -4574,9 +4574,7 @@ class ReportRun extends CRMEntity {
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("libraries/PHPExcel/PHPExcel.php");
-
-		$workbook = new PHPExcel();
+		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 
 		$reportData = $this->GenerateReport("PDF", $filterlist, false, false, false, 'ExcelExport');
@@ -4585,7 +4583,7 @@ class ReportRun extends CRMEntity {
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
 		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => array('rgb' => 'E1E0F7')),
 				//'font' => array( 'bold' => true )
 		);
 
@@ -4599,8 +4597,8 @@ class ReportRun extends CRMEntity {
 				if ($key == 'ACTION' || $key == vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate('LBL ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
 					continue;
 				}
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, decode_html($key), true);
-				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+				$worksheet->setCellValueExplicit([$count + 1, $rowcount], decode_html($key), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$worksheet->getStyle([$count + 1, $rowcount])->applyFromArray($header_styles);
 
 				// NOTE Performance overhead: http://stackoverflow.com/questions/9965476/phpexcel-column-size-issues
 				//$worksheet->getColumnDimensionByColumn($count)->setAutoSize(true);
@@ -4623,10 +4621,12 @@ class ReportRun extends CRMEntity {
 					if ($hdr == 'ACTION' || $hdr == vtranslate('LBL_ACTION', $this->primarymodule) || $hdr == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $hdr == vtranslate('LBL ACTION', $this->primarymodule) || $hdr == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule))
 						continue;
 					$value = decode_html($value);
-					if (in_array($dataType, $numericTypes)) {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					// A numeric column can still hold formatted text (e.g. "1,234.50"); keep it as text
+					// rather than coercing it to a wrong number.
+					if (in_array($dataType, $numericTypes) && is_numeric($value)) {
+						$worksheet->setCellValueExplicit([$count + 1, $rowcount], $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 					} else {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+						$worksheet->setCellValueExplicit([$count + 1, $rowcount], $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
 					$count = $count + 1;
 				}
@@ -4641,9 +4641,9 @@ class ReportRun extends CRMEntity {
 					$exploedKey = explode('_', $key);
 					$chdr = end($exploedKey);
 					$translated_str = in_array($chdr, array_keys($mod_strings)) ? $mod_strings[$chdr] : $chdr;
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $translated_str);
+					$worksheet->setCellValueExplicit([$count + 1, $rowcount], $translated_str, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 
-					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+					$worksheet->getStyle([$count + 1, $rowcount])->applyFromArray($header_styles);
 
 					$count = $count + 1;
 				}
@@ -4658,18 +4658,20 @@ class ReportRun extends CRMEntity {
 						continue;
 					}
 					$value = decode_html($value);
-					$excelDatatype = PHPExcel_Cell_DataType::TYPE_STRING;
+					$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 					if (is_numeric($value)) {
-						$excelDatatype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+						$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 					}
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value, $excelDatatype);
+					$worksheet->setCellValueExplicit([$count + 1, $key + $rowcount], $value, $excelDatatype);
 					$count = $count + 1;
 				}
 			}
 		}
-		//Reference Article:  http://phpexcel.codeplex.com/discussions/389578
-		ob_clean();
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		// Discard any stray output so it cannot end up inside a download
+		if (ob_get_level() > 0) {
+			ob_clean();
+		}
+		$workbookWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xls($workbook);
 		$workbookWriter->save($fileName);
 	}
 
