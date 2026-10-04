@@ -75,6 +75,9 @@ class Vtiger_PDF_InventoryHeaderViewer extends Vtiger_PDF_HeaderViewer {
 					$offsetY = 2;
 				}
 			}
+			// Bottom of the middle column: the billing address box below shares this column
+			// and must never start above it (extra rows such as GSTIN push the bottom down).
+			$centerColumnBottom = $pdf->GetY();
 			
 			// Column 3
 			$offsetX = 10;
@@ -120,7 +123,7 @@ class Vtiger_PDF_InventoryHeaderViewer extends Vtiger_PDF_HeaderViewer {
 					$pdf->GetY());
 				} else{ 
                                     $pdf->MultiCell($headerColumnWidth-$offsetX, 7, $label, 1, 'L', 1, 1, $headerFrame->x+$headerColumnWidth, 
-                                            $pdf->GetY()+$offsetY); 
+                                            max($pdf->GetY()+$offsetY, $centerColumnBottom+$offsetY)); 
 
                                     $pdf->SetFont('freeserif', ''); 
                                     $pdf->MultiCell($headerColumnWidth-$offsetX, 7, $value, 1, 'L', 0, 1, $headerFrame->x+$headerColumnWidth,  

@@ -17,6 +17,7 @@ include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer2.php';
 include_once 'vtlib/Vtiger/PDF/viewers/PagerViewer.php';
 include_once 'vtlib/Vtiger/PDF/PDFGenerator.php';
 include_once 'data/CRMEntity.php';
+include_once 'include/utils/GSTUtils.php';
 #[\AllowDynamicProperties]
 class Vtiger_InventoryPDFController {
 
@@ -246,6 +247,50 @@ class Vtiger_InventoryPDFController {
 		return $this->moduleName;
 	}
 
+	/** Company tax system as configured under Settings > Taxes ('india', 'us' or 'all'). */
+	function getTaxSystem() {
+		$taxSystem = Vtiger_CompanyDetails_Model::getInstanceById()->get('tax_system');
+		return $taxSystem ? $taxSystem : 'all';
+	}
+
+	/** GSTIN stored on the customer's Accounts record ('' when none or when the field is not installed). */
+	function getCustomerGSTIN() {
+		global $adb;
+		$accountId = $this->focusColumnValue('account_id');
+		if (empty($accountId) || !in_array('gstin', $adb->getColumnNames('vtiger_account'))) {
+			return '';
+		}
+		$result = $adb->pquery('SELECT gstin FROM vtiger_account WHERE accountid = ?', array($accountId));
+		return $adb->num_rows($result) ? Vtiger_GST_Utils::normalizeGSTIN($adb->query_result($result, 0, 'gstin')) : '';
+	}
+
+	/**
+	 * Customer GSTIN and place of supply rows for the header. Empty when the document has no GST
+	 * context (no customer GSTIN, and neither an Indian tax system nor a GSTIN as company tax id).
+	 */
+	function buildGstHeaderRows() {
+		$customerGSTIN = $this->getCustomerGSTIN();
+		$companyTaxId = Vtiger_CompanyDetails_Model::getInstanceById()->get('vatid');
+		$isGst = $customerGSTIN !== '' || $this->getTaxSystem() == 'india' || Vtiger_GST_Utils::isValidGSTIN($companyTaxId);
+		if (!$isGst) {
+			return array();
+		}
+
+		$rows = array();
+		if ($customerGSTIN !== '') {
+			$rows['Customer GSTIN'] = $customerGSTIN;
+		}
+		$state = $this->focusColumnValue('ship_state');
+		if ($state === '' || $state === null) {
+			$state = $this->focusColumnValue('bill_state');
+		}
+		$placeOfSupply = Vtiger_GST_Utils::placeOfSupplyLabel($state, $customerGSTIN);
+		if ($placeOfSupply !== '') {
+			$rows['Place of Supply'] = $placeOfSupply;
+		}
+		return $rows;
+	}
+
 	function buildHeaderModelColumnLeft() {
 		global $adb;
 
@@ -266,7 +311,10 @@ class Vtiger_InventoryPDFController {
 			if(!empty($resultrow['phone']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Phone: ", $this->moduleName). $resultrow['phone'];
 			if(!empty($resultrow['fax']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Fax: ", $this->moduleName). $resultrow['fax'];
 			if(!empty($resultrow['website']))	$additionalCompanyInfo[]= "\n".getTranslatedString("Website: ", $this->moduleName). $resultrow['website'];
-                        if(!empty($resultrow['vatid']))         $additionalCompanyInfo[]= "\n".getTranslatedString("VAT ID: ", $this->moduleName). $resultrow['vatid']; 
+			if(!empty($resultrow['vatid'])) {
+				$sellerTaxIdLabel = Vtiger_GST_Utils::isValidGSTIN($resultrow['vatid']) ? 'GSTIN: ' : getTranslatedString("VAT ID: ", $this->moduleName);
+				$additionalCompanyInfo[]= "\n".$sellerTaxIdLabel.$resultrow['vatid'];
+			}
 
 			$modelColumnLeft = array(
 					'logo' => "test/logo/".$resultrow['logoname'],
