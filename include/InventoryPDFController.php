@@ -42,8 +42,22 @@ class Vtiger_InventoryPDFController {
 		return new Vtiger_PDF_Generator();
 	}
 
+	/**
+	 * 'individual' (tax per line) or 'group' (tax on the whole document). Read from the line item
+	 * data, which comes straight from the database: apply_field_security() removes hdnTaxType from
+	 * the record's column_fields, so reading it there always gave an empty value and an individual
+	 * tax document was printed with the group layout (line taxes missing from the totals).
+	 */
+	function getDocumentTaxType() {
+		$products = $this->associated_products;
+		if (isset($products[1]['final_details']['taxtype'])) {
+			return $products[1]['final_details']['taxtype'];
+		}
+		return $this->focusColumnValue('hdnTaxType');
+	}
+
 	function getContentViewer() {
-		if($this->focusColumnValue('hdnTaxType') == "individual") {
+		if($this->getDocumentTaxType() == "individual") {
 			$contentViewer = new Vtiger_PDF_InventoryContentViewer();
 		} else {
 			$contentViewer = new Vtiger_PDF_InventoryTaxGroupContentViewer();
@@ -115,7 +129,7 @@ class Vtiger_InventoryPDFController {
 			$taxable_total = $quantity * $listPrice - $discount;
 			$taxable_total = number_format($taxable_total, $no_of_decimal_places,'.','');
 			$producttotal = $taxable_total;
-			if($this->focus->column_fields["hdnTaxType"] == "individual") {
+			if($this->getDocumentTaxType() == "individual") {
 				foreach($productLineItem['taxes'] as $tax_count => $productLinetItemTaxInfo) {
 					$tax_percent = $productLineItem['taxes'][$tax_count]['percentage'];
 					$total_tax_percent += $tax_percent;
@@ -265,17 +279,9 @@ class Vtiger_InventoryPDFController {
 		return $adb->num_rows($result) ? Vtiger_GST_Utils::normalizeGSTIN($adb->query_result($result, 0, 'gstin')) : '';
 	}
 
-	/**
-	 * Customer GSTIN and place of supply rows for the header. Empty when the document has no GST
-	 * context (no customer GSTIN, and neither an Indian tax system nor a GSTIN as company tax id).
-	 */
-	function isGstContext() {
-		$companyTaxId = Vtiger_CompanyDetails_Model::getInstanceById()->get('vatid');
-		return $this->getCustomerGSTIN() !== '' || $this->getTaxSystem() == 'india' || Vtiger_GST_Utils::isValidGSTIN($companyTaxId);
-	}
-
+	/** Customer GSTIN and place of supply rows for the header; they belong to the GST print only. */
 	function buildGstHeaderRows() {
-		if (!$this->isGstContext()) {
+		if (!$this->isGstLayout()) {
 			return array();
 		}
 		$customerGSTIN = $this->getCustomerGSTIN();
@@ -591,7 +597,7 @@ class Vtiger_InventoryPDFController {
 			if(!empty($resultrow['phone']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Phone: ", $this->moduleName). $resultrow['phone'];
 			if(!empty($resultrow['fax']))		$additionalCompanyInfo[]= "\n".getTranslatedString("Fax: ", $this->moduleName). $resultrow['fax'];
 			if(!empty($resultrow['website']))	$additionalCompanyInfo[]= "\n".getTranslatedString("Website: ", $this->moduleName). $resultrow['website'];
-			if (!empty($resultrow['state']) && $this->isGstContext()) {
+			if (!empty($resultrow['state']) && $this->isGstLayout()) {
 				$sellerStateCode = Vtiger_GST_Utils::stateCodeFromName($resultrow['state']);
 				$additionalCompanyInfo[]= "\nState: ".decode_html($resultrow['state']).($sellerStateCode !== null ? " (Code: $sellerStateCode)" : '');
 			}

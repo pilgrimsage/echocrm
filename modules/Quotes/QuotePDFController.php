@@ -24,6 +24,14 @@ class Vtiger_QuotePDFController extends Vtiger_InventoryPDFController{
 		return $this->focusColumnValue('quotestatus');
 	}
 
+	function getContentViewer() {
+		return $this->isGstLayout() ? $this->getGstContentViewer() : parent::getContentViewer();
+	}
+
+	function buildHeaderModelColumnCenter() {
+		return array_merge(parent::buildHeaderModelColumnCenter(), $this->buildGstHeaderRows());
+	}
+
 	function buildHeaderModelColumnRight() {
 		$issueDateLabel = getTranslatedString('Issued Date', $this->moduleName);
 		$validDateLabel = getTranslatedString('Valid Date', $this->moduleName);
