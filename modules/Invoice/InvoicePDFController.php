@@ -23,6 +23,10 @@ class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
 		return sprintf("%s: %s", $translatedSingularModuleLabel, $this->focusColumnValue('invoice_no'));
 	}
 
+	function getContentViewer() {
+		return $this->isGstLayout() ? $this->getGstContentViewer() : parent::getContentViewer();
+	}
+
 	function buildHeaderModelColumnCenter() {
 		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
