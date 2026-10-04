@@ -60,6 +60,46 @@ class Vtiger_GST_Utils {
 		return preg_match(self::GSTIN_PATTERN, $gstin, $m) && isset(self::$stateCodes[$m[1]]);
 	}
 
+	/**
+	 * GSTIN check character (the 15th): a base-36 weighted checksum over the first 14 characters.
+	 * Catches single-character typos and most transpositions.
+	 */
+	public static function hasValidCheckCharacter($value) {
+		$gstin = self::normalizeGSTIN($value);
+		if (strlen($gstin) !== 15) {
+			return false;
+		}
+		$alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$sum = 0;
+		for ($i = 0; $i < 14; $i++) {
+			$position = strpos($alphabet, $gstin[$i]);
+			if ($position === false) {
+				return false;
+			}
+			$product = $position * (($i % 2 === 0) ? 1 : 2);
+			$sum += intdiv($product, 36) + ($product % 36);
+		}
+		return $gstin[14] === $alphabet[(36 - ($sum % 36)) % 36];
+	}
+
+	/**
+	 * Why a GSTIN is not acceptable: null when it is fine, otherwise a message for the user.
+	 * Empty input is fine (the field is optional).
+	 */
+	public static function gstinProblem($value) {
+		$gstin = self::normalizeGSTIN($value);
+		if ($gstin === '') {
+			return null;
+		}
+		if (!self::isValidGSTIN($gstin)) {
+			return 'Invalid GSTIN. It must be 15 characters: a 2-digit state code, the 10-character PAN, an entity number, the letter Z and a check character (for example 27AAPFU0939F1ZV).';
+		}
+		if (!self::hasValidCheckCharacter($gstin)) {
+			return 'Invalid GSTIN: the check character (last character) does not match. Please re-check the number for a typing mistake.';
+		}
+		return null;
+	}
+
 	/** Two-digit state code embedded in a GSTIN, or null. */
 	public static function stateCodeFromGSTIN($value) {
 		$gstin = self::normalizeGSTIN($value);

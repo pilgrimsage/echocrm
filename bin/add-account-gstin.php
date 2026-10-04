@@ -1,7 +1,7 @@
 <?php
 /**
  * Adds the "GSTIN" field to Accounts (the customer's GST identification number, printed on tax
- * invoices). Safe to run more than once: it does nothing if the field already exists.
+ * invoices) and registers the handler that validates it on save. Safe to run more than once.
  *
  * Usage (from the project root):   php bin/add-account-gstin.php
  *
@@ -26,25 +26,39 @@ if (!$module) {
 	fwrite(STDERR, "Accounts module not found.\n");
 	exit(1);
 }
+
+// 1. The field
 if (Vtiger_Field::getInstance('gstin', $module)) {
-	echo "Accounts.gstin already exists - nothing to do.\n";
-	exit(0);
+	echo "Accounts.gstin already exists.\n";
+} else {
+	$block = Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
+	if (!$block) {
+		fwrite(STDERR, "Block LBL_ACCOUNT_INFORMATION not found on Accounts.\n");
+		exit(1);
+	}
+
+	$field = new Vtiger_Field();
+	$field->name = 'gstin';
+	$field->label = 'GSTIN';
+	$field->table = 'vtiger_account';
+	$field->column = 'gstin';
+	$field->columntype = 'VARCHAR(15)';
+	$field->uitype = 1;
+	$field->typeofdata = 'V~O~LE~15';
+	$block->addField($field);
+	echo "Added Accounts.gstin (block LBL_ACCOUNT_INFORMATION).\n";
 }
 
-$block = Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
-if (!$block) {
-	fwrite(STDERR, "Block LBL_ACCOUNT_INFORMATION not found on Accounts.\n");
-	exit(1);
+// 2. The save-time validation (rejects a malformed GSTIN or a wrong check character, stores it upper-case)
+global $adb;
+$handlerClass = 'AccountsGSTINHandler';
+$existing = $adb->pquery('SELECT 1 FROM vtiger_eventhandlers WHERE handler_class = ?', array($handlerClass));
+if ($adb->num_rows($existing)) {
+	echo "$handlerClass is already registered.\n";
+} else {
+	$em = new VTEventsManager($adb);
+	$em->registerHandler('vtiger.entity.beforesave', 'modules/Accounts/AccountsGSTINHandler.php', $handlerClass);
+	echo "Registered $handlerClass (vtiger.entity.beforesave).\n";
 }
 
-$field = new Vtiger_Field();
-$field->name = 'gstin';
-$field->label = 'GSTIN';
-$field->table = 'vtiger_account';
-$field->column = 'gstin';
-$field->columntype = 'VARCHAR(15)';
-$field->uitype = 1;
-$field->typeofdata = 'V~O~LE~15';
-$block->addField($field);
-
-echo "Added Accounts.gstin (block LBL_ACCOUNT_INFORMATION). Clear test/templates_c/v7/* and reload.\n";
+echo "Done. Clear test/templates_c/v7/* and reload.\n";
