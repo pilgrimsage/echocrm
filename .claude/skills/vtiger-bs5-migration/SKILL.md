@@ -322,3 +322,27 @@ Seven commits, 2,713 files, ~23 MB: `1196ed7` 64 unreferenced skin fonts (7.7 MB
 
 **TRAP: never open `index.php?module=Migration&view=Index&mode=step1` just to look at it.** `MigrationStep1.tpl` loads `Migration/resources/Index.js`, which immediately requests `mode=applyDBChanges`. The URL *is* the "run the upgrade" action (admin-only, no confirmation). Opening it during testing re-imported every packaged module and language: it overwrote ~83 BS5-migrated templates/JS with the packaged versions, deleted `migrate/`, and left stray `Install.php`/config files, plus a re-import of module and language rows in the database. The DB check afterwards found the version unchanged (8.4.0), no duplicate links/fields/views/cron rows, and one duplicate Potentials→ModComments related-list row (ids 126 and 195) that looks like a stock quirk, not caused by the run. The working tree was restored from git (damaged state parked as a stash, `accidental migration run 2026-10-04`, safe to drop). Verify the Migration wizard only by reading its code or on a throwaway copy.
 
+## File-structure pass (2026-10-04): front-end libraries out of `libraries/`
+
+**Result.** `libraries/` now holds PHP only (HTTP_Session*, InStyle, PHPExcel, PHPMarkdown, ToAscii, antlr, csrf-magic, freetag, google-api-php-client). Every front-end library lives in a layout tree: live v7 ones in `layouts/v7/lib/<name>/`, legacy-only ones in `layouts/vlayout/lib/<name>/`. Six commits (72c8e68, 0b0d210, 86d7257, 8f547a6, de18b3a, d542ccd), all `git mv` renames so history follows the files.
+
+**Placement rules used (follow them for anything new).**
+- One folder per library, **`js/` and `css/` kept apart** (`layouts/v7/lib/lazyyt/{js,css}`, `datepick/{js,css}`). Single files get their own `js/` folder.
+- **Exception: self-contained packages move intact** (ckeditor, gantt, pdfjs, viewerjs, video-js, validation-engine): their css/img/font/swf/worker paths are relative to the package, and some hard-code the folder in JS (gantt's image URLs, Viewer.js's `#../../../..` file path, which needs one `../` per directory level).
+- **Keep only what something loads, plus the licence.** Dropped on the way: test suites, demo pages, bundled old jQuery copies, 30+ unreferenced datepick themes and locales, unminified duplicates, dev tooling.
+- **Our own code is not a library:** `vtchart.js` (Chart.js-backed) is now `layouts/v7/modules/Vtiger/resources/vtchart.js`, registered as `modules.Vtiger.resources.vtchart`.
+- Register paths as `"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/<name>/..."`. The old dotted form (`libraries.jquery.x.y`) only resolves from the project root and must not be reused.
+
+**What was removed outright** (verified no caller anywhere): 11 loose jQuery files, `bootstrapswitch` (dead since the BS5 form-switch conversion), `jquery.cycle`, five libraries that duplicated a v7 copy (`jquery.min`, `jquery.class`, `select2`, `timepicker`, `malihu-custom-scrollbar` — the v7 copies are the live ones and are different, newer versions), `instaFilta` (v7 copy), plus a second older mCustomScrollbar the PickListDependency views registered on top of the global one.
+
+**Legacy tree.** The vlayout-only libraries (autosize, chosen, datepicker, daterangepicker, jquery-ui 1.8, slimscroll, guidersjs, blockui, hoverintent, placeholder) moved to `layouts/vlayout/lib/`. vlayout still references libraries that were already gone before this pass (`libraries/bootstrap/*`, `pnotify`), so its header is partly broken independently of this work; shared jquery/select2/pjax now point at the v7 copies.
+
+**Verification method.** `git grep` of every old path form (plain, `~`-prefixed, `~/`-prefixed, dotted) must come back empty; every new path is tested for existence; then page checks in the browser: no PHP messages, no 4xx among loaded resources, the library's global exists (`jQuery.fn.MultiFile`, `bxSlider`, `datepick`, `CKEDITOR.basePath`, `DOMPurify`), and CKEditor was actually instantiated to prove its skin/lang/plugin requests resolve. **Do not verify with a burst of parallel `fetch`/`HEAD` calls:** `php -S` is single-threaded and wedges after accepting a flood (~100 requests); restart it if that happens. Not exercised for lack of data: gantt (no Project records), the document preview iframes (no uploaded documents), the Tag Cloud widget, the Login page's bxslider.
+
+**Still open from this pass.**
+- `csrf-magic` keeps its JS file inside the PHP package; the JS is disabled by `config.security.php` (`rewrite-js = null`), so it is dead weight but harmless.
+- `ckeditor.js` + adapter are loaded **twice** on Detail/List pages (once by the global `JSResources.tpl`, once by the per-view registrations in `Vtiger/views/{Detail,List,ComposeEmail}.php` and others). Harmless but redundant; remove the per-view ones after checking each view's script order.
+- `Potentials/dashboards/Forecast.php` (and a commented block in `Leads/dashboards/LeadsCreated.php`) still register nonexistent `jqplot` plugins; the widget reads its script list directly, so it needs a small rewrite, not just a deletion.
+- `layouts/v7/modules/Reports/Step1.tpl` lines 87 and 92 read `$IS_DUPLICATE` without the `isset()` guard that lines 21, 54 and 61 have, producing two PHP warnings when editing an existing report.
+- `todc` (select2 rules in `docs.min.css`) and the six near-identical per-app skin stylesheets are the remaining structure items.
+
