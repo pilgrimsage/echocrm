@@ -15,7 +15,6 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.class.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-ui-1.12.0.custom/jquery-ui.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/flatpickr/flatpickr.min.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/todc/js/popper.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/js/bootstrap.bundle.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-validation/jquery.validate.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.slimscroll.min.js')}"></script>
