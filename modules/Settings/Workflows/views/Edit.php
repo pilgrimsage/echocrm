@@ -188,7 +188,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
 			"modules.Vtiger.resources.CkEditor",
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/datepick/js/jquery.datepick.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -200,7 +200,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/datepick/css/jquery.datepick.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

@@ -19,8 +19,7 @@
 		<link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="libraries/bootstrap/css/jqueryBxslider.css" rel="stylesheet" />
 		<script src="layouts/v7/lib/jquery/jquery.min.js"></script>
-		<script src="libraries/jquery/boxslider/jqueryBxslider.js"></script>
-		<script src="libraries/jquery/boxslider/respond.min.js"></script>
+		<script src="layouts/v7/lib/boxslider/js/jqueryBxslider.js"></script>
 		<script>
 			jQuery(document).ready(function(){
 				scrollx = jQuery(window).outerWidth();

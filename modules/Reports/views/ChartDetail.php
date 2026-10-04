@@ -197,7 +197,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetail",
 			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
-			'~/libraries/jquery/vtchart.js',
+			'modules.Vtiger.resources.vtchart',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

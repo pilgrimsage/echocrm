@@ -18,9 +18,9 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/js/bootstrap.bundle.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-validation/jquery.validate.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.slimscroll.min.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/jquery/jquery.ba-outside-events.min.js')}"></script>
-	<script type="text/javascript" src="{vresource_url('libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/jquery/multiplefileupload/jquery_MultiFile.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/outside-events/js/jquery.ba-outside-events.min.js')}"></script>
+	<script type="text/javascript" src="{vresource_url('layouts/v7/lib/pjax/js/jquery.pjax.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/multifile/js/jquery_MultiFile.js')}"></script>
     <script type="text/javascript" src="{vresource_url('resources/jquery.additions.js')}"></script>
 
     <script src="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.js')}"></script>
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/autoComplete/jquery.textcomplete.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.qtip.custom/jquery.qtip.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('libraries/jquery/jquery-visibility.min.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/visibility/js/jquery-visibility.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/momentjs/moment.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/moment.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js')}"></script>

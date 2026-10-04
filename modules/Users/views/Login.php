@@ -86,7 +86,7 @@ class Users_Login_View extends Vtiger_View_Controller {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 
 		$jsFileNames = array(
-							'~libraries/jquery/boxslider/jquery.bxslider.min.js',
+							"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/boxslider/js/jquery.bxslider.min.js",
 							'modules.Vtiger.resources.List',
 							'modules.Vtiger.resources.Popup',
 							);

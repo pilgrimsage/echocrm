@@ -123,7 +123,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 
 		$jsFileNames = array(
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/timepicker/jquery.timepicker.min.js',
-			"~libraries/jquery/lazyYT/lazyYT.min.js",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/lazyyt/js/lazyYT.min.js",
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",
@@ -134,7 +134,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'modules.Vtiger.resources.validator.BaseValidator',
 			'modules.Vtiger.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.jquery.jquery_windowmsg',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',

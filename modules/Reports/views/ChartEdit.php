@@ -275,7 +275,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/datepick/js/jquery.datepick.js",
 			"modules.Reports.resources.Edit",
 			"modules.Reports.resources.Edit1",
 			"modules.Reports.resources.Edit2",
@@ -295,7 +295,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/datepick/css/jquery.datepick.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

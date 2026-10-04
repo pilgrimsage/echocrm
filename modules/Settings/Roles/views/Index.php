@@ -36,7 +36,7 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View {
 			"modules.Settings.$moduleName.resources.Index",
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
-			'libraries.jquery.jquery_windowmsg',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

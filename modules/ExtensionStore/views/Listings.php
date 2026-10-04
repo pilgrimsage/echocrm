@@ -21,7 +21,7 @@ class ExtensionStore_Listings_View extends Vtiger_Index_View {
     
 	public function getHeaderScripts(Vtiger_Request $request) {
 		$jsFileNames = array(
-			"libraries.jquery.boxslider.jqueryBxslider",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/boxslider/js/jqueryBxslider.js",
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;

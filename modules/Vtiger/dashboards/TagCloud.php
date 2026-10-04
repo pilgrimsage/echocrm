@@ -18,7 +18,7 @@ class Vtiger_TagCloud_Dashboard extends Vtiger_IndexAjax_View {
 	public function getHeaderScripts(Vtiger_Request $request) {
 
 		$jsFileNames = array(
-			'~/libraries/jquery/jquery.tagcloud.js'
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/tagcloud/js/jquery.tagcloud.js"
 		);
 
 		$headerScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

@@ -114,7 +114,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View {
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
 			"modules.$moduleName.resources.$moduleName",
-			"~libraries/jquery/jquery.stickytableheaders.min.js",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/stickytableheaders/js/jquery.stickytableheaders.min.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

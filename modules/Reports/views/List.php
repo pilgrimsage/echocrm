@@ -78,7 +78,7 @@ class Reports_List_View extends Vtiger_Index_View {
 			"~layouts/" .Vtiger_Viewer::getDefaultLayoutName(). "/lib/jquery/floatThead/jquery.floatThead.js",
 			"~layouts/" .Vtiger_Viewer::getDefaultLayoutName(). "/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js",
 			'~/layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/chartjs/chart.umd.js',
-			'~/libraries/jquery/vtchart.js',
+			'modules.Vtiger.resources.vtchart',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

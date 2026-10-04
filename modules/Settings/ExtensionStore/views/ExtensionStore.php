@@ -123,8 +123,8 @@ class Settings_ExtensionStore_ExtensionStore_View extends Settings_Vtiger_Index_
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			"libraries.jquery.jqueryRating",
-			"libraries.jquery.boxslider.jqueryBxslider",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/rating/js/jqueryRating.js",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/boxslider/js/jqueryBxslider.js",
 			"~modules/Settings/ExtensionStore/libraries/jasny-bootstrap.min.js",
 		);
 

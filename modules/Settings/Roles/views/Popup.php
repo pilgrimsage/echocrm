@@ -56,7 +56,7 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View {
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			"modules.Settings.$moduleName.resources.$moduleName",
-			'libraries.jquery.jquery_windowmsg',
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
