@@ -102,7 +102,7 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 			}
 			
 			// Are we overshooting the height?
-			if(ceil($contentLineY + $contentHeight) > ceil($contentFrame->h+$contentFrame->y)) {
+			if(ceil($contentLineY + $contentHeight) > ceil($this->getContentBottom($contentFrame))) {
 			
 				$this->drawCellBorder($parent);
 				$parent->createPage();
@@ -113,7 +113,7 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 
 			$offsetX = 0;
 			foreach($this->cells as $cellName => $cellWidth) {
-				$pdf->MultiCell($cellWidth, $contentHeight, $model->get($cellName), 0, 'L', 0, 1, $contentLineX+$offsetX, $contentLineY);
+				$pdf->MultiCell($cellWidth, $contentHeight, $model->get($cellName), 0, $this->getCellAlignment($cellName), 0, 1, $contentLineX+$offsetX, $contentLineY);
 				$offsetX += $cellWidth;
 			}
 			
@@ -122,11 +122,11 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 			$commentContent = $model->get('Comment');
 			
 			if (!empty($commentContent)) {
-				$commentCellWidth = $this->cells['Name'];
-				$offsetX = $this->cells['Code'];
+				$commentCellWidth = $this->getCommentCellWidth();
+				$offsetX = $this->getCommentOffsetX();
 				
 				$contentHeight = $pdf->GetStringHeight($commentContent, $commentCellWidth);			
-				if(ceil($contentLineY + $contentHeight + $overflowOffsetH) > ceil($contentFrame->h+$contentFrame->y)) {
+				if(ceil($contentLineY + $contentHeight + $overflowOffsetH) > ceil($this->getContentBottom($contentFrame))) {
 					
 					$this->drawCellBorder($parent);
 					$parent->createPage();
@@ -142,6 +142,42 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 		}
 
 		// Summary
+		$cellHeights = $this->drawSummary($parent, $contentFrame, $contentLineX, $contentLineY, $overflowOffsetH);
+		$this->onSummaryPage = true;
+		$this->drawCellBorder($parent, $cellHeights);
+	}
+
+	/**
+	 * Y coordinate of the bottom border of the item table. initDisplay() moves the frame's y down by
+	 * the header row, so the real bottom is y + h minus that row. Rows and the totals block must end
+	 * above it; testing against y + h let them spill below the border, where TCPDF's automatic page
+	 * break then split a row across pages.
+	 */
+	protected function getContentBottom($contentFrame) {
+		return $contentFrame->h + $contentFrame->y - $this->headerRowHeight;
+	}
+
+	/** Text alignment of a line item cell ('L', 'R' or 'C'). */
+	protected function getCellAlignment($cellName) {
+		return 'L';
+	}
+
+	/** Width of the cell a line item's comment is printed in. */
+	protected function getCommentCellWidth() {
+		return $this->cells['Name'];
+	}
+
+	/** Horizontal offset (from the table's left edge) of a line item's comment. */
+	protected function getCommentOffsetX() {
+		return $this->cells['Code'];
+	}
+
+	/**
+	 * Draws the totals block at the bottom of the item table (starting a new page when there is no
+	 * room) and returns the per-column border heights to use for the item table.
+	 */
+	protected function drawSummary($parent, $contentFrame, $contentLineX, $contentLineY, $overflowOffsetH) {
+		$pdf = $parent->getPDF();
 		$cellHeights = array();
 		
 		if ($this->contentSummaryModel) {
@@ -152,7 +188,7 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 		
 			$summaryTotalHeight = ceil(($summaryCellHeight * $summaryCellCount));
 	
-			if (($contentFrame->h+$contentFrame->y) - ($contentLineY+$overflowOffsetH)  < $summaryTotalHeight) { //$overflowOffsetH is added so that last Line Item is not overlapping
+			if ($this->getContentBottom($contentFrame) - ($contentLineY+$overflowOffsetH)  < $summaryTotalHeight) { //$overflowOffsetH is added so that last Line Item is not overlapping
 				$this->drawCellBorder($parent);
 				$parent->createPage();
 					
@@ -177,8 +213,7 @@ class Vtiger_PDF_InventoryContentViewer extends Vtiger_PDF_ContentViewer {
 				++$cellIndex;
 			}
 		}
-		$this->onSummaryPage = true;
-		$this->drawCellBorder($parent, $cellHeights);
+		return $cellHeights;
 	}
 
 	function displayLastPage($parent) {
