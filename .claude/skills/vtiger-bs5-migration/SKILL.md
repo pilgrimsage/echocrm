@@ -410,3 +410,16 @@ Seven commits, 2,713 files, ~23 MB: `1196ed7` 64 unreferenced skin fonts (7.7 MB
 
 **Verified:** all 15 combinations of tax system × requested layout × document kind (GST invoice, GST plus a VAT line, zero-tax) choose the expected layout; the Detail view menu was read in the browser under all three systems (two entries, one, one); the real `ExportPDF` action returned valid PDFs for `gst`, `standard` and an invalid value (the last falling back to automatic); the four inventory record models load with compatible signatures. Test setting changes were reverted (tax system is back to `india`). Not done: translations of the two new labels, and the Send Mail with PDF path has no format choice (it uses the automatic rule).
 
+## GSTIN validation on Accounts — 2026-10-04
+
+**What it does.** A GSTIN saved on an Account must be well formed (15 characters: 2-digit state code from the GST table, 10-character PAN, entity number, `Z`, check character) **and** its check character (a base-36 weighted checksum over the first 14 characters) must match, so a mistyped digit is caught as well as a malformed number. Empty is fine. A valid value is stored upper-case without spaces.
+- **Server (authoritative):** `AccountsGSTINHandler` (`modules/Accounts/AccountsGSTINHandler.php`), a `vtiger.entity.beforesave` handler registered by `bin/add-account-gstin.php` (idempotent; the registration is a row in `vtiger_eventhandlers`, so run `bin/dump-db.sh` to carry it into `db/schema.sql`). It covers every save path: edit form, quick create, inline edit, import, webservice. The rules are `Vtiger_GST_Utils::gstinProblem()` / `hasValidCheckCharacter()`.
+- **Edit form:** `Accounts_Edit_Js.registerGstinValidation()` upper-cases and trims on blur, and on Save refuses an invalid number with a red message beside the field (no round trip). `gstinProblem()` there mirrors the PHP rules; the two were run on the same 16 inputs and agree.
+- The PDF's `isValidGSTIN()` stays format-only (it is used to pick the "GSTIN:" label, not to reject), so a stored number is never hidden from a printout.
+
+**Verified in the running app** (account 6, restored to its original NULL afterwards): the form blocks `27AAPFU0939F1ZW` (wrong check character) with the message beside the field and leaves the database untouched; ` 27aapfu0939f1zv ` is shown as `27AAPFU0939F1ZV` on blur and stored that way; the server-side `SaveAjax` path rejects `BADNUMBER12345` with the message, stores `19aamcd3313n1zb` as `19AAMCD3313N1ZB`, and accepts clearing; an ordinary save with no GSTIN still works. Known-valid GSTINs used for the checksum: `27AAPFU0939F1ZV` and `19AAMCD3313N1ZB`.
+
+**Mistake worth remembering.** `VTEntityData::getData()` returns a `TrackableObject` (ArrayAccess), not an array: `array_key_exists()` on it is a fatal TypeError, and because the handler is global that made *every* Accounts save fail until it was fixed (a few minutes, caught by the first UI test). Use `isset($data['field'])`. Register a before-save handler only after testing it on an ordinary save, or test it in a CLI harness first.
+
+**Limits.** Entities with non-standard identifiers (for example UN bodies or embassies, whose numbers do not follow the 15-character layout) cannot be saved in this field; the check also cannot tell whether a well-formed number is actually registered (that needs the GST portal).
+
