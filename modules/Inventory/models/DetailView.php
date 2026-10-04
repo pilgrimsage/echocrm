@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 
+include_once 'include/utils/GSTUtils.php';
+
 class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
 
 	/**
@@ -22,12 +24,19 @@ class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
 		$moduleName = $recordModel->getmoduleName();
 
 		if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordModel->getId())) {
-			$detailViewLinks = array(
-					'linklabel' => vtranslate('LBL_EXPORT_TO_PDF', $moduleName),
-					'linkurl' => $recordModel->getExportPDFURL(),
-					'linkicon' => ''
-						);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinks);
+			// Where the company's tax system allows both print formats, offer each one explicitly.
+			$printLayouts = Vtiger_GST_Utils::printLayoutsForTaxSystem(Vtiger_CompanyDetails_Model::getInstanceById()->get('tax_system'));
+			if (Vtiger_GST_Utils::moduleHasGstPrint($moduleName) && php7_count($printLayouts) > 1) {
+				$pdfLinks = array(
+					array('linklabel' => vtranslate('LBL_EXPORT_TO_PDF_GST', $moduleName), 'linkurl' => $recordModel->getExportPDFURL('gst'), 'linkicon' => ''),
+					array('linklabel' => vtranslate('LBL_EXPORT_TO_PDF_STANDARD', $moduleName), 'linkurl' => $recordModel->getExportPDFURL('standard'), 'linkicon' => ''),
+				);
+			} else {
+				$pdfLinks = array(array('linklabel' => vtranslate('LBL_EXPORT_TO_PDF', $moduleName), 'linkurl' => $recordModel->getExportPDFURL(), 'linkicon' => ''));
+			}
+			foreach ($pdfLinks as $pdfLink) {
+				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
+			}
 
 			$sendEmailLink = array(
                 'linklabel' => vtranslate('LBL_SEND_MAIL_PDF', $moduleName),
