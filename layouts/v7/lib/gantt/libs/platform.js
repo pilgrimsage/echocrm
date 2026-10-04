@@ -835,12 +835,12 @@ function openBlackPopup(url,width,height,onCloseCallBack,iframeId){
   $("#__blackpopup__").remove();
 
   var bg=$("<div>").attr("id","__blackpopup__");
-  //bg.css({position:'fixed',top:0, left:0,width:'100%',height:'100%', backgroundImage:"url('"+contextPath+"libraries/jquery/gantt/applications/teamwork/images/black_70.png')",textAlign:'center'});
+  //bg.css({position:'fixed',top:0, left:0,width:'100%',height:'100%', backgroundImage:"url('"+contextPath+"layouts/v7/lib/gantt/applications/teamwork/images/black_70.png')",textAlign:'center'});
   bg.css({position:'fixed',top:0, left:0,width:'100%',height:'100%',textAlign:'center'});
 
   //add black only if not already in blackpupup
   if(window.name!=iframeId)
-    bg.css({backgroundImage:"url('"+contextPath+"libraries/jquery/gantt/applications/teamwork/images/black_70.png')"});
+    bg.css({backgroundImage:"url('"+contextPath+"layouts/v7/lib/gantt/applications/teamwork/images/black_70.png')"});
 
   bg.append("<iframe id='"+iframeId+"' name='"+iframeId+"' frameborder='0'></iframe>");
   bg.bringToFront();
@@ -863,7 +863,7 @@ function openBlackPopup(url,width,height,onCloseCallBack,iframeId){
   bg.find("iframe:first").attr("src",url).css({width:width, height:height,top:100,border:'8px solid #909090', backgroundColor:'#ffffff'});
 
   var bdiv= $("<div>").css({width:width,position:"relative",height:"5px", textAlign:"right", margin:"auto" });
-  bdiv.append("<img src=\"libraries/jquery/gantt/res/closeBig.png\" style='cursor:pointer;position:absolute;right:-40px;top:30px;'>");
+  bdiv.append("<img src=\"layouts/v7/lib/gantt/res/closeBig.png\" style='cursor:pointer;position:absolute;right:-40px;top:30px;'>");
   bdiv.find("img:first").click( function(){
     bg.trigger("close");
 
@@ -884,7 +884,7 @@ function createBlackPage(width,height,onCloseCallBack){
   $("#__blackpopup__").remove();
 
   var bg=$("<div>").attr("id","__blackpopup__");
-  bg.css({position:'fixed',top:"0px",paddingTop:"50px", left:0,width:'100%',height:'100%',  backgroundImage:"url('libraries/jquery/gantt/res/img/black_70.png')"});
+  bg.css({position:'fixed',top:"0px",paddingTop:"50px", left:0,width:'100%',height:'100%',  backgroundImage:"url('layouts/v7/lib/gantt/res/img/black_70.png')"});
   bg.append("<div id='bwinPopupd' name='bwinPopupd'></div>");
   bg.bringToFront();
 
@@ -892,7 +892,7 @@ function createBlackPage(width,height,onCloseCallBack){
   ret.css({width:width, height:height,top:10, "-moz-box-shadow":'1px 1px 6px #333333',overflow:'auto',"-webkit-box-shadow":'1px 1px 6px #333333', border:'8px solid #777', backgroundColor:"#fff", margin:"auto" });
 
   var bdiv= $("<div>").css({width:width,position:"relative",height:"0px", textAlign:"right", margin:"auto" });
-  var img=$("<img src='libraries/jquery/gantt/res/closeBig.png' style='cursor:pointer;position:absolute;right:-40px;top:5px;' title='close'>");
+  var img=$("<img src='layouts/v7/lib/gantt/res/closeBig.png' style='cursor:pointer;position:absolute;right:-40px;top:5px;' title='close'>");
   bdiv.append(img);
   img.click( function(){
     bg.trigger("close");

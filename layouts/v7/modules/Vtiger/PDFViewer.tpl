@@ -10,4 +10,4 @@
 ********************************************************************************/
 -->*}
 
-<iframe id='viewer' src="libraries/jquery/pdfjs/web/viewer.html?file={$PDF_PATH}" {if $SOURCE_VIEW eq 'Detail'}height='420'{else}height='480'{/if} width="870"></iframe>
+<iframe id='viewer' src="layouts/v7/lib/pdfjs/web/viewer.html?file={$PDF_PATH}" {if $SOURCE_VIEW eq 'Detail'}height='420'{else}height='480'{/if} width="870"></iframe>

@@ -31,7 +31,7 @@
 	<script type="text/javascript" src="resources/helper.js"></script>
 	<script type="text/javascript" src="resources/Connector.js"></script>
 	<script type="text/javascript" src="resources/ProgressIndicator.js" ></script>
-	<script type="text/javascript" src="libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js" ></script>
+	<script type="text/javascript" src="layouts/v7/lib/validation-engine/js/jquery.validationEngine.js" ></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/guidersjs/guiders-1.2.6.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/datepicker/js/datepicker.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/daterangepicker/date.js"></script>
