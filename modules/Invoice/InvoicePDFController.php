@@ -17,6 +17,9 @@ class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
 		if($translatedSingularModuleLabel == $singularModuleNameKey) {
 			$translatedSingularModuleLabel = getTranslatedString($this->moduleName, $this->moduleName);
 		}
+		if ($this->getTaxSystem() == 'india') {
+			$translatedSingularModuleLabel = 'Tax Invoice';
+		}
 		return sprintf("%s: %s", $translatedSingularModuleLabel, $this->focusColumnValue('invoice_no'));
 	}
 
@@ -37,6 +40,7 @@ class Vtiger_InvoicePDFController extends Vtiger_InventoryPDFController{
 				$contactNameLabel	=>	$contactName,
 				$salesOrderLabel	=>	$salesOrder
 			);
+		$modelColumnCenter = array_merge($modelColumnCenter, $this->buildGstHeaderRows());
 		return $modelColumnCenter;
 	}
 
