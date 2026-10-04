@@ -24,7 +24,6 @@ class Settings_Workflows_List_View extends Settings_Vtiger_List_View {
       $moduleName = $request->getModule();
 
       $jsFileNames = array(
-            '~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
             "~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/floatThead/jquery.floatThead.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js",
@@ -38,7 +37,6 @@ class Settings_Workflows_List_View extends Settings_Vtiger_List_View {
    public function getHeaderCss(Vtiger_Request $request) {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			'~/libraries/jquery/bootstrapswitch/css/bootstrap3/bootstrap-switch.min.css',
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/perfect-scrollbar/css/perfect-scrollbar.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

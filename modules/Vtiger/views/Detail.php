@@ -279,8 +279,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			"modules.Vtiger.resources.CkEditor",
 			"~/libraries/jquery/twitter-text-js/twitter-text.js",
 			"libraries.jquery.multiplefileupload.jquery_MultiFile",
-			'~/libraries/jquery/bootstrapswitch/js/bootstrap-switch.min.js',
-			'~/libraries/jquery.bxslider/jquery.bxslider.min.js',
 			"~layouts/v7/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.js",
 			'modules.Vtiger.resources.Tag',
 			'modules.Google.resources.Map'
@@ -651,16 +649,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
-	}
-
-	public function getHeaderCss(Vtiger_Request $request) {
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~/libraries/jquery/bootstrapswitch/css/bootstrap2/bootstrap-switch.min.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
 	}
 
 }

@@ -93,7 +93,7 @@ class MailManager_Relation_View extends MailManager_Abstract_View {
 			} else {
 				$viewer->assign('LINKEDTO', $linkedto);
 			}
-			$jsFileNames = array("~libraries/jquery/instaFilta/instafilta.min.js");
+			$jsFileNames = array("~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/Lightweight-jQuery-In-page-Filtering-Plugin-instaFilta/instafilta.min.js");
 			$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 			$viewer->assign('HEADER_SCRIPTS', $jsScriptInstances);
 			$viewer->assign('LINK_TO_AVAILABLE_ACTIONS', $this->linkToAvailableActions());
