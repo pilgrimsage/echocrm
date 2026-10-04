@@ -346,3 +346,20 @@ Seven commits, 2,713 files, ~23 MB: `1196ed7` 64 unreferenced skin fonts (7.7 MB
 - `layouts/v7/modules/Reports/Step1.tpl` lines 87 and 92 read `$IS_DUPLICATE` without the `isset()` guard that lines 21, 54 and 61 have, producing two PHP warnings when editing an existing report.
 - `todc` (select2 rules in `docs.min.css`) and the six near-identical per-app skin stylesheets are the remaining structure items.
 
+## PHPExcel → PhpSpreadsheet (2026-10-04)
+
+**Done.** `libraries/PHPExcel` (3.7 MB, 202 files, ~203 PHP 8.4 deprecations) is deleted. The one call site, `ReportRun::writeReportToExcelFile()` in `modules/Reports/ReportRun.php` (used by Reports → Export XLS, scheduled-report e-mails and the cron path), now uses `phpoffice/phpspreadsheet ^5.10` (installed through Composer, tracked in `composer.json`/`composer.lock`; `vendor/` stays ignored, so run `composer install` on a fresh checkout). The output stays the legacy **`.xls`** (`Writer\Xls`) so downloads and e-mail attachments behave as before; switching to `.xlsx` is a separate, user-visible decision.
+
+**Fixed as a side effect.** The old library printed hundreds of deprecation lines on a cold start, and because `Content-Length` is taken from the temp file, a Reports → Export XLS download could arrive as truncated `<br /><b>Deprecated…` HTML. Report 1 did exactly that before the swap (stray output 2,245 to 5,435 bytes per export) and now returns a valid OLE `.xls` (0 stray bytes) through the real web route.
+
+**API changes you must know when touching this code.**
+- Cell coordinates are `[column, row]` and **1-based** (PHPExcel's `...ByColumnAndRow` took 0-based columns, hence the `$count + 1`).
+- `setCellValueExplicit()` has no default data type; always pass `DataType::TYPE_STRING` or `TYPE_NUMERIC`. The old header call passed `true` as the type, which PHPExcel happened to treat as a string.
+- Style arrays use `fillType`/`startColor`, not `type`/`color`.
+- **`TYPE_NUMERIC` now throws on a non-numeric value** (PHPExcel did `(float)$value`, so a formatted `1,234.50` silently became `1` and `$12.00` became `0`). The export now writes a numeric cell only when `is_numeric($value)` and otherwise a text cell, so the displayed value is never wrong. A blank numeric value is now an empty cell, where it was `0` before.
+- The `ob_clean()` that guarded against stray output now runs only when an output buffer is active (it raised a notice without one).
+
+**How it was verified (reusable).** A CLI harness (scratchpad `export_report.php`, bootstrapped like `vtigercron.php`: `vendor/autoload.php`, `config.php`, `EntryPoint`, active admin, explicit `require_once 'modules/Reports/ReportRun.php'`) exported **all 25 reports** with the old code (that one file stashed) and the new code, and a second script compared every cell value, cell type and header fill through PhpSpreadsheet's reader: 0 differences (14 reports had data; 136 text cells, 8 numeric cells, fill `E1E0F7`). Because the seed data's numbers are all `0`, the number, formatted-text, entity-decoding, Action-column and totals paths were also driven with a stub subclass of `ReportRun` and synthetic rows. Not tested: very large reports (memory/time on the Xls writer), and the scheduled-report e-mail path end to end (it calls the same method).
+
+**Platform note.** `composer.json` requires `ext-imap`, which PHP 8.4 no longer ships and this machine lacks, so `composer require` needs `--ignore-platform-req=ext-imap` here. Mail Converter and MailManager's IMAP features cannot work on this PHP build until the extension is installed (PECL) or the polyfill route is taken.
+
