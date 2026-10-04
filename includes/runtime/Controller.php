@@ -275,10 +275,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
 		
-		if ($request->getModule() != 'Install') {
-			$userCurrencyInfo = getCurrencySymbolandCRate($currentUser->get('currency_id'));
-			$viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
-		}
+		$userCurrencyInfo = getCurrencySymbolandCRate($currentUser->get('currency_id'));
+		$viewer->assign('USER_CURRENCY_SYMBOL', $userCurrencyInfo['symbol']);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		if($display) {
