@@ -12,17 +12,17 @@
 
 
 {* <script> resources below *}
-	<script type="text/javascript" src="libraries/jquery/jquery.blockUI.js"></script>
-	<script type="text/javascript" src="libraries/jquery/chosen/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/blockui/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="layouts/v7/lib/jquery/select2/select2.min.js"></script>
-	<script type="text/javascript" src="libraries/jquery/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.class.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
-	<script type="text/javascript" src="libraries/jquery/autosize/jquery.autosize-min.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/autosize/jquery.autosize-min.js"></script>
 
-	<script type="text/javascript" src="libraries/jquery/rochal-jQuery-slimScroll/slimScroll.min.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/slimscroll/slimScroll.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/pnotify/jquery.pnotify.min.js"></script>
-	<script type="text/javascript" src="libraries/jquery/jquery.hoverIntent.minified.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/hoverintent/js/jquery.hoverIntent.minified.js"></script>
 
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap/js/bootbox.min.js"></script>
@@ -32,11 +32,11 @@
 	<script type="text/javascript" src="resources/Connector.js"></script>
 	<script type="text/javascript" src="resources/ProgressIndicator.js" ></script>
 	<script type="text/javascript" src="libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js" ></script>
-	<script type="text/javascript" src="libraries/guidersjs/guiders-1.2.6.js"></script>
-	<script type="text/javascript" src="libraries/jquery/datepicker/js/datepicker.js"></script>
-	<script type="text/javascript" src="libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/guidersjs/guiders-1.2.6.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/datepicker/js/datepicker.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/daterangepicker/date.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery.ba-outside-events.min.js"></script>
-	<script type="text/javascript" src="libraries/jquery/jquery.placeholder.js"></script>
+	<script type="text/javascript" src="layouts/vlayout/lib/placeholder/js/jquery.placeholder.js"></script>
 
 	{foreach key=index item=jsModel from=$SCRIPTS}
             <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
