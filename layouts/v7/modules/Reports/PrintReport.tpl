@@ -9,7 +9,7 @@
 {* modules/Reports/views/ExportReport.php *}
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
-<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.min.js"></script>
 <!DOCTYPE>
 <html>
     <head>

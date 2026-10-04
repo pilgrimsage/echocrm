@@ -216,7 +216,7 @@
 		</head>
 
 		<body>
-			<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
+			<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.min.js"></script>
 			<script>
 				{literal}
 					jQuery(document).ready(function () {
