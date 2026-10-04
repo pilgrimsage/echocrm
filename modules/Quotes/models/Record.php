@@ -39,6 +39,7 @@ class Quotes_Record_Model extends Inventory_Record_Model {
 
 		$controller = new Vtiger_QuotePDFController($moduleName);
 		$controller->loadRecord($recordId);
+		$controller->setPrintLayout($layout);
 
 		$fileName = $moduleName.'_'.getModuleSequenceNumber($moduleName, $recordId);
 		$controller->Output($fileName.'.pdf', 'D');

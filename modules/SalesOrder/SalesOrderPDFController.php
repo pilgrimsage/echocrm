@@ -50,7 +50,7 @@ class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
 				$purchaseOrderLabel =>  $purchaseOrder,
                 $quoteNameLabel => $quoteName
 			);
-		return $modelColumn1;
+		return array_merge($modelColumn1, $this->buildGstHeaderRows());
 	}
 
 	function buildHeaderModelColumnRight() {
@@ -73,6 +73,10 @@ class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
 
 	function getWatermarkContent() {
 		return $this->focusColumnValue('sostatus');
+	}
+
+	function getContentViewer() {
+		return $this->isGstLayout() ? $this->getGstContentViewer() : parent::getContentViewer();
 	}
 }
 ?>

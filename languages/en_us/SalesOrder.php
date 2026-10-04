@@ -12,6 +12,8 @@ $languageStrings = array(
     //DetailView Actions
 	'SINGLE_SalesOrder' => 'Sales Order',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
+	'LBL_EXPORT_TO_PDF_GST' => 'Export to PDF (GST sales order)',
+	'LBL_EXPORT_TO_PDF_STANDARD' => 'Export to PDF (Standard)',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 
 	//Basic strings
