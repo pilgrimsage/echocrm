@@ -213,7 +213,8 @@ if (!$filter) {
 	say('  default list view "All" created');
 }
 
-$module->setDefaultSharing('Private');
+// same default as Invoice (vtiger_def_org_share permission 2): visible to whoever can see invoices
+$module->setDefaultSharing('Public_ReadWriteDelete');
 $module->enableTools(array('Import', 'Export'));
 
 $numbering = $adb->pquery('SELECT 1 FROM vtiger_modentity_num WHERE semodule = ?', array($moduleName));

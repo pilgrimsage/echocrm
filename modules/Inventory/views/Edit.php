@@ -74,9 +74,11 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id')) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || ($moduleName == 'CreditNote' && $request->get('invoice_id'))) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
+			} elseif ($moduleName == 'CreditNote' && $request->get('invoice_id')) {
+				$referenceId = $request->get('invoice_id');
 			} else {
 				$referenceId = $request->get('quote_id');
 			}
@@ -87,6 +89,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 			$relatedProducts = $parentRecordModel->getProducts();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
+			$this->prefillFromParentRecord($recordModel, $parentRecordModel);
 		} else {
 			$taxes = Inventory_Module_Model::getAllProductTaxes();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -203,6 +206,13 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 		} else {
 			@$viewer->view('EditView.tpl', 'Inventory');
 		}
+	}
+
+	/**
+	 * Hook for modules created from another inventory record (Sales Order to Invoice, Invoice to
+	 * Credit Note...): runs after the common fields were copied, to set module specific defaults.
+	 */
+	protected function prefillFromParentRecord($recordModel, $parentRecordModel) {
 	}
 
 	/**

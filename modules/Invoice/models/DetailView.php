@@ -26,6 +26,16 @@ class Invoice_DetailView_Model extends Inventory_DetailView_Model {
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
+		$creditNoteModuleModel = Vtiger_Module_Model::getInstance('CreditNote');
+		if ($creditNoteModuleModel && $creditNoteModuleModel->isActive() && $currentUserModel->hasModuleActionPermission($creditNoteModuleModel->getId(), 'CreateView')) {
+			$creditNoteLink = array(
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => vtranslate('LBL_CREATE_CREDIT_NOTE', 'Invoice'),
+				'linkurl' => $recordModel->getCreateCreditNoteUrl(),
+				'linkicon' => ''
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($creditNoteLink);
+		}
 		return $linkModelList;
 	}
 }

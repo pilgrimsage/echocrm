@@ -1779,6 +1779,7 @@ function getCompoundTaxesInfoForInventoryRecord($recordId, $moduleName) {
 		case 'Invoice'		: $tableName = 'vtiger_invoice';		$index = 'invoiceid';		break;
 		case 'SalesOrder'	: $tableName = 'vtiger_salesorder';		$index = 'salesorderid';	break;
 		case 'PurchaseOrder': $tableName = 'vtiger_purchaseorder';	$index = 'purchaseorderid';	break;
+		case 'CreditNote'	: $tableName = 'vtiger_creditnote';		$index = 'creditnoteid';	break;
 	}
 
 	if ($recordId && $tableName) {

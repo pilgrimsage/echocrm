@@ -121,7 +121,8 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 				$netPrice = $totalAfterDiscount + $taxTotal;
 				$relatedProducts[$i]['netPrice'.$i] = number_format($netPrice, $numOfCurrencyDecimalPlaces, '.', '');
                 
-                $preTaxTotal+=$totalAfterDiscount;
+                // not initialised on purpose: the isset() check below tells whether any individual-tax line was summed
+                $preTaxTotal = (isset($preTaxTotal) ? $preTaxTotal : 0) + $totalAfterDiscount;
 			}
 
 			if (isset($relatedProducts[$i]['entityType'.$i]) && $relatedProducts[$i]['entityType'.$i] == 'Products') {
@@ -571,10 +572,10 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 				if ($recordId) {
 					if ($selectedRegionId == $regionId) {
 						$key = isset($selectedCharges[$chargeId]['percent']) ? 'percent' : 'value';
-						$chargeValue = $selectedCharges[$chargeId][$key];
+						$chargeValue = $selectedCharges[$chargeId][$key] ?? null;
 					}
 
-					if (!$selectedCharges[$chargeId]) {
+					if (empty($selectedCharges[$chargeId])) {
 						$checked = false;
 					}
 				}
@@ -592,7 +593,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 						$taxChecked = $checked;
 						if ($recordId) {
-							if ($selectedCharges[$chargeId]['taxes'][$taxId]) {
+							if (!empty($selectedCharges[$chargeId]['taxes'][$taxId])) {
 								$taxChecked = true;
 								if ($selectedRegionId == $regionId) {
 									$taxValue = $selectedCharges[$chargeId]['taxes'][$taxId];
@@ -636,13 +637,13 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 			if ($recordId) {
 				if (!$selectedRegionId) {
 					$key = isset($selectedCharges[$chargeId]['percent']) ? 'percent' : 'value';
-					$chargeValue = $selectedCharges[$chargeId][$key];
+					$chargeValue = $selectedCharges[$chargeId][$key] ?? null;
 					if (!$chargeValue) {
 						$chargeValue = 0;
 					}
 				}
 
-				if (!$selectedCharges[$chargeId]) {
+				if (empty($selectedCharges[$chargeId])) {
 					$checked = false;
 				}
 			}
@@ -656,7 +657,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 					$taxChecked = $checked;
 					if ($recordId) {
-						if ($selectedCharges[$chargeId]['taxes'][$taxId]) {
+						if (!empty($selectedCharges[$chargeId]['taxes'][$taxId])) {
 							$taxChecked = true;
 							if (!$selectedRegionId) {
 								$taxValue = $selectedCharges[$chargeId]['taxes'][$taxId];
