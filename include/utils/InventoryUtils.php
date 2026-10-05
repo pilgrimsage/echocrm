@@ -677,7 +677,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	if($focus->mode == 'edit')
 	{
 		$return_old_values = '';
-		if($module != 'PurchaseOrder')
+		if($module != 'PurchaseOrder' && $module != 'CreditNote')
 		{
 			$return_old_values = 'return_old_values';
 		}
@@ -747,7 +747,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		}
 		$prod_seq++;
 
-		if($module != 'PurchaseOrder')
+		if($module != 'PurchaseOrder' && $module != 'CreditNote')
 		{
 			//update the stock with existing details
 			updateStk($prod_id,$qty,$focus->mode,$ext_prod_arr,$module);
