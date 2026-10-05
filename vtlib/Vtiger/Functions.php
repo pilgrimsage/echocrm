@@ -1203,7 +1203,7 @@ class Vtiger_Functions {
 	* @returns array of modules
 	*/
 	static function getLineItemFieldModules() {
-		return array('Invoice', 'Quotes', 'PurchaseOrder', 'SalesOrder', 'Products', 'Services');
+		return array('Invoice', 'Quotes', 'PurchaseOrder', 'SalesOrder', 'CreditNote', 'Products', 'Services');
 	}
 
 	/**
