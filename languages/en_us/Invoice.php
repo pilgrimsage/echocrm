@@ -16,6 +16,7 @@ $languageStrings = array(
 	'LBL_EXPORT_TO_PDF_GST' => 'Export to PDF (GST tax invoice)',
 	'LBL_EXPORT_TO_PDF_STANDARD' => 'Export to PDF (Standard)',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
+	'LBL_CREATE_CREDIT_NOTE' => 'Create Credit Note',
 
 	//Basic strings
 	'LBL_ADD_RECORD' => 'Add Invoice',
