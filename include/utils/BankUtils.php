@@ -125,7 +125,7 @@ class Vtiger_Bank_Utils {
 	}
 
 	/** Creates a transaction through the normal save (numbering, events). Returns its id. */
-	public static function createTransaction(array $values) {
+	public static function createTransaction(array $values, $internal = true) {
 		$focus = CRMEntity::getInstance('BankTransactions');
 		$focus->mode = '';
 		foreach ($values as $field => $value) {
@@ -135,7 +135,9 @@ class Vtiger_Bank_Utils {
 			global $current_user;
 			$focus->column_fields['assigned_user_id'] = $current_user->id;
 		}
-		self::$internal = true;
+		// internal: created for a payment or transfer, which books it itself and skips the entry rules;
+		// otherwise the transaction goes through every rule and is posted to the journal like one typed in
+		self::$internal = (bool)$internal;
 		try {
 			$focus->save('BankTransactions');
 		} finally {

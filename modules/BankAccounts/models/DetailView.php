@@ -16,6 +16,7 @@ class BankAccounts_DetailView_Model extends Vtiger_DetailView_Model {
 		$id = $this->getRecord()->getId();
 		foreach (array(
 			array('LBL_STATEMENT', 'index.php?module=BankAccounts&view=Statement&record=' . $id),
+			array('LBL_IMPORT_STATEMENT', 'index.php?module=BankAccounts&view=ImportStatement&account=' . $id),
 			array('LBL_TRANSFER_MONEY', 'index.php?module=BankAccounts&view=Transfer&from_account=' . $id),
 		) as $link) {
 			$links['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues(array(

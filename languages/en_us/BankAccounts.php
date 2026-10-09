@@ -36,6 +36,7 @@ $languageStrings = Array(
 	'Inactive' => 'Inactive',
 	'LBL_TRANSFER_MONEY' => 'Transfer Money',
 	'LBL_STATEMENT' => 'Statement',
+	'LBL_IMPORT_STATEMENT' => 'Import Bank Statement',
 );
 
 $jsLanguageStrings = Array();
