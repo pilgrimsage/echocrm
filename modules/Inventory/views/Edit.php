@@ -74,11 +74,13 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || ($moduleName == 'CreditNote' && $request->get('invoice_id'))) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || ($moduleName == 'SalesOrder' && ($request->get('invoice_id') || $request->get('purchaseorder_id')))) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
-			} elseif ($moduleName == 'CreditNote' && $request->get('invoice_id')) {
+			} elseif ($moduleName == 'SalesOrder' && $request->get('invoice_id')) {
 				$referenceId = $request->get('invoice_id');
+			} elseif ($moduleName == 'SalesOrder' && $request->get('purchaseorder_id')) {
+				$referenceId = $request->get('purchaseorder_id');
 			} else {
 				$referenceId = $request->get('quote_id');
 			}
@@ -86,7 +88,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 			$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
 			$currencyInfo = $parentRecordModel->getCurrencyInfo();
 			$taxes = $parentRecordModel->getProductTaxes();
-			$relatedProducts = $parentRecordModel->getProducts();
+			$relatedProducts = $this->limitLineItemsFromParent($parentRecordModel->getProducts(), $parentRecordModel);
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->setRecordFieldValues($parentRecordModel);
 			$this->prefillFromParentRecord($recordModel, $parentRecordModel);
@@ -213,6 +215,14 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 	 * Credit Note...): runs after the common fields were copied, to set module specific defaults.
 	 */
 	protected function prefillFromParentRecord($recordModel, $parentRecordModel) {
+	}
+
+	/**
+	 * Hook for modules that must not copy every line of the parent unchanged (a credit note only
+	 * takes what is still open on the invoice). Gets and returns the parent's line items.
+	 */
+	protected function limitLineItemsFromParent($relatedProducts, $parentRecordModel) {
+		return $relatedProducts;
 	}
 
 	/**

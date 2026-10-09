@@ -22,7 +22,6 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 		$recordModel = $this->getRecord();
 		$invoiceModuleModel = Vtiger_Module_Model::getInstance('Invoice');
 		$quoteModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
 		$projectModuleModel = Vtiger_Module_Model::getInstance('Project');
 
 		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
@@ -54,16 +53,6 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($quoteModuleModel->getSingularLabelKey(), 'Quotes'),
 				'linkurl' => $recordModel->getCreateQuoteUrl(),
 				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
-		if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel ->getId(), 'CreateView')) {
-			$basicActionLink = array(
-				'linktype'	=> 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($salesOrderModuleModel ->getSingularLabelKey(), 'SalesOrder'),
-				'linkurl'	=> $recordModel->getCreateSalesOrderUrl(),
-				'linkicon'	=> ''
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

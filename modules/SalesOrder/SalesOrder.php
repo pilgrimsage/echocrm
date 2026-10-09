@@ -115,6 +115,17 @@ class SalesOrder extends CRMEntity {
             self::__construct();
 	}
 
+	/**
+	 * Credit notes and debit notes number independently: credit notes use the SalesOrder series
+	 * (CN), debit notes their own (DN, kept under 'SalesOrderDebit').
+	 */
+	function setModuleSeqNumber($mode, $module, $req_str = '', $req_no = '') {
+		if ($mode == 'increment' && isset($this->column_fields['note_type']) && $this->column_fields['note_type'] == 'Debit Note') {
+			$module = 'SalesOrderDebit';
+		}
+		return parent::setModuleSeqNumber($mode, $module, $req_str, $req_no);
+	}
+
 	function save_module($module)
 	{
 		/* $_REQUEST['REQUEST_FROM_WS'] is set from webservices script.

@@ -107,7 +107,7 @@
 				{if isset($data.$subprod_qty_list)}
 					{foreach key=SUB_PRODUCT_ID item=SUB_PRODUCT_INFO from=$data.$subprod_qty_list}
 						<em> - {$SUB_PRODUCT_INFO.name} ({$SUB_PRODUCT_INFO.qty})
-							{if $MODULE neq 'CreditNote' and $SUB_PRODUCT_INFO.qty > getProductQtyInStock($SUB_PRODUCT_ID)}
+							{if $MODULE neq 'SalesOrder' and $SUB_PRODUCT_INFO.qty > getProductQtyInStock($SUB_PRODUCT_ID)}
 								&nbsp;-&nbsp;<span class="redColor">{vtranslate('LBL_STOCK_NOT_ENOUGH', $MODULE)}</span>
 							{/if}
 						</em><br>
@@ -146,8 +146,8 @@
 			<input type="hidden" name="{$margin}" value="{if $data.$margin}{$data.$margin}{else}0{/if}"></span>
 			<span class="margin float-end" style="display:none">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
 		{/if}
-		{* a credit note is a return: it adds stock back, so it is never limited by stock on hand *}
-		{if $MODULE neq 'PurchaseOrder' and $MODULE neq 'CreditNote'}
+		{* credit and debit notes (Sales Order module) are returns/adjustments, never limited by stock on hand *}
+		{if $MODULE neq 'PurchaseOrder' and $MODULE neq 'SalesOrder'}
 			<br>
 			<span class="stockAlert redColor {if isset($data.$qty) && $data.$qty <= $data.$qtyInStock}hide{/if}" >
 				{vtranslate('LBL_STOCK_NOT_ENOUGH',$MODULE)}

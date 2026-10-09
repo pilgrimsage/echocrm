@@ -26,8 +26,11 @@ class Invoice_DetailView_Model extends Inventory_DetailView_Model {
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-		$creditNoteModuleModel = Vtiger_Module_Model::getInstance('CreditNote');
-		if ($creditNoteModuleModel && $creditNoteModuleModel->isActive() && $currentUserModel->hasModuleActionPermission($creditNoteModuleModel->getId(), 'CreateView')) {
+		$creditNoteModuleModel = Vtiger_Module_Model::getInstance('SalesOrder'); // credit and debit notes live in the Sales Order module
+		include_once 'include/utils/NoteUtils.php';
+		// only offered when the invoice is in a status that can be corrected and has something left to credit
+		if ($creditNoteModuleModel && $creditNoteModuleModel->isActive() && $currentUserModel->hasModuleActionPermission($creditNoteModuleModel->getId(), 'CreateView')
+				&& Vtiger_Note_Utils::creationProblem('Invoice', $recordModel->getId()) === null) {
 			$creditNoteLink = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => vtranslate('LBL_CREATE_CREDIT_NOTE', 'Invoice'),

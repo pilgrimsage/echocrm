@@ -130,62 +130,8 @@ Vtiger_Edit_Js("Accounts_Edit_Js",{
 	 * Function which will register basic events which will be used in quick create as well
 	 *
 	 */
-	/**
-	 * GSTIN rules, mirroring Vtiger_GST_Utils (include/utils/GSTUtils.php), which stays the
-	 * authority on save: 15 characters (state code, PAN, entity number, 'Z', check character)
-	 * and a base-36 check character. Returns an error message, or '' when the value is fine.
-	 */
-	gstinProblem : function(value) {
-		var gstin = (value || '').replace(/\s+/g, '').toUpperCase();
-		if (gstin === '') {
-			return '';
-		}
-		var match = /^(\d{2})[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.exec(gstin);
-		var stateCode = match ? parseInt(match[1], 10) : 0;
-		if (!match || !((stateCode >= 1 && stateCode <= 38 && stateCode !== 25 && stateCode !== 28) || stateCode === 97)) {
-			return 'Invalid GSTIN. It must be 15 characters: a 2-digit state code, the 10-character PAN, an entity number, the letter Z and a check character (for example 27AAPFU0939F1ZV).';
-		}
-		var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		var sum = 0;
-		for (var i = 0; i < 14; i++) {
-			var product = alphabet.indexOf(gstin.charAt(i)) * (i % 2 === 0 ? 1 : 2);
-			sum += Math.floor(product / 36) + (product % 36);
-		}
-		if (gstin.charAt(14) !== alphabet.charAt((36 - (sum % 36)) % 36)) {
-			return 'Invalid GSTIN: the check character (last character) does not match. Please re-check the number for a typing mistake.';
-		}
-		return '';
-	},
-
-	/**
-	 * Upper-cases and trims the GSTIN as it is typed, and refuses to save an invalid one with a
-	 * message beside the field (the server rejects it too, but only with a bare error response).
-	 */
-	registerGstinValidation : function(container) {
-		var thisInstance = this;
-		var field = container.find('[name="gstin"]');
-		if (field.length === 0) {
-			return;
-		}
-		field.on('blur', function() {
-			field.val(field.val().replace(/\s+/g, '').toUpperCase());
-		});
-		field.on('input', function() {
-			vtUtils.hideValidationMessage(field);
-		});
-		app.event.on(Vtiger_Edit_Js.recordPresaveEvent, function(e) {
-			var problem = thisInstance.gstinProblem(field.val());
-			if (problem !== '') {
-				vtUtils.showValidationMessage(field, problem);
-				field.focus();
-				e.preventDefault();
-			}
-		});
-	},
-
 	registerBasicEvents : function(container) {
 		this._super(container);
 		this.registerEventForCopyingAddress(container);
-		this.registerGstinValidation(container);
 	}
 });

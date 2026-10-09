@@ -12,6 +12,7 @@ $languageStrings = array(
 	//DetailView Actions
 	'SINGLE_PurchaseOrder' => 'Purchase Order',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
+	'LBL_CREATE_DEBIT_NOTE' => 'Create Debit Note',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 
 	//Basic strings

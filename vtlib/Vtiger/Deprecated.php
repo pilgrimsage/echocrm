@@ -580,10 +580,6 @@ class Vtiger_Deprecated {
 		global $adb;
 		$moduleSeqNo = '';
 		switch ($module) {
-			case "CreditNote":
-				$res = $adb->pquery("SELECT creditnote_no FROM vtiger_creditnote WHERE creditnoteid = ?", array($recordId));
-				$moduleSeqNo = $adb->query_result($res, 0, 'creditnote_no');
-				break;
 			case "Invoice":
 				$res = $adb->pquery("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = ?", array($recordId));
 				$moduleSeqNo = $adb->query_result($res, 0, 'invoice_no');

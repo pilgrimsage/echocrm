@@ -14,8 +14,8 @@
 class Invoice_Record_Model extends Inventory_Record_Model {
 
 	public function getCreateCreditNoteUrl() {
-		$creditNoteModuleModel = Vtiger_Module_Model::getInstance('CreditNote');
-		return "index.php?module=".$creditNoteModuleModel->getName()."&view=".$creditNoteModuleModel->getEditViewName()."&invoice_id=".$this->getId();
+		$noteModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		return "index.php?module=".$noteModuleModel->getName()."&view=".$noteModuleModel->getEditViewName()."&invoice_id=".$this->getId();
 	}
 
 	public function getCreatePurchaseOrderUrl() {
