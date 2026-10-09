@@ -176,4 +176,24 @@ if (!$adb->num_rows($existing)) {
 	say("Registered $handlerClass.");
 }
 
+// the note settles its invoice / purchase order, so it must refresh them after it is saved, deleted or restored
+foreach (array('vtiger.entity.aftersave', 'vtiger.entity.afterdelete', 'vtiger.entity.afterrestore') as $event) {
+	$found = $adb->pquery('SELECT 1 FROM vtiger_eventhandlers WHERE handler_class = ? AND event_name = ?', array($handlerClass, $event));
+	if (!$adb->num_rows($found)) {
+		$em = new VTEventsManager($adb);
+		$em->registerHandler($event, 'modules/SalesOrder/SalesOrderNoteHandler.php', $handlerClass);
+	}
+}
+
+// notes take no payments of their own: returns settle the invoice / purchase order directly
+$payments = Vtiger_Module::getInstance('Payments');
+if ($payments) {
+	$adb->pquery('DELETE FROM vtiger_relatedlists WHERE tabid = ? AND related_tabid = ?', array($tabId, $payments->id));
+	$related = Vtiger_Field::getInstance('related_to', $payments);
+	if ($related) {
+		$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid = ? AND relmodule = ?', array($related->id, 'SalesOrder'));
+	}
+	say('Payments are no longer offered on credit/debit notes.');
+}
+
 say('Done. Clear test/templates_c/v7/* and reload.');

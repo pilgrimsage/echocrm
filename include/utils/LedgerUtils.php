@@ -60,11 +60,74 @@ class Vtiger_Ledger_Utils {
 
 	// ---- ledgers --------------------------------------------------------------------------------
 
-	/** Id of a ledger by name; created in the given group when it does not exist yet. */
+	/**
+	 * The ledgers the automatic postings use, by role: key => array(label, default ledger name, group).
+	 * What each role points to is set in Accounting Settings, so a business can post sales to
+	 * "Service Revenue" or "Tuition Fees" instead of "Sales" without any code change; until it is
+	 * set, the default ledger of that name is used (and created when missing).
+	 */
+	public static function postingRoles() {
+		return array(
+			'receivable' => array('Customers owe us (receivable)', 'Accounts Receivable', 'Assets'),
+			'payable' => array('We owe vendors (payable)', 'Accounts Payable', 'Liabilities'),
+			'sales' => array('Sales / revenue', 'Sales', 'Income'),
+			'sales_returns' => array('Sales returns (credit notes)', 'Sales Returns', 'Income'),
+			'purchases' => array('Purchases / cost of goods', 'Purchases', 'Expenses'),
+			'purchase_returns' => array('Purchase returns (debit notes)', 'Purchase Returns', 'Expenses'),
+			'round_off' => array('Round off', 'Round Off', 'Expenses'),
+			'customer_advances' => array('Advances from customers (quote payments)', 'Customer Advances', 'Liabilities'),
+			'suspense' => array('Suspense (uncategorised bank entries)', 'Suspense Account', 'Liabilities'),
+			'opening_equity' => array('Opening balances', 'Opening Balance Equity', 'Equity'),
+			'cash' => array('Cash (payments without a bank account)', 'Cash in Hand', 'Assets'),
+			'bank_default' => array('Bank (fallback)', 'Bank Accounts', 'Assets'),
+			'output_cgst' => array('Output CGST', 'Output CGST', 'Liabilities'),
+			'output_sgst' => array('Output SGST', 'Output SGST', 'Liabilities'),
+			'output_igst' => array('Output IGST', 'Output IGST', 'Liabilities'),
+			'output_other' => array('Output tax (other)', 'Output Tax (Other)', 'Liabilities'),
+			'input_cgst' => array('Input CGST', 'Input CGST', 'Assets'),
+			'input_sgst' => array('Input SGST', 'Input SGST', 'Assets'),
+			'input_igst' => array('Input IGST', 'Input IGST', 'Assets'),
+			'input_other' => array('Input tax (other)', 'Input Tax (Other)', 'Assets'),
+		);
+	}
+
+	/** Ledger id configured for a role (null when the role has no setting yet). */
+	public static function configuredAccount($key) {
+		global $adb;
+		$result = $adb->pquery('SELECT p.ledger_id FROM vtiger_posting_accounts p INNER JOIN vtiger_crmentity c ON c.crmid = p.ledger_id AND c.deleted = 0 WHERE p.account_key = ?', array($key));
+		return $adb->num_rows($result) ? $adb->query_result($result, 0, 0) : null;
+	}
+
+	public static function setAccount($key, $ledgerId) {
+		global $adb;
+		if (!isset(self::postingRoles()[$key])) {
+			throw new Exception("Unknown posting account '$key'.");
+		}
+		if (!self::ledgerGroup($ledgerId)) {
+			throw new Exception('The ledger does not exist.');
+		}
+		$adb->pquery('DELETE FROM vtiger_posting_accounts WHERE account_key = ?', array($key));
+		$adb->pquery('INSERT INTO vtiger_posting_accounts (account_key, ledger_id) VALUES (?, ?)', array($key, $ledgerId));
+		self::$ledgerCache = array();
+	}
+
+	/**
+	 * Id of a ledger by name; created in the given group when it does not exist yet. A name that is
+	 * the default of a posting role resolves to the ledger configured for that role.
+	 */
 	public static function ledgerId($name, $group = 'Assets') {
 		global $adb, $current_user;
 		if (isset(self::$ledgerCache[$name])) {
 			return self::$ledgerCache[$name];
+		}
+		foreach (self::postingRoles() as $key => $role) {
+			if ($role[1] === $name) {
+				$configured = self::configuredAccount($key);
+				if ($configured) {
+					return self::$ledgerCache[$name] = $configured;
+				}
+				break;
+			}
 		}
 		$result = $adb->pquery('SELECT l.ledgersid FROM vtiger_ledgers l INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid AND c.deleted = 0 WHERE l.ledger_name = ?', array($name));
 		if ($adb->num_rows($result)) {
@@ -166,7 +229,30 @@ class Vtiger_Ledger_Utils {
 			$adb->pquery('INSERT INTO vtiger_journal_lines (entry_id, ledger_id, debit, credit, party_account, party_vendor, memo) VALUES (?,?,?,?,?,?,?)',
 				array($entryId, $l['ledger'], $l['debit'], $l['credit'], $l['account'], $l['vendor'], $l['memo']));
 		}
+		self::adjustMonthlyTotals($date, $lines, 1);
 		return $entryId;
+	}
+
+	/**
+	 * Keeps vtiger_ledger_balances (debit and credit per ledger per month) in step with the lines, so
+	 * reports add up a few hundred monthly rows instead of every line ever posted.
+	 */
+	private static function adjustMonthlyTotals($date, array $lines, $sign) {
+		global $adb;
+		$month = substr($date, 0, 7);
+		foreach ($lines as $l) {
+			$adb->pquery('INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?)
+				ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
+				array($l['ledger'], $month, $sign * $l['debit'], $sign * $l['credit']));
+		}
+	}
+
+	/** Deletes an entry and takes its lines out of the monthly totals. */
+	private static function deleteEntry($entryId, $date) {
+		global $adb;
+		self::adjustMonthlyTotals($date, self::entryLines($entryId), -1);
+		$adb->pquery('DELETE FROM vtiger_journal_lines WHERE entry_id = ?', array($entryId));
+		$adb->pquery('DELETE FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
 	}
 
 	/** Date of a source record's system entry, or null when it has none. */
@@ -237,8 +323,7 @@ class Vtiger_Ledger_Utils {
 			if (self::isLocked($existing['entry_date'])) {
 				throw new Exception(self::lockProblem($existing['entry_date']));
 			}
-			$adb->pquery('DELETE FROM vtiger_journal_lines WHERE entry_id = ?', array($existing['entry_id']));
-			$adb->pquery('DELETE FROM vtiger_journal_entries WHERE entry_id = ?', array($existing['entry_id']));
+			self::deleteEntry($existing['entry_id'], $existing['entry_date']);
 		}
 		if (!$lines) {
 			return null;
@@ -466,7 +551,9 @@ class Vtiger_Ledger_Utils {
 						$lines[] = self::line(self::ledgerId('Round Off', 'Expenses'), $adjustment > 0 ? 0 : -$adjustment, $adjustment > 0 ? $adjustment : 0);
 					}
 				} else {
-					$lines[] = self::line($goods, $net, 0, null, null, $narration);
+					foreach (self::allocateByCategory($id, $net, $goods, true) as $ledger => $amount) {
+						$lines[] = self::line($ledger, $amount, 0, null, null, $narration);
+					}
 					foreach ($taxes as $name => $amount) {
 						$lines[] = self::line(self::ledgerId($name, 'Assets'), $amount, 0, null, null, $narration);
 					}
@@ -489,7 +576,9 @@ class Vtiger_Ledger_Utils {
 					$lines[] = self::line($receivable, 0, $f['total'], $account, null, $narration);
 				} else {
 					$lines[] = self::line($receivable, $f['total'], 0, $account, null, $narration);
-					$lines[] = self::line($sales, 0, $net, null, null, $narration);
+					foreach (self::allocateByCategory($id, $net, $sales, false) as $ledger => $amount) {
+						$lines[] = self::line($ledger, 0, $amount, null, null, $narration);
+					}
 					foreach ($taxes as $name => $amount) {
 						$lines[] = self::line(self::ledgerId($name, 'Liabilities'), 0, $amount, null, null, $narration);
 					}
@@ -500,6 +589,46 @@ class Vtiger_Ledger_Utils {
 			}
 		}
 		self::syncEntry($module, $id, 'doc', $date, $narration, $lines);
+	}
+
+	/**
+	 * Splits the value of goods and services of a document over ledgers by product category: each
+	 * line goes to the income ledger (sales) or expense ledger (purchases) of its product's category,
+	 * lines without one to $defaultLedger. The amounts are scaled to $net so the entry always
+	 * balances (document discounts and shipping fall proportionally on all lines).
+	 * Returns array(ledger id => amount).
+	 */
+	private static function allocateByCategory($id, $net, $defaultLedger, $expense) {
+		global $adb;
+		$column = $expense ? 'expense_ledger' : 'income_ledger';
+		$result = $adb->pquery("SELECT l.quantity, l.listprice, l.discount_percent, l.discount_amount, pc.$column AS category_ledger
+			FROM vtiger_inventoryproductrel l
+			LEFT JOIN vtiger_products p ON p.productid = l.productid
+			LEFT JOIN vtiger_productcategories pc ON pc.productcategoriesid = p.productcategory
+			WHERE l.id = ?", array($id));
+		$weights = array();
+		while ($row = $adb->fetch_array($result)) {
+			$gross = (float)$row['quantity'] * (float)$row['listprice'];
+			$discount = !empty($row['discount_amount']) ? (float)$row['discount_amount'] : $gross * (float)$row['discount_percent'] / 100;
+			$value = max(0, $gross - $discount);
+			$ledger = !empty($row['category_ledger']) ? $row['category_ledger'] : $defaultLedger;
+			$weights[$ledger] = ($weights[$ledger] ?? 0) + $value;
+		}
+		$total = array_sum($weights);
+		if ($total <= 0.004 || count($weights) == 0) {
+			return array($defaultLedger => $net);
+		}
+		$split = array();
+		foreach ($weights as $ledger => $weight) {
+			$split[$ledger] = round($net * $weight / $total, 2);
+		}
+		$diff = round($net - array_sum($split), 2);
+		if ($diff != 0) {
+			arsort($split);
+			$first = key($split);
+			$split[$first] = round($split[$first] + $diff, 2);
+		}
+		return $split;
 	}
 
 	// ---- payments, bank transactions, opening balances -------------------------------------------------
@@ -531,7 +660,7 @@ class Vtiger_Ledger_Utils {
 			if ($documentModule == 'Quotes') {
 				$other = self::ledgerId('Customer Advances', 'Liabilities');
 				$party = array($p['account_id'], null);
-			} elseif ($documentModule == 'PurchaseOrder' || ($documentModule == 'SalesOrder' && $in)) {
+			} elseif ($documentModule == 'PurchaseOrder') {
 				$other = $payable;
 				$party = array(null, $p['vendor_id']);
 			} else {
@@ -645,21 +774,55 @@ class Vtiger_Ledger_Utils {
 
 	// ---- reports ---------------------------------------------------------------------------------
 
+	/**
+	 * Debit and credit per ledger for dates from $from (null = from the beginning) to $to, as
+	 * array(ledger id => array(debit, credit)). Whole months come from the monthly totals; the (at
+	 * most two) partial months at the edges are summed from the lines.
+	 */
+	public static function sumsByLedger($from, $to, $ledgerId = null) {
+		global $adb;
+		$sums = array();
+		$add = function ($result) use (&$sums, $adb) {
+			while ($row = $adb->fetch_array($result)) {
+				$sums[$row['ledger_id']][0] = ($sums[$row['ledger_id']][0] ?? 0) + (float)$row['debit'];
+				$sums[$row['ledger_id']][1] = ($sums[$row['ledger_id']][1] ?? 0) + (float)$row['credit'];
+			}
+		};
+		$onlyLedger = $ledgerId ? ' AND ledger_id = ' . (int)$ledgerId : '';
+		$fromDate = $from ?: '1900-01-01';
+		$firstFullDay = ($fromDate == date('Y-m-01', strtotime($fromDate))) ? $fromDate : date('Y-m-01', strtotime($fromDate . ' +1 month'));
+		$lastFullDay = ($to == date('Y-m-t', strtotime($to))) ? $to : date('Y-m-t', strtotime(date('Y-m-01', strtotime($to)) . ' -1 day'));
+		$linesBetween = function ($a, $b) use ($add, $adb, $onlyLedger) {
+			if ($a > $b) {
+				return;
+			}
+			$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_journal_entries je
+				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id WHERE je.entry_date >= ? AND je.entry_date <= ?' . str_replace('ledger_id', 'jl.ledger_id', $onlyLedger) . '
+				GROUP BY jl.ledger_id', array($a, $b)));
+		};
+		if ($firstFullDay > $lastFullDay) {
+			$linesBetween($fromDate, $to);   // inside a single month
+			return $sums;
+		}
+		$add($adb->pquery('SELECT ledger_id, SUM(debit) AS debit, SUM(credit) AS credit FROM vtiger_ledger_balances WHERE ym >= ? AND ym <= ?' . $onlyLedger . ' GROUP BY ledger_id',
+			array(substr($firstFullDay, 0, 7), substr($lastFullDay, 0, 7))));
+		$linesBetween($fromDate, date('Y-m-d', strtotime($firstFullDay . ' -1 day')));
+		$linesBetween(date('Y-m-d', strtotime($lastFullDay . ' +1 day')), $to);
+		return $sums;
+	}
+
 	/** Per-ledger totals up to a date (and from a date when given): rows of ledger id, name, group, debit, credit. */
 	public static function ledgerTotals($asAt, $from = null) {
 		global $adb;
-		$sql = "SELECT l.ledgersid AS id, l.ledger_name AS name, l.ledger_group AS grp, COALESCE(SUM(jl.debit), 0) AS debit, COALESCE(SUM(jl.credit), 0) AS credit
-			FROM vtiger_ledgers l INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid AND c.deleted = 0
-			LEFT JOIN (SELECT jl2.* FROM vtiger_journal_lines jl2 INNER JOIN vtiger_journal_entries je ON je.entry_id = jl2.entry_id AND je.entry_date <= ?" . ($from ? ' AND je.entry_date >= ?' : '') . ") jl ON jl.ledger_id = l.ledgersid
-			GROUP BY l.ledgersid, l.ledger_name, l.ledger_group ORDER BY l.ledger_group, l.ledger_name";
-		$params = $from ? array($asAt, $from) : array($asAt);
-		$result = $adb->pquery($sql, $params);
+		$sums = self::sumsByLedger($from, $asAt);
+		$result = $adb->pquery("SELECT l.ledgersid AS id, l.ledger_name AS name, l.ledger_group AS grp FROM vtiger_ledgers l
+			INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid AND c.deleted = 0 ORDER BY l.ledger_group, l.ledger_name");
 		$rows = array();
 		while ($row = $adb->fetch_array($result)) {
 			$row['name'] = decode_html($row['name']);
 			$row['grp'] = decode_html($row['grp']);
-			$row['debit'] = (float)$row['debit'];
-			$row['credit'] = (float)$row['credit'];
+			$row['debit'] = round($sums[$row['id']][0] ?? 0, 2);
+			$row['credit'] = round($sums[$row['id']][1] ?? 0, 2);
 			$rows[] = $row;
 		}
 		return $rows;
@@ -678,9 +841,9 @@ class Vtiger_Ledger_Utils {
 			return null;
 		}
 		$sign = self::isDebitGroup($group) ? 1 : -1;
-		$before = $adb->pquery('SELECT COALESCE(SUM(jl.debit - jl.credit), 0) AS s FROM vtiger_journal_lines jl INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id
-			WHERE jl.ledger_id = ? AND je.entry_date < ?', array($ledgerId, $from));
-		$opening = $sign * (float)$adb->query_result($before, 0, 's');
+		$beforeSums = self::sumsByLedger(null, date('Y-m-d', strtotime($from . ' -1 day')), $ledgerId);
+		$before = ($beforeSums[$ledgerId][0] ?? 0) - ($beforeSums[$ledgerId][1] ?? 0);
+		$opening = $sign * $before;
 		$result = $adb->pquery('SELECT je.entry_id, je.entry_date, je.narration, je.source_module, je.source_id, je.entry_type, je.status, jl.debit, jl.credit, jl.memo
 			FROM vtiger_journal_lines jl INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id
 			WHERE jl.ledger_id = ? AND je.entry_date >= ? AND je.entry_date <= ? ORDER BY je.entry_date, je.entry_id, jl.line_id', array($ledgerId, $from, $to));
@@ -699,11 +862,21 @@ class Vtiger_Ledger_Utils {
 
 	// ---- rebuild ---------------------------------------------------------------------------------
 
+	/** Recomputes the monthly totals from the lines (after a repair, or the first time). */
+	public static function rebuildMonthlyTotals() {
+		global $adb;
+		$adb->pquery('DELETE FROM vtiger_ledger_balances');
+		$adb->pquery("INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit)
+			SELECT jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl
+			INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id GROUP BY jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m')");
+	}
+
 	/** Rebuilds every system entry from the records (used after the first install and to repair). Returns a count per source. */
 	public static function rebuildAll() {
 		global $adb;
 		$adb->pquery("DELETE FROM vtiger_journal_lines WHERE entry_id IN (SELECT entry_id FROM vtiger_journal_entries WHERE entry_type = 'auto')");
 		$adb->pquery("DELETE FROM vtiger_journal_entries WHERE entry_type = 'auto'");
+		self::rebuildMonthlyTotals();
 		$counts = array();
 		$sources = array(
 			'BankAccounts' => array('SELECT bankaccountsid FROM vtiger_bankaccounts', 'syncBankOpening'),
@@ -727,6 +900,7 @@ class Vtiger_Ledger_Utils {
 				$counts[$module]++;
 			}
 		}
+		self::rebuildMonthlyTotals();
 		return $counts;
 	}
 }

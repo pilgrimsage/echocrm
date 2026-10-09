@@ -114,6 +114,10 @@ $transactions = registerEntityModule(array(
 Vtiger_Utils::AddColumn('vtiger_banktransactions', 'transfer_pair', 'INT(19)');
 addCurrencyColumns('vtiger_banktransactions');
 addCurrencyColumns('vtiger_payments');
+addIndex('vtiger_banktransactions', 'idx_account_date', 'bank_account, transaction_date, banktransactionsid');
+addIndex('vtiger_banktransactions', 'idx_payment', 'payment');
+addIndex('vtiger_banktransactions', 'idx_ledger', 'ledger');
+addIndex('vtiger_payments', 'idx_related', 'related_to, status');
 say('Bank Transactions ready.');
 
 // ---- Payments know their bank account --------------------------------------------------------
@@ -132,6 +136,28 @@ if ($payments && !Vtiger_Field::getInstance('bank_account', $payments)) {
 	$block->addField($field);
 	$field->setRelatedModules(array('BankAccounts'));
 	say('Added Payments.bank_account.');
+}
+
+// ---- Product categories can post to their own income / expense ledgers --------------------------
+$categories = Vtiger_Module::getInstance('ProductCategories');
+if ($categories) {
+	$block = Vtiger_Block::getInstance('LBL_PRODUCTCATEGORIES_INFORMATION', $categories);
+	foreach (array('income_ledger' => 'Income Ledger', 'expense_ledger' => 'Expense Ledger') as $name => $label) {
+		if (!Vtiger_Field::getInstance($name, $categories)) {
+			$field = new Vtiger_Field();
+			$field->name = $name;
+			$field->label = $label;
+			$field->table = 'vtiger_productcategories';
+			$field->column = $name;
+			$field->columntype = 'INT(19)';
+			$field->uitype = 10;
+			$field->typeofdata = 'I~O';
+			$field->quickcreate = 1;
+			$block->addField($field);
+			$field->setRelatedModules(array('Ledgers'));
+			say("Added ProductCategories.$name.");
+		}
+	}
 }
 
 // ---- Related lists ---------------------------------------------------------------------------

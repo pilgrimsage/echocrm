@@ -24,6 +24,10 @@ class JournalHandler extends VTEventHandler {
 		if (in_array($module, self::$documentModules)) {
 			if ($after) {
 				Vtiger_Ledger_Utils::syncDocument($module, $id);
+				// balance and status follow the payments and returns recorded against the document
+				if ($module != 'SalesOrder') {
+					Vtiger_Payment_Utils::refreshDocument($module, $id);
+				}
 			} elseif ($before) {
 				$this->guardDocument($module, $id, $entityData->getData());
 			}
@@ -77,9 +81,10 @@ class JournalHandler extends VTEventHandler {
 		$date = $dateField[$module] ? ($data[$dateField[$module]] ?? null) : ($id ? Vtiger_Ledger_Utils::documentDate($module, $id) : date('Y-m-d'));
 		$willPost = in_array($status, $posted[$module], true);
 		Vtiger_Ledger_Utils::guard($module, $id, 'doc', $date, $willPost);
-		// a document that has payments stays on the books; remove or refund the payments first
-		if ($id && !$willPost && $status !== '' && Vtiger_Payment_Utils::sumPayments($module, $id, array('Completed', 'Pending')) > 0.004) {
-			throw new Exception("This document has payments recorded against it, so it cannot be moved to '$status'. Delete or reverse the payments first.");
+		// a document that has payments or returns recorded against it stays on the books
+		if ($id && !$willPost && $status !== '' && $module != 'SalesOrder'
+				&& (Vtiger_Payment_Utils::sumPayments($module, $id, array('Completed', 'Pending')) > 0.004 || Vtiger_Payment_Utils::notesTotal($module, $id) > 0.004)) {
+			throw new Exception("This document has payments or returns recorded against it, so it cannot be moved to '$status'. Delete the payments and cancel the credit/debit notes first.");
 		}
 	}
 }

@@ -24,9 +24,19 @@ class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
 	}
 
 	public function process(Vtiger_Request $request) {
-		foreach (array('lock_date', 'books_start') as $name) {
-			$value = (string)$request->get($name);
-			Vtiger_Ledger_Utils::setSetting($name, preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : null);
+		try {
+			foreach (array('lock_date', 'books_start') as $name) {
+				$value = (string)$request->get($name);
+				Vtiger_Ledger_Utils::setSetting($name, preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : null);
+			}
+			foreach ((array)$request->get('posting') as $key => $ledgerId) {
+				if ($ledgerId) {
+					Vtiger_Ledger_Utils::setAccount($key, (int)$ledgerId);
+				}
+			}
+		} catch (Exception $e) {
+			header('Location: index.php?module=Ledgers&view=AccountingSettings&message=' . urlencode($e->getMessage()));
+			return;
 		}
 		header('Location: index.php?module=Ledgers&view=AccountingSettings&saved=1');
 	}

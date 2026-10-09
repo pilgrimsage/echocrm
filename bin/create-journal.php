@@ -58,6 +58,26 @@ Vtiger_Utils::CreateTable('vtiger_journal_lines', "(
 	KEY idx_entry (entry_id),
 	KEY idx_ledger (ledger_id)
 )", true);
+Vtiger_Utils::CreateTable('vtiger_ledger_balances', "(
+	ledger_id INT(19) NOT NULL,
+	ym CHAR(7) NOT NULL,
+	debit DECIMAL(25,2) NOT NULL DEFAULT 0,
+	credit DECIMAL(25,2) NOT NULL DEFAULT 0,
+	PRIMARY KEY (ledger_id, ym)
+)", true);
+Vtiger_Utils::CreateTable('vtiger_posting_accounts', "(
+	account_key VARCHAR(40) NOT NULL PRIMARY KEY,
+	ledger_id INT(19) NOT NULL
+)", true);
+require_once __DIR__ . '/lib/module-setup.php';
+addIndex('vtiger_invoice', 'idx_status_balance', 'invoicestatus, balance');
+addIndex('vtiger_purchaseorder', 'idx_status_balance', 'postatus, balance');
+addIndex('vtiger_salesorder', 'idx_invoiceid', 'invoiceid');
+addIndex('vtiger_salesorder', 'idx_purchaseorderid', 'purchaseorderid');
+addIndex('vtiger_journal_lines', 'idx_ledger_entry', 'idx_ledger_entry', 'ledger_id, entry_id, debit, credit');
+addIndex('vtiger_journal_lines', 'idx_party_account', 'party_account');
+addIndex('vtiger_journal_lines', 'idx_party_vendor', 'party_vendor');
+addIndex('vtiger_journal_entries', 'idx_date_id', 'entry_date, entry_id');
 Vtiger_Utils::CreateTable('vtiger_accounting_settings', "(
 	name VARCHAR(50) NOT NULL PRIMARY KEY,
 	value VARCHAR(255) DEFAULT NULL

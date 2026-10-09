@@ -13,7 +13,7 @@ class Vtiger_Payment_Utils {
 
 	/** Modules a payment can be recorded against. */
 	public static function documentModules() {
-		return array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder');
+		return array('Invoice', 'Quotes', 'PurchaseOrder');
 	}
 
 	/**
@@ -24,7 +24,6 @@ class Vtiger_Payment_Utils {
 		$info = array(
 			'Invoice' => array('vtiger_invoice', 'invoiceid', 'invoice_no', 'total', 'invoicestatus', array('Approved', 'Sent', 'Credit Invoice', 'Paid'), array()),
 			'Quotes' => array('vtiger_quotes', 'quoteid', 'quote_no', 'total', 'quotestage', null, array('Rejected')),
-			'SalesOrder' => array('vtiger_salesorder', 'salesorderid', 'salesorder_no', 'total', 'sostatus', array('Approved', 'Sent'), array()),
 			'PurchaseOrder' => array('vtiger_purchaseorder', 'purchaseorderid', 'purchaseorder_no', 'total', 'postatus', array('Approved', 'Delivered', 'Received Shipment'), array()),
 		);
 		return isset($info[$module]) ? $info[$module] : null;
@@ -41,11 +40,10 @@ class Vtiger_Payment_Utils {
 		$partyColumns = array(
 			'Invoice' => array('accountid', 'NULL'),
 			'Quotes' => array('accountid', 'NULL'),
-			'SalesOrder' => array('accountid', 'vendorid'),
 			'PurchaseOrder' => array('NULL', 'vendorid'),
 		);
 		list($accountColumn, $vendorColumn) = $partyColumns[$module];
-		$noteColumn = $module == 'SalesOrder' ? 'p.note_type' : 'NULL';
+		$noteColumn = 'NULL';
 		$result = $adb->pquery("SELECT p.$numberColumn AS no, p.$totalColumn AS total, p.$statusColumn AS status,
 				" . ($accountColumn == 'NULL' ? 'NULL' : "p.$accountColumn") . " AS account,
 				" . ($vendorColumn == 'NULL' ? 'NULL' : "p.$vendorColumn") . " AS vendor,
@@ -71,9 +69,6 @@ class Vtiger_Payment_Utils {
 		switch ($document['module']) {
 			case 'PurchaseOrder':
 				return 'Paid';
-			case 'SalesOrder':
-				// a credit note is money back to the customer, a debit note money in from the vendor
-				return $document['note_type'] == 'Debit Note' ? 'Received' : 'Paid';
 			default:
 				return 'Received';
 		}
@@ -90,10 +85,23 @@ class Vtiger_Payment_Utils {
 		return (float)$adb->query_result($result, 0, 's');
 	}
 
-	/** Part of the document's total not yet covered by completed or pending payments. */
+	/**
+	 * Part of the document's total not yet covered by completed or pending payments or, for an
+	 * invoice / purchase order, by the credit / debit notes issued against it (returns reduce what
+	 * the customer owes or what is owed to the vendor, so they settle the document like money does).
+	 */
 	public static function outstanding($document, $excludePaymentId = 0) {
 		$taken = self::sumPayments($document['module'], $document['id'], array(self::STATUS_COMPLETED, self::STATUS_PENDING), $excludePaymentId);
-		return round($document['total'] - $taken, 2);
+		return round($document['total'] - $taken - self::notesTotal($document['module'], $document['id']), 2);
+	}
+
+	/** Total of the active credit notes (invoice) or debit notes (purchase order) issued against a document. */
+	public static function notesTotal($module, $id) {
+		if (!in_array($module, array('Invoice', 'PurchaseOrder'))) {
+			return 0.0;
+		}
+		include_once 'include/utils/NoteUtils.php';
+		return Vtiger_Note_Utils::appliedTotal($module, $id);
 	}
 
 	/** Why a payment cannot be taken for this document, or null. */
@@ -112,7 +120,7 @@ class Vtiger_Payment_Utils {
 			return 'The document has no amount to pay.';
 		}
 		if (self::outstanding($document) <= 0.004) {
-			return 'The document is already fully covered by payments.';
+			return 'The document is already fully covered by payments and returns.';
 		}
 		return null;
 	}
@@ -168,13 +176,16 @@ class Vtiger_Payment_Utils {
 			return;
 		}
 		$settled = self::sumPayments($module, $id, array(self::STATUS_COMPLETED));
-		$balance = round($document['total'] - $settled, 2);
+		$credited = self::notesTotal($module, $id);
+		$balance = round($document['total'] - $settled - $credited, 2);
 		if ($module == 'Invoice') {
 			$adb->pquery('UPDATE vtiger_invoice SET received = ?, balance = ? WHERE invoiceid = ?', array($settled, $balance, $id));
 			$status = $document['status'];
-			if ($balance <= 0.004 && $settled > 0 && in_array($status, array('Approved', 'Sent', 'Credit Invoice'), true)) {
-				$adb->pquery('UPDATE vtiger_invoice SET invoicestatus = ? WHERE invoiceid = ?', array('Paid', $id));
-			} elseif ($balance > 0.004 && $status == 'Paid') {
+			$open = array('Approved', 'Sent', 'Credit Invoice', 'Paid');
+			if ($balance <= 0.004 && in_array($status, $open, true) && ($settled > 0 || $credited > 0)) {
+				// money in settles it as Paid; returns alone leave it as a Credit Invoice
+				$adb->pquery('UPDATE vtiger_invoice SET invoicestatus = ? WHERE invoiceid = ?', array($settled > 0 ? 'Paid' : 'Credit Invoice', $id));
+			} elseif ($balance > 0.004 && in_array($status, array('Paid', 'Credit Invoice'), true)) {
 				$adb->pquery('UPDATE vtiger_invoice SET invoicestatus = ? WHERE invoiceid = ?', array('Sent', $id));
 			}
 		} else {

@@ -46,6 +46,7 @@ if (!$module) {
 $module->initTables();
 require_once __DIR__ . '/lib/module-setup.php';
 addCurrencyColumns('vtiger_payments');
+addIndex('vtiger_payments', 'idx_related', 'related_to, status');
 
 // 2. Blocks
 $blocks = array();
@@ -64,7 +65,7 @@ foreach (array('LBL_PAYMENTS_INFORMATION', 'LBL_DESCRIPTION_INFORMATION') as $in
 $I = 'LBL_PAYMENTS_INFORMATION';
 $fields = array(
 	array('name' => 'payment_no', 'label' => 'Payment No', 'block' => $I, 'uitype' => 4, 'type' => 'V~O', 'col' => 'payment_no', 'ctype' => 'VARCHAR(100)', 'dt' => 1, 'qc' => 3, 'sm' => 1),
-	array('name' => 'related_to', 'label' => 'Document', 'block' => $I, 'uitype' => 10, 'type' => 'V~M', 'col' => 'related_to', 'ctype' => 'INT(19)', 'dt' => 1, 'qc' => 0, 'sm' => 1, 'related' => array('Invoice', 'Quotes', 'PurchaseOrder', 'SalesOrder')),
+	array('name' => 'related_to', 'label' => 'Document', 'block' => $I, 'uitype' => 10, 'type' => 'V~M', 'col' => 'related_to', 'ctype' => 'INT(19)', 'dt' => 1, 'qc' => 0, 'sm' => 1, 'related' => array('Invoice', 'Quotes', 'PurchaseOrder')),
 	array('name' => 'direction', 'label' => 'Direction', 'block' => $I, 'uitype' => 15, 'type' => 'V~O', 'col' => 'direction', 'ctype' => 'VARCHAR(20)', 'dt' => 2, 'qc' => 3, 'sm' => 1, 'picklist' => array('Received', 'Paid')),
 	array('name' => 'amount', 'label' => 'Amount', 'block' => $I, 'uitype' => 72, 'type' => 'N~M', 'col' => 'amount', 'ctype' => 'DECIMAL(25,8)', 'dt' => 1, 'qc' => 0, 'sm' => 1),
 	array('name' => 'payment_date', 'label' => 'Payment Date', 'block' => $I, 'uitype' => 5, 'type' => 'D~M', 'col' => 'payment_date', 'ctype' => 'DATE', 'dt' => 1, 'qc' => 0, 'sm' => 1),
@@ -140,7 +141,7 @@ if (!$adb->num_rows($menu)) {
 }
 
 // 6. Related list on every document module
-foreach (array('Invoice', 'Quotes', 'PurchaseOrder', 'SalesOrder') as $documentName) {
+foreach (array('Invoice', 'Quotes', 'PurchaseOrder') as $documentName) {
 	$document = Vtiger_Module::getInstance($documentName);
 	$exists = $adb->pquery('SELECT 1 FROM vtiger_relatedlists WHERE tabid = ? AND related_tabid = ?', array($document->id, $module->id));
 	if (!$adb->num_rows($exists)) {
