@@ -17,9 +17,10 @@ class Ledgers_ProfitLoss_View extends Ledgers_ReportBase_View {
 	public function process(Vtiger_Request $request) {
 		$from = $this->dateParam($request, 'from', $this->yearStart());
 		$to = $this->dateParam($request, 'to', date('Y-m-d'));
+		list($selectedCostCentre, $costCentres) = $this->costCentreFilter($request);
 		$income = $expenses = array();
 		$totalIncome = $totalExpenses = 0.0;
-		foreach (Vtiger_Ledger_Utils::ledgerTotals($to, $from) as $row) {
+		foreach (Vtiger_Ledger_Utils::ledgerTotals($to, $from, $costCentres) as $row) {
 			$amount = Vtiger_Ledger_Utils::normalBalance($row);
 			if (abs($amount) < 0.005) {
 				continue;
@@ -34,6 +35,8 @@ class Ledgers_ProfitLoss_View extends Ledgers_ReportBase_View {
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('COST_CENTRES', $this->costCentreOptions(true));
+		$viewer->assign('CC', $selectedCostCentre);
 		$viewer->assign('FROM', $from);
 		$viewer->assign('TO', $to);
 		$viewer->assign('INCOME', $income);

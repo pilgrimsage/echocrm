@@ -83,7 +83,8 @@ class Vtiger_Bank_Utils {
 		if (!in_array($data['direction'] ?? '', array('In', 'Out'), true)) {
 			return 'Choose whether the money comes In or goes Out.';
 		}
-		$date = $data['transaction_date'] ?? '';
+		include_once 'include/utils/LedgerUtils.php';
+		$date = Vtiger_Ledger_Utils::dbDate($data['transaction_date'] ?? '') ?: '';
 		if ($date === '' || !strtotime($date)) {
 			return 'Enter the transaction date.';
 		}
@@ -209,6 +210,8 @@ class Vtiger_Bank_Utils {
 		if (empty($stored['reconciled'])) {
 			return null;
 		}
+		include_once 'include/utils/LedgerUtils.php';
+		$newDate = Vtiger_Ledger_Utils::dbDate($newDate);
 		if ($newStatus != 'Completed' || $stored['bank_account'] != $newAccountId || abs((float)$stored['amount'] - (float)$newAmount) > 0.004 || $stored['transaction_date'] != $newDate) {
 			return 'The bank transaction of this payment is reconciled with the bank statement. Un-reconcile it before changing the payment.';
 		}

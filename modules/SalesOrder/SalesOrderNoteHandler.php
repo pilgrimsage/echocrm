@@ -28,6 +28,17 @@ class SalesOrderNoteHandler extends VTEventHandler {
 			$data['note_type'] = 'Credit Note';
 		}
 		$debit = ($data['note_type'] == 'Debit Note');
+		// a note belongs to the cost centre of the invoice / purchase order it is issued against, unless one is chosen
+		if (empty($data['cost_centre'])) {
+			$parent = $debit ? ($data['purchaseorder_id'] ?? null) : ($data['invoice_id'] ?? null);
+			if ($parent) {
+				include_once 'include/utils/LedgerUtils.php';
+				$inherited = Vtiger_Ledger_Utils::documentCostCentre($debit ? 'PurchaseOrder' : 'Invoice', $parent);
+				if ($inherited) {
+					$entityData->set('cost_centre', $inherited);
+				}
+			}
+		}
 		if ($debit) {
 			if (empty($data['vendor_id'])) {
 				throw new Exception('A debit note needs a vendor.');

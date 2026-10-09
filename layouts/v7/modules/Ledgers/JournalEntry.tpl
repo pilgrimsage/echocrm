@@ -9,7 +9,7 @@
 			<div class="col-12 col-md-9"><label class="form-label">Narration</label><input type="text" name="narration" class="form-control" maxlength="250"/></div>
 		</div>
 		<table class="table table-sm align-middle" id="journalLines">
-			<thead><tr><th>Ledger</th><th style="width:150px" class="text-end">Debit</th><th style="width:150px" class="text-end">Credit</th><th>Memo</th></tr></thead>
+			<thead><tr><th>Ledger</th><th style="width:150px" class="text-end">Debit</th><th style="width:150px" class="text-end">Credit</th><th>Memo</th>{if $COST_CENTRES}<th style="width:200px">Cost centre / project</th>{/if}</tr></thead>
 			<tbody>
 			{section name=r start=0 loop=4}
 				<tr>
@@ -17,6 +17,7 @@
 					<td><input type="number" step="0.01" min="0" name="debit[]" class="form-control form-control-sm text-end jd"/></td>
 					<td><input type="number" step="0.01" min="0" name="credit[]" class="form-control form-control-sm text-end jc"/></td>
 					<td><input type="text" name="memo[]" class="form-control form-control-sm" maxlength="200"/></td>
+					{if $COST_CENTRES}<td><select name="cost[]" class="form-select form-select-sm"><option value="">None</option>{foreach from=$COST_CENTRES key=ID item=NAME}<option value="{$ID}">{$NAME|escape:'html'}</option>{/foreach}</select></td>{/if}
 				</tr>
 			{/section}
 			</tbody>
@@ -44,7 +45,7 @@
 		document.getElementById('saveEntry').disabled = !ok;
 	}
 	body.addEventListener('input', update);
-	document.getElementById('addLine').addEventListener('click', function () { body.appendChild(body.rows[0].cloneNode(true)); body.lastElementChild.querySelectorAll('input').forEach(function (i) { i.value = ''; }); body.lastElementChild.querySelector('select').value = ''; });
+	document.getElementById('addLine').addEventListener('click', function () { body.appendChild(body.rows[0].cloneNode(true)); body.lastElementChild.querySelectorAll('input').forEach(function (i) { i.value = ''; }); body.lastElementChild.querySelectorAll('select').forEach(function (x) { x.value = ''; }); });
 	update();
 })();
 </script>

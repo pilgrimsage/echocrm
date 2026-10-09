@@ -29,6 +29,7 @@ class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
 				$value = (string)$request->get($name);
 				Vtiger_Ledger_Utils::setSetting($name, preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : null);
 			}
+			Vtiger_Ledger_Utils::setSetting('require_cost_centre', $request->get('require_cost_centre') ? '1' : null);
 			foreach ((array)$request->get('posting') as $key => $ledgerId) {
 				if ($ledgerId) {
 					Vtiger_Ledger_Utils::setAccount($key, (int)$ledgerId);

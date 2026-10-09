@@ -23,6 +23,23 @@ class Vtiger_Ledger_Utils {
 
 	private static $ledgerCache = array();
 
+	/**
+	 * The cost centre / project the lines being built belong to (null = none). Set while a document,
+	 * payment or bank transaction is posted so every line it creates carries it.
+	 */
+	private static $dimension = null;
+
+	private static $columnCache = array();
+
+	/** 'cost_centre' when the table has that column (the dimension is switched on), else 'NULL' for use in SQL. */
+	public static function dimensionColumn($table, $alias = '') {
+		global $adb;
+		if (!isset(self::$columnCache[$table])) {
+			self::$columnCache[$table] = in_array('cost_centre', $adb->getColumnNames($table));
+		}
+		return self::$columnCache[$table] ? ($alias ? $alias . '.' : '') . 'cost_centre' : 'NULL';
+	}
+
 	// ---- settings -------------------------------------------------------------------------------
 
 	public static function getSetting($name, $default = null) {
@@ -45,13 +62,31 @@ class Vtiger_Ledger_Utils {
 		return $date ?: null;
 	}
 
+	/**
+	 * A date as Y-m-d. Records saved from the full form arrive in database format, but inline edits and
+	 * some imports hand over the user's display format (09-24-2026), which compares wrongly as a string.
+	 */
+	public static function dbDate($value) {
+		$value = trim((string)$value);
+		if ($value === '' || $value === '0000-00-00') {
+			return null;
+		}
+		if (preg_match('/^\d{4}-\d{2}-\d{2}/', $value)) {
+			return substr($value, 0, 10);
+		}
+		$converted = DateTimeField::convertToDBFormat($value);
+		return $converted ?: null;
+	}
+
 	public static function isLocked($date) {
+		$date = self::dbDate($date);
 		$lock = self::lockDate();
 		return $lock && $date && $date <= $lock;
 	}
 
 	/** Why something dated $date cannot be posted or changed, or null. */
 	public static function lockProblem($date) {
+		$date = self::dbDate($date);
 		if (self::isLocked($date)) {
 			return 'The books are locked up to ' . self::lockDate() . ', so nothing dated on or before that day can be added or changed.';
 		}
@@ -172,7 +207,7 @@ class Vtiger_Ledger_Utils {
 
 	/** A line: array(ledger id, debit, credit, party account, party vendor, memo). */
 	private static function line($ledger, $debit, $credit, $account = null, $vendor = null, $memo = '') {
-		return array('ledger' => $ledger, 'debit' => round($debit, 2), 'credit' => round($credit, 2), 'account' => $account ?: null, 'vendor' => $vendor ?: null, 'memo' => $memo);
+		return array('ledger' => $ledger, 'debit' => round($debit, 2), 'credit' => round($credit, 2), 'account' => $account ?: null, 'vendor' => $vendor ?: null, 'memo' => $memo, 'cost' => self::$dimension ?: null);
 	}
 
 	/** Merges lines of the same ledger and party so the stored entry is as short as it can be, drops empty ones. */
@@ -182,7 +217,7 @@ class Vtiger_Ledger_Utils {
 			if (abs($l['debit']) < 0.005 && abs($l['credit']) < 0.005) {
 				continue;
 			}
-			$key = $l['ledger'] . '|' . $l['account'] . '|' . $l['vendor'] . '|' . $l['memo'];
+			$key = $l['ledger'] . '|' . $l['account'] . '|' . $l['vendor'] . '|' . $l['memo'] . '|' . (int)$l['cost'];
 			if (!isset($merged[$key])) {
 				$merged[$key] = $l;
 			} else {
@@ -226,8 +261,8 @@ class Vtiger_Ledger_Utils {
 			array($date, $narration, $module, $id, $key, $type, 'Posted', $reversalOf, round($total, 2), $current_user ? $current_user->id : 1));
 		$entryId = $adb->getLastInsertID();
 		foreach ($lines as $l) {
-			$adb->pquery('INSERT INTO vtiger_journal_lines (entry_id, ledger_id, debit, credit, party_account, party_vendor, memo) VALUES (?,?,?,?,?,?,?)',
-				array($entryId, $l['ledger'], $l['debit'], $l['credit'], $l['account'], $l['vendor'], $l['memo']));
+			$adb->pquery('INSERT INTO vtiger_journal_lines (entry_id, ledger_id, debit, credit, party_account, party_vendor, memo, cost_centre) VALUES (?,?,?,?,?,?,?,?)',
+				array($entryId, $l['ledger'], $l['debit'], $l['credit'], $l['account'], $l['vendor'], $l['memo'], $l['cost'] ?: null));
 		}
 		self::adjustMonthlyTotals($date, $lines, 1);
 		return $entryId;
@@ -244,6 +279,11 @@ class Vtiger_Ledger_Utils {
 			$adb->pquery('INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?)
 				ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
 				array($l['ledger'], $month, $sign * $l['debit'], $sign * $l['credit']));
+			if (!empty($l['cost'])) {
+				$adb->pquery('INSERT INTO vtiger_dimension_balances (cost_centre_id, ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?, ?)
+					ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
+					array($l['cost'], $l['ledger'], $month, $sign * $l['debit'], $sign * $l['credit']));
+			}
 		}
 	}
 
@@ -266,6 +306,7 @@ class Vtiger_Ledger_Utils {
 	 * the locked period. Called before saving, while the user can still be told.
 	 */
 	public static function guard($module, $id, $key, $newDate, $willPost) {
+		$newDate = self::dbDate($newDate);
 		$problem = self::lockProblem($id ? self::entryDate($module, $id, $key) : null);
 		if ($problem === null && $willPost) {
 			$problem = self::lockProblem($newDate);
@@ -283,10 +324,12 @@ class Vtiger_Ledger_Utils {
 
 	private static function entryLines($entryId) {
 		global $adb;
-		$result = $adb->pquery('SELECT ledger_id, debit, credit, party_account, party_vendor, memo FROM vtiger_journal_lines WHERE entry_id = ? ORDER BY line_id', array($entryId));
+		$result = $adb->pquery('SELECT ledger_id, debit, credit, party_account, party_vendor, memo, cost_centre FROM vtiger_journal_lines WHERE entry_id = ? ORDER BY line_id', array($entryId));
 		$lines = array();
 		while ($row = $adb->fetch_array($result)) {
-			$lines[] = self::line($row['ledger_id'], (float)$row['debit'], (float)$row['credit'], $row['party_account'], $row['party_vendor'], (string)$row['memo']);
+			$line = self::line($row['ledger_id'], (float)$row['debit'], (float)$row['credit'], $row['party_account'], $row['party_vendor'], (string)$row['memo']);
+			$line['cost'] = $row['cost_centre'] ?: null;
+			$lines[] = $line;
 		}
 		return $lines;
 	}
@@ -294,7 +337,7 @@ class Vtiger_Ledger_Utils {
 	private static function signature(array $lines) {
 		$parts = array();
 		foreach ($lines as $l) {
-			$parts[] = implode(':', array($l['ledger'], number_format($l['debit'], 2, '.', ''), number_format($l['credit'], 2, '.', ''), (int)$l['account'], (int)$l['vendor'], $l['memo']));
+			$parts[] = implode(':', array($l['ledger'], number_format($l['debit'], 2, '.', ''), number_format($l['credit'], 2, '.', ''), (int)$l['account'], (int)$l['vendor'], $l['memo'], (int)$l['cost']));
 		}
 		sort($parts);
 		return implode('|', $parts);
@@ -334,6 +377,50 @@ class Vtiger_Ledger_Utils {
 		return self::insertEntry($date, $narration, $module, $id, $key, 'auto', $lines);
 	}
 
+	/** Why a cost centre / project cannot take postings dated $date, or null. */
+	public static function costCentreProblem($costCentreId, $date) {
+		global $adb;
+		$date = self::dbDate($date);
+		$result = $adb->pquery('SELECT c.costcentre_name, c.status, c.start_date, c.end_date FROM vtiger_costcentres c
+			INNER JOIN vtiger_crmentity e ON e.crmid = c.costcentresid AND e.deleted = 0 WHERE c.costcentresid = ?', array($costCentreId));
+		if (!$adb->num_rows($result)) {
+			return 'The cost centre does not exist.';
+		}
+		$c = $adb->fetch_array($result);
+		$name = decode_html($c['costcentre_name']);
+		if ($c['status'] != 'Active') {
+			return "The cost centre '$name' is closed and cannot take new postings.";
+		}
+		if ($date && !empty($c['start_date']) && $c['start_date'] != '0000-00-00' && $date < $c['start_date']) {
+			return "'$name' starts on {$c['start_date']}; it cannot take postings dated {$date}.";
+		}
+		if ($date && !empty($c['end_date']) && $c['end_date'] != '0000-00-00' && $date > $c['end_date']) {
+			return "'$name' ended on {$c['end_date']}; it cannot take postings dated {$date}.";
+		}
+		return null;
+	}
+
+	/** A cost centre and everything below it (parent chain), as ids. */
+	public static function costCentreTree($costCentreId) {
+		global $adb;
+		$ids = array((int)$costCentreId);
+		$result = $adb->pquery('SELECT costcentresid, parent_costcentre FROM vtiger_costcentres WHERE parent_costcentre IS NOT NULL AND parent_costcentre != 0');
+		$parents = array();
+		while ($row = $adb->fetch_array($result)) {
+			$parents[$row['costcentresid']] = $row['parent_costcentre'];
+		}
+		do {
+			$added = false;
+			foreach ($parents as $child => $parent) {
+				if (in_array($parent, $ids) && !in_array($child, $ids)) {
+					$ids[] = (int)$child;
+					$added = true;
+				}
+			}
+		} while ($added);
+		return $ids;
+	}
+
 	/** A manual entry typed in by a person. $lines: array of array(ledger, debit, credit, memo). */
 	public static function postManual($date, $narration, array $rawLines) {
 		$lines = array();
@@ -349,7 +436,16 @@ class Vtiger_Ledger_Utils {
 			if (!self::ledgerGroup($r['ledger'])) {
 				throw new Exception('A ledger on the entry does not exist.');
 			}
+			$cost = !empty($r['cost']) ? (int)$r['cost'] : null;
+			if ($cost) {
+				$problem = self::costCentreProblem($cost, $date);
+				if ($problem !== null) {
+					throw new Exception($problem);
+				}
+			}
+			self::$dimension = $cost;
 			$lines[] = self::line($r['ledger'], $debit, $credit, null, null, trim((string)($r['memo'] ?? '')));
+			self::$dimension = null;
 		}
 		$lines = self::normalize($lines);
 		if (count($lines) < 2) {
@@ -491,7 +587,7 @@ class Vtiger_Ledger_Utils {
 			return null;
 		}
 		list($table, $idColumn, $noColumn, $statusColumn, $accountColumn, $vendorColumn, $noteColumn) = $map[$module];
-		$result = $adb->pquery("SELECT d.total, d.pre_tax_total, d.adjustment, d.$noColumn AS no, d.$statusColumn AS status,
+		$result = $adb->pquery("SELECT d.total, d.pre_tax_total, d.adjustment, d.$noColumn AS no, d.$statusColumn AS status, " . self::dimensionColumn($table, 'd') . " AS cost_centre,
 				" . ($accountColumn == 'NULL' ? 'NULL' : "d.$accountColumn") . " AS account,
 				" . ($vendorColumn == 'NULL' ? 'NULL' : "d.$vendorColumn") . " AS vendor,
 				" . ($noteColumn == 'NULL' ? 'NULL' : "d.$noteColumn") . " AS note_type, c.deleted
@@ -503,7 +599,7 @@ class Vtiger_Ledger_Utils {
 		return array(
 			'total' => (float)$row['total'], 'pre' => (float)$row['pre_tax_total'], 'adjustment' => (float)$row['adjustment'],
 			'no' => decode_html($row['no']), 'status' => decode_html($row['status']), 'account' => $row['account'], 'vendor' => $row['vendor'],
-			'note_type' => $row['note_type'], 'deleted' => (int)$row['deleted'],
+			'note_type' => $row['note_type'], 'deleted' => (int)$row['deleted'], 'cost_centre' => $row['cost_centre'],
 		);
 	}
 
@@ -519,6 +615,7 @@ class Vtiger_Ledger_Utils {
 		if (!$f) {
 			return;
 		}
+		self::$dimension = $f['cost_centre'] ?: null;
 		$date = self::documentDate($module, $id);
 		$posted = !$f['deleted'] && in_array($f['status'], self::$postedStatuses[$module], true) && $f['total'] > 0.004;
 		$isNote = $module == 'SalesOrder';
@@ -633,6 +730,19 @@ class Vtiger_Ledger_Utils {
 
 	// ---- payments, bank transactions, opening balances -------------------------------------------------
 
+	/** Cost centre of a quote, invoice, purchase order or note (null when none or the dimension is off). */
+	public static function documentCostCentre($module, $id) {
+		global $adb;
+		$tables = array('Invoice' => array('vtiger_invoice', 'invoiceid'), 'PurchaseOrder' => array('vtiger_purchaseorder', 'purchaseorderid'),
+			'Quotes' => array('vtiger_quotes', 'quoteid'), 'SalesOrder' => array('vtiger_salesorder', 'salesorderid'));
+		if (!isset($tables[$module]) || self::dimensionColumn($tables[$module][0]) == 'NULL') {
+			return null;
+		}
+		list($table, $idColumn) = $tables[$module];
+		$result = $adb->pquery("SELECT cost_centre FROM $table WHERE $idColumn = ?", array($id));
+		return $adb->num_rows($result) ? ($adb->query_result($result, 0, 0) ?: null) : null;
+	}
+
 	/**
 	 * Posts a Completed payment:
 	 *   money in against an invoice or debit note   Dr bank | Cr Accounts Receivable (invoice) or Accounts Payable (debit note)
@@ -641,12 +751,14 @@ class Vtiger_Ledger_Utils {
 	 */
 	public static function syncPayment($paymentId) {
 		global $adb;
-		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, c.deleted
+		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, ' . self::dimensionColumn('vtiger_payments', 'p') . ' AS cost_centre, c.deleted
 			FROM vtiger_payments p INNER JOIN vtiger_crmentity c ON c.crmid = p.paymentsid WHERE p.paymentsid = ?', array($paymentId));
 		if (!$adb->num_rows($result)) {
 			return;
 		}
 		$p = $adb->fetch_array($result);
+		// a payment belongs to the cost centre of the document it pays
+		self::$dimension = $p['cost_centre'] ?: self::documentCostCentre(getSalesEntityType($p['related_to']), $p['related_to']);
 		$date = $p['payment_date'];
 		$lines = array();
 		if (!$p['deleted'] && $p['status'] == 'Completed' && (float)$p['amount'] > 0) {
@@ -690,6 +802,7 @@ class Vtiger_Ledger_Utils {
 			return;
 		}
 		$t = $adb->fetch_array($result);
+		self::$dimension = !empty($t['cost_centre']) ? $t['cost_centre'] : null;
 		$lines = array();
 		$date = $t['transaction_date'];
 		if (!$t['deleted'] && empty($t['payment']) && (float)$t['amount'] > 0) {
@@ -721,6 +834,7 @@ class Vtiger_Ledger_Utils {
 	/** Opening balance of a bank account against Opening Balance Equity. */
 	public static function syncBankOpening($accountId) {
 		global $adb;
+		self::$dimension = null;
 		$result = $adb->pquery('SELECT b.opening_balance, b.opening_date, b.account_name, c.deleted FROM vtiger_bankaccounts b
 			INNER JOIN vtiger_crmentity c ON c.crmid = b.bankaccountsid WHERE b.bankaccountsid = ?', array($accountId));
 		if (!$adb->num_rows($result)) {
@@ -743,6 +857,7 @@ class Vtiger_Ledger_Utils {
 	/** Opening balance of a ledger (entered on the ledger) against Opening Balance Equity. */
 	public static function syncLedgerOpening($ledgerId) {
 		global $adb;
+		self::$dimension = null;
 		$result = $adb->pquery('SELECT l.opening_balance, l.ledger_group, l.ledger_name, c.deleted FROM vtiger_ledgers l
 			INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid WHERE l.ledgersid = ?', array($ledgerId));
 		if (!$adb->num_rows($result)) {
@@ -775,11 +890,33 @@ class Vtiger_Ledger_Utils {
 	// ---- reports ---------------------------------------------------------------------------------
 
 	/**
+	 * Whole months of the range [$from, $to] (as year-month strings, null when there are none) and the
+	 * partial-month edges (date ranges to read from the lines): array(fromYm, toYm, array(array(a, b)...)).
+	 */
+	private static function splitRange($from, $to) {
+		$fromDate = $from ?: '1900-01-01';
+		$firstFullDay = ($fromDate == date('Y-m-01', strtotime($fromDate))) ? $fromDate : date('Y-m-01', strtotime($fromDate . ' +1 month'));
+		$lastFullDay = ($to == date('Y-m-t', strtotime($to))) ? $to : date('Y-m-t', strtotime(date('Y-m-01', strtotime($to)) . ' -1 day'));
+		if ($firstFullDay > $lastFullDay) {
+			return array(null, null, array(array($fromDate, $to)));   // inside a single month
+		}
+		$edges = array();
+		if ($fromDate < $firstFullDay) {
+			$edges[] = array($fromDate, date('Y-m-d', strtotime($firstFullDay . ' -1 day')));
+		}
+		if ($lastFullDay < $to) {
+			$edges[] = array(date('Y-m-d', strtotime($lastFullDay . ' +1 day')), $to);
+		}
+		return array(substr($firstFullDay, 0, 7), substr($lastFullDay, 0, 7), $edges);
+	}
+
+	/**
 	 * Debit and credit per ledger for dates from $from (null = from the beginning) to $to, as
 	 * array(ledger id => array(debit, credit)). Whole months come from the monthly totals; the (at
-	 * most two) partial months at the edges are summed from the lines.
+	 * most two) partial months at the edges are summed from the lines. $costCentres limits the sums
+	 * to those cost centres / projects (ids), $ledgerId to one ledger.
 	 */
-	public static function sumsByLedger($from, $to, $ledgerId = null) {
+	public static function sumsByLedger($from, $to, $ledgerId = null, $costCentres = null) {
 		global $adb;
 		$sums = array();
 		$add = function ($result) use (&$sums, $adb) {
@@ -788,33 +925,68 @@ class Vtiger_Ledger_Utils {
 				$sums[$row['ledger_id']][1] = ($sums[$row['ledger_id']][1] ?? 0) + (float)$row['credit'];
 			}
 		};
-		$onlyLedger = $ledgerId ? ' AND ledger_id = ' . (int)$ledgerId : '';
-		$fromDate = $from ?: '1900-01-01';
-		$firstFullDay = ($fromDate == date('Y-m-01', strtotime($fromDate))) ? $fromDate : date('Y-m-01', strtotime($fromDate . ' +1 month'));
-		$lastFullDay = ($to == date('Y-m-t', strtotime($to))) ? $to : date('Y-m-t', strtotime(date('Y-m-01', strtotime($to)) . ' -1 day'));
-		$linesBetween = function ($a, $b) use ($add, $adb, $onlyLedger) {
-			if ($a > $b) {
-				return;
+		$ledgerFilter = $ledgerId ? ' AND jl.ledger_id = ' . (int)$ledgerId : '';
+		$costFilter = $costCentres ? ' AND jl.cost_centre IN (' . implode(',', array_map('intval', $costCentres)) . ')' : '';
+		list($fromYm, $toYm, $edges) = self::splitRange($from, $to);
+		if ($fromYm !== null) {
+			if ($costCentres) {
+				$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_dimension_balances jl WHERE jl.ym >= ? AND jl.ym <= ?'
+					. str_replace('jl.cost_centre', 'jl.cost_centre_id', $costFilter) . $ledgerFilter . ' GROUP BY jl.ledger_id', array($fromYm, $toYm)));
+			} else {
+				$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_ledger_balances jl WHERE jl.ym >= ? AND jl.ym <= ?'
+					. $ledgerFilter . ' GROUP BY jl.ledger_id', array($fromYm, $toYm)));
+			}
+		}
+		foreach ($edges as $edge) {
+			if ($edge[0] > $edge[1]) {
+				continue;
 			}
 			$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_journal_entries je
-				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id WHERE je.entry_date >= ? AND je.entry_date <= ?' . str_replace('ledger_id', 'jl.ledger_id', $onlyLedger) . '
-				GROUP BY jl.ledger_id', array($a, $b)));
-		};
-		if ($firstFullDay > $lastFullDay) {
-			$linesBetween($fromDate, $to);   // inside a single month
-			return $sums;
+				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id WHERE je.entry_date >= ? AND je.entry_date <= ?' . $ledgerFilter . $costFilter . '
+				GROUP BY jl.ledger_id', array($edge[0], $edge[1])));
 		}
-		$add($adb->pquery('SELECT ledger_id, SUM(debit) AS debit, SUM(credit) AS credit FROM vtiger_ledger_balances WHERE ym >= ? AND ym <= ?' . $onlyLedger . ' GROUP BY ledger_id',
-			array(substr($firstFullDay, 0, 7), substr($lastFullDay, 0, 7))));
-		$linesBetween($fromDate, date('Y-m-d', strtotime($firstFullDay . ' -1 day')));
-		$linesBetween(date('Y-m-d', strtotime($lastFullDay . ' +1 day')), $to);
 		return $sums;
 	}
 
-	/** Per-ledger totals up to a date (and from a date when given): rows of ledger id, name, group, debit, credit. */
-	public static function ledgerTotals($asAt, $from = null) {
+	/**
+	 * Income, expenses and net per cost centre / project for a period: array(cost centre id =>
+	 * array(income, expenses)). Same month-summary + edge-lines approach as sumsByLedger().
+	 */
+	public static function costCentreSummary($from, $to) {
 		global $adb;
-		$sums = self::sumsByLedger($from, $asAt);
+		$summary = array();
+		$add = function ($result) use (&$summary, $adb) {
+			while ($row = $adb->fetch_array($result)) {
+				$group = decode_html($row['grp']);
+				if ($group != 'Income' && $group != 'Expenses') {
+					continue;
+				}
+				$net = (float)$row['credit'] - (float)$row['debit'];
+				$id = $row['cc'];
+				$summary[$id]['income'] = ($summary[$id]['income'] ?? 0) + ($group == 'Income' ? $net : 0);
+				$summary[$id]['expenses'] = ($summary[$id]['expenses'] ?? 0) + ($group == 'Expenses' ? -$net : 0);
+			}
+		};
+		list($fromYm, $toYm, $edges) = self::splitRange($from, $to);
+		if ($fromYm !== null) {
+			$add($adb->pquery('SELECT d.cost_centre_id AS cc, l.ledger_group AS grp, SUM(d.debit) AS debit, SUM(d.credit) AS credit FROM vtiger_dimension_balances d
+				INNER JOIN vtiger_ledgers l ON l.ledgersid = d.ledger_id WHERE d.ym >= ? AND d.ym <= ? GROUP BY d.cost_centre_id, l.ledger_group', array($fromYm, $toYm)));
+		}
+		foreach ($edges as $edge) {
+			if ($edge[0] > $edge[1]) {
+				continue;
+			}
+			$add($adb->pquery('SELECT jl.cost_centre AS cc, l.ledger_group AS grp, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_journal_entries je
+				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id INNER JOIN vtiger_ledgers l ON l.ledgersid = jl.ledger_id
+				WHERE je.entry_date >= ? AND je.entry_date <= ? AND jl.cost_centre IS NOT NULL GROUP BY jl.cost_centre, l.ledger_group', array($edge[0], $edge[1])));
+		}
+		return $summary;
+	}
+
+	/** Per-ledger totals up to a date (and from a date when given): rows of ledger id, name, group, debit, credit. */
+	public static function ledgerTotals($asAt, $from = null, $costCentres = null) {
+		global $adb;
+		$sums = self::sumsByLedger($from, $asAt, null, $costCentres);
 		$result = $adb->pquery("SELECT l.ledgersid AS id, l.ledger_name AS name, l.ledger_group AS grp FROM vtiger_ledgers l
 			INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid AND c.deleted = 0 ORDER BY l.ledger_group, l.ledger_name");
 		$rows = array();
@@ -865,6 +1037,10 @@ class Vtiger_Ledger_Utils {
 	/** Recomputes the monthly totals from the lines (after a repair, or the first time). */
 	public static function rebuildMonthlyTotals() {
 		global $adb;
+		$adb->pquery('DELETE FROM vtiger_dimension_balances');
+		$adb->pquery("INSERT INTO vtiger_dimension_balances (cost_centre_id, ledger_id, ym, debit, credit)
+			SELECT jl.cost_centre, jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl
+			INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id WHERE jl.cost_centre IS NOT NULL GROUP BY jl.cost_centre, jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m')");
 		$adb->pquery('DELETE FROM vtiger_ledger_balances');
 		$adb->pquery("INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit)
 			SELECT jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl

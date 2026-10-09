@@ -9,6 +9,7 @@
 require_once 'include/events/VTEventHandler.inc';
 include_once 'include/utils/PaymentUtils.php';
 include_once 'include/utils/BankUtils.php';
+include_once 'include/utils/LedgerUtils.php';
 
 class PaymentsHandler extends VTEventHandler {
 
@@ -91,6 +92,10 @@ class PaymentsHandler extends VTEventHandler {
 		if ($document) {
 			$adb->pquery('UPDATE vtiger_payments SET direction = ?, account_id = ?, vendor_id = ? WHERE paymentsid = ?',
 				array(Vtiger_Payment_Utils::directionFor($document), $document['account'] ?: null, $document['vendor'] ?: null, $entityData->getId()));
+			if (Vtiger_Ledger_Utils::dimensionColumn('vtiger_payments') != 'NULL') {
+				$adb->pquery('UPDATE vtiger_payments SET cost_centre = ? WHERE paymentsid = ?',
+					array(Vtiger_Ledger_Utils::documentCostCentre($documentModule, $documentId), $entityData->getId()));
+			}
 		}
 	}
 
