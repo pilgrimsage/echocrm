@@ -31,6 +31,7 @@ $languageStrings = Array(
 	'LBL_BALANCE_SHEET' => 'Balance Sheet',
 	'LBL_ACCOUNTING_SETTINGS' => 'Accounting Settings',
 	'LBL_COST_CENTRE_REPORT' => 'Cost Centre Report',
+	'LBL_GST_RETURNS' => 'GST Returns',
 	'LBL_CUSTOMER_STATEMENT' => 'Customer Statement',
 	'LBL_VENDOR_STATEMENT' => 'Vendor Statement',
 	'LBL_RECEIVABLES_AGEING' => 'Receivables Ageing',
