@@ -8,12 +8,20 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-/** Adds "Ledger Statement" to the ledger screens. */
+/** Adds the journal, reports and accounting settings to the ledger screens. */
 class Ledgers_Module_Model extends Vtiger_Module_Model {
 
 	public function getModuleBasicLinks() {
 		$links = parent::getModuleBasicLinks();
-		$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_LEDGER_STATEMENT', 'linkurl' => 'index.php?module=Ledgers&view=Statement', 'linkicon' => 'fa-list');
+		foreach (array(
+			array('LBL_JOURNAL', 'Journal'), array('LBL_TRIAL_BALANCE', 'TrialBalance'), array('LBL_LEDGER_STATEMENT', 'Statement'),
+			array('LBL_PROFIT_LOSS', 'ProfitLoss'), array('LBL_BALANCE_SHEET', 'BalanceSheet'),
+		) as $report) {
+			$links[] = array('linktype' => 'BASIC', 'linklabel' => $report[0], 'linkurl' => 'index.php?module=Ledgers&view=' . $report[1], 'linkicon' => 'fa-list');
+		}
+		if (Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
+			$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_ACCOUNTING_SETTINGS', 'linkurl' => 'index.php?module=Ledgers&view=AccountingSettings', 'linkicon' => 'fa-cog');
+		}
 		return $links;
 	}
 }
