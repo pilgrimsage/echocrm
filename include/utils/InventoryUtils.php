@@ -677,7 +677,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	if($focus->mode == 'edit')
 	{
 		$return_old_values = '';
-		if($module != 'PurchaseOrder' && $module != 'CreditNote')
+		if($module != 'PurchaseOrder' && $module != 'SalesOrder')
 		{
 			$return_old_values = 'return_old_values';
 		}
@@ -714,17 +714,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		$purchaseCost = isset($_REQUEST['purchaseCost'.$i]) ? vtlib_purify($_REQUEST['purchaseCost'.$i]) : "";
 		$margin = isset($_REQUEST['margin'.$i]) ? vtlib_purify($_REQUEST['margin'.$i]) : "";
 
-		if($module == 'SalesOrder') {
-			if($updateDemand == '-')
-			{
-				deductFromProductDemand($prod_id,$qty);
-			}
-			elseif($updateDemand == '+')
-			{
-				addToProductDemand($prod_id,$qty);
-			}
-		}
-
 		$query = 'INSERT INTO vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, purchase_cost, margin)
 					VALUES(?,?,?,?,?,?,?,?,?)';
 		$qparams = array($focus->id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description, $purchaseCost, $margin);
@@ -747,7 +736,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		}
 		$prod_seq++;
 
-		if($module != 'PurchaseOrder' && $module != 'CreditNote')
+		if($module != 'PurchaseOrder' && $module != 'SalesOrder')
 		{
 			//update the stock with existing details
 			updateStk($prod_id,$qty,$focus->mode,$ext_prod_arr,$module);
@@ -1779,7 +1768,6 @@ function getCompoundTaxesInfoForInventoryRecord($recordId, $moduleName) {
 		case 'Invoice'		: $tableName = 'vtiger_invoice';		$index = 'invoiceid';		break;
 		case 'SalesOrder'	: $tableName = 'vtiger_salesorder';		$index = 'salesorderid';	break;
 		case 'PurchaseOrder': $tableName = 'vtiger_purchaseorder';	$index = 'purchaseorderid';	break;
-		case 'CreditNote'	: $tableName = 'vtiger_creditnote';		$index = 'creditnoteid';	break;
 	}
 
 	if ($recordId && $tableName) {

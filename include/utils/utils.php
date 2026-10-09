@@ -1988,7 +1988,7 @@ function getCurrencyDecimalPlaces($user = null) {
 }
 
 function getInventoryModules() {
-	$inventoryModules = array('Invoice','Quotes','PurchaseOrder','SalesOrder','CreditNote');
+	$inventoryModules = array('Invoice','Quotes','PurchaseOrder','SalesOrder');
 	return $inventoryModules;
 }
 

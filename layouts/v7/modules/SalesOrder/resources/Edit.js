@@ -40,69 +40,43 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
     },
     
     /**
-	 * Function to register event for enabling recurrence
-	 * When recurrence is enabled some of the fields need
-	 * to be check for mandatory validation
+	 * A credit note is issued to a customer against an invoice; a debit note to a vendor against a
+	 * purchase order. Show only the fields of the chosen type and require the ones that apply.
 	 */
-	registerEventForEnablingRecurrence : function(){
-		var thisInstance = this;
+	registerNoteTypeEvents : function() {
 		var form = this.getForm();
-		var enableRecurrenceField = form.find('[name="enable_recurring"]');
-		var fieldNamesForValidation = new Array('recurring_frequency','start_period','end_period','payment_duration','invoicestatus');
-        var selectors = new Array();
-        for(var index in fieldNamesForValidation) {
-            selectors.push('[name="'+fieldNamesForValidation[index]+'"]');
-        }
-        var selectorString = selectors.join(',');
-        var validationToggleFields = form.find(selectorString);
-		enableRecurrenceField.on('change',function(e){
-			var element = jQuery(e.currentTarget);
-			var addValidation;
-			if(element.is(':checked')){
-				addValidation = true;
-			}else{
-				addValidation = false;
-			}
-			
-			//If validation need to be added for new elements,then we need to detach and attach validation
-			//to form
-			if(addValidation){
-				thisInstance.AddOrRemoveRequiredValidation(validationToggleFields, true);
-			}else{
-				thisInstance.AddOrRemoveRequiredValidation(validationToggleFields, false);
-			}
-		})
-		if(!enableRecurrenceField.is(":checked")){
-			thisInstance.AddOrRemoveRequiredValidation(validationToggleFields, false);
-		}else if(enableRecurrenceField.is(":checked")){
-			thisInstance.AddOrRemoveRequiredValidation(validationToggleFields, true);
+		var typeField = form.find('[name="note_type"]');
+		if (!typeField.length) {
+			return;
 		}
+		var fieldsByType = {
+			'Credit Note' : ['account_id', 'invoice_id'],
+			'Debit Note' : ['vendor_id', 'purchaseorder_id']
+		};
+		var required = {'Credit Note' : ['account_id', 'invoice_id'], 'Debit Note' : ['vendor_id']};
+		var cellOf = function(name) {
+			var field = form.find('[name="' + name + '"]').first();
+			return field.closest('.fieldValue').add(field.closest('.fieldValue').prev('.fieldLabel'));
+		};
+		var apply = function() {
+			var selected = typeField.val() || 'Credit Note';
+			jQuery.each(fieldsByType, function(type, names) {
+				jQuery.each(names, function(index, name) {
+					var show = (type === selected);
+					cellOf(name).toggle(show);
+					var input = form.find('[name="' + name + '"]');
+					if (show && jQuery.inArray(name, required[type]) !== -1) {
+						input.removeClass('ignore-validation').attr('data-rule-required', 'true');
+					} else {
+						input.addClass('ignore-validation').removeAttr('data-rule-required');
+					}
+				});
+			});
+		};
+		typeField.on('change', apply);
+		apply();
 	},
-	
-	AddOrRemoveRequiredValidation : function(dependentFieldsForValidation, addValidation) {
-		jQuery(dependentFieldsForValidation).each(function(key,value){
-			var relatedField = jQuery(value);
-			if(addValidation) {
-				relatedField.removeClass('ignore-validation').data('rule-required', true);
-				if(relatedField.is("select")) {
-					relatedField.attr('disabled',false);
-				}else {
-					relatedField.removeAttr('disabled');
-				}
-			} else if(!addValidation) {
-				relatedField.addClass('ignore-validation').removeAttr('data-rule-required');
-				if(relatedField.is("select")) {
-					relatedField.attr('disabled',true).trigger("change");
-					var select2Element = app.helper.getSelect2FromSelect(relatedField);
-					select2Element.trigger('Vtiger.Validation.Hide.Messsage');
-					select2Element.find('a').removeClass('input-error');
-				}else {
-					relatedField.attr('disabled','disabled').trigger('Vtiger.Validation.Hide.Messsage').removeClass('input-error');
-				}
-			}
-		});
-	},
-    
+
     /**
 	 * Function to search module names
 	 */
@@ -161,7 +135,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 	},
         registerBasicEvents: function(container){
             this._super(container);
-            this.registerEventForEnablingRecurrence();
+            this.registerNoteTypeEvents();
             this.registerForTogglingBillingandShippingAddress();
             this.registerEventForCopyAddress();
         },

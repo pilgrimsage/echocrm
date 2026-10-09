@@ -1158,7 +1158,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		if($calculationFields == false) $calculationFields = $this->getSelectedCalculationFields();
 
 		$primaryModule = $this->getPrimaryModule();
-		$inventoryModules = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder', 'CreditNote');
+		$inventoryModules = array('Invoice', 'Quotes', 'SalesOrder', 'PurchaseOrder');
 		if(!in_array($primaryModule, $inventoryModules)) return false;
 		if(!empty($calculationFields)) {
 			foreach($calculationFields as $field) {

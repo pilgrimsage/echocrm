@@ -272,11 +272,20 @@ class Vtiger_InventoryPDFController {
 	function getCustomerGSTIN() {
 		global $adb;
 		$accountId = $this->focusColumnValue('account_id');
-		if (empty($accountId) || !in_array('gstin', $adb->getColumnNames('vtiger_account'))) {
+		$vendorId = $this->focusColumnValue('vendor_id');
+		if (!empty($accountId) && in_array('gstin', $adb->getColumnNames('vtiger_account'))) {
+			$result = $adb->pquery('SELECT gstin FROM vtiger_account WHERE accountid = ?', array($accountId));
+		} elseif (!empty($vendorId) && in_array('gstin', $adb->getColumnNames('vtiger_vendor'))) {
+			$result = $adb->pquery('SELECT gstin FROM vtiger_vendor WHERE vendorid = ?', array($vendorId));
+		} else {
 			return '';
 		}
-		$result = $adb->pquery('SELECT gstin FROM vtiger_account WHERE accountid = ?', array($accountId));
 		return $adb->num_rows($result) ? Vtiger_GST_Utils::normalizeGSTIN($adb->query_result($result, 0, 'gstin')) : '';
+	}
+
+	/** Label of the party's GSTIN row in the header ("Vendor GSTIN" on debit notes). */
+	function getPartyGstinLabel() {
+		return 'Customer GSTIN';
 	}
 
 	/** Customer GSTIN and place of supply rows for the header; they belong to the GST print only. */
@@ -288,7 +297,7 @@ class Vtiger_InventoryPDFController {
 
 		$rows = array();
 		if ($customerGSTIN !== '') {
-			$rows['Customer GSTIN'] = $customerGSTIN;
+			$rows[$this->getPartyGstinLabel()] = $customerGSTIN;
 		}
 		$state = $this->focusColumnValue('ship_state');
 		if ($state === '' || $state === null) {

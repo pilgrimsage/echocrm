@@ -55,17 +55,6 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
-
-			$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-			if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'CreateView')) {
-				$basicActionLink = array(
-						'linktype' => 'DETAILVIEW',
-						'linklabel' =>  vtranslate('LBL_CREATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
-						'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-						'linkicon' => ''
-				);
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-			}
 		}
 
 		return $linkModelList;

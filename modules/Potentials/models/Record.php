@@ -54,17 +54,6 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	}
 
 	/**
-	 * Function returns the url for create Sales Order
-	 * @return <String>
-	 */
-	public function getCreateSalesOrderUrl() {
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-		return $salesOrderModuleModel->getCreateRecordUrl().'&sourceRecord='.$this->getId().'&sourceModule='.$this->getModuleName().
-				'&potential_id='.$this->getId().'&account_id='.$this->get('related_to').'&contact_id='.$this->get('contact_id').
-				'&relationOperation=true';
-	}
-
-	/**
 	 * Function returns the url for converting potential
 	 */
 	function getConvertPotentialUrl() {

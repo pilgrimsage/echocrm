@@ -12,6 +12,11 @@
  * PurchaseOrder Record Model Class
  */
 class PurchaseOrder_Record_Model extends Inventory_Record_Model {
+
+	public function getCreateDebitNoteUrl() {
+		$noteModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
+		return "index.php?module=".$noteModuleModel->getName()."&view=".$noteModuleModel->getEditViewName()."&purchaseorder_id=".$this->getId();
+	}
 	
 	/**
 	 * This Function adds the specified product quantity to the Product Quantity in Stock

@@ -9,14 +9,25 @@
  ************************************************************************************/
 include_once 'include/InventoryPDFController.php';
 include_once dirname(__FILE__). '/SalesOrderPDFHeaderViewer.php';
+/**
+ * PDF of a Credit Note (issued to a customer against an invoice) or a Debit Note (issued to a vendor
+ * against a purchase order). Both are kept in the Sales Order module; the note type field decides
+ * the title, the party and the reference shown. Same two prints as an Invoice (GST layout with
+ * HSN/SAC, tax breakup and amount in words, or the standard layout).
+ */
 class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
+
+	private function isDebitNote() {
+		return $this->focusColumnValue('note_type') == 'Debit Note';
+	}
+
 	function buildHeaderModelTitle() {
-		$singularModuleNameKey = 'SINGLE_'.$this->moduleName;
-		$translatedSingularModuleLabel = getTranslatedString($singularModuleNameKey, $this->moduleName);
-		if($translatedSingularModuleLabel == $singularModuleNameKey) {
-			$translatedSingularModuleLabel = getTranslatedString($this->moduleName, $this->moduleName);
-		}
-		return sprintf("%s: %s", $translatedSingularModuleLabel, $this->focusColumnValue('salesorder_no'));
+		$title = $this->isDebitNote() ? 'Debit Note' : 'Credit Note';
+		return sprintf("%s: %s", getTranslatedString($title, $this->moduleName), $this->focusColumnValue('salesorder_no'));
+	}
+
+	function getPartyGstinLabel() {
+		return $this->isDebitNote() ? 'Vendor GSTIN' : 'Customer GSTIN';
 	}
 
 	function getHeaderViewer() {
@@ -24,51 +35,62 @@ class Vtiger_SalesOrderPDFController extends Vtiger_InventoryPDFController{
 		$headerViewer->setModel($this->buildHeaderModel());
 		return $headerViewer;
 	}
-	
-	function buildHeaderModelColumnLeft() {
-		$modelColumnLeft = parent::buildHeaderModelColumnLeft();
-		return $modelColumnLeft;
-	}
-	
-	function buildHeaderModelColumnCenter() {
-		$subject = $this->focusColumnValue('subject');
-		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
-		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
-		$purchaseOrder = $this->focusColumnValue('vtiger_purchaseorder');
-		$quoteName = $this->resolveReferenceLabel($this->focusColumnValue('quote_id'), 'Quotes');
-		
-		$subjectLabel = getTranslatedString('Subject', $this->moduleName);
-        $quoteNameLabel = getTranslatedString('Quote Name', $this->moduleName);
-		$customerNameLabel = getTranslatedString('Customer Name', $this->moduleName);
-		$contactNameLabel = getTranslatedString('Contact Name', $this->moduleName);
-		$purchaseOrderLabel = getTranslatedString('Purchase Order', $this->moduleName);
 
-		$modelColumn1 = array(
-				$subjectLabel		=>	$subject,
-				$customerNameLabel	=>	$customerName,
-				$contactNameLabel	=>	$contactName,
-				$purchaseOrderLabel =>  $purchaseOrder,
-                $quoteNameLabel => $quoteName
-			);
-		return array_merge($modelColumn1, $this->buildGstHeaderRows());
+	/** Number and date of the document the note was issued against: array(label, no, date). */
+	private function getAgainstInfo() {
+		global $adb;
+		if ($this->isDebitNote()) {
+			$id = $this->focusColumnValue('purchaseorder_id');
+			$sql = 'SELECT purchaseorder_no AS no, duedate AS date FROM vtiger_purchaseorder WHERE purchaseorderid = ?';
+			$label = 'Purchase Order';
+		} else {
+			$id = $this->focusColumnValue('invoice_id');
+			$sql = 'SELECT invoice_no AS no, invoicedate AS date FROM vtiger_invoice WHERE invoiceid = ?';
+			$label = 'Invoice';
+		}
+		$info = array('label' => $label, 'no' => '', 'date' => '');
+		if (empty($id)) {
+			return $info;
+		}
+		$result = $adb->pquery($sql, array($id));
+		if ($adb->num_rows($result)) {
+			$info['no'] = decode_html($adb->query_result($result, 0, 'no'));
+			$info['date'] = $adb->query_result($result, 0, 'date');
+		}
+		return $info;
+	}
+
+	function buildHeaderModelColumnCenter() {
+		if ($this->isDebitNote()) {
+			$party = array(getTranslatedString('Vendor Name', $this->moduleName) => $this->resolveReferenceLabel($this->focusColumnValue('vendor_id'), 'Vendors'));
+		} else {
+			$party = array(getTranslatedString('Customer Name', $this->moduleName) => $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts'));
+		}
+		$party[getTranslatedString('Reason', $this->moduleName)] = decode_html($this->focusColumnValue('reason'));
+		return array_merge($party, $this->buildGstHeaderRows());
 	}
 
 	function buildHeaderModelColumnRight() {
-		$issueDateLabel = getTranslatedString('Issued Date', $this->moduleName);
-		$validDateLabel = getTranslatedString('Due Date', $this->moduleName);
 		$billingAddressLabel = getTranslatedString('Billing Address', $this->moduleName);
 		$shippingAddressLabel = getTranslatedString('Shipping Address', $this->moduleName);
 
+		$noteDate = $this->focusColumnValue('duedate');
+		$against = $this->getAgainstInfo();
 
-		$modelColumn2 = array(
-				'dates' => array(
-					$issueDateLabel  => $this->formatDate(date("Y-m-d")),
-					$validDateLabel => $this->formatDate($this->focusColumnValue('duedate')),
-				),
-				$billingAddressLabel  => $this->buildHeaderBillingAddress(),
-				$shippingAddressLabel => $this->buildHeaderShippingAddress()
-			);
-		return $modelColumn2;
+		$dates = array(
+			getTranslatedString('Note Date', $this->moduleName) => $this->formatDate(!empty($noteDate) ? $noteDate : date("Y-m-d")),
+		);
+		if ($against['no'] !== '') {
+			$dates['Against ' . $against['label']] = $against['no'];
+			if (!empty($against['date'])) {
+				$dates[$against['label'] . ' Date'] = $this->formatDate($against['date']);
+			}
+		}
+		return array(
+			'dates' => $dates,
+			$billingAddressLabel => $this->buildHeaderBillingAddress(),
+			$shippingAddressLabel => $this->buildHeaderShippingAddress()
+		);
 	}
 
 	function getWatermarkContent() {

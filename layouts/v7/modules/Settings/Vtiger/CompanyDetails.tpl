@@ -77,6 +77,9 @@
 
 		<div class="editViewContainer">
 			<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}" id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
+				{if !empty($ERROR_MESSAGE)}
+					<div class="alert alert-danger">{vtranslate($ERROR_MESSAGE, $QUALIFIED_MODULE)}</div>
+				{/if}
 				<input type="hidden" name="module" value="Vtiger" />
 				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" name="action" value="CompanyDetailsSave" />

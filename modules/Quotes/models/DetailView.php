@@ -33,17 +33,6 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		
-		$salesOrderModuleModel = Vtiger_Module_Model::getInstance('SalesOrder');
-		if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'CreateView')) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_GENERATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
-				'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
 		$purchaseOrderModuleModel = Vtiger_Module_Model::getInstance('PurchaseOrder');
 		if($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'CreateView')) {
 			$basicActionLink = array(

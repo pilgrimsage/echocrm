@@ -20,6 +20,8 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		} catch(Exception $e) {
 			if($e->getMessage() == "LBL_INVALID_IMAGE") {
 				$reloadUrl .= '&error=LBL_INVALID_IMAGE';
+			} else if($e->getMessage() == "LBL_INVALID_GSTIN") {
+				$reloadUrl .= '&error=LBL_INVALID_GSTIN';
 			} else if($e->getMessage() == "LBL_FIELDS_INFO_IS_EMPTY") {
 				$reloadUrl = $moduleModel->getEditViewUrl() . '&error=LBL_FIELDS_INFO_IS_EMPTY';
 			}
@@ -62,6 +64,16 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 				if($request->has($fieldName) || ($fieldName == "logoname")) {
 					$moduleModel->set($fieldName, $fieldValue);
 				}
+			}
+			// the company's own GSTIN is checked like a customer's when the tax system is India (GST)
+			$vatId = trim((string)$moduleModel->get('vatid'));
+			$taxSystem = $moduleModel->get('tax_system');
+			if ($vatId !== '' && $taxSystem == 'india') {
+				include_once 'include/utils/GSTUtils.php';
+				if (Vtiger_GST_Utils::gstinProblem($vatId) !== null) {
+					throw new Exception('LBL_INVALID_GSTIN', 103);
+				}
+				$moduleModel->set('vatid', Vtiger_GST_Utils::normalizeGSTIN($vatId));
 			}
 			$moduleModel->save();
 		}

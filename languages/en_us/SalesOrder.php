@@ -8,23 +8,38 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'SalesOrder'    =>  'Sales Orders',
+	'SalesOrder'    =>  'Credit/Debit Notes',
     //DetailView Actions
-	'SINGLE_SalesOrder' => 'Sales Order',
+	'SINGLE_SalesOrder' => 'Credit/Debit Note',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
-	'LBL_EXPORT_TO_PDF_GST' => 'Export to PDF (GST sales order)',
+	'LBL_EXPORT_TO_PDF_GST' => 'Export to PDF (GST note)',
 	'LBL_EXPORT_TO_PDF_STANDARD' => 'Export to PDF (Standard)',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 
 	//Basic strings
-	'LBL_ADD_RECORD' => 'Add Sales Order',
-	'LBL_RECORDS_LIST' => 'Sales Order List',
+	'LBL_ADD_RECORD' => 'Add Credit/Debit Note',
+	'LBL_RECORDS_LIST' => 'Credit/Debit Note List',
 
 	// Blocks
-	'LBL_SO_INFORMATION' => 'Sales Order Details',
+	'LBL_SO_INFORMATION' => 'Note Details',
 
 	//Field labels
-	'SalesOrder No'=>'Sales Order Number',
+	'Note No' => 'Note Number',
+	'Note Date' => 'Note Date',
+	'Note Type' => 'Note Type',
+	'Credit Note' => 'Credit Note',
+	'Debit Note' => 'Debit Note',
+	'Invoice' => 'Invoice',
+	'Vendor Name' => 'Vendor Name',
+	'Reason' => 'Reason',
+	'Purchase Return' => 'Purchase Return',
+	'Sales Return' => 'Sales Return',
+	'Post Sale Discount' => 'Post Sale Discount',
+	'Deficiency in Services' => 'Deficiency in Services',
+	'Correction in Invoice' => 'Correction in Invoice',
+	'Change in POS' => 'Change in POS',
+	'Finalization of Provisional Assessment' => 'Finalization of Provisional Assessment',
+	'Others' => 'Others',
 	'Quote Name'=>'Quote Name',
 	'Customer No' => 'Customer No',
 	'Requisition No'=>'Requisition No',

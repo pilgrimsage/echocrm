@@ -1,7 +1,7 @@
 <?php
 /**
- * Adds the "GSTIN" field to Accounts (the customer's GST identification number, printed on tax
- * invoices) and registers the handler that validates it on save. Safe to run more than once.
+ * Adds the "GSTIN" field to Accounts and Vendors (the GST identification number, printed on tax
+ * invoices and on credit / debit notes) and registers the handler that validates it on save. Safe to run more than once.
  *
  * Usage (from the project root):   php bin/add-account-gstin.php
  *
@@ -21,32 +21,37 @@ include_once 'vtlib/Vtiger/Module.php';
 global $current_user;
 $current_user = Users::getActiveAdminUser();
 
-$module = Vtiger_Module::getInstance('Accounts');
-if (!$module) {
-	fwrite(STDERR, "Accounts module not found.\n");
-	exit(1);
-}
-
-// 1. The field
-if (Vtiger_Field::getInstance('gstin', $module)) {
-	echo "Accounts.gstin already exists.\n";
-} else {
-	$block = Vtiger_Block::getInstance('LBL_ACCOUNT_INFORMATION', $module);
+// 1. The field, per module: module => array(block, table)
+$targets = array(
+	'Accounts' => array('LBL_ACCOUNT_INFORMATION', 'vtiger_account'),
+	'Vendors' => array('LBL_VENDOR_INFORMATION', 'vtiger_vendor'),
+);
+foreach ($targets as $moduleName => $target) {
+	$module = Vtiger_Module::getInstance($moduleName);
+	if (!$module) {
+		fwrite(STDERR, "$moduleName module not found.\n");
+		exit(1);
+	}
+	if (Vtiger_Field::getInstance('gstin', $module)) {
+		echo "$moduleName.gstin already exists.\n";
+		continue;
+	}
+	$block = Vtiger_Block::getInstance($target[0], $module);
 	if (!$block) {
-		fwrite(STDERR, "Block LBL_ACCOUNT_INFORMATION not found on Accounts.\n");
+		fwrite(STDERR, "Block {$target[0]} not found on $moduleName.\n");
 		exit(1);
 	}
 
 	$field = new Vtiger_Field();
 	$field->name = 'gstin';
 	$field->label = 'GSTIN';
-	$field->table = 'vtiger_account';
+	$field->table = $target[1];
 	$field->column = 'gstin';
 	$field->columntype = 'VARCHAR(15)';
 	$field->uitype = 1;
 	$field->typeofdata = 'V~O~LE~15';
 	$block->addField($field);
-	echo "Added Accounts.gstin (block LBL_ACCOUNT_INFORMATION).\n";
+	echo "Added $moduleName.gstin (block {$target[0]}).\n";
 }
 
 // 2. The save-time validation (rejects a malformed GSTIN or a wrong check character, stores it upper-case)

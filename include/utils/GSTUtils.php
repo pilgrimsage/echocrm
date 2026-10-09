@@ -48,7 +48,7 @@ class Vtiger_GST_Utils {
 
 	/** Modules whose PDF has a GST layout (the others only have the standard print). */
 	public static function moduleHasGstPrint($moduleName) {
-		return in_array($moduleName, array('Invoice', 'Quotes', 'SalesOrder', 'CreditNote'), true);
+		return in_array($moduleName, array('Invoice', 'Quotes', 'SalesOrder'), true);
 	}
 
 	public static function normalizeGSTIN($value) {

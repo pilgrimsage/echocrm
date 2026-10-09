@@ -1,6 +1,6 @@
 <?php
 /*+***********************************************************************************
- * Validates and normalizes the GSTIN on an Account before it is saved, whichever way the
+ * Validates and normalizes the GSTIN on an Account or a Vendor before it is saved, whichever way the
  * record is saved (full form, quick create, inline edit, import, webservice). An invalid
  * number stops the save with a message; a valid one is stored upper-case without spaces.
  *************************************************************************************/
@@ -11,7 +11,7 @@ include_once 'include/utils/GSTUtils.php';
 class AccountsGSTINHandler extends VTEventHandler {
 
 	function handleEvent($eventName, $entityData) {
-		if ($eventName != 'vtiger.entity.beforesave' || $entityData->getModuleName() != 'Accounts') {
+		if ($eventName != 'vtiger.entity.beforesave' || !in_array($entityData->getModuleName(), array('Accounts', 'Vendors'))) {
 			return;
 		}
 		// column_fields is a TrackableObject (ArrayAccess), not an array: use isset(), not array_key_exists()
