@@ -115,3 +115,13 @@ function addCurrencyColumns($table) {
 		$adb->query("ALTER TABLE $table ADD COLUMN conversion_rate DECIMAL(10,3) DEFAULT 1.000");
 	}
 }
+
+/** Adds an index when it is not there yet (the lists and lookups below depend on them at volume). */
+function addIndex($table, $name, $columns) {
+	global $adb;
+	$result = $adb->pquery("SHOW INDEX FROM $table WHERE Key_name = ?", array($name));
+	if (!$adb->num_rows($result)) {
+		$adb->query("ALTER TABLE $table ADD INDEX $name ($columns)");
+	}
+}
+

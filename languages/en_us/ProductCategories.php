@@ -17,6 +17,8 @@ $languageStrings = Array(
 	'Category No' => 'Category Number',
 	'Category Name' => 'Category Name',
 	'Parent Category' => 'Parent Category',
+	'Income Ledger' => 'Sales / Income Ledger',
+	'Expense Ledger' => 'Purchase / Expense Ledger',
 );
 
 $jsLanguageStrings = Array();

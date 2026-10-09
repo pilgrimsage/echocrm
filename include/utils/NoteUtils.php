@@ -56,6 +56,16 @@ class Vtiger_Note_Utils {
 		return null;
 	}
 
+	/** Total of the active notes of the matching type issued against a document (Approved or Sent: the ones that are on the books). */
+	public static function appliedTotal($parentModule, $parentId) {
+		global $adb;
+		$column = self::noteColumn($parentModule);
+		$result = $adb->pquery("SELECT SUM(n.total) AS t FROM vtiger_salesorder n
+			INNER JOIN vtiger_crmentity c ON c.crmid = n.salesorderid AND c.deleted = 0
+			WHERE n.$column = ? AND n.note_type = '" . self::noteType($parentModule) . "' AND n.sostatus IN ('Approved', 'Sent')", array($parentId));
+		return (float)$adb->query_result($result, 0, 't');
+	}
+
 	/**
 	 * Quantity already returned by active (not cancelled) notes, per product id. Only return notes
 	 * use up quantity; notes for a discount or price correction are limited by the total instead.

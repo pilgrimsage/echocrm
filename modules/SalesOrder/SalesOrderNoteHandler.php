@@ -14,7 +14,11 @@ include_once 'include/utils/NoteUtils.php';
 class SalesOrderNoteHandler extends VTEventHandler {
 
 	function handleEvent($eventName, $entityData) {
-		if ($eventName != 'vtiger.entity.beforesave' || $entityData->getModuleName() != 'SalesOrder') {
+		if ($entityData->getModuleName() != 'SalesOrder') {
+			return;
+		}
+		if ($eventName != 'vtiger.entity.beforesave') {
+			$this->refreshParent($entityData);
 			return;
 		}
 		$data = $entityData->getData();
@@ -45,6 +49,26 @@ class SalesOrderNoteHandler extends VTEventHandler {
 		$problem = Vtiger_Note_Utils::saveProblem($data['note_type'], $parentId, $partyId, $lines ?? array(), $total, $data['reason'] ?? '', $noteId);
 		if ($problem !== null) {
 			throw new Exception($problem);
+		}
+	}
+
+	/**
+	 * A note settles the invoice (credit note) or purchase order (debit note) it was issued against,
+	 * like a payment does: after it is saved, deleted or restored, the document's balance and status
+	 * are brought up to date.
+	 */
+	private function refreshParent($entityData) {
+		global $adb;
+		include_once 'include/utils/PaymentUtils.php';
+		$result = $adb->pquery('SELECT note_type, invoiceid, purchaseorderid FROM vtiger_salesorder WHERE salesorderid = ?', array($entityData->getId()));
+		if (!$adb->num_rows($result)) {
+			return;
+		}
+		$row = $adb->fetch_array($result);
+		if ($row['note_type'] == 'Debit Note' && !empty($row['purchaseorderid'])) {
+			Vtiger_Payment_Utils::refreshDocument('PurchaseOrder', $row['purchaseorderid']);
+		} elseif ($row['note_type'] != 'Debit Note' && !empty($row['invoiceid'])) {
+			Vtiger_Payment_Utils::refreshDocument('Invoice', $row['invoiceid']);
 		}
 	}
 

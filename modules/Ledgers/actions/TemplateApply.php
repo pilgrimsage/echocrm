@@ -8,11 +8,13 @@
  * All Rights Reserved.
  *************************************************************************************/
 include_once 'include/utils/LedgerUtils.php';
+include_once 'include/utils/AccountingTemplates.php';
 
-class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
+/** Adds an industry chart of accounts (nothing is removed or renamed). Administrators only. */
+class Ledgers_TemplateApply_Action extends Vtiger_Action_Controller {
 
 	public function requiresPermission(\Vtiger_Request $request) {
-		return array(array('module_parameter' => 'module', 'action' => 'EditView'));
+		return array(array('module_parameter' => 'module', 'action' => 'CreateView'));
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -25,20 +27,12 @@ class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
 
 	public function process(Vtiger_Request $request) {
 		try {
-			foreach (array('lock_date', 'books_start') as $name) {
-				$value = (string)$request->get($name);
-				Vtiger_Ledger_Utils::setSetting($name, preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : null);
-			}
-			foreach ((array)$request->get('posting') as $key => $ledgerId) {
-				if ($ledgerId) {
-					Vtiger_Ledger_Utils::setAccount($key, (int)$ledgerId);
-				}
-			}
+			list($added, $roles) = Vtiger_Accounting_Templates::apply((string)$request->get('template'));
+			$message = "Added $added ledger" . ($added == 1 ? '' : 's') . ($roles ? " and set $roles posting account" . ($roles == 1 ? '' : 's') : '') . '.';
 		} catch (Exception $e) {
-			header('Location: index.php?module=Ledgers&view=AccountingSettings&message=' . urlencode($e->getMessage()));
-			return;
+			$message = $e->getMessage();
 		}
-		header('Location: index.php?module=Ledgers&view=AccountingSettings&saved=1');
+		header('Location: index.php?module=Ledgers&view=AccountingSettings&message=' . urlencode($message));
 	}
 
 	public function validateRequest(Vtiger_Request $request) {

@@ -49,7 +49,7 @@ class PaymentsHandler extends VTEventHandler {
 		$documentId = $data['related_to'] ?? null;
 		$documentModule = $documentId ? getSalesEntityType($documentId) : null;
 		if (!$documentModule || !in_array($documentModule, Vtiger_Payment_Utils::documentModules())) {
-			throw new Exception('Choose the quote, invoice, purchase order or note the payment belongs to.');
+			throw new Exception('Choose the quote, invoice or purchase order the payment belongs to.');
 		}
 		$status = !empty($data['status']) ? $data['status'] : Vtiger_Payment_Utils::STATUS_COMPLETED;
 		$amount = (float)($data['amount'] ?? 0);
