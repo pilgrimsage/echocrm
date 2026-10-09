@@ -10,6 +10,7 @@
 include_once 'include/utils/LedgerUtils.php';
 
 include_once 'modules/Ledgers/views/ReportBase.php';
+include_once 'include/utils/FinancialYears.php';
 
 /** Income less expenses over a period, by ledger. */
 class Ledgers_ProfitLoss_View extends Ledgers_ReportBase_View {
@@ -20,7 +21,7 @@ class Ledgers_ProfitLoss_View extends Ledgers_ReportBase_View {
 		list($selectedCostCentre, $costCentres) = $this->costCentreFilter($request);
 		$income = $expenses = array();
 		$totalIncome = $totalExpenses = 0.0;
-		foreach (Vtiger_Ledger_Utils::ledgerTotals($to, $from, $costCentres) as $row) {
+		foreach (Vtiger_Ledger_Utils::ledgerTotals($to, $from, $costCentres, false) as $row) {
 			$amount = Vtiger_Ledger_Utils::normalBalance($row);
 			if (abs($amount) < 0.005) {
 				continue;
@@ -35,6 +36,7 @@ class Ledgers_ProfitLoss_View extends Ledgers_ReportBase_View {
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('YEARS', Vtiger_Financial_Years::years());
 		$viewer->assign('COST_CENTRES', $this->costCentreOptions(true));
 		$viewer->assign('CC', $selectedCostCentre);
 		$viewer->assign('FROM', $from);

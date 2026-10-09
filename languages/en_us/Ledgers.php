@@ -28,6 +28,7 @@ $languageStrings = Array(
 	'LBL_JOURNAL' => 'Journal',
 	'LBL_TRIAL_BALANCE' => 'Trial Balance',
 	'LBL_PROFIT_LOSS' => 'Profit & Loss',
+	'LBL_FINANCIAL_YEARS' => 'Financial Years',
 	'LBL_BALANCE_SHEET' => 'Balance Sheet',
 	'LBL_ACCOUNTING_SETTINGS' => 'Accounting Settings',
 	'LBL_COST_CENTRE_REPORT' => 'Cost Centre Report',
