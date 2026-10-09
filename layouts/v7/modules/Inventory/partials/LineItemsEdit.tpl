@@ -492,9 +492,9 @@
 						</td>
 						<td>
 							{if $MODULE eq 'Invoice'}
-								<span class="float-end"><input id="received" name="received" type="text" class="lineItemInputBox form-control" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}"></span>
+								<span class="float-end"><input id="received" name="received" type="text" class="lineItemInputBox form-control" title="{vtranslate('LBL_RECORDED_THROUGH_PAYMENTS', 'Payments')}" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0{/if}" readonly></span>
 								{else}
-								<span class="float-end"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}"></span>
+								<span class="float-end"><input id="paid" name="paid" type="text" class="lineItemInputBox form-control" title="{vtranslate('LBL_RECORDED_THROUGH_PAYMENTS', 'Payments')}" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0{/if}" readonly></span>
 								{/if}
 						</td>
 					</tr>

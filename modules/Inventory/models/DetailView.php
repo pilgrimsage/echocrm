@@ -47,6 +47,22 @@ class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
             $linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($sendEmailLink);
 		}
 
+		// "Record Payment": only where the document accepts payments (status, amount still outstanding)
+		include_once 'include/utils/PaymentUtils.php';
+		$paymentsModule = Vtiger_Module_Model::getInstance('Payments');
+		if ($paymentsModule && $paymentsModule->isActive() && in_array($moduleName, Vtiger_Payment_Utils::documentModules())
+				&& Users_Privileges_Model::isPermitted('Payments', 'CreateView')) {
+			$paymentUrl = Vtiger_Payment_Utils::getRecordPaymentUrl($moduleName, $recordModel->getId());
+			if ($paymentUrl) {
+				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues(array(
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_RECORD_PAYMENT', 'Payments'),
+					'linkurl' => $paymentUrl,
+					'linkicon' => ''
+				));
+			}
+		}
+
 		return $linkModelList;
 	}
 
