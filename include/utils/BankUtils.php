@@ -162,6 +162,11 @@ class Vtiger_Bank_Utils {
 		if (!$from || !$to) {
 			throw new Exception('Choose both accounts.');
 		}
+		include_once 'include/utils/LedgerUtils.php';
+		$locked = Vtiger_Ledger_Utils::lockProblem($date);
+		if ($locked !== null) {
+			throw new Exception($locked);
+		}
 		$out = array('bank_account' => $fromId, 'transaction_date' => $date, 'direction' => 'Out', 'amount' => $amount);
 		$problem = self::saveProblem($out, 0, null);
 		if ($problem !== null) {
@@ -177,6 +182,9 @@ class Vtiger_Bank_Utils {
 			'narration' => trim("Transfer from {$from['name']}. $narration")));
 		$adb->pquery('UPDATE vtiger_banktransactions SET transfer_pair = ? WHERE banktransactionsid = ?', array($inId, $outId));
 		$adb->pquery('UPDATE vtiger_banktransactions SET transfer_pair = ? WHERE banktransactionsid = ?', array($outId, $inId));
+		// book the movement between the two accounts' ledgers
+		include_once 'include/utils/LedgerUtils.php';
+		Vtiger_Ledger_Utils::syncBankTransaction($inId);
 		return array($outId, $inId);
 	}
 

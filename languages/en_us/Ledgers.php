@@ -24,7 +24,12 @@ $languageStrings = Array(
 	'Income' => 'Income',
 	'Expenses' => 'Expenses',
 	'Equity' => 'Equity',
-	'LBL_LEDGER_STATEMENT' => 'Ledger Statement',
+	'LBL_LEDGER_STATEMENT' => 'General Ledger',
+	'LBL_JOURNAL' => 'Journal',
+	'LBL_TRIAL_BALANCE' => 'Trial Balance',
+	'LBL_PROFIT_LOSS' => 'Profit & Loss',
+	'LBL_BALANCE_SHEET' => 'Balance Sheet',
+	'LBL_ACCOUNTING_SETTINGS' => 'Accounting Settings',
 );
 
 $jsLanguageStrings = Array();
