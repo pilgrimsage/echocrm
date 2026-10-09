@@ -12,6 +12,8 @@
  * Ledger sign convention: Assets and Expenses carry debit balances; Liabilities, Income and Equity
  * carry credit balances.
  */
+include_once 'include/utils/StockUtils.php';
+
 class Vtiger_Ledger_Utils {
 
 	/** Statuses in which a document is posted to the books. */
@@ -110,6 +112,10 @@ class Vtiger_Ledger_Utils {
 			'purchases' => array('Purchases / cost of goods', 'Purchases', 'Expenses'),
 			'purchase_returns' => array('Purchase returns (debit notes)', 'Purchase Returns', 'Expenses'),
 			'round_off' => array('Round off', 'Round Off', 'Expenses'),
+			'inventory' => array('Inventory (stock on hand)', 'Inventory', 'Assets'),
+			'goods_in_transit' => array('Goods ordered, not yet received', 'Goods in Transit', 'Assets'),
+			'cogs' => array('Cost of goods sold', 'Cost of Goods Sold', 'Expenses'),
+			'stock_adjustment' => array('Stock write-offs and count differences', 'Stock Adjustments and Write-offs', 'Expenses'),
 			'customer_advances' => array('Advances from customers (quote payments)', 'Customer Advances', 'Liabilities'),
 			'suspense' => array('Suspense (uncategorised bank entries)', 'Suspense Account', 'Liabilities'),
 			'opening_equity' => array('Opening balances', 'Opening Balance Equity', 'Equity'),
@@ -604,6 +610,67 @@ class Vtiger_Ledger_Utils {
 	}
 
 	/**
+	 * The cost side of a sale or sales return, from its stock moves: an invoice debits Cost of Goods Sold and
+	 * credits Inventory with what left stock; a credit note for returned goods does the reverse.
+	 */
+	public static function syncCogs($module, $id) {
+		global $adb;
+		if (!in_array($module, array('Invoice', 'SalesOrder'))) {
+			return;
+		}
+		$f = self::documentFigures($module, $id);
+		if (!$f || ($module == 'SalesOrder' && $f['note_type'] == 'Debit Note')) {
+			return;
+		}
+		self::$dimension = $f['cost_centre'] ?: null;
+		$value = 0.0;
+		$result = $adb->pquery('SELECT SUM(value) AS v FROM vtiger_stock_moves WHERE source_module = ? AND source_id = ?', array($module, $id));
+		$value = round((float)$adb->query_result($result, 0, 'v'), 2); // negative for a sale, positive for a return
+		$lines = array();
+		if (!$f['deleted'] && abs($value) >= 0.005) {
+			$cogs = self::ledgerId('Cost of Goods Sold', 'Expenses');
+			$inventory = self::ledgerId('Inventory', 'Assets');
+			$narration = 'Cost of ' . trim(($module == 'Invoice' ? 'Invoice ' : 'Credit Note ') . $f['no']);
+			if ($value < 0) {
+				$lines[] = self::line($cogs, -$value, 0, null, null, $narration);
+				$lines[] = self::line($inventory, 0, -$value, null, null, $narration);
+			} else {
+				$lines[] = self::line($inventory, $value, 0, null, null, $narration);
+				$lines[] = self::line($cogs, 0, $value, null, null, $narration);
+			}
+		}
+		self::syncEntry($module, $id, 'cogs', self::documentDate($module, $id), 'Cost of goods ' . ($module == 'Invoice' ? 'sold' : 'returned') . ' ' . $f['no'], $lines);
+	}
+
+	/** Journal entry of a stock adjustment / opening stock, from its moves and the ledger chosen for the other side. */
+	public static function syncStockAdjustment($adjustmentId) {
+		global $adb;
+		self::$dimension = null;
+		$result = $adb->pquery('SELECT * FROM vtiger_stock_adjustments WHERE adjustment_id = ?', array($adjustmentId));
+		if (!$adb->num_rows($result)) {
+			return;
+		}
+		$a = $adb->fetch_array($result);
+		$moves = $adb->pquery("SELECT SUM(CASE WHEN qty > 0 THEN value ELSE 0 END) AS added, SUM(CASE WHEN qty < 0 THEN -value ELSE 0 END) AS removed
+			FROM vtiger_stock_moves WHERE source_module = 'Adjustment' AND source_id = ?", array($adjustmentId));
+		$added = round((float)$adb->query_result($moves, 0, 'added'), 2);
+		$removed = round((float)$adb->query_result($moves, 0, 'removed'), 2);
+		$inventory = self::ledgerId('Inventory', 'Assets');
+		$counter = $a['counter_ledger'];
+		$narration = trim($a['adjustment_type'] . ' ' . $a['narration']);
+		$lines = array();
+		if ($added) {
+			$lines[] = self::line($inventory, $added, 0, null, null, $narration);
+			$lines[] = self::line($counter, 0, $added, null, null, $narration);
+		}
+		if ($removed) {
+			$lines[] = self::line($counter, $removed, 0, null, null, $narration);
+			$lines[] = self::line($inventory, 0, $removed, null, null, $narration);
+		}
+		self::syncEntry('StockAdjustment', $adjustmentId, 'stock', $a['adjustment_date'], $narration ?: 'Stock adjustment', $lines);
+	}
+
+	/**
 	 * Posts (or unposts) an Invoice, Purchase Order or credit/debit note according to its status:
 	 *   Invoice            Dr Accounts Receivable | Cr Sales, output taxes, round off
 	 *   Purchase Order     Dr Purchases, input taxes | Cr Accounts Payable
@@ -640,7 +707,13 @@ class Vtiger_Ledger_Utils {
 				$goods = self::ledgerId($debitNote ? 'Purchase Returns' : 'Purchases', $debitNote ? 'Expenses' : 'Expenses');
 				if ($debitNote) {
 					$lines[] = self::line($payable, $f['total'], 0, null, $vendor, $narration);
-					$lines[] = self::line($goods, 0, $net, null, null, $narration);
+					$fromStock = min(Vtiger_Stock_Utils::movesValue('SalesOrder', $id), 99999999);
+					if ($fromStock > 0.004) {
+						$lines[] = self::line(self::ledgerId('Inventory', 'Assets'), 0, $fromStock, null, null, $narration);
+					}
+					// the rest (services, price difference between what was paid and the cost) goes to purchase returns
+					$rest = round($net - $fromStock, 2);
+					$lines[] = self::line($goods, $rest < 0 ? -$rest : 0, $rest > 0 ? $rest : 0, null, null, $narration);
 					foreach ($taxes as $name => $amount) {
 						$lines[] = self::line(self::ledgerId($name, 'Assets'), 0, $amount, null, null, $narration);
 					}
@@ -648,7 +721,12 @@ class Vtiger_Ledger_Utils {
 						$lines[] = self::line(self::ledgerId('Round Off', 'Expenses'), $adjustment > 0 ? 0 : -$adjustment, $adjustment > 0 ? $adjustment : 0);
 					}
 				} else {
-					foreach (self::allocateByCategory($id, $net, $goods, true) as $ledger => $amount) {
+					// goods that take part in stock go to Inventory once received (Goods in Transit while only ordered)
+					$stock = min($net, Vtiger_Stock_Utils::stockValue('PurchaseOrder', $id));
+					if ($stock > 0.004) {
+						$lines[] = self::line(self::ledgerId($f['status'] == 'Received Shipment' ? 'Inventory' : 'Goods in Transit', 'Assets'), $stock, 0, null, null, $narration);
+					}
+					foreach (self::allocateByCategory($id, round($net - $stock, 2), $goods, true) as $ledger => $amount) {
 						$lines[] = self::line($ledger, $amount, 0, null, null, $narration);
 					}
 					foreach ($taxes as $name => $amount) {
@@ -1060,6 +1138,7 @@ class Vtiger_Ledger_Utils {
 			'Invoice' => array('SELECT invoiceid FROM vtiger_invoice', null),
 			'PurchaseOrder' => array('SELECT purchaseorderid FROM vtiger_purchaseorder', null),
 			'SalesOrder' => array('SELECT salesorderid FROM vtiger_salesorder', null),
+			'StockAdjustment' => array('SELECT adjustment_id FROM vtiger_stock_adjustments', 'syncStockAdjustment'),
 			'Payments' => array('SELECT paymentsid FROM vtiger_payments', 'syncPayment'),
 			'BankTransactions' => array('SELECT banktransactionsid FROM vtiger_banktransactions', 'syncBankTransaction'),
 		);
@@ -1071,6 +1150,7 @@ class Vtiger_Ledger_Utils {
 				if ($source[1]) {
 					self::{$source[1]}($id);
 				} else {
+					Vtiger_Stock_Utils::syncDocument($module, $id); // stock moves first: the entries below read them
 					self::syncDocument($module, $id);
 				}
 				$counts[$module]++;

@@ -10,6 +10,7 @@ require_once 'include/events/VTEventHandler.inc';
 include_once 'include/utils/LedgerUtils.php';
 include_once 'include/utils/BankUtils.php';
 include_once 'include/utils/PaymentUtils.php';
+include_once 'include/utils/StockUtils.php';
 
 class JournalHandler extends VTEventHandler {
 
@@ -23,6 +24,7 @@ class JournalHandler extends VTEventHandler {
 
 		if (in_array($module, self::$documentModules)) {
 			if ($after) {
+				Vtiger_Stock_Utils::syncDocument($module, $id);   // moves first: cost of goods sold and debit notes read them
 				Vtiger_Ledger_Utils::syncDocument($module, $id);
 				// balance and status follow the payments and returns recorded against the document
 				if ($module != 'SalesOrder') {
