@@ -16,6 +16,9 @@ class BankAccounts_Module_Model extends Vtiger_Module_Model {
 		if (Users_Privileges_Model::isPermitted($this->getName(), 'CreateView')) {
 			$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_TRANSFER_MONEY', 'linkurl' => 'index.php?module=BankAccounts&view=Transfer', 'linkicon' => 'fa-exchange');
 		}
+		if (Users_Privileges_Model::isPermitted($this->getName(), 'EditView')) {
+			$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_IMPORT_STATEMENT', 'linkurl' => 'index.php?module=BankAccounts&view=ImportStatement', 'linkicon' => 'fa-upload');
+		}
 		$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_STATEMENT', 'linkurl' => 'index.php?module=BankAccounts&view=Statement', 'linkicon' => 'fa-list');
 		return $links;
 	}
