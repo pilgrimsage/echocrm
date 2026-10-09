@@ -21,8 +21,9 @@ class Ledgers_JournalSave_Action extends Vtiger_Action_Controller {
 		$debits = (array)$request->get('debit');
 		$credits = (array)$request->get('credit');
 		$memos = (array)$request->get('memo');
+		$costs = (array)$request->get('cost');
 		foreach ($ledgers as $i => $ledger) {
-			$lines[] = array('ledger' => (int)$ledger, 'debit' => (float)($debits[$i] ?? 0), 'credit' => (float)($credits[$i] ?? 0), 'memo' => (string)($memos[$i] ?? ''));
+			$lines[] = array('ledger' => (int)$ledger, 'debit' => (float)($debits[$i] ?? 0), 'credit' => (float)($credits[$i] ?? 0), 'memo' => (string)($memos[$i] ?? ''), 'cost' => (int)($costs[$i] ?? 0));
 		}
 		try {
 			Vtiger_Ledger_Utils::postManual((string)$request->get('entry_date'), (string)$request->get('narration'), $lines);

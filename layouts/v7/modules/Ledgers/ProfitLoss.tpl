@@ -5,6 +5,8 @@
 		<input type="hidden" name="module" value="Ledgers"/><input type="hidden" name="view" value="ProfitLoss"/>
 		<div class="col-6 col-md-3"><label class="form-label">From</label><input type="date" name="from" value="{$FROM}" class="form-control"/></div>
 		<div class="col-6 col-md-3"><label class="form-label">To</label><input type="date" name="to" value="{$TO}" class="form-control"/></div>
+		{if $COST_CENTRES}<div class="col-12 col-md-4"><label class="form-label">Cost centre / project</label>
+			<select name="cc" class="form-select"><option value="">All (company)</option>{foreach from=$COST_CENTRES key=ID item=NAME}<option value="{$ID}" {if $ID eq $CC}selected{/if}>{$NAME|escape:'html'}</option>{/foreach}</select></div>{/if}
 		<div class="col-12 col-md-2"><button class="btn btn-primary w-100" type="submit">Show</button></div>
 	</form>
 	<div class="row g-4">

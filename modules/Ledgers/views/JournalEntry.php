@@ -29,6 +29,7 @@ class Ledgers_JournalEntry_View extends Ledgers_ReportBase_View {
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('LEDGERS', $ledgers);
+		$viewer->assign('COST_CENTRES', $this->costCentreOptions());
 		$viewer->assign('TODAY', date('Y-m-d'));
 		$viewer->assign('ERROR', $request->get('error'));
 		$viewer->view('JournalEntry.tpl', $request->getModule());

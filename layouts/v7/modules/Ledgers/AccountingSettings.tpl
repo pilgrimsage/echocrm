@@ -11,6 +11,8 @@
 		<div class="col-12"><label class="form-label">Books start on</label>
 			<input type="date" name="books_start" value="{$BOOKS_START}" class="form-control"/>
 			<div class="form-text">Ledger opening balances are booked on this date (now: {$OPENING_DATE}). Leave empty for 1 April of the current financial year.</div></div>
+		<div class="col-12"><div class="form-check"><input type="checkbox" class="form-check-input" name="require_cost_centre" value="1" id="reqcc" {if $REQUIRE_COST_CENTRE}checked{/if}/>
+			<label class="form-check-label" for="reqcc">Require a cost centre / project on every invoice, purchase order and note that is posted</label></div></div>
 		<div class="col-12"><hr/><h6>Posting accounts</h6>
 			<div class="form-text mb-2">Which ledger each kind of posting goes to. Change a line to post to your own ledger (for example Sales to "Service Revenue"). History already posted stays where it was until you rebuild the postings.</div>
 			<div class="row g-2">

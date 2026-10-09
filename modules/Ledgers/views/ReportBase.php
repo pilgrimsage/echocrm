@@ -27,6 +27,27 @@ abstract class Ledgers_ReportBase_View extends Vtiger_Index_View {
 		return $year . '-04-01';
 	}
 
+	/** Cost centres / projects for a select: id => "Type / Name" (only the open ones unless $all). */
+	protected function costCentreOptions($all = false) {
+		global $adb;
+		$options = array();
+		if (Vtiger_Ledger_Utils::dimensionColumn('vtiger_journal_lines') == 'NULL') {
+			return $options;
+		}
+		$result = $adb->pquery('SELECT c.costcentresid, c.costcentre_name, c.dimension_type FROM vtiger_costcentres c
+			INNER JOIN vtiger_crmentity e ON e.crmid = c.costcentresid AND e.deleted = 0' . ($all ? '' : " WHERE c.status = 'Active'") . ' ORDER BY c.dimension_type, c.costcentre_name');
+		while ($row = $adb->fetch_array($result)) {
+			$options[$row['costcentresid']] = decode_html($row['dimension_type']) . ' / ' . decode_html($row['costcentre_name']);
+		}
+		return $options;
+	}
+
+	/** The cost centre filter of a report: array(selected id or 0, ids to sum (the centre and everything below it) or null). */
+	protected function costCentreFilter(Vtiger_Request $request) {
+		$selected = (int)$request->get('cc');
+		return array($selected, $selected ? Vtiger_Ledger_Utils::costCentreTree($selected) : null);
+	}
+
 	/** Link to the record a journal entry came from, or null. */
 	public static function sourceUrl($module, $id) {
 		$modules = array('Invoice', 'PurchaseOrder', 'SalesOrder', 'Payments', 'BankTransactions', 'BankAccounts', 'Ledgers');
