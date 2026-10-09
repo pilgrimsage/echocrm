@@ -33,6 +33,16 @@ class Vtiger_Ledger_Utils {
 
 	private static $columnCache = array();
 
+	/** Whether the monthly totals separate closing entries (the column exists once bin/create-financial-years.php has run). */
+	private static function hasKind() {
+		global $adb;
+		static $has = null;
+		if ($has === null) {
+			$has = in_array('kind', $adb->getColumnNames('vtiger_ledger_balances'));
+		}
+		return $has;
+	}
+
 	/** 'cost_centre' when the table has that column (the dimension is switched on), else 'NULL' for use in SQL. */
 	public static function dimensionColumn($table, $alias = '') {
 		global $adb;
@@ -80,7 +90,13 @@ class Vtiger_Ledger_Utils {
 		return $converted ?: null;
 	}
 
+	/** True only while a repair tool (the full repost) rebuilds postings of locked periods from their documents. */
+	private static $bypassLock = false;
+
 	public static function isLocked($date) {
+		if (self::$bypassLock) {
+			return false;
+		}
 		$date = self::dbDate($date);
 		$lock = self::lockDate();
 		return $lock && $date && $date <= $lock;
@@ -112,6 +128,7 @@ class Vtiger_Ledger_Utils {
 			'purchases' => array('Purchases / cost of goods', 'Purchases', 'Expenses'),
 			'purchase_returns' => array('Purchase returns (debit notes)', 'Purchase Returns', 'Expenses'),
 			'round_off' => array('Round off', 'Round Off', 'Expenses'),
+			'retained_earnings' => array('Retained earnings (profit carried forward at year end)', 'Retained Earnings', 'Equity'),
 			'inventory' => array('Inventory (stock on hand)', 'Inventory', 'Assets'),
 			'goods_in_transit' => array('Goods ordered, not yet received', 'Goods in Transit', 'Assets'),
 			'cogs' => array('Cost of goods sold', 'Cost of Goods Sold', 'Expenses'),
@@ -270,7 +287,7 @@ class Vtiger_Ledger_Utils {
 			$adb->pquery('INSERT INTO vtiger_journal_lines (entry_id, ledger_id, debit, credit, party_account, party_vendor, memo, cost_centre) VALUES (?,?,?,?,?,?,?,?)',
 				array($entryId, $l['ledger'], $l['debit'], $l['credit'], $l['account'], $l['vendor'], $l['memo'], $l['cost'] ?: null));
 		}
-		self::adjustMonthlyTotals($date, $lines, 1);
+		self::adjustMonthlyTotals($date, $lines, 1, $type == 'closing' ? 1 : 0);
 		return $entryId;
 	}
 
@@ -278,13 +295,19 @@ class Vtiger_Ledger_Utils {
 	 * Keeps vtiger_ledger_balances (debit and credit per ledger per month) in step with the lines, so
 	 * reports add up a few hundred monthly rows instead of every line ever posted.
 	 */
-	private static function adjustMonthlyTotals($date, array $lines, $sign) {
+	private static function adjustMonthlyTotals($date, array $lines, $sign, $kind = 0) {
 		global $adb;
 		$month = substr($date, 0, 7);
 		foreach ($lines as $l) {
-			$adb->pquery('INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?)
-				ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
-				array($l['ledger'], $month, $sign * $l['debit'], $sign * $l['credit']));
+			if (self::hasKind()) {
+				$adb->pquery('INSERT INTO vtiger_ledger_balances (ledger_id, ym, kind, debit, credit) VALUES (?, ?, ?, ?, ?)
+					ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
+					array($l['ledger'], $month, $kind, $sign * $l['debit'], $sign * $l['credit']));
+			} else {
+				$adb->pquery('INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?)
+					ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
+					array($l['ledger'], $month, $sign * $l['debit'], $sign * $l['credit']));
+			}
 			if (!empty($l['cost'])) {
 				$adb->pquery('INSERT INTO vtiger_dimension_balances (cost_centre_id, ledger_id, ym, debit, credit) VALUES (?, ?, ?, ?, ?)
 					ON DUPLICATE KEY UPDATE debit = debit + VALUES(debit), credit = credit + VALUES(credit)',
@@ -296,7 +319,9 @@ class Vtiger_Ledger_Utils {
 	/** Deletes an entry and takes its lines out of the monthly totals. */
 	private static function deleteEntry($entryId, $date) {
 		global $adb;
-		self::adjustMonthlyTotals($date, self::entryLines($entryId), -1);
+		$type = $adb->pquery('SELECT entry_type FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
+		$kind = ($adb->num_rows($type) && $adb->query_result($type, 0, 0) == 'closing') ? 1 : 0;
+		self::adjustMonthlyTotals($date, self::entryLines($entryId), -1, $kind);
 		$adb->pquery('DELETE FROM vtiger_journal_lines WHERE entry_id = ?', array($entryId));
 		$adb->pquery('DELETE FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
 	}
@@ -469,6 +494,37 @@ class Vtiger_Ledger_Utils {
 			throw new Exception($problem);
 		}
 		return self::insertEntry($date, trim($narration), 'Manual', 0, 'manual', 'manual', $lines);
+	}
+
+	/**
+	 * The year-end closing entry: moves the year's income and expense balances to retained earnings.
+	 * Made by FinancialYears::close(); it is typed 'closing' so period profit and loss reports leave it out,
+	 * and it survives a rebuild of the system postings.
+	 */
+	public static function postClosing($date, $narration, array $rawLines, $yearKey) {
+		$lines = array();
+		foreach ($rawLines as $r) {
+			$lines[] = self::line($r['ledger'], $r['debit'], $r['credit'], null, null, $narration);
+		}
+		self::$dimension = null;
+		$lines = self::normalize($lines);
+		$problem = $lines ? self::balanceProblem($lines) : null;
+		if ($problem !== null) {
+			throw new Exception($problem);
+		}
+		if (!$lines) {
+			return null;
+		}
+		return self::insertEntry($date, $narration, 'FinancialYear', $yearKey, 'closing', 'closing', $lines);
+	}
+
+	/** Removes the closing entry of a year (reopening it). */
+	public static function removeClosing($yearKey) {
+		global $adb;
+		$result = $adb->pquery("SELECT entry_id, entry_date FROM vtiger_journal_entries WHERE source_module = 'FinancialYear' AND source_id = ? AND entry_type = 'closing'", array($yearKey));
+		while ($row = $adb->fetch_array($result)) {
+			self::deleteEntry($row['entry_id'], $row['entry_date']);
+		}
 	}
 
 	/** Reverses an entry made by a person with an opposite entry dated $date. */
@@ -994,7 +1050,7 @@ class Vtiger_Ledger_Utils {
 	 * most two) partial months at the edges are summed from the lines. $costCentres limits the sums
 	 * to those cost centres / projects (ids), $ledgerId to one ledger.
 	 */
-	public static function sumsByLedger($from, $to, $ledgerId = null, $costCentres = null) {
+	public static function sumsByLedger($from, $to, $ledgerId = null, $costCentres = null, $includeClosing = true) {
 		global $adb;
 		$sums = array();
 		$add = function ($result) use (&$sums, $adb) {
@@ -1012,7 +1068,7 @@ class Vtiger_Ledger_Utils {
 					. str_replace('jl.cost_centre', 'jl.cost_centre_id', $costFilter) . $ledgerFilter . ' GROUP BY jl.ledger_id', array($fromYm, $toYm)));
 			} else {
 				$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_ledger_balances jl WHERE jl.ym >= ? AND jl.ym <= ?'
-					. $ledgerFilter . ' GROUP BY jl.ledger_id', array($fromYm, $toYm)));
+					. (!$includeClosing && self::hasKind() ? ' AND jl.kind = 0' : '') . $ledgerFilter . ' GROUP BY jl.ledger_id', array($fromYm, $toYm)));
 			}
 		}
 		foreach ($edges as $edge) {
@@ -1020,7 +1076,7 @@ class Vtiger_Ledger_Utils {
 				continue;
 			}
 			$add($adb->pquery('SELECT jl.ledger_id, SUM(jl.debit) AS debit, SUM(jl.credit) AS credit FROM vtiger_journal_entries je
-				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id WHERE je.entry_date >= ? AND je.entry_date <= ?' . $ledgerFilter . $costFilter . '
+				STRAIGHT_JOIN vtiger_journal_lines jl ON jl.entry_id = je.entry_id WHERE je.entry_date >= ? AND je.entry_date <= ?' . ($includeClosing ? '' : " AND je.entry_type != 'closing'") . $ledgerFilter . $costFilter . '
 				GROUP BY jl.ledger_id', array($edge[0], $edge[1])));
 		}
 		return $sums;
@@ -1062,9 +1118,9 @@ class Vtiger_Ledger_Utils {
 	}
 
 	/** Per-ledger totals up to a date (and from a date when given): rows of ledger id, name, group, debit, credit. */
-	public static function ledgerTotals($asAt, $from = null, $costCentres = null) {
+	public static function ledgerTotals($asAt, $from = null, $costCentres = null, $includeClosing = true) {
 		global $adb;
-		$sums = self::sumsByLedger($from, $asAt, null, $costCentres);
+		$sums = self::sumsByLedger($from, $asAt, null, $costCentres, $includeClosing);
 		$result = $adb->pquery("SELECT l.ledgersid AS id, l.ledger_name AS name, l.ledger_group AS grp FROM vtiger_ledgers l
 			INNER JOIN vtiger_crmentity c ON c.crmid = l.ledgersid AND c.deleted = 0 ORDER BY l.ledger_group, l.ledger_name");
 		$rows = array();
@@ -1120,6 +1176,12 @@ class Vtiger_Ledger_Utils {
 			SELECT jl.cost_centre, jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl
 			INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id WHERE jl.cost_centre IS NOT NULL GROUP BY jl.cost_centre, jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m')");
 		$adb->pquery('DELETE FROM vtiger_ledger_balances');
+		if (self::hasKind()) {
+			$adb->pquery("INSERT INTO vtiger_ledger_balances (ledger_id, ym, kind, debit, credit)
+				SELECT jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), IF(je.entry_type = 'closing', 1, 0), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl
+				INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id GROUP BY jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), IF(je.entry_type = 'closing', 1, 0)");
+			return;
+		}
 		$adb->pquery("INSERT INTO vtiger_ledger_balances (ledger_id, ym, debit, credit)
 			SELECT jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m'), SUM(jl.debit), SUM(jl.credit) FROM vtiger_journal_lines jl
 			INNER JOIN vtiger_journal_entries je ON je.entry_id = jl.entry_id GROUP BY jl.ledger_id, DATE_FORMAT(je.entry_date, '%Y-%m')");
@@ -1127,6 +1189,17 @@ class Vtiger_Ledger_Utils {
 
 	/** Rebuilds every system entry from the records (used after the first install and to repair). Returns a count per source. */
 	public static function rebuildAll() {
+		global $adb;
+		// a full repost recreates entries of every period, including locked ones, from the documents that already exist
+		self::$bypassLock = true;
+		try {
+			return self::rebuildEverything();
+		} finally {
+			self::$bypassLock = false;
+		}
+	}
+
+	private static function rebuildEverything() {
 		global $adb;
 		$adb->pquery("DELETE FROM vtiger_journal_lines WHERE entry_id IN (SELECT entry_id FROM vtiger_journal_entries WHERE entry_type = 'auto')");
 		$adb->pquery("DELETE FROM vtiger_journal_entries WHERE entry_type = 'auto'");

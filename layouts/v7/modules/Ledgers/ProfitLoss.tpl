@@ -9,6 +9,7 @@
 			<select name="cc" class="form-select"><option value="">All (company)</option>{foreach from=$COST_CENTRES key=ID item=NAME}<option value="{$ID}" {if $ID eq $CC}selected{/if}>{$NAME|escape:'html'}</option>{/foreach}</select></div>{/if}
 		<div class="col-12 col-md-2"><button class="btn btn-primary w-100" type="submit">Show</button></div>
 	</form>
+	{if $YEARS}<div class="mb-3 small">Financial year: {foreach from=$YEARS item=Y name=y}{if $smarty.foreach.y.iteration <= 6}<a class="me-2" href="index.php?module=Ledgers&view=ProfitLoss&from={$Y.start}&to={$Y.end}{if $CC}&cc={$CC}{/if}">{$Y.label}{if $Y.closed} (closed){/if}</a>{/if}{/foreach}</div>{/if}
 	<div class="row g-4">
 		<div class="col-12 col-lg-6">
 			<h6>Income</h6>

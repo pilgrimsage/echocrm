@@ -7,9 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-include_once 'include/utils/LedgerUtils.php';
+include_once 'modules/Ledgers/views/ReportBase.php';
+include_once 'include/utils/FinancialYears.php';
 
-class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
+class Ledgers_FinancialYearAct_Action extends Vtiger_Action_Controller {
 
 	public function requiresPermission(\Vtiger_Request $request) {
 		return array(array('module_parameter' => 'module', 'action' => 'EditView'));
@@ -24,26 +25,23 @@ class Ledgers_SettingsSave_Action extends Vtiger_Action_Controller {
 	}
 
 	public function process(Vtiger_Request $request) {
+		$start = (string)$request->get('year');
 		try {
-			foreach (array('lock_date', 'books_start') as $name) {
-				$value = (string)$request->get($name);
-				Vtiger_Ledger_Utils::setSetting($name, preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : null);
+			if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $start)) {
+				throw new Exception('Choose a financial year.');
 			}
-			$month = (int)$request->get('fy_start_month');
-			if ($month >= 1 && $month <= 12) {
-				Vtiger_Ledger_Utils::setSetting('fy_start_month', (string)$month);
-			}
-			Vtiger_Ledger_Utils::setSetting('require_cost_centre', $request->get('require_cost_centre') ? '1' : null);
-			foreach ((array)$request->get('posting') as $key => $ledgerId) {
-				if ($ledgerId) {
-					Vtiger_Ledger_Utils::setAccount($key, (int)$ledgerId);
-				}
+			if ($request->get('do') == 'reopen') {
+				Vtiger_Financial_Years::reopen($start);
+				$message = 'The year was reopened and its closing entry removed.';
+			} else {
+				Vtiger_Financial_Years::close($start, (bool)$request->get('acknowledge'));
+				$message = 'The year was closed. The books are locked up to its last day.';
 			}
 		} catch (Exception $e) {
-			header('Location: index.php?module=Ledgers&view=AccountingSettings&message=' . urlencode($e->getMessage()));
+			header('Location: index.php?module=Ledgers&view=FinancialYearClose&year=' . $start . '&error=' . urlencode($e->getMessage()));
 			return;
 		}
-		header('Location: index.php?module=Ledgers&view=AccountingSettings&saved=1');
+		header('Location: index.php?module=Ledgers&view=FinancialYears&message=' . urlencode($message));
 	}
 
 	public function validateRequest(Vtiger_Request $request) {
