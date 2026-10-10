@@ -39,6 +39,11 @@ class Invoice_DetailView_Model extends Inventory_DetailView_Model {
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($creditNoteLink);
 		}
+		if (Users_Privileges_Model::isPermitted('Invoice', 'EditView')) {
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues(array(
+				'linktype' => 'DETAILVIEW', 'linklabel' => vtranslate('LBL_MAKE_RECURRING', 'Invoice'),
+				'linkurl' => 'index.php?module=Invoice&view=RecurringSetup&record=' . $recordModel->getId(), 'linkicon' => ''));
+		}
 		return $linkModelList;
 	}
 }
