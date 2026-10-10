@@ -45,6 +45,7 @@ class Ledgers_AccountingSettings_View extends Ledgers_ReportBase_View {
 		$viewer->assign('TEMPLATES', Vtiger_Accounting_Templates::all());
 		$viewer->assign('MESSAGE', $request->get('message'));
 		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('BUDGET_CONTROL', Vtiger_Ledger_Utils::getSetting('budget_control') == 'block');
 		$viewer->assign('FY_START_MONTH', (int)Vtiger_Ledger_Utils::getSetting('fy_start_month', 4));
 		$viewer->assign('REQUIRE_COST_CENTRE', Vtiger_Ledger_Utils::getSetting('require_cost_centre') == '1');
 		$viewer->assign('LOCK_DATE', Vtiger_Ledger_Utils::lockDate());

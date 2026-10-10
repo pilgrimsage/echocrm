@@ -14,6 +14,9 @@
 		<div class="col-12 col-md-6"><label class="form-label">Financial year starts in</label>
 			<select name="fy_start_month" class="form-select">{foreach from=[1=>'January',2=>'February',3=>'March',4=>'April',5=>'May',6=>'June',7=>'July',8=>'August',9=>'September',10=>'October',11=>'November',12=>'December'] key=M item=NAME}<option value="{$M}" {if $M eq $FY_START_MONTH}selected{/if}>{$NAME}</option>{/foreach}</select>
 			<div class="form-text">Changing it after a year has been closed is not recommended.</div></div>
+		<div class="col-12 col-md-6"><label class="form-label">When a posting would exceed the annual budget</label>
+			<select name="budget_control" class="form-select"><option value="">Allow it (budget reports only)</option><option value="block" {if $BUDGET_CONTROL}selected{/if}>Block manual journal entries and bank transactions</option></select>
+			<div class="form-text">Uses the active budget of the year; only expense ledgers that have a budget line are controlled.</div></div>
 		<div class="col-12"><div class="form-check"><input type="checkbox" class="form-check-input" name="require_cost_centre" value="1" id="reqcc" {if $REQUIRE_COST_CENTRE}checked{/if}/>
 			<label class="form-check-label" for="reqcc">Require a cost centre / project on every invoice, purchase order and note that is posted</label></div></div>
 		<div class="col-12"><hr/><h6>Posting accounts</h6>

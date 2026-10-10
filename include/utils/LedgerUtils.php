@@ -501,6 +501,14 @@ class Vtiger_Ledger_Utils {
 					throw new Exception($problem);
 				}
 			}
+			// optional spending control (Accounting Settings): expenses must fit the annual budget
+			if ($debit - $credit > 0.004) {
+				include_once 'include/utils/BudgetUtils.php';
+				$over = Vtiger_Budget_Utils::overBudgetProblem($r['ledger'], $cost, $date, $debit - $credit);
+				if ($over !== null) {
+					throw new Exception($over);
+				}
+			}
 			self::$dimension = $cost;
 			$lines[] = self::line($r['ledger'], $debit, $credit, null, null, trim((string)($r['memo'] ?? '')));
 			self::$dimension = null;

@@ -598,3 +598,11 @@ The scratch area under `/tmp/claude-*/.../scratchpad` is wiped between days: the
 
 **Not done.** Price indexation, usage-based quantities and proration, attaching the invoice PDF to the reminder, SMS/WhatsApp, interest on late payment, reminders by customer segment or credit limit, stopping reminders for a disputed invoice, and an email-open or payment-link in the message.
 
+
+## Budgets — 2026-10-10
+- **Tables** (`bin/create-budgets.php`, verifies they exist): `vtiger_budgets` (name, `year_start`, status Draft/Active/Archived) and `vtiger_budget_lines` (ledger, optional cost centre, `m1..m12` = months from the financial year start). One budget is Active at a time (`activate`); several drafts can coexist.
+- **Code**: `include/utils/BudgetUtils.php` (`Vtiger_Budget_Utils`), views `Budgets`/`BudgetEdit`/`BudgetReport`, action `BudgetAct` (create/save/activate/delete), menu links in `Ledgers_Module_Model`. Only income and expense ledgers can be budgeted; no duplicate ledger+cost centre; no negatives. A budget starts empty, from last year's actuals (± growth %), or as a copy of another budget (± growth %).
+- **Report**: budget vs actual per line for any month range, variance favourable when income is above / expense below plan, % of budget, annual budget and % used. Closing entries excluded; a cost-centre line compares against that centre plus its children.
+- **Spending control**: Accounting Settings `budget_control` = Allow (default) / Block. When Block, bank transactions Out with a ledger (no payment) and manual journals are refused if an expense ledger with a line in the active budget would exceed its annual budget. Ledgers without a line are never blocked.
+- **Verified in sandbox**: from actuals +10%, grid save, activate, report, block refused at 1,240 > 1,200 (bank transaction and manual journal), unbudgeted ledger allowed, cost-centre line, duplicate refused, copy +5%, delete.
+- **Not done**: control is on the annual total (not per month), no budget revisions history, no approval workflow, no alert before the limit.
