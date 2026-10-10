@@ -10,6 +10,7 @@
 
 require_once 'include/events/VTEventHandler.inc';
 include_once 'include/utils/BankUtils.php';
+include_once 'include/utils/BudgetUtils.php';
 
 class BankTransactionsHandler extends VTEventHandler {
 
@@ -44,6 +45,15 @@ class BankTransactionsHandler extends VTEventHandler {
 					$problem = Vtiger_Bank_Utils::saveProblem($entityData->getData(), $id, $stored);
 					if ($problem !== null) {
 						throw new Exception($problem);
+					}
+					// optional spending control: an expense posted to a ledger must fit its annual budget
+					$data = $entityData->getData();
+					if (($data['direction'] ?? '') == 'Out' && !empty($data['ledger']) && empty($stored['payment'])) {
+						$already = ($stored && $stored['direction'] == 'Out' && $stored['ledger'] == $data['ledger']) ? (float)$stored['amount'] : 0.0;
+						$over = Vtiger_Budget_Utils::overBudgetProblem($data['ledger'], $data['cost_centre'] ?? null, $data['transaction_date'] ?? null, (float)$data['amount'] - $already);
+						if ($over !== null) {
+							throw new Exception($over);
+						}
 					}
 				}
 				break;
