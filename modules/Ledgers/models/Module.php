@@ -16,7 +16,7 @@ class Ledgers_Module_Model extends Vtiger_Module_Model {
 		foreach (array(
 			array('LBL_JOURNAL', 'Journal'), array('LBL_TRIAL_BALANCE', 'TrialBalance'), array('LBL_LEDGER_STATEMENT', 'Statement'),
 			array('LBL_FINANCIAL_YEARS', 'FinancialYears'), array('LBL_PROFIT_LOSS', 'ProfitLoss'), array('LBL_BALANCE_SHEET', 'BalanceSheet'),
-			array('LBL_STOCK_VALUATION', 'StockValuation'), array('LBL_STOCK_LEDGER', 'StockLedger'), array('LBL_STOCK_ADJUSTMENT', 'StockAdjustment'), array('LBL_GST_RETURNS', 'GstReturns'), array('LBL_COST_CENTRE_REPORT', 'CostCentreReport'), array('LBL_CUSTOMER_STATEMENT', 'PartyStatement&type=customer'), array('LBL_VENDOR_STATEMENT', 'PartyStatement&type=vendor'),
+			array('LBL_ASSET_REGISTER', 'AssetRegister'), array('LBL_RUN_DEPRECIATION', 'DepreciationRun'), array('LBL_ASSET_CLASSES', 'AssetClasses'), array('LBL_STOCK_VALUATION', 'StockValuation'), array('LBL_STOCK_LEDGER', 'StockLedger'), array('LBL_STOCK_ADJUSTMENT', 'StockAdjustment'), array('LBL_GST_RETURNS', 'GstReturns'), array('LBL_COST_CENTRE_REPORT', 'CostCentreReport'), array('LBL_CUSTOMER_STATEMENT', 'PartyStatement&type=customer'), array('LBL_VENDOR_STATEMENT', 'PartyStatement&type=vendor'),
 			array('LBL_RECEIVABLES_AGEING', 'Ageing&type=customer'), array('LBL_PAYABLES_AGEING', 'Ageing&type=vendor'),
 		) as $report) {
 			$links[] = array('linktype' => 'BASIC', 'linklabel' => $report[0], 'linkurl' => 'index.php?module=Ledgers&view=' . $report[1], 'linkicon' => 'fa-list');
