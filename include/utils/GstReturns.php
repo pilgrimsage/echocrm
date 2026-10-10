@@ -89,7 +89,8 @@ class Vtiger_Gst_Returns {
 		$line = '(l.quantity * l.listprice - IF(COALESCE(l.discount_amount, 0) > 0, l.discount_amount, l.quantity * l.listprice * COALESCE(l.discount_percent, 0) / 100))';
 		$groupDiscount = 'IF(COALESCE(d.discount_percent, 0) > 0, d.subtotal * d.discount_percent / 100, COALESCE(d.discount_amount, 0))';
 		$factor = "IF(d.taxtype = 'group' AND d.subtotal > 0, 1 - $groupDiscount / d.subtotal, 1)";
-		$taxable = "$line * $factor";
+		$rate = 'IF(d.conversion_rate > 0, d.conversion_rate, 1)'; // returns are filed in the base currency
+		$taxable = "$line * $factor / $rate";
 
 		$map = array(
 			'invoice' => array('vtiger_invoice', 'invoiceid', 'invoice_no', 'd.invoicedate', 'accountid', null, 'invoicestatus', self::$invoiceStatuses, 'vtiger_invoicebillads', 'invoicebilladdressid', 'vtiger_invoiceshipads', 'invoiceshipaddressid', ''),
@@ -102,7 +103,7 @@ class Vtiger_Gst_Returns {
 		$partyJoin = $accountColumn ? "LEFT JOIN vtiger_account a ON a.accountid = d.$accountColumn" : "LEFT JOIN vtiger_vendor v ON v.vendorid = d.$vendorColumn";
 		$statusMarks = implode(',', array_fill(0, count($statuses), '?'));
 
-		$sql = "SELECT d.$idColumn AS id, d.$noColumn AS doc_no, $dateExpr AS doc_date, d.total AS doc_total, $party,
+		$sql = "SELECT d.$idColumn AS id, d.$noColumn AS doc_no, $dateExpr AS doc_date, d.total / $rate AS doc_total, $party,
 				COALESCE(NULLIF(s.ship_state, ''), NULLIF(b.bill_state, '')) AS state,
 				hsn_unit.hsn AS hsn, hsn_unit.unit AS unit,
 				($cgst + $sgst + $igst + $other) AS rate_all, $cgst AS cgst_rate, $sgst AS sgst_rate, $igst AS igst_rate, $other AS other_rate,
@@ -116,7 +117,7 @@ class Vtiger_Gst_Returns {
 				UNION ALL SELECT sv.serviceid, sv.hsn_sac_code, sv.service_usageunit FROM vtiger_service sv
 			) hsn_unit ON hsn_unit.pid = l.productid
 			WHERE d.$statusColumn IN ($statusMarks) AND $dateExpr >= ? AND $dateExpr <= ?$extra
-			GROUP BY d.$idColumn, d.$noColumn, doc_date, d.total, party_id, gstin, party_name, state, hsn, unit, rate_all, cgst_rate, sgst_rate, igst_rate, other_rate
+			GROUP BY d.$idColumn, d.$noColumn, doc_date, d.total, d.conversion_rate, party_id, gstin, party_name, state, hsn, unit, rate_all, cgst_rate, sgst_rate, igst_rate, other_rate
 			ORDER BY doc_date, d.$idColumn";
 		return $adb->pquery($sql, array_merge($statuses, array($from, $to)));
 	}
