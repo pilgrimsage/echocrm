@@ -13,6 +13,7 @@
  * carry credit balances.
  */
 include_once 'include/utils/StockUtils.php';
+include_once 'include/utils/AuditUtils.php';
 
 class Vtiger_Ledger_Utils {
 
@@ -293,6 +294,7 @@ class Vtiger_Ledger_Utils {
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())',
 			array($date, $narration, $module, $id, $key, $type, 'Posted', $reversalOf, round($total, 2), $current_user ? $current_user->id : 1));
 		$entryId = $adb->getLastInsertID();
+		Vtiger_Audit_Utils::log($type == 'reversal' ? 'reversal' : 'created', $entryId, $date, $module, $id, $key, $type, round($total, 2), $narration);
 		foreach ($lines as $l) {
 			$adb->pquery('INSERT INTO vtiger_journal_lines (entry_id, ledger_id, debit, credit, party_account, party_vendor, memo, cost_centre) VALUES (?,?,?,?,?,?,?,?)',
 				array($entryId, $l['ledger'], $l['debit'], $l['credit'], $l['account'], $l['vendor'], $l['memo'], $l['cost'] ?: null));
@@ -329,11 +331,35 @@ class Vtiger_Ledger_Utils {
 	/** Deletes an entry and takes its lines out of the monthly totals. */
 	private static function deleteEntry($entryId, $date) {
 		global $adb;
-		$type = $adb->pquery('SELECT entry_type FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
-		$kind = ($adb->num_rows($type) && $adb->query_result($type, 0, 0) == 'closing') ? 1 : 0;
+		$result = $adb->pquery('SELECT * FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
+		$kind = 0;
+		if ($adb->num_rows($result)) {
+			$e = $adb->fetch_array($result);
+			$kind = $e['entry_type'] == 'closing' ? 1 : 0;
+			Vtiger_Audit_Utils::log('deleted', $entryId, $e['entry_date'], $e['source_module'], $e['source_id'], $e['source_key'], $e['entry_type'], (float)$e['total'], $e['narration']);
+		}
 		self::adjustMonthlyTotals($date, self::entryLines($entryId), -1, $kind);
 		$adb->pquery('DELETE FROM vtiger_journal_lines WHERE entry_id = ?', array($entryId));
 		$adb->pquery('DELETE FROM vtiger_journal_entries WHERE entry_id = ?', array($entryId));
+	}
+
+	/** Statuses in which each document type is posted to the books. */
+	public static function postedStatuses() {
+		return self::$postedStatuses;
+	}
+
+	/** Removes one system entry whose source no longer exists or no longer posts (repair). */
+	public static function removeSystemEntry($entryId) {
+		global $adb;
+		$result = $adb->pquery("SELECT entry_date FROM vtiger_journal_entries WHERE entry_id = ? AND entry_type = 'auto'", array($entryId));
+		if (!$adb->num_rows($result)) {
+			return;
+		}
+		$date = $adb->query_result($result, 0, 0);
+		if (self::isLocked($date)) {
+			throw new Exception(self::lockProblem($date));
+		}
+		self::deleteEntry($entryId, $date);
 	}
 
 	/** Date of a source record's system entry, or null when it has none. */
@@ -609,6 +635,7 @@ class Vtiger_Ledger_Utils {
 		}
 		$reversalId = self::insertEntry($date, 'Reversal of ' . self::entryNo($entryId) . '. ' . $entry['narration'], 'Manual', 0, 'reversal', 'reversal', $lines, $entryId);
 		$adb->pquery("UPDATE vtiger_journal_entries SET status = 'Reversed' WHERE entry_id = ?", array($entryId));
+		Vtiger_Audit_Utils::log('reversed', $entryId, $entry['entry_date'], $entry['source_module'], $entry['source_id'], $entry['source_key'], $entry['entry_type'], (float)$entry['total'], 'Reversed by ' . self::entryNo($reversalId));
 		return $reversalId;
 	}
 
@@ -1281,6 +1308,7 @@ class Vtiger_Ledger_Utils {
 		global $adb;
 		// a full repost recreates entries of every period, including locked ones, from the documents that already exist
 		self::$bypassLock = true;
+		Vtiger_Audit_Utils::log('rebuild', 0, date('Y-m-d'), '', 0, '', '', 0, 'All system postings were rebuilt from the documents');
 		try {
 			return self::rebuildEverything();
 		} finally {
