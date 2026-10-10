@@ -452,6 +452,33 @@ class Vtiger_Ledger_Utils {
 		return $ids;
 	}
 
+	/**
+	 * Makes the system entry of a source record equal to $raw lines (array(ledger, debit, credit)), all tagged with one
+	 * cost centre / project. For postings that are not tied to a document (assets and their depreciation).
+	 */
+	public static function syncPlainEntry($module, $id, $key, $date, $narration, array $raw, $costCentre = null) {
+		self::$dimension = $costCentre ?: null;
+		$lines = array();
+		foreach ($raw as $r) {
+			$lines[] = self::line($r['ledger'], $r['debit'], $r['credit'], null, null, $narration);
+		}
+		self::$dimension = null;
+		return self::syncEntry($module, $id, $key, $date, $narration, $lines);
+	}
+
+	/** Like syncPlainEntry for one entry made of several groups, each group producing lines (each with its own cost centre). */
+	public static function syncGroupedEntry($module, $id, $key, $date, $narration, array $groups, $linesFor) {
+		$lines = array();
+		foreach ($groups as $group) {
+			foreach ($linesFor($group) as $r) {
+				self::$dimension = !empty($r['cost']) ? $r['cost'] : null;
+				$lines[] = self::line($r['ledger'], $r['debit'], $r['credit'], null, null, $narration);
+			}
+		}
+		self::$dimension = null;
+		return self::syncEntry($module, $id, $key, $date, $narration, $lines);
+	}
+
 	/** A manual entry typed in by a person. $lines: array of array(ledger, debit, credit, memo). */
 	public static function postManual($date, $narration, array $rawLines) {
 		$lines = array();

@@ -138,6 +138,16 @@ class Vtiger_Financial_Years {
 		if ((int)$adb->query_result($drafts, 0, 'n') > 0) {
 			$warnings[] = array((int)$adb->query_result($drafts, 0, 'n') . ' invoices dated in the year are still Created (not approved), so they are not on the books.', 'index.php?module=Invoice&view=List');
 		}
+		if (is_file('include/utils/AssetUtils.php')) {
+			include_once 'include/utils/AssetUtils.php';
+			$hasAssets = $adb->pquery("SHOW TABLES LIKE 'vtiger_asset_depreciation'");
+			if ($adb->num_rows($hasAssets)) {
+				$due = Vtiger_Asset_Utils::preview(substr($year['end'], 0, 7));
+				if ($due) {
+					$warnings[] = array('Depreciation is not posted for ' . count($due) . ' month(s) of the year (' . number_format(array_sum(array_column($due, 'total')), 2) . ').', 'index.php?module=Ledgers&view=DepreciationRun&period=' . substr($year['end'], 0, 7));
+				}
+			}
+		}
 		if (Vtiger_Stock_Utils::enabled()) {
 			foreach (Vtiger_Stock_Utils::checks() as $check) {
 				if ($check['count'] > 0 && strpos($check['title'], 'Inventory ledger') !== false) {
