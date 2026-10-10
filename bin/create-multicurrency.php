@@ -48,4 +48,17 @@ $columns = $adb->getColumnNames('vtiger_payments');
 if (!in_array('settlement_rate', $columns)) {
 	exit("The column vtiger_payments.settlement_rate was not created.\n");
 }
+Vtiger_Utils::CreateTable('vtiger_revaluations', "(
+	as_at DATE NOT NULL,
+	rates TEXT,
+	net DECIMAL(25,2) NOT NULL DEFAULT 0,
+	documents INT NOT NULL DEFAULT 0,
+	created_by INT(19),
+	created_time DATETIME,
+	PRIMARY KEY (as_at)
+)", true);
+$exists = $adb->pquery("SHOW TABLES LIKE 'vtiger_revaluations'");
+if (!$adb->num_rows($exists)) {
+	exit("The table vtiger_revaluations was not created.\n");
+}
 $say('Foreign currency support ready. Clear test/templates_c/v7/* and reload.');

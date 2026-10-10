@@ -476,6 +476,17 @@ class Vtiger_Ledger_Utils {
 		return self::syncEntry($module, $id, $key, $date, $narration, $lines);
 	}
 
+	/** Like syncPlainEntry, but each raw line may name a party (account / vendor) and a cost centre. */
+	public static function syncPartyEntry($module, $id, $key, $date, $narration, array $raw) {
+		$lines = array();
+		foreach ($raw as $r) {
+			self::$dimension = !empty($r['cost']) ? $r['cost'] : null;
+			$lines[] = self::line($r['ledger'], $r['debit'], $r['credit'], $r['account'] ?? null, $r['vendor'] ?? null, $narration);
+		}
+		self::$dimension = null;
+		return self::syncEntry($module, $id, $key, $date, $narration, $lines);
+	}
+
 	/** Like syncPlainEntry for one entry made of several groups, each group producing lines (each with its own cost centre). */
 	public static function syncGroupedEntry($module, $id, $key, $date, $narration, array $groups, $linesFor) {
 		$lines = array();

@@ -148,6 +148,18 @@ class Vtiger_Financial_Years {
 				}
 			}
 		}
+		$hasReval = $adb->pquery("SHOW TABLES LIKE 'vtiger_revaluations'");
+		if ($adb->num_rows($hasReval)) {
+			include_once 'include/utils/RevaluationUtils.php';
+			$open = 0;
+			foreach (Vtiger_Revaluation_Utils::openItems($year['end']) as $group) {
+				$open += count($group['items']);
+			}
+			$done = $adb->pquery('SELECT 1 FROM vtiger_revaluations WHERE as_at = ?', array($year['end']));
+			if ($open > 0 && !$adb->num_rows($done)) {
+				$warnings[] = array($open . ' open foreign currency documents have not been revalued at the year end.', 'index.php?module=Ledgers&view=Revaluation&as_at=' . $year['end']);
+			}
+		}
 		if (Vtiger_Stock_Utils::enabled()) {
 			foreach (Vtiger_Stock_Utils::checks() as $check) {
 				if ($check['count'] > 0 && strpos($check['title'], 'Inventory ledger') !== false) {
