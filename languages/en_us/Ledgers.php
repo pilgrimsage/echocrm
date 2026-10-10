@@ -38,6 +38,7 @@ $languageStrings = Array(
 	'LBL_STOCK_VALUATION' => 'Stock Valuation',
 	'LBL_ASSET_REGISTER' => 'Fixed Asset Register',
 	'LBL_RUN_DEPRECIATION' => 'Run Depreciation',
+	'LBL_REVALUATION' => 'Currency Revaluation',
 	'LBL_ASSET_CLASSES' => 'Asset Classes',
 	'LBL_STOCK_LEDGER' => 'Stock Ledger',
 	'LBL_STOCK_ADJUSTMENT' => 'Opening Stock / Adjustments',
