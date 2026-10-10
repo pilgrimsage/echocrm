@@ -52,6 +52,15 @@ class Vtiger_Ledger_Utils {
 		return self::$columnCache[$table] ? ($alias ? $alias . '.' : '') . 'cost_centre' : 'NULL';
 	}
 
+	/** 'p.settlement_rate' once the Payments exchange rate field exists (bin/create-multicurrency.php), else 'NULL'. */
+	private static function settlementColumn() {
+		global $adb;
+		if (!isset(self::$columnCache['settlement'])) {
+			self::$columnCache['settlement'] = in_array('settlement_rate', $adb->getColumnNames('vtiger_payments'));
+		}
+		return self::$columnCache['settlement'] ? 'p.settlement_rate' : 'NULL';
+	}
+
 	// ---- settings -------------------------------------------------------------------------------
 
 	public static function getSetting($name, $default = null) {
@@ -128,6 +137,7 @@ class Vtiger_Ledger_Utils {
 			'purchases' => array('Purchases / cost of goods', 'Purchases', 'Expenses'),
 			'purchase_returns' => array('Purchase returns (debit notes)', 'Purchase Returns', 'Expenses'),
 			'round_off' => array('Round off', 'Round Off', 'Expenses'),
+			'exchange' => array('Exchange gain / loss (foreign currency payments)', 'Exchange Gain / Loss', 'Expenses'),
 			'retained_earnings' => array('Retained earnings (profit carried forward at year end)', 'Retained Earnings', 'Equity'),
 			'inventory' => array('Inventory (stock on hand)', 'Inventory', 'Assets'),
 			'goods_in_transit' => array('Goods ordered, not yet received', 'Goods in Transit', 'Assets'),
@@ -673,6 +683,11 @@ class Vtiger_Ledger_Utils {
 	}
 
 	/** Header figures of a document: array(total, pre_tax, adjustment, tax, net, party account, party vendor, number, status, note type). */
+	/** A usable exchange rate (units of the document's currency per 1 unit of the base currency); 1 when missing. */
+	public static function rateOf($rate) {
+		return (float)$rate > 0 ? (float)$rate : 1.0;
+	}
+
 	private static function documentFigures($module, $id) {
 		global $adb;
 		$map = array(
@@ -684,7 +699,7 @@ class Vtiger_Ledger_Utils {
 			return null;
 		}
 		list($table, $idColumn, $noColumn, $statusColumn, $accountColumn, $vendorColumn, $noteColumn) = $map[$module];
-		$result = $adb->pquery("SELECT d.total, d.pre_tax_total, d.adjustment, d.$noColumn AS no, d.$statusColumn AS status, " . self::dimensionColumn($table, 'd') . " AS cost_centre,
+		$result = $adb->pquery("SELECT d.total, d.pre_tax_total, d.adjustment, d.conversion_rate AS rate, d.$noColumn AS no, d.$statusColumn AS status, " . self::dimensionColumn($table, 'd') . " AS cost_centre,
 				" . ($accountColumn == 'NULL' ? 'NULL' : "d.$accountColumn") . " AS account,
 				" . ($vendorColumn == 'NULL' ? 'NULL' : "d.$vendorColumn") . " AS vendor,
 				" . ($noteColumn == 'NULL' ? 'NULL' : "d.$noteColumn") . " AS note_type, c.deleted
@@ -693,8 +708,11 @@ class Vtiger_Ledger_Utils {
 			return null;
 		}
 		$row = $adb->fetch_array($result);
+		// documents are kept in their own currency; the books are in the base currency, at the rate the document carries
+		$rate = self::rateOf($row['rate']);
 		return array(
-			'total' => (float)$row['total'], 'pre' => (float)$row['pre_tax_total'], 'adjustment' => (float)$row['adjustment'],
+			'rate' => $rate,
+			'total' => round((float)$row['total'] / $rate, 2), 'pre' => round((float)$row['pre_tax_total'] / $rate, 2), 'adjustment' => round((float)$row['adjustment'] / $rate, 2),
 			'no' => decode_html($row['no']), 'status' => decode_html($row['status']), 'account' => $row['account'], 'vendor' => $row['vendor'],
 			'note_type' => $row['note_type'], 'deleted' => (int)$row['deleted'], 'cost_centre' => $row['cost_centre'],
 		);
@@ -912,6 +930,18 @@ class Vtiger_Ledger_Utils {
 		return $adb->num_rows($result) ? ($adb->query_result($result, 0, 0) ?: null) : null;
 	}
 
+	/** The exchange rate a document is booked at. */
+	public static function documentRate($module, $id) {
+		global $adb;
+		$tables = array('Invoice' => array('vtiger_invoice', 'invoiceid'), 'PurchaseOrder' => array('vtiger_purchaseorder', 'purchaseorderid'),
+			'SalesOrder' => array('vtiger_salesorder', 'salesorderid'), 'Quotes' => array('vtiger_quotes', 'quoteid'));
+		if (!isset($tables[$module])) {
+			return 1.0;
+		}
+		$result = $adb->pquery("SELECT conversion_rate FROM {$tables[$module][0]} WHERE {$tables[$module][1]} = ?", array($id));
+		return $adb->num_rows($result) ? self::rateOf($adb->query_result($result, 0, 0)) : 1.0;
+	}
+
 	/**
 	 * Posts a Completed payment:
 	 *   money in against an invoice or debit note   Dr bank | Cr Accounts Receivable (invoice) or Accounts Payable (debit note)
@@ -920,7 +950,7 @@ class Vtiger_Ledger_Utils {
 	 */
 	public static function syncPayment($paymentId) {
 		global $adb;
-		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, ' . self::dimensionColumn('vtiger_payments', 'p') . ' AS cost_centre, c.deleted
+		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, ' . self::settlementColumn() . ' AS settlement_rate, ' . self::dimensionColumn('vtiger_payments', 'p') . ' AS cost_centre, c.deleted
 			FROM vtiger_payments p INNER JOIN vtiger_crmentity c ON c.crmid = p.paymentsid WHERE p.paymentsid = ?', array($paymentId));
 		if (!$adb->num_rows($result)) {
 			return;
@@ -938,9 +968,16 @@ class Vtiger_Ledger_Utils {
 			$payable = self::ledgerId('Accounts Payable', 'Liabilities');
 			$narration = 'Payment ' . $p['payment_no'];
 			$in = $p['direction'] != 'Paid';
+			// The amount is in the document's currency. The receivable / payable is cleared at the rate the document
+			// was booked at, the bank moves at the rate on the day of payment (blank = same rate: no difference).
+			$docRate = self::documentRate($documentModule, $p['related_to']);
+			$payRate = (float)$p['settlement_rate'] > 0 ? (float)$p['settlement_rate'] : $docRate;
+			$settled = round($amount / $docRate, 2);
+			$cash = round($amount / $payRate, 2);
 			if ($documentModule == 'Quotes') {
 				$other = self::ledgerId('Customer Advances', 'Liabilities');
 				$party = array($p['account_id'], null);
+				$settled = $cash; // an advance is booked at what was received
 			} elseif ($documentModule == 'PurchaseOrder') {
 				$other = $payable;
 				$party = array(null, $p['vendor_id']);
@@ -949,11 +986,17 @@ class Vtiger_Ledger_Utils {
 				$party = array($p['account_id'], null);
 			}
 			if ($in) {
-				$lines[] = self::line($bank, $amount, 0, null, null, $narration);
-				$lines[] = self::line($other, 0, $amount, $party[0], $party[1], $narration);
+				$lines[] = self::line($bank, $cash, 0, null, null, $narration);
+				$lines[] = self::line($other, 0, $settled, $party[0], $party[1], $narration);
+				$gain = round($cash - $settled, 2); // received more base currency than the receivable was worth
 			} else {
-				$lines[] = self::line($other, $amount, 0, $party[0], $party[1], $narration);
-				$lines[] = self::line($bank, 0, $amount, null, null, $narration);
+				$lines[] = self::line($other, $settled, 0, $party[0], $party[1], $narration);
+				$lines[] = self::line($bank, 0, $cash, null, null, $narration);
+				$gain = round($settled - $cash, 2); // paid less base currency than the payable was worth
+			}
+			if (abs($gain) >= 0.005) {
+				$exchange = self::ledgerId('Exchange Gain / Loss', 'Expenses');
+				$lines[] = self::line($exchange, $gain < 0 ? -$gain : 0, $gain > 0 ? $gain : 0, null, null, 'Exchange difference, ' . $narration);
 			}
 		}
 		self::syncEntry('Payments', $paymentId, 'payment', $date, 'Payment ' . $p['payment_no'], $lines);

@@ -34,12 +34,14 @@ class Ledgers_Ageing_View extends Ledgers_ReportBase_View {
 			$where = "d.invoicestatus IN ('Approved', 'Sent', 'Credit Invoice') AND d.balance > 0.004";
 		}
 		$age = "DATEDIFF(?, $due)";
-		$buckets = "SUM(CASE WHEN $age <= 0 THEN d.balance ELSE 0 END) AS current_due,
-			SUM(CASE WHEN $age BETWEEN 1 AND 30 THEN d.balance ELSE 0 END) AS d30,
-			SUM(CASE WHEN $age BETWEEN 31 AND 60 THEN d.balance ELSE 0 END) AS d60,
-			SUM(CASE WHEN $age BETWEEN 61 AND 90 THEN d.balance ELSE 0 END) AS d90,
-			SUM(CASE WHEN $age > 90 THEN d.balance ELSE 0 END) AS d90plus,
-			SUM(d.balance) AS total, COUNT(*) AS documents";
+		// balances are in the document's currency; the ageing is in the base currency, at the rate the document was booked at
+		$bal = "(d.balance / IF(d.conversion_rate > 0, d.conversion_rate, 1))";
+		$buckets = "SUM(CASE WHEN $age <= 0 THEN $bal ELSE 0 END) AS current_due,
+			SUM(CASE WHEN $age BETWEEN 1 AND 30 THEN $bal ELSE 0 END) AS d30,
+			SUM(CASE WHEN $age BETWEEN 31 AND 60 THEN $bal ELSE 0 END) AS d60,
+			SUM(CASE WHEN $age BETWEEN 61 AND 90 THEN $bal ELSE 0 END) AS d90,
+			SUM(CASE WHEN $age > 90 THEN $bal ELSE 0 END) AS d90plus,
+			SUM($bal) AS total, COUNT(*) AS documents";
 		$params = array($today, $today, $today, $today, $today);
 		$result = $adb->pquery("SELECT $party AS party, $name AS name, $buckets FROM $from WHERE $where GROUP BY $party, $name ORDER BY total DESC LIMIT 200", $params);
 		$rows = array();

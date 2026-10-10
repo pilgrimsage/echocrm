@@ -62,10 +62,12 @@ class Vtiger_Stock_Utils {
 		if (!isset($tables[$module])) {
 			return array();
 		}
-		$doc = $adb->pquery("SELECT taxtype, subtotal, discount_percent, discount_amount FROM {$tables[$module]} WHERE {$ids[$module]} = ?", array($id));
+		$doc = $adb->pquery("SELECT taxtype, subtotal, discount_percent, discount_amount, conversion_rate FROM {$tables[$module]} WHERE {$ids[$module]} = ?", array($id));
 		$factor = 1.0;
+		$rate = 1.0; // stock is valued in the base currency
 		if ($adb->num_rows($doc)) {
 			$d = $adb->fetch_array($doc);
+			$rate = (float)$d['conversion_rate'] > 0 ? (float)$d['conversion_rate'] : 1.0;
 			$subtotal = (float)$d['subtotal'];
 			$discount = (float)$d['discount_percent'] > 0 ? $subtotal * (float)$d['discount_percent'] / 100 : (float)$d['discount_amount'];
 			if ($d['taxtype'] == 'group' && $subtotal > 0 && $discount > 0) {
@@ -80,7 +82,7 @@ class Vtiger_Stock_Utils {
 			}
 			$gross = (float)$row['quantity'] * (float)$row['listprice'];
 			$disc = !empty($row['discount_amount']) ? (float)$row['discount_amount'] : $gross * (float)$row['discount_percent'] / 100;
-			$lines[] = array('product' => (int)$row['productid'], 'line' => (int)$row['sequence_no'], 'qty' => (float)$row['quantity'], 'value' => round(max(0, $gross - $disc) * $factor, 2));
+			$lines[] = array('product' => (int)$row['productid'], 'line' => (int)$row['sequence_no'], 'qty' => (float)$row['quantity'], 'value' => round(max(0, $gross - $disc) * $factor / $rate, 2));
 		}
 		return $lines;
 	}
