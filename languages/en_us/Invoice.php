@@ -17,6 +17,9 @@ $languageStrings = array(
 	'LBL_EXPORT_TO_PDF_STANDARD' => 'Export to PDF (Standard)',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'LBL_CREATE_CREDIT_NOTE' => 'Create Credit Note',
+	'LBL_MAKE_RECURRING' => 'Make Recurring',
+	'LBL_RECURRING_INVOICES' => 'Recurring Invoices',
+	'LBL_PAYMENT_REMINDERS' => 'Payment Reminders',
 
 	//Basic strings
 	'LBL_ADD_RECORD' => 'Add Invoice',

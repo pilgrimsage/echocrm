@@ -10,4 +10,11 @@
 
 class Invoice_Module_Model extends Inventory_Module_Model {
 
+	/** Adds the recurring invoices and payment reminders screens next to the list actions. */
+	public function getModuleBasicLinks() {
+		$links = parent::getModuleBasicLinks();
+		$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_RECURRING_INVOICES', 'linkurl' => 'index.php?module=Invoice&view=RecurringList', 'linkicon' => 'fa-repeat');
+		$links[] = array('linktype' => 'BASIC', 'linklabel' => 'LBL_PAYMENT_REMINDERS', 'linkurl' => 'index.php?module=Invoice&view=Reminders', 'linkicon' => 'fa-bell');
+		return $links;
+	}
 }
