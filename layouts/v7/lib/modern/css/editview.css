@@ -329,3 +329,11 @@ input.mass-select:checked::after{
 	   whole Edit page scrolls sideways. */
 	padding-right:12px !important;
 }
+
+/* Inventory line-item popovers (discount, tax, charges): keep the Save / Cancel row off the popover border */
+.lineItemPopover .lineItemPopupModalFooter{
+	padding:10px 14px;
+}
+.lineItemPopover .lineItemPopupModalFooter .popoverCancel{
+	margin-left:10px;
+}
