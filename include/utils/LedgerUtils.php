@@ -53,13 +53,13 @@ class Vtiger_Ledger_Utils {
 		return self::$columnCache[$table] ? ($alias ? $alias . '.' : '') . 'cost_centre' : 'NULL';
 	}
 
-	/** 'p.settlement_rate' once the Payments exchange rate field exists (bin/create-multicurrency.php), else 'NULL'. */
-	private static function settlementColumn() {
+	/** 'p.<name>' when vtiger_payments has that optional column (added by a setup script), else 'NULL'. */
+	private static function paymentColumn($name) {
 		global $adb;
-		if (!isset(self::$columnCache['settlement'])) {
-			self::$columnCache['settlement'] = in_array('settlement_rate', $adb->getColumnNames('vtiger_payments'));
+		if (!isset(self::$columnCache['payments'])) {
+			self::$columnCache['payments'] = $adb->getColumnNames('vtiger_payments');
 		}
-		return self::$columnCache['settlement'] ? 'p.settlement_rate' : 'NULL';
+		return in_array($name, self::$columnCache['payments']) ? 'p.' . $name : 'NULL';
 	}
 
 	// ---- settings -------------------------------------------------------------------------------
@@ -138,6 +138,8 @@ class Vtiger_Ledger_Utils {
 			'purchases' => array('Purchases / cost of goods', 'Purchases', 'Expenses'),
 			'purchase_returns' => array('Purchase returns (debit notes)', 'Purchase Returns', 'Expenses'),
 			'round_off' => array('Round off', 'Round Off', 'Expenses'),
+			'tds_payable' => array('Tax withheld from vendor payments (owed to the government)', 'TDS Payable', 'Liabilities'),
+			'tds_receivable' => array('Tax withheld by customers (claim on the government)', 'TDS Receivable', 'Assets'),
 			'exchange' => array('Exchange gain / loss (foreign currency payments)', 'Exchange Gain / Loss', 'Expenses'),
 			'retained_earnings' => array('Retained earnings (profit carried forward at year end)', 'Retained Earnings', 'Equity'),
 			'inventory' => array('Inventory (stock on hand)', 'Inventory', 'Assets'),
@@ -988,7 +990,7 @@ class Vtiger_Ledger_Utils {
 	 */
 	public static function syncPayment($paymentId) {
 		global $adb;
-		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, ' . self::settlementColumn() . ' AS settlement_rate, ' . self::dimensionColumn('vtiger_payments', 'p') . ' AS cost_centre, c.deleted
+		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.status, p.bank_account, p.account_id, p.vendor_id, ' . self::paymentColumn('settlement_rate') . ' AS settlement_rate, ' . self::paymentColumn('tds_amount') . ' AS tds_amount, ' . self::dimensionColumn('vtiger_payments', 'p') . ' AS cost_centre, c.deleted
 			FROM vtiger_payments p INNER JOIN vtiger_crmentity c ON c.crmid = p.paymentsid WHERE p.paymentsid = ?', array($paymentId));
 		if (!$adb->num_rows($result)) {
 			return;
@@ -1023,13 +1025,21 @@ class Vtiger_Ledger_Utils {
 				$other = $receivable;
 				$party = array($p['account_id'], null);
 			}
+			// tax withheld at source: the other side is cleared in full, the bank moves the net, the withheld part is held in a TDS ledger
+			$withheld = min($cash, round((float)$p['tds_amount'] / $payRate, 2));
 			if ($in) {
-				$lines[] = self::line($bank, $cash, 0, null, null, $narration);
+				$lines[] = self::line($bank, $cash - $withheld, 0, null, null, $narration);
+				if ($withheld > 0.004) {
+					$lines[] = self::line(self::ledgerId('TDS Receivable', 'Assets'), $withheld, 0, $party[0], null, 'Tax withheld by customer, ' . $narration);
+				}
 				$lines[] = self::line($other, 0, $settled, $party[0], $party[1], $narration);
 				$gain = round($cash - $settled, 2); // received more base currency than the receivable was worth
 			} else {
 				$lines[] = self::line($other, $settled, 0, $party[0], $party[1], $narration);
-				$lines[] = self::line($bank, 0, $cash, null, null, $narration);
+				if ($withheld > 0.004) {
+					$lines[] = self::line(self::ledgerId('TDS Payable', 'Liabilities'), 0, $withheld, null, $party[1], 'Tax withheld from vendor, ' . $narration);
+				}
+				$lines[] = self::line($bank, 0, $cash - $withheld, null, null, $narration);
 				$gain = round($settled - $cash, 2); // paid less base currency than the payable was worth
 			}
 			if (abs($gain) >= 0.005) {

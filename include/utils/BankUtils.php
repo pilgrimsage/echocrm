@@ -228,7 +228,7 @@ class Vtiger_Bank_Utils {
 	public static function syncPayment($paymentId) {
 		global $adb;
 		$result = $adb->pquery('SELECT p.payment_no, p.related_to, p.direction, p.amount, p.payment_date, p.payment_method, p.reference_no,
-				p.status, p.bank_account, p.account_id, p.vendor_id, c.deleted
+				p.status, p.bank_account, p.account_id, p.vendor_id, ' . (in_array('tds_amount', $adb->getColumnNames('vtiger_payments')) ? 'p.tds_amount' : 'NULL') . ' AS tds_amount, c.deleted
 			FROM vtiger_payments p INNER JOIN vtiger_crmentity c ON c.crmid = p.paymentsid WHERE p.paymentsid = ?', array($paymentId));
 		if (!$adb->num_rows($result)) {
 			return;
@@ -248,7 +248,7 @@ class Vtiger_Bank_Utils {
 			'transaction_date' => $p['payment_date'],
 			'direction' => $p['direction'] == 'Paid' ? 'Out' : 'In',
 			'transaction_type' => $p['direction'] == 'Paid' ? 'Payment Made' : 'Payment Received',
-			'amount' => $p['amount'],
+			'amount' => $p['amount'] - (float)$p['tds_amount'], // the bank moves what is left after tax withheld at source
 			'reference_no' => $p['reference_no'],
 			'narration' => 'Payment ' . $p['payment_no'],
 			'party_account' => $p['account_id'] ?: null,

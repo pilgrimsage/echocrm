@@ -10,6 +10,7 @@ require_once 'include/events/VTEventHandler.inc';
 include_once 'include/utils/PaymentUtils.php';
 include_once 'include/utils/BankUtils.php';
 include_once 'include/utils/LedgerUtils.php';
+include_once 'include/utils/WithholdingUtils.php';
 
 class PaymentsHandler extends VTEventHandler {
 
@@ -78,6 +79,31 @@ class PaymentsHandler extends VTEventHandler {
 		}
 
 		$entityData->set('status', $status);
+		$this->applyWithholding($entityData, $data, $documentModule, $documentId, $amount);
+	}
+
+	/** Tax withheld at source: needs a section, defaults to the section's rate on the taxable part, never exceeds the payment. */
+	private function applyWithholding($entityData, $data, $documentModule, $documentId, $amount) {
+		if (!Vtiger_Withholding_Utils::enabled()) {
+			return;
+		}
+		$section = trim((string)($data['tds_section'] ?? ''));
+		$withheld = (float)($data['tds_amount'] ?? 0);
+		if ($section === '' || $section == '--None--') {
+			if ($withheld > 0) {
+				throw new Exception('Choose the withholding section for the tax withheld.');
+			}
+			$entityData->set('tds_section', '');
+			$entityData->set('tds_amount', 0);
+			return;
+		}
+		if ($withheld <= 0) {
+			$withheld = Vtiger_Withholding_Utils::compute($documentModule, $documentId, $amount, $section);
+		}
+		if ($withheld > $amount) {
+			throw new Exception('The tax withheld cannot be more than the payment.');
+		}
+		$entityData->set('tds_amount', $withheld);
 	}
 
 	/**
