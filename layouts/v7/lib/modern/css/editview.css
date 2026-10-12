@@ -32,6 +32,12 @@
 	letter-spacing:.02em;
 	padding:10px 10px 10px 0;
 	vertical-align:top;
+}
+/* The 18% label column is for table cells and plain labels. A label that carries a grid class
+   (col-sm-5, col-lg-3 ...) takes its width from that class: this rule used to load after
+   Bootstrap and override it, so every Settings form and modal built that way (62 templates)
+   got a squeezed label. */
+.fieldLabel:not([class*="col-"]){
 	width:18%;
 }
 /* Some templates (Picklist) nest <label class="fieldLabel"> inside a
@@ -44,6 +50,11 @@
 .fieldValue{
 	padding:8px 10px;
 	vertical-align:top;
+}
+/* a BS5 .row has -12px side margins; its container needs 12px of padding to absorb them */
+.fieldValue:has(> .row){
+	padding-left:12px;
+	padding-right:12px;
 }
 .redColor{
 	color:var(--danger);
