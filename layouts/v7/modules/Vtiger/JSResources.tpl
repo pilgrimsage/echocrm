@@ -19,7 +19,6 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-validation/jquery.validate.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.slimscroll.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/outside-events/js/jquery.ba-outside-events.min.js')}"></script>
-	<script type="text/javascript" src="{vresource_url('layouts/v7/lib/pjax/js/jquery.pjax.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/multifile/js/jquery_MultiFile.js')}"></script>
     <script type="text/javascript" src="{vresource_url('resources/jquery.additions.js')}"></script>
 

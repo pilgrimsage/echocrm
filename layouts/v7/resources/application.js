@@ -17,44 +17,50 @@ window.app = (function () {
 	var _app = _META.app;
 
 	function Request() {
+		/**
+		 * Loads a page fragment: an ajax GET that tells the server it is a partial request (X-PJAX header), hands the
+		 * response back to the caller and keeps the address bar on the URL the content belongs to (replaceState: one
+		 * history entry per page, so Back leaves the page instead of changing the URL without changing the content).
+		 * A newer call replaces the one still waiting. A full html page as the answer (an expired session shows the
+		 * login page) is loaded as a page. An HTTP error shows a notification and resolves with the error.
+		 */
+		var pjaxRequest = null;
 		this._requestPjax = function (params) {
 			var aDeferred = jQuery.Deferred();
+			var url = (typeof params.url === 'undefined') ? 'index.php' : params.url;
+			var query = (typeof params.data === 'string') ? params.data : jQuery.param(params.data || {});
+			var requestUrl = url + (query ? (url.indexOf('?') < 0 ? '?' : '&') + query : '');
 
-			if (typeof params.url === 'undefined') {
-				params.url = 'index.php';
+			if (pjaxRequest && pjaxRequest.readyState < 4) {
+				// the superseded call never answers: its callbacks must not draw over the newer one
+				pjaxRequest.abort();
 			}
-
-			if (typeof params.container === 'undefined') {
-				params.container = '#pjaxContainer';
-				params.defaultContainer = true;
-			}
-
-			var pjaxContainer = jQuery('#pjaxContainer');
-			//Clear contents existing before
-			if (params.container === '#pjaxContainer') {
-				pjaxContainer.html('');
-			}
-
-			jQuery(document).on('pjax:success', function (event, data, status, jqXHR) {
-				if (typeof data == 'object') {
-					if (!data['success'] && data['error']['message']) {
-						aDeferred.resolve(new VtError(data['error']));
-						return;
-					} else if (data['result'] && data['result'] !== null) {
-						data = data['result'];
-					}
+			var xhr = pjaxRequest = jQuery.ajax({
+				url: requestUrl + (requestUrl.indexOf('?') < 0 ? '?' : '&') + '_pjax=1',
+				type: 'GET',
+				dataType: 'html',
+				timeout: 65000,
+				headers: {'X-PJAX': 'true'}
+			});
+			xhr.done(function (data) {
+				if (/<html/i.test(data)) {
+					window.location.href = requestUrl;
+					return;
 				}
-				if (params.defaultContainer) {
-					//remove the data in default container since it will be having duplicate data which will be problem espcially with id selector
-					pjaxContainer.html('');
+				var title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(data);
+				if (title && title[1].trim()) {
+					document.title = title[1].trim();
 				}
+				window.history.replaceState(null, document.title, xhr.getResponseHeader('X-PJAX-URL') || requestUrl);
 				aDeferred.resolve(null, data);
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				if (textStatus === 'abort') {
+					return;
+				}
+				var message = errorThrown || app.vtranslate('JS_TRY_LATER');
+				app.helper.showErrorNotification({message: message});
+				aDeferred.resolve(new VtError(message));
 			});
-
-			jQuery(document).on('pjax:error', function (event, jqXHR, textStatus, errorThrown) {
-				aDeferred.resolve(new VtError(errorThrown));
-			});
-			jQuery.pjax(params);
 			return aDeferred.promise();
 		},
 		this._request = function (params) {

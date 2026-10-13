@@ -86,5 +86,4 @@
           data-user-calendar-reminder-interval="{$CURRENT_USER_MODEL->getCurrentUserActivityReminderInSeconds()}">
             <input type="hidden" id="start_day" value="{$CURRENT_USER_MODEL->get('dayoftheweek')}" /> 
 		<div id="page">
-            <div id="pjaxContainer" class="hide noprint"></div>
             <div id="messageBar" class="hide"></div>
