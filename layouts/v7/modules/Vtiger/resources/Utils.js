@@ -92,7 +92,7 @@ var vtUtils = {
 		selectElement.on('change',function(e){
 			var instance = jQuery(e.currentTarget).data('select2');
 			var data = instance.data();
-			if (jQuery.isArray(data) && data.length >= limit ) {
+			if (Array.isArray(data) && data.length >= limit ) {
 				instance.updateResults();
             }
 		});

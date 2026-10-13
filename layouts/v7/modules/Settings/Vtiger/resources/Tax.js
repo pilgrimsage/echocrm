@@ -134,7 +134,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
                             var regionElements = jQuery('.regionsTable select.regions');
                             jQuery.each(regionElements, function(index, element) {
                                 var selectedValues = jQuery(element).val();
-                                if (jQuery.isArray(selectedValues)) {
+                                if (Array.isArray(selectedValues)) {
                                     for (var i=0; i<selectedValues.length; i++) {
                                         selectedRegions.push(selectedValues[i]);
                                     }
@@ -471,7 +471,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 						var regionElements = jQuery('.regionsTable select.regions');
 						jQuery.each(regionElements, function(index, element) {
 							var selectedValues = jQuery(element).val();
-							if (jQuery.isArray(selectedValues)) {
+							if (Array.isArray(selectedValues)) {
 								for (var i=0; i<selectedValues.length; i++) {
 									selectedRegions.push(selectedValues[i]);
 								}
@@ -638,7 +638,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 
 			jQuery.each(regionElements, function(index, element) {
 				var selectedValues = jQuery(element).val();
-				if (jQuery.isArray(selectedValues)) {
+				if (Array.isArray(selectedValues)) {
 					for (var i=0; i<selectedValues.length; i++) {
 						selectedRegions.push(selectedValues[i]);
 					}
@@ -648,7 +648,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
 			jQuery.each(regionElements, function(index, element) {
 				if (element != currentElement) {
 					var skippedValues = jQuery(element).val();
-					if (!jQuery.isArray(skippedValues)) {
+					if (!Array.isArray(skippedValues)) {
 						skippedValues = [];
 					}
 					Settings_Vtiger_TaxIndex_Js.updateSelectElement(selectedRegions, skippedValues, jQuery(element));

@@ -1174,7 +1174,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 		// for reference fields, actual value will be ID but we need to show related name of that ID
 		if(fieldType === 'reference'){
 			if(value !== 0){
-				jQuery('input[name="'+fieldName+'"]',editElement).prop('value',jQuery.trim(detailViewValue.text()));
+				jQuery('input[name="'+fieldName+'"]',editElement).prop('value',detailViewValue.text().trim());
 				var referenceElement = jQuery('input[name="'+fieldName+'"]',editElement);
 				if(!referenceElement.attr('disabled')) {
 					referenceElement.attr('disabled','disabled');
@@ -1257,7 +1257,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 			var fieldBasicData = jQuery('.fieldBasicData', editElement);
 			var fieldName = fieldBasicData.data('name');
 			var fieldType = fieldBasicData.data("type");
-			var previousValue = jQuery.trim(fieldBasicData.data('displayvalue'));
+			var previousValue = String(fieldBasicData.data('displayvalue') ?? '').trim();
 
 			var fieldElement = jQuery('[name="'+ fieldName +'"]', editElement);
 			var ajaxEditNewValue = fieldElement.val();

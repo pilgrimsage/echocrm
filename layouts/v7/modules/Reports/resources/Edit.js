@@ -109,7 +109,7 @@ Vtiger_Edit_Js("Reports_Edit_Js",{
 	 */
 	registerFormSubmitEvent : function(form) {
 		var thisInstance = this;
-		if(jQuery.isFunction(thisInstance.currentInstance.submit)){
+		if((typeof thisInstance.currentInstance.submit === 'function')){
 			form.vtValidate({
 				submitHandler:function(form,event){
 					event.preventDefault();

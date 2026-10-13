@@ -751,7 +751,7 @@ Vtiger.Class("Vtiger_List_Js", {
 				fieldBasicInfo = adv_search_uimeta.field.get(fieldName);
 			}
 
-			var value = jQuery.trim(valueElement.text());
+			var value = valueElement.text().trim();
 			//adding string,text,url,currency in customhandling list as string will be textlengthchecked
 			var customHandlingFields = ['owner', 'ownergroup', 'picklist', 'multipicklist', 'reference', 'string', 'url', 'currency', 'text', 'email', 'boolean'];
 			if (jQuery.inArray(fieldType, customHandlingFields) !== -1) {
@@ -781,7 +781,7 @@ Vtiger.Class("Vtiger_List_Js", {
 			// for reference fields, actual value will be ID but we need to show related name of that ID
 			if (fieldType === 'reference') {
 				if (value !== 0) {
-					jQuery('input[name="' + fieldName + '"]', editElement).prop('value', jQuery.trim(valueElement.text()));
+					jQuery('input[name="' + fieldName + '"]', editElement).prop('value', valueElement.text().trim());
 				}
 			}
 

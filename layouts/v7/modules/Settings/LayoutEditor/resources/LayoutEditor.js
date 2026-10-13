@@ -1254,7 +1254,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 					submitHandler: function (form) {
 						var form = jQuery(form);
 
-						var blockLabelValue = jQuery.trim(fieldLabel.val());
+						var blockLabelValue = String(fieldLabel.val() ?? '').trim();
 						var specialChars = /[&\<\>\:\'\"\,\_\-]/;
 						if (specialChars.test(blockLabelValue)) {
 							var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS')+" & < > ' \" : , _ - "+app.vtranslate('JS_NOT_ALLOWED');

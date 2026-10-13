@@ -286,7 +286,7 @@ Vtiger_Index_Js("Settings_ExtensionStore_ExtensionStore_Js", {
       container.on('keydown', '#searchExtension', function(e) {
             var currentTarget = jQuery(e.currentTarget);
             if (e.which === 13) {
-                var searchTerm = jQuery.trim(currentTarget.val());
+                var searchTerm = String(currentTarget.val() ?? '').trim();
                 if(!searchTerm) {
                     alert(app.vtranslate('JS_PLEASE_ENTER_SOME_VALUE'));
                     currentTarget.focus();

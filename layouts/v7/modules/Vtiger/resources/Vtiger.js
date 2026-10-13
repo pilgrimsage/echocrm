@@ -189,7 +189,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 		app.request.post({"data":params1}).then(function(error,response) {
 			var result = JSON.parse(response);
 			var address = result.address;
-			var location = jQuery.trim((address).replace(/\,/g," "));
+			var location = String((address).replace(/\,/g," ") ?? '').trim();
 			if(location == '' || location == null) {
 				app.helper.showAlertNotification({message:app.vtranslate('Please add address information to view on map')});
 				return false;
