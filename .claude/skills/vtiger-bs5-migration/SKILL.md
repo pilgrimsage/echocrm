@@ -654,6 +654,10 @@ The scratch area under `/tmp/claude-*/.../scratchpad` is wiped between days: the
 ## Structure leftovers cleared — 2026-10-13
 - **CKEditor loaded once**: removed the per-view `ckeditor.js` + jQuery adapter registrations from `Vtiger/views/{Detail,List,ComposeEmail}.php`; the global `JSResources.tpl` already loads them on every page (before `CkEditor.js`). Detail and List now emit one tag (was two); a CKEditor created on a probe textarea reaches status `ready`. The Send Email modal itself could not be exercised in the sandbox (no outgoing mail server).
 - **Orphans removed** after a reference check (no template, no `vtiger_links` row, only language strings): `Potentials/dashboards/Forecast.php` and `Leads/dashboards/LeadsCreated.php` (they listed nonexistent jqplot plugins).
-- **`csrf-magic.js` deleted**; `csrf-magic.php` now defaults `rewrite-js` to null (`config.security.php` already did).
+- **`csrf-magic.js` was NOT dead (reverted 2026-10-13)**: `csrf-magic.php`'s `rewrite-js` default is what makes it put `var csrfMagicToken` and the script into the `<head>` of every full page; `config.security.php` only nulls it for ajax/pjax responses. Deleting the file and nulling the default (commit c16400ee) removed the token from the pages, so every AJAX POST answered "Invalid request" until it was restored. Test any change to `libraries/csrf-magic` by loading a page and checking that `csrfMagicToken` is in the HTML and that a POST passes.
 - **`Reports/Step1.tpl`** lines 87 and 92 read `$IS_DUPLICATE` with the same `isset()` guard as the other uses (no more undefined-variable warning when editing a report).
 - Still open: `todc` `docs.min.css` select2 rules (do with the select2 4 upgrade) and the six near-identical per-app skin stylesheets.
+
+## Lesson — 2026-10-13: a cleanup broke CSRF, and the real directory was left on a feature branch
+- The csrf-magic cleanup above shipped without a POST test and was only noticed hours later in the select2 work. After any change under `libraries/` or config, run one real POST (a save) before committing.
+- Long feature work now happens in a **git worktree** (`~/Desktop/Personal/echocrm_select2`), never by switching the real project directory's branch: the real server serves that directory, so a checked-out WIP branch is live.
