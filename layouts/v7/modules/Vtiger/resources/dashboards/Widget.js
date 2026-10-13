@@ -251,21 +251,10 @@ Vtiger.Class('Vtiger_Widget_Js',{
 			return;
 		}
 		
-		dateRangeElement.addClass('dateField');
-		
-		var pickerParams = {
-            format : thisInstance.getUserDateFormat(),
-        };
-		vtUtils.registerEventForDateFields(dateRangeElement, pickerParams);
-		
-        dateRangeElement.on("changeDate", function(e){
-           var start = dateRangeElement.find('input[name="start"]').val();
-           var end = dateRangeElement.find('input[name="end"]').val();
-           if(start != '' && end != '' && start !== end){
-               container.find('a[name="drefresh"]').trigger('click');
-           }
-        });
-		dateRangeElement.attr('data-date-format',thisInstance.getUserDateFormat());
+		// The pickers go on the two inputs, not on the wrapper. Picking a date fires a normal 'change' event that
+		// registerFilterChangeEvent turns into a refresh once both dates are set.
+		dateRangeElement.find('input[name="start"], input[name="end"]').addClass('dateField');
+		vtUtils.registerEventForDateFields(dateRangeElement);
 	},
 
 	registerFilterChangeEvent : function() {

@@ -26,10 +26,12 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View {
 		$linkId = $request->get('linkid');
 		$response = new Vtiger_Response();
 		
-		if ($request->has('reportid')) {
-			$widget = Vtiger_Widget_Model::getInstanceWithReportId($request->get('reportid'), $currentUser->getId());
-		} else if ($request->has('widgetid')) {
+		// The widget id names one row on one dashboard tab. A report id or link id can match the same widget on
+		// every tab, so they are only used when no widget id was sent (and the id comes first even when a report id is there too).
+		if ($request->has('widgetid')) {
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->get('widgetid'), $currentUser->getId());
+		} else if ($request->has('reportid')) {
+			$widget = Vtiger_Widget_Model::getInstanceWithReportId($request->get('reportid'), $currentUser->getId());
         } else {
 			$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		}
@@ -38,7 +40,7 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View {
 			$widget->remove();
 			$response->setResult(array('linkid' => $linkId, 'name' => $widget->getName(), 'url' => $widget->getUrl(), 'title' => vtranslate($widget->getTitle(), $request->getModule())));
 		} else {
-			$response->setError(vtranslate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $moduleName));
+			$response->setError(vtranslate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $request->getModule()));
 		}
 		$response->emit();
 	}
