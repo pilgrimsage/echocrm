@@ -130,6 +130,15 @@ var vtUtils = {
 	},
 
     /**
+	 * The data (id, text, element...) behind one chosen value of a select2, from its <li class="select2-selection__choice">.
+	 * Select2 4 keeps it in a private cache, reachable through its utils module.
+	 */
+	getSelect2ChoiceData : function(choiceElement) {
+		var element = choiceElement instanceof jQuery ? choiceElement[0] : choiceElement;
+		return jQuery.fn.select2.amd.require('select2/utils').GetData(element, 'data');
+	},
+
+    /**
 	 * Lets the user drag the chosen values of a multiple select2 into an order.
 	 * Select2 4 draws the choices in option order and redraws them on every change, so the order the user wants
 	 * is remembered here and applied again after each redraw; read it back with getSelect2OrderedValues().
@@ -147,7 +156,7 @@ var vtUtils = {
 			return rendered.children('li.select2-selection__choice').toArray();
 		};
 		var idOf = function(li) {
-			var data = jQuery(li).data('data');
+			var data = vtUtils.getSelect2ChoiceData(li);
 			return data ? String(data.id) : null;
 		};
 		var apply = function() {
@@ -193,7 +202,7 @@ var vtUtils = {
 			return selectElement.val() || [];
 		}
 		return instance.$container.find('li.select2-selection__choice').map(function() {
-			var data = jQuery(this).data('data');
+			var data = vtUtils.getSelect2ChoiceData(this);
 			return data ? String(data.id) : null;
 		}).get();
 	},
