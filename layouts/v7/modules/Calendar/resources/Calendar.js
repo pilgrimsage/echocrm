@@ -413,9 +413,9 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			selectedValue = fieldSelectElement.find('option:selected').next().val();
 		}
 		var otherOption = targetFieldSelect.find('option').not('option[value="' + selectedValue + '"]');
-		sourceFieldSelect.select2('val', selectedValue);
+		sourceFieldSelect.val(selectedValue).trigger('change.select2');
 		if (otherOption.length > 0) {
-			targetFieldSelect.select2('val', otherOption.val());
+			targetFieldSelect.val(otherOption.val()).trigger('change.select2');
 		} else {
 			targetFieldSelect.select2('destroy').html('').select2();
 		}
@@ -644,10 +644,10 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			} else {
 				modalContainer.find('#js-eventtype-condition').addClass('hide');
 			}
-		}).select2('val', feedCheckbox.data('calendarFeed')).trigger('change');
+		}).val(feedCheckbox.data('calendarFeed')).trigger('change.select2').trigger('change');
 
 		var fieldSelectElement = modalContainer.find('[name="fieldsList"]');
-		fieldSelectElement.select2('val', feedCheckbox.data('calendarFieldname')).trigger('change');
+		fieldSelectElement.val(feedCheckbox.data('calendarFieldname')).trigger('change.select2').trigger('change');
 
 		thisInstance.registerColorEditorSaveEvent(modalContainer, feedIndicator);
 	},
@@ -804,7 +804,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			var selectedValue = sourceFieldsSelect.find('option:selected').val();
 			if (selectedValue === targetFieldsSelect.find('option:selected').val()) {
 				var otherOption = targetFieldsSelect.find('option').not('option[value="' + selectedValue + '"]');
-				targetFieldsSelect.select2('val', otherOption.val());
+				targetFieldsSelect.val(otherOption.val()).trigger('change.select2');
 			}
 		});
 
@@ -813,7 +813,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			var selectedValue = targetFieldsSelect.find('option:selected').val();
 			if (selectedValue === sourceFieldsSelect.find('option:selected').val()) {
 				var otherOption = sourceFieldsSelect.find('option').not('option[value="' + selectedValue + '"]');
-				sourceFieldsSelect.select2('val', otherOption.val());
+				sourceFieldsSelect.val(otherOption.val()).trigger('change.select2');
 			}
 		});
 
@@ -836,17 +836,17 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			var fieldSelectedValue = fieldSelectEle.find('option:selected').val();
 			var fieldOptions = fieldSelectEle.find('option');
 			fieldSelectEle.select2('destroy').html(fieldOptions).select2();
-			fieldSelectEle.select2('val', fieldSelectedValue);
+			fieldSelectEle.val(fieldSelectedValue).trigger('change.select2');
 
 			var sourceOptions = sourceFieldsSelect.find('option');
 			sourceFieldsSelect.select2('destroy').html(sourceOptions).select2();
-			sourceFieldsSelect.select2('val', fieldSelectedValue);
+			sourceFieldsSelect.val(fieldSelectedValue).trigger('change.select2');
 
 			var sourceSelectValue = sourceFieldsSelect.find('option:selected').val();
 			var otherOption = targetFieldsSelect.find('option').not('option[value="' + sourceSelectValue + '"]');
 			var targetOptions = targetFieldsSelect.find('option');
 			targetFieldsSelect.select2('destroy').html(targetOptions).select2();
-			targetFieldsSelect.select2('val', otherOption.val());
+			targetFieldsSelect.val(otherOption.val()).trigger('change.select2');
 		});
 
 		thisInstance.registerAddActivityTypeEvent(modalContainer);

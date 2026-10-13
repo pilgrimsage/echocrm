@@ -40,7 +40,7 @@
 				{/if}
 			{/if}
 			}
-			.picklistColor_{$CLASS_NAME}.select2-highlighted {
+			.picklistColor_{$CLASS_NAME}.select2-results__option--highlighted {
 			white: #ffffff !important;
 			background-color: #337ab7 !important;
 		}

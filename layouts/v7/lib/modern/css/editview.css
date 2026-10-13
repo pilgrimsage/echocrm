@@ -103,36 +103,6 @@ select.form-control{
 	background:var(--mist);
 	box-sizing:border-box;
 }
-.select2-container .select2-choice{
-	border:1px solid var(--line) !important;
-	border-radius:6px !important;
-	height:30px !important;
-	line-height:20px !important;
-	background:var(--mist) !important;
-	color:var(--ink) !important;
-}
-.select2-container-multi .select2-choices{
-	border:1px solid var(--line) !important;
-	border-radius:6px !important;
-	background:var(--mist) !important;
-	min-height:36px !important;
-}
-.select2-container-active .select2-choice,
-.select2-container-active .select2-choices,
-.select2-dropdown-open .select2-choice,
-.select2-dropdown-open .select2-choices{
-	border-color:var(--teal) !important;
-	background:#fff !important;
-}
-.select2-drop{
-	border:1px solid var(--line) !important;
-	border-radius:8px !important;
-}
-.select2-results .select2-highlighted{
-	background:var(--teal) !important;
-	color:#fff !important;
-}
-
 /* Advanced Search's "Search In" label + select2 module-picker (AdvanceSearch.tpl)
    rely on float:left on the label only - the label's own line-height gives it a
    ~27px box while the select2 choice box next to it is 38px tall, and since both

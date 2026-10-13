@@ -369,7 +369,8 @@ jQuery.validator.addMethod("multiEmails", function(value, element, params) {
 		var emailFilter = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`'{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\.]?[a-zA-Z0-9\-]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
 
 		if(!value) return true;
-		var fieldValuesList = value.split(',');
+		// a multiple select (the compose email recipients) gives the addresses as an array
+		var fieldValuesList = Array.isArray(value) ? value : value.split(',');
 		for (var i in fieldValuesList) {
 			var splittedFieldValue = fieldValuesList[i];
 			splittedFieldValue = splittedFieldValue.trim();
@@ -887,8 +888,8 @@ function calculateValidationRules(form,params,meta){
 		'errorClass': 'input-error',
 		'focusInvalid': true,
 		//Refer for explanation on ignore attrbute https://github.com/select2/select2/issues/215
-		//As element with class select2-input doesn't have name attribute is leading to issue
-		'ignore' : ":hidden,.ignore-validation,.select2-input",
+		//As the search field of select2 (class select2-search__field) doesn't have name attribute is leading to issue
+		'ignore' : ":hidden,.ignore-validation,.select2-search__field",
 		errorPlacement: function(error, element) {
 			if($(error).text()) {
 
@@ -994,10 +995,8 @@ function calculateValidationRules(form,params,meta){
 		},
 		highlight: function (element, errorClass, validClass) {
 			var elem = $(element);
-			if (elem.hasClass("select2-offscreen")) {
-				var select2Ele = app.helper.getSelect2FromSelect(elem);
-				select2Ele.find("ul").addClass(errorClass);
-				select2Ele.find('a.select2-choice').addClass(errorClass);
+			if (elem.hasClass("select2-hidden-accessible")) {
+				app.helper.getSelect2FromSelect(elem).find('.select2-selection').addClass(errorClass);
 			} else {
 				elem.addClass(errorClass);
 			}
@@ -1005,10 +1004,8 @@ function calculateValidationRules(form,params,meta){
 
 		unhighlight: function (element, errorClass, validClass) {
 			var elem = $(element);
-			if (elem.hasClass("select2-offscreen")) {
-				var select2Ele = app.helper.getSelect2FromSelect(elem);
-				select2Ele.find('ul').removeClass(errorClass);
-				select2Ele.find('a.select2-choice').removeClass(errorClass);
+			if (elem.hasClass("select2-hidden-accessible")) {
+				app.helper.getSelect2FromSelect(elem).find('.select2-selection').removeClass(errorClass);
 			} else {
 				elem.removeClass(errorClass);
 			}
@@ -1047,24 +1044,12 @@ function calculateValidationRules(form,params,meta){
 
 		var validobj = this.validate(newParams);
 
-//		$(document).one("change", ".select2-offscreen", function () {
-//			if (!$.isEmptyObject(validobj.submitted)) {
-//				validobj.form();
-//			}
-//		});
-
-		$(document).on("select2-opening", function (arg) {
-			var elem = $(arg.target);
-			var select2Elem = app.helper.getSelect2FromSelect(elem);
-			if (select2Elem.find("ul").hasClass("input-error") || select2Elem.find('a.select2-choice').hasClass("input-error")) {
-				//jquery checks if nthe class exists before adding.
-				$(".select2-drop").addClass("input-error");
-				$(".select2-drop ul").addClass("input-error");
-			} else {
-				$(".select2-drop").removeClass("input-error");
-				$(".select2-drop ul").removeClass("input-error");
+		// an open dropdown of a select2 with an error is drawn with the error colour too
+		$(document).off("select2:open.vtValidate").on("select2:open.vtValidate", function (arg) {
+			var instance = $(arg.target).data('select2');
+			if (instance) {
+				instance.$dropdown.toggleClass("input-error", instance.$container.find('.select2-selection').hasClass("input-error"));
 			}
-
 		});
 
 		//invoke validation on change of select elements

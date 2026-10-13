@@ -145,10 +145,9 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
 				if (fieldType == 'picklist' || fieldType == 'multipicklist') {
                     for(var key in fieldList) {
                         var field = fieldList[key];
-                        if(field == 'value' && valueSelectElement.is('input')) {
-                            var commaSeperatedValues = valueSelectElement.val();
+                        if(field == 'value' && valueSelectElement.is('[data-tag-input]')) {
                             var pickListValues = valueSelectElement.data('picklistvalues');
-                            var valuesArr = commaSeperatedValues.split(',');
+                            var valuesArr = valueSelectElement.val() || [];
                             var newvaluesArr = [];
                             for(i=0;i<valuesArr.length;i++){
                                 if(typeof pickListValues[valuesArr[i]] != 'undefined'){
@@ -526,9 +525,8 @@ AdvanceFilter_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
         if(selectedValues.length > 1){
             selectedOption = translatedValues.join(",");
         }
-        var html = '<input type="hidden" class="inputElement select2" name="'+ this.getName() +'" id="'+ this.getName() +'">';
-        var selectContainer = jQuery(html).val(selectedOption);
-        selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip).data('maximumSelectionSize', 1);
+        var selectContainer = vtUtils.buildTagSelect(this.getName(), 'inputElement select2', tagsArray, selectedOption, this.getName());
+        selectContainer.data('picklistvalues', pickListValuesArrayFlip).data('maximumSelectionLength', 1);
         selectContainer.data('placeholder', app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')).data('closeOnSelect', true);
         this.addValidationToElement(selectContainer);
         return selectContainer;
@@ -558,9 +556,8 @@ Vtiger_Multipicklist_Field_Js('Workflows_Multipicklist_Field_Js', {}, {
 		})
 		selectedOption = selectedOption.substring(0,selectedOption.lastIndexOf(','));
 
-		var html = '<input type="hidden" class="col-lg-12 select2" name="'+this.getName()+'[]" id="'+this.getName()+'" data-fieldtype="multipicklist" >';
-		var selectContainer = jQuery(html).val(selectedOption);
-		selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
+		var selectContainer = vtUtils.buildTagSelect(this.getName()+'[]', 'col-lg-12 select2', tagsArray, selectedOption, this.getName()).attr('data-fieldtype', 'multipicklist');
+		selectContainer.data('picklistvalues', pickListValuesArrayFlip);
 		selectContainer.data('placeholder', app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')).data('closeOnSelect', true);
 		this.addValidationToElement(selectContainer);
 		return selectContainer;

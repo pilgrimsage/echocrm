@@ -183,7 +183,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 			
 		var ulEle = container.find('ul.relatedModulesList');
 		var selectEle = container.find('[name="addToList"]');
-		vtUtils.showSelect2ElementView(selectEle, {maximumSelectionSize: 1});
+		vtUtils.showSelect2ElementView(selectEle, {maximumSelectionLength: 1});
 		selectEle.on('change', function () {
 			var selectedVal = selectEle.val();
 			var selectedOption = selectEle.find('option:selected');
@@ -206,8 +206,8 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 			thisInstance.makeRelatedModuleSortable();
 
 			//remove that selected module from the select element
-			selectEle.select2('data', []);
 			selectEle.find('option[value="'+selectedVal[0]+'"]').remove();
+			selectEle.val(null).trigger('change.select2');
 
 			thisInstance.removeModulesArray.splice(thisInstance.removeModulesArray.indexOf(selectedVal[0]), 1);
 
@@ -528,15 +528,17 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 		})
 
 		// this will handle the case of updating the default value in edit/create mode of field for picklist value type
-		data.find('input[name="pickListValues"]').on('change', function (e) {
+		data.find('select[name="pickListValuesUi"]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
+			var fieldOptions = element.val() || [];
+			// the server takes the values as one comma separated string
+			data.find('input[name="pickListValues"]').val(fieldOptions.join(','));
 			var defaultField = data.find('[name="fieldDefaultValue"]');
 			if (defaultField.length <= 0) {
 				defaultField = data.find('[name="fieldDefaultValue[]"]');
 			}
 			var defaultOptions = defaultField.find('option').removeClass('doestNotExists').addClass('doesNotExists');
 			var emptyOption = defaultOptions.filter('[value=" "]').removeClass('doesNotExists');
-			var fieldOptions = element.val().split(',');
 			var newOptions = '';
 
 			for (var i in fieldOptions) {
@@ -570,13 +572,13 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 				defaultValueUi.removeClass('zeroOpacity');
 				defaultField.removeAttr('disabled');
 				if (defaultField.is('select')) {
-					defaultField.select2('enable');
+					defaultField.prop('disabled', false);
 					defaultField.trigger("change", false);
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');
 				if (defaultField.is('select')) {
-					defaultField.select2('disable');
+					defaultField.prop('disabled', true);
 				}
 				//	defaultField.val('');
 				defaultValueUi.addClass('zeroOpacity');
@@ -601,8 +603,8 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 		if (formFieldId.length > 0) {
 			isEditMode = true;
 		}
-		var select2params = {tags: [], tokenSeparators: [","]}
-		vtUtils.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
+		var select2params = {tags: true, tokenSeparators: [","]}
+		vtUtils.showSelect2ElementView(form.find('[name="pickListValuesUi"]'), select2params);
 
 		this.registerFieldTypeChangeEvent(form);
 		data.find('.fieldTypesList').trigger('change');
@@ -636,9 +638,11 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 
 					if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
 						var pickListValueElement = jQuery('#picklistUi', form);
-						var pickLisValues = pickListValueElement.val();
 						var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-						var pickListValuesArray = pickLisValues.split(',');
+						var pickListValuesArray = pickListValueElement.val() || [];
+						if (pickListValuesArray.length == 0) {
+							pickListValuesArray = [''];
+						}
 						var pickListValuesArraySize = pickListValuesArray.length;
 						var specialChars = /[<\>\"\,\[\]\{\}]/;
 						var showValidationParams = {
@@ -2156,7 +2160,7 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 					duplicationContainer.html('');
 					contents.find('.duplicationTab').trigger('click');
 				});
-				vtUtils.showSelect2ElementView(form.find('select').addClass('select2'), {maximumSelectionSize: 3});
+				vtUtils.showSelect2ElementView(form.find('select').addClass('select2'), {maximumSelectionLength: 3});
 				vtUtils.enableTooltips();
 
 				var params = {

@@ -31,15 +31,15 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 
 		var selectedChartType = jQuery('input[name=charttype]').val();
 
-		groupByField.select2().select2("val", groupByFieldValue);
+		groupByField.select2().val(groupByFieldValue).trigger('change.select2');
 
 		if(selectedChartType == 'pieChart') {
 			if(!dataFieldsValue){
 				dataFieldsValue = dataFields.find('option:first').val();
 			}
-			dataFields.attr('multiple', false).select2().select2("val", dataFieldsValue[0]);
+			dataFields.attr('multiple', false).select2().val(dataFieldsValue[0]).trigger('change.select2');
 		} else if(dataFieldsValue && dataFieldsValue[0]) {
-			dataFields.attr('multiple', true).select2({maximumSelectionSize: 3}).select2("val", dataFieldsValue);
+			dataFields.attr('multiple', true).select2({maximumSelectionLength: 3}).val(dataFieldsValue).trigger('change.select2');
 		}
 
 		if(selectedChartType) {
@@ -93,7 +93,7 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 				if(!dataFieldsValue){
 					dataFieldsValue = dataFields.find('option:first').val();
 				}
-				dataFields.attr('multiple', false).select2().select2("val",dataFieldsValue);
+				dataFields.attr('multiple', false).select2().val(dataFieldsValue).trigger('change.select2');
 			} else {
 				if (thisInstance.isInventoryModule) {
 					var reg = new RegExp(/vtiger_inventoryproductrel*/);
@@ -103,7 +103,7 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 						jQuery('#datafields option[value^="vtiger_inventoryproductrel"]').remove();
 					}
 				}
-				dataFields.attr('multiple', true).select2({maximumSelectionSize: 3});
+				dataFields.attr('multiple', true).select2({maximumSelectionLength: 3});
 			}
 			jQuery('input[name=charttype]').val(chartType);
 			jQuery('ul[name=charttab] li.active a').removeClass('contentsBackground backgroundColor');
@@ -124,14 +124,14 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 			var sector = jQuery('#datafields').val();
 			var form = thisInstance.getContainer();
 			if(sector && legend) {
-				vtUtils.hideValidationMessage(jQuery('#s2id_groupbyfield'));
-				vtUtils.hideValidationMessage(jQuery('#s2id_datafields'));
+				vtUtils.hideValidationMessage(app.helper.getSelect2FromSelect(jQuery('#groupbyfield')));
+				vtUtils.hideValidationMessage(app.helper.getSelect2FromSelect(jQuery('#datafields')));
 				form.submit();
 			} else if(!legend){
-				vtUtils.showValidationMessage(jQuery('#s2id_groupbyfield'), app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'));
+				vtUtils.showValidationMessage(app.helper.getSelect2FromSelect(jQuery('#groupbyfield')), app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'));
 				e.preventDefault();
 			}else if(!sector){
-				vtUtils.showValidationMessage(jQuery('#s2id_datafields'), app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'));
+				vtUtils.showValidationMessage(app.helper.getSelect2FromSelect(jQuery('#datafields')), app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'));
 				e.preventDefault();
 			}
 		});

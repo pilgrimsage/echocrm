@@ -36,7 +36,7 @@ Vtiger.Class('Settings_PickListDependency_Js', {
 		instance.showEditView(module, sourceField, targetField).then(
 			function(data){
 				var form = jQuery('#pickListDependencyForm');
-				form.find('[name="sourceModule"],[name="sourceField"],[name="targetField"]').select2('disable');
+				form.find('[name="sourceModule"],[name="sourceField"],[name="targetField"]').prop('disabled', true);
 				var element = form.find('.dependencyMapping');
                 app.helper.showHorizontalScroll(element);
 				instance.registerDependencyGraphEvents();
@@ -582,7 +582,7 @@ Vtiger.Class('Settings_PickListDependency_Js', {
 			var element = form.find('.dependencyMapping');
 			app.helper.showHorizontalScroll(element);
 			if(form.find('.editDependency').val() == "true") {
-				form.find('[name="sourceModule"],[name="sourceField"],[name="targetField"]').select2('disable');
+				form.find('[name="sourceModule"],[name="sourceField"],[name="targetField"]').prop('disabled', true);
 				thisInstance.registerDependencyGraphEvents();
 				thisInstance.registerSubmitEvent();
 			} else {

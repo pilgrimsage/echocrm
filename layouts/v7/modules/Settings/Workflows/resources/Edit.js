@@ -250,7 +250,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             concatenatedValue = oldValue + newValue;
          }
          data.find('.fieldValue').val(concatenatedValue);
-         currentElement.val('').select2("val", '');
+         currentElement.val('').val('').trigger('change.select2');
       });
    },
    registerChangeFieldEvent: function (data) {
@@ -649,10 +649,9 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
          } else if (fieldType == 'picklist' || fieldType == 'multipicklist') {
             for (var key in fieldList) {
                var field = fieldList[key];
-               if (field == 'value' && valueSelectElement.is('input')) {
-                  var commaSeperatedValues = valueSelectElement.val();
+               if (field == 'value' && valueSelectElement.is('[data-tag-input]')) {
                   var pickListValues = valueSelectElement.data('picklistvalues');
-                  var valuesArr = commaSeperatedValues.split(',');
+                  var valuesArr = valueSelectElement.val() || [];
                   var newvaluesArr = [];
                   for (i = 0; i < valuesArr.length; i++) {
                      if (typeof pickListValues[valuesArr[i]] != 'undefined') {
@@ -862,7 +861,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
                   var moduleName = jQuery('#createEntityModule').val();
                   moduleNameElement.find('option[value="' + moduleName + '"]').attr('selected', true);
                   moduleNameElement.trigger('change');
-                  moduleNameElement.select2("disable");
+                  moduleNameElement.prop('disabled', true);
                }
             }
             thisInstance.loadFieldSpecificUi(selectedElement);
@@ -959,10 +958,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
          });
       }
 
-      if (fieldSpecificUi.is('input.select2')) {
-         var tagElements = fieldSpecificUi.data('tags');
-         var params = {tags: tagElements, tokenSeparators: [","]}
-         vtUtils.showSelect2ElementView(fieldSpecificUi, params)
+      if (fieldSpecificUi.is('select[data-tag-input]')) {
+         vtUtils.showSelect2ElementView(fieldSpecificUi, {tags: true, tokenSeparators: [","]});
       } else if (fieldSpecificUi.is('select')) {
          if (fieldSpecificUi.hasClass('select2')) {
             vtUtils.showSelect2ElementView(fieldSpecificUi)
@@ -1104,12 +1101,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       //If repeatDay radio button is checked then only select2 elements will be enable
       if (jQuery('#repeatDay').is(':checked')) {
          jQuery('#repeatMonthDate').attr('disabled', true);
-         jQuery('#repeatMonthDayType').select2("enable");
-         jQuery('#repeatMonthDay').select2("enable");
+         jQuery('#repeatMonthDayType').prop('disabled', false);
+         jQuery('#repeatMonthDay').prop('disabled', false);
       } else {
          jQuery('#repeatMonthDate').removeAttr('disabled');
-         jQuery('#repeatMonthDayType').select2("disable");
-         jQuery('#repeatMonthDay').select2("disable");
+         jQuery('#repeatMonthDayType').prop('disabled', true);
+         jQuery('#repeatMonthDay').prop('disabled', true);
       }
    },
    checkHiddenStatusofCcandBcc: function () {

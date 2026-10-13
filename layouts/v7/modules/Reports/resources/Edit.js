@@ -163,7 +163,7 @@ Vtiger_Edit_Js("Reports_Edit_Js",{
                 var element = jQuery(e.currentTarget);
                 if(self.isAllUsersSelected()){
                     element.find('option').not('[value="All::Users"]').prop('disabled',true);
-                    element.select2('val',['All::Users']);
+                    element.val(['All::Users']).trigger('change.select2');
                     element.select2('close');
                 }else{
                     element.find('option').removeProp('disabled');

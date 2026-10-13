@@ -126,7 +126,7 @@ Vtiger_Detail_Js("Project_Detail_Js",{
                     statusCondition['projecttaskstatus'] = searchInfo;
 					params['whereCondition'] = JSON.stringify(statusCondition);
 				}
-				jQuery('[name="projecttaskprogress"]').val('').select2("val", '');
+				jQuery('[name="projecttaskprogress"]').val('').val('').trigger('change.select2');
 			}
             else if(referenceModuleName == "ProjectTask" && picklistName == 'projecttaskprogress'){
 				if(selectedStatus.length > 0) {
@@ -137,7 +137,7 @@ Vtiger_Detail_Js("Project_Detail_Js",{
                     statusCondition['projecttaskprogress'] = searchInfo;
 					params['whereCondition'] = JSON.stringify(statusCondition);
 				}
-				jQuery('[name="projecttaskstatus"]').val('').select2("val", '');
+				jQuery('[name="projecttaskstatus"]').val('').val('').trigger('change.select2');
 			}
 			
 			params['record'] = recordId;

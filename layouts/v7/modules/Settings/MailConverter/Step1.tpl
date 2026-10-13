@@ -51,7 +51,6 @@
 											<select name="{$FIELD_MODEL->getName()}" class="select2 fieldValue inputElement"
 												{* to show dropdown above *}
 												{if $FIELD_MODEL->getName() eq 'time_zone'}
-													data-dropdownCssClass="select2-drop-above"
 												{/if}
 												>
 												{if $FIELD_MODEL->getName() eq 'time_zone'}

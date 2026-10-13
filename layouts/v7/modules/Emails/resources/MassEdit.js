@@ -11,6 +11,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 	init: function () {
 		this.preloadData = new Array();
+		// email address -> id of the CRM record it was picked from (select2 keeps only id and text of a choice)
+		this.emailRecordIds = {};
 	}, 
 
 	ckEditorInstance : false,
@@ -235,144 +237,122 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	registerAutoCompleteFields : function(container) {
 		var thisInstance = this;
 		var lastResults = [];
-		container.find('#emailField').select2({
+		var emailField = container.find('#emailField');
+		vtUtils.showSelect2ElementView(emailField, {
 			minimumInputLength: 3,
 			closeOnSelect : false,
 
-			tags : [],
+			tags : true,
 			tokenSeparators: [","],
 
 			ajax : {
 				'url' : 'index.php?module=Emails&action=BasicAjax',
 				'dataType' : 'json',
-				'data' : function(term,page){
-					 var data = {};
-					 data['searchValue'] = term;
-					 return data;
+				'delay' : 250,
+				'data' : function(params){
+					 return {'searchValue' : params.term};
 				},
-				'results' : function(data){
-					var finalResult = [];
+				'processResults' : function(data){
 					var results = data.result;
 					var resultData = new Array();
 					for(var moduleName in results) {
-						var moduleResult = [];
-						moduleResult.text = moduleName;
-
 						var children = new Array();
-						for(var recordId in data.result[moduleName]) {
-							var emailInfo = data.result[moduleName][recordId];
+						for(var recordId in results[moduleName]) {
+							var emailInfo = results[moduleName][recordId];
 							for (var i in emailInfo) {
-								var childrenInfo = [];
-								childrenInfo.recordId = recordId;
-								childrenInfo.id = emailInfo[i].value;
-								childrenInfo.text = emailInfo[i].label;
-								children.push(childrenInfo);
+								children.push({
+									'recordId' : recordId,
+									'id' : emailInfo[i].value,
+									'text' : emailInfo[i].label
+								});
 							}
 						}
-						moduleResult.children = children;
-						resultData.push(moduleResult);
+						resultData.push({'text' : moduleName, 'children' : children});
 					}
-					finalResult.results = resultData;
 					lastResults = resultData;
-					return finalResult;
-				},
-				transport : function(params) {
-					return jQuery.ajax(params);
+					return {'results' : resultData};
 				}
 			},
-			createSearchChoice : function(term) {
+			createTag : function(params) {
 				//checking for results if there is any if not creating as value
-				if(lastResults.length == 0) {
+				var term = String(params.term ?? '').trim();
+				if(term !== '' && lastResults.length == 0) {
 					return { id: term, text: term };
 				}
+				return null;
 			},
-                        escapeMarkup: function(m) {
-                            // Do not escape HTML in the select options text
-                            m = vtUtils.stripTags(String(m),'<i><b>');
-                            return m;
- 			}
-
-		}).on("change", function (selectedData) {
-			var addedElement = selectedData.added;
-			if (typeof addedElement != 'undefined') {
-				var data = {
-					'id' : addedElement.recordId,
-					'name' : addedElement.text,
-					'emailid' : addedElement.id
-				}
-				thisInstance.addToEmails(data);
-				if (typeof addedElement.recordId != 'undefined') {
-					thisInstance.addToEmailAddressData(data);
-					thisInstance.appendToSelectedIds(addedElement.recordId);
-				}
-
-				var preloadData = thisInstance.getPreloadData();
-				var emailInfo = {
-					'id' : addedElement.id
-				}
-				if (typeof addedElement.recordId != 'undefined') {
-					emailInfo['text'] = addedElement.text;
-					emailInfo['recordId'] = addedElement.recordId;
-				} else {
-					emailInfo['text'] = addedElement.id;
-				}
-				preloadData.push(emailInfo);
-				thisInstance.setPreloadData(preloadData);
-			}
-
-			var removedElement = selectedData.removed;
-			if (typeof removedElement != 'undefined') {
-				var data = {
-					'id' : removedElement.recordId,
-					'name' : removedElement.text,
-					'emailid' : removedElement.id
-				}
-				thisInstance.removeFromEmails(data);
-				if (typeof removedElement.recordId != 'undefined') {
-					thisInstance.removeFromSelectedIds(removedElement.recordId);
-					thisInstance.removeFromEmailAddressData(data);
-				}
-
-				var preloadData = thisInstance.getPreloadData();
-				var updatedPreloadData = [];
-				for(var i in preloadData) {
-					var preloadDataInfo = preloadData[i];
-					var skip = false;
-					if (removedElement.id == preloadDataInfo.id) {
-						skip = true;
-					}
-					if (skip == false) {
-						updatedPreloadData.push(preloadDataInfo);
-					}
-				}
-				thisInstance.setPreloadData(updatedPreloadData);
+			escapeMarkup: function(m) {
+				// Do not escape HTML in the select options text
+				m = vtUtils.stripTags(String(m),'<i><b>');
+				return m;
 			}
 		});
-
-		container.find('#emailField').select2("container").find("ul.select2-choices").sortable({
-			containment: 'parent',
-			start: function(){
-				container.find('#emailField').select2("onSortStart");
-			},
-			update: function(){
-				container.find('#emailField').select2("onSortEnd");
+		emailField.on('select2:select', function (selectedData) {
+			var addedElement = selectedData.params.data;
+			var recordId = addedElement.recordId;
+			if (typeof recordId != 'undefined') {
+				thisInstance.emailRecordIds[addedElement.id] = recordId;
 			}
+			var data = {
+				'id' : recordId,
+				'name' : addedElement.text,
+				'emailid' : addedElement.id
+			}
+			thisInstance.addToEmails(data);
+			if (typeof recordId != 'undefined') {
+				thisInstance.addToEmailAddressData(data);
+				thisInstance.appendToSelectedIds(recordId);
+			}
+
+			var preloadData = thisInstance.getPreloadData();
+			var emailInfo = {
+				'id' : addedElement.id
+			}
+			if (typeof recordId != 'undefined') {
+				emailInfo['text'] = addedElement.text;
+				emailInfo['recordId'] = recordId;
+			} else {
+				emailInfo['text'] = addedElement.id;
+			}
+			preloadData.push(emailInfo);
+			thisInstance.setPreloadData(preloadData);
 		});
+		emailField.on('select2:unselect', function (selectedData) {
+			var removedElement = selectedData.params.data;
+			var recordId = thisInstance.emailRecordIds[removedElement.id];
+			var data = {
+				'id' : recordId,
+				'name' : removedElement.text,
+				'emailid' : removedElement.id
+			}
+			thisInstance.removeFromEmails(data);
+			if (typeof recordId != 'undefined') {
+				thisInstance.removeFromSelectedIds(recordId);
+				thisInstance.removeFromEmailAddressData(data);
+			}
+
+			var preloadData = thisInstance.getPreloadData();
+			var updatedPreloadData = [];
+			for(var i in preloadData) {
+				var preloadDataInfo = preloadData[i];
+				if (removedElement.id != preloadDataInfo.id) {
+					updatedPreloadData.push(preloadDataInfo);
+				}
+			}
+			thisInstance.setPreloadData(updatedPreloadData);
+		});
+
+		vtUtils.makeSelect2Sortable(emailField);
 
 		var toEmailNamesList = JSON.parse(container.find('[name="toMailNamesList"]').val());
 		var toEmailInfo = JSON.parse(container.find('[name="toemailinfo"]').val());
-		var toEmails = container.find('[name="toEmail"]').val();
-		var toFieldValues = Array();
-		if (toEmails.length > 0) {
-			toFieldValues = toEmails.split(',');
-		}
+		var toFieldValues = Array.from(emailField.val() || []);
 
 		var preloadData = thisInstance.getPreloadData();
 		if (typeof toEmailInfo != 'undefined') {
 			for(var key in toEmailInfo) {
 				if (toEmailNamesList.hasOwnProperty(key)) {
 					for (var i in toEmailNamesList[key]) {
-						var emailInfo = [];
 						var emailId = toEmailNamesList[key][i].value;
 						var emailInfo = {
 							'recordId' : key,
@@ -380,31 +360,39 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 							'text' : toEmailNamesList[key][i].label+' ('+emailId+')'
 						}
 						preloadData.push(emailInfo);
-						if (jQuery.inArray(emailId, toFieldValues) != -1) {
-							var index = toFieldValues.indexOf(emailId);
-							if (index !== -1) {
-								toFieldValues.splice(index, 1);
-							}
+						var index = toFieldValues.indexOf(emailId);
+						if (index !== -1) {
+							toFieldValues.splice(index, 1);
 						}
 					}
 				}
 			}
 		}
-		if (typeof toFieldValues != 'undefined') {
-			for(var i in toFieldValues) {
-				var emailId = toFieldValues[i];
-				var emailInfo = {
-					'id' : emailId,
-					'text' : emailId
-				}
-				preloadData.push(emailInfo);
-			}
+		for(var i in toFieldValues) {
+			var emailId = toFieldValues[i];
+			preloadData.push({
+				'id' : emailId,
+				'text' : emailId
+			});
 		}
-		if (typeof preloadData != 'undefined') {
-			thisInstance.setPreloadData(preloadData);
-			container.find('#emailField').select2('data', preloadData);
-		}
+		thisInstance.setPreloadData(preloadData);
+		thisInstance.setEmailFieldData(emailField, preloadData);
+	},
 
+	/**
+	 * Function to show the given recipients as the chosen values of the to field
+	 * @params - emailField <jQuery> - the to field, preloadData <Array> - objects with id (email address), text and optional recordId
+	 */
+	setEmailFieldData : function(emailField, preloadData) {
+		var thisInstance = this;
+		emailField.empty();
+		jQuery.each(preloadData, function(index, info) {
+			if (typeof info.recordId != 'undefined') {
+				thisInstance.emailRecordIds[info.id] = info.recordId;
+			}
+			emailField.append(new Option(info.text, info.id, true, true));
+		});
+		emailField.trigger('change.select2');
 	},
 
 	removeFromEmailAddressData : function(mailInfo) {
@@ -600,17 +588,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		}
 		preloadData.push(emailInfo);
 		thisInstance.setPreloadData(preloadData);
-		container.find('#emailField').select2('data', preloadData);
-
-		var toEmailField = container.find('.sourceField');
-		var toEmailFieldExistingValue = toEmailField.val();
-		var toEmailFieldNewValue;
-		if(toEmailFieldExistingValue != ""){
-			toEmailFieldNewValue = toEmailFieldExistingValue+","+object.emailid;
-		} else {
-			toEmailFieldNewValue = object.emailid;
-		}
-		toEmailField.val(toEmailFieldNewValue);
+		thisInstance.setEmailFieldData(container.find('#emailField'), preloadData);
 	},
 
 	fileAfterSelectHandler : function(element, value, master_element){
@@ -644,7 +622,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	 registerEventsForToField: function() {
 		 var thisInstance = this;
 		this.getMassEmailForm().on('click','.selectEmail',function(e){
-			var moduleSelected = jQuery('.emailModulesList').select2('val');
+			var moduleSelected = jQuery('.emailModulesList').val();
 			var parentElem = jQuery(e.target).closest('.toEmailField');
 			var sourceModule = jQuery('[name=module]').val();
 			var params = {
@@ -672,14 +650,13 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 
 		this.getMassEmailForm().on('click','[name="clearToEmailField"]',function(e){
 			var element = jQuery(e.currentTarget);
-			element.closest('div.toEmailField').find('.sourceField').val('');
 			thisInstance.getMassEmailForm().find('[name="toemailinfo"]').val(JSON.stringify(new Array()));
 			thisInstance.getMassEmailForm().find('[name="selected_ids"]').val(JSON.stringify(new Array()));
 			thisInstance.getMassEmailForm().find('[name="to"]').val(JSON.stringify(new Array()));
 
 			var preloadData = [];
 			thisInstance.setPreloadData(preloadData);
-			thisInstance.getMassEmailForm().find('#emailField').select2('data', preloadData);
+			thisInstance.setEmailFieldData(thisInstance.getMassEmailForm().find('#emailField'), preloadData);
 		});
 
 	 },

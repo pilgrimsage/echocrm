@@ -11,7 +11,7 @@
 -->*}
 {strip}
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/purl.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/select2/select2.min.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/select2/js/select2.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.class.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-ui-1.12.0.custom/jquery-ui.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/flatpickr/flatpickr.min.js')}"></script>

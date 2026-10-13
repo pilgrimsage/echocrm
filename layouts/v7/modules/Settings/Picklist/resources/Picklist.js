@@ -69,7 +69,7 @@ var Settings_Picklist_Js = {
             
 			var callBackFunction = function(data) {
 				popupShown = false;
-                var select2params = {tags : [], tokenSeparators: [","]};
+                var select2params = {tags : true, tokenSeparators: [","]};
                 vtUtils.showSelect2ElementView(data.find('[name=newValue]'), select2params);
 				Settings_Picklist_Js.registerAddItemSaveEvent(data);
 				Settings_Picklist_Js.regiserSelectRolesEvent(data);
@@ -118,8 +118,8 @@ var Settings_Picklist_Js = {
 			var rolesSelectElement = jQuery(e.currentTarget);
 			var selectedValue = rolesSelectElement.val();
 			if(jQuery.inArray('all', selectedValue) != -1){
-				rolesSelectElement.select2("val", "");
-				rolesSelectElement.select2("val","all");
+				rolesSelectElement.val("").trigger('change.select2');
+				rolesSelectElement.val("all").trigger('change.select2');
 				rolesSelectElement.select2("close");
 				rolesSelectElement.find('option').not(':first').attr('disabled','disabled');
                 if(jQuery('.allRoleSelected').length < 1)
@@ -215,27 +215,18 @@ var Settings_Picklist_Js = {
 	},
 
 	registerDeleteOptionEvent : function() {
-
-		function result(value) {
-			var replaceValueElement = jQuery('#replaceValue');
-			if(typeof value.added != 'undefined'){
-				var id = value.added.id;
-				jQuery('#replaceValue option[value="'+id+'"]').remove();
-				replaceValueElement.trigger('change');
-			} else {
-				var id = value.removed.id;
-				var text = value.removed.text;
-				replaceValueElement.append('<option value="'+id+'">'+text+'</option>');
-				replaceValueElement.trigger('change');
-			}
-		}
-		jQuery('[name="delete_value[]"]').on("change", function(e) {
-			result({
-				val:e.val,
-				added:e.added,
-				removed:e.removed
-				});
-		})
+		var replaceValueElement = jQuery('#replaceValue');
+		var deleteValues = jQuery('[name="delete_value[]"]');
+		// a value picked for deletion cannot be the one it is replaced with
+		deleteValues.on('select2:select', function(e) {
+			replaceValueElement.find('option[value="'+e.params.data.id+'"]').remove();
+			replaceValueElement.trigger('change');
+		});
+		deleteValues.on('select2:unselect', function(e) {
+			var data = e.params.data;
+			replaceValueElement.append('<option value="'+data.id+'">'+data.text+'</option>');
+			replaceValueElement.trigger('change');
+		});
 	},
 
 	duplicateItemNameCheck : function(container) {
@@ -251,7 +242,7 @@ var Settings_Picklist_Js = {
 		if(mode == 'edit') {
 			newValues = String(jQuery('[name="renamedValue"]', container).val() ?? '').trim();
 		} else {
-			newValues = String(jQuery('[name="newValue"]', container).val() ?? '').trim();
+			newValues = (jQuery('[name="newValue"]', container).val() || []).join(',').trim();
 		}
 		var newValuesArray = newValues.split(',');
 		var duplicateFlag = true;
@@ -307,8 +298,10 @@ var Settings_Picklist_Js = {
 				// detect characters that would break convention for css-class names
                 var specialChars = /[\<\>\"\,\[\]\{\}\'\!\@\#\$\%\^\&\*\(\)\+\=\?\|\\\;\:\/]/;
 				var newValueEle = jQuery('[name="newValue"]', container);
-				var newValues = newValueEle.val();
-				var newValueArray = newValues.split(',');
+				var newValueArray = newValueEle.val() || [];
+				if (newValueArray.length == 0) {
+					newValueArray = [''];
+				}
 				var showValidationParams = {
 						position: {
 								my: 'bottom left',
@@ -336,12 +329,11 @@ var Settings_Picklist_Js = {
 				vtUtils.hideValidationMessage(newValueEle);
 				
 				var params = jQuery(form).serializeFormData();
-				var newValue = params.newValue;
-				params.newValue = String(newValue ?? '').trim();
+				// the server takes the new values as one comma separated string
+				params.newValue = jQuery.map([].concat(params.newValue ?? []), function(value) { return String(value).trim(); }).join(',');
                 app.helper.showProgress();
 				app.request.post({data: params}).then(function(error, data) {
-					var newValues = jQuery('[name="newValue"]',container).val();
-					var newValuesArray = newValues.split(',');
+					var newValuesArray = jQuery('[name="newValue"]',container).val() || [];
 					for (i = 0; i < newValuesArray.length; i++) {
 						newValue = String(newValuesArray[i] ?? '').trim();
 						var newElement = thisInstance.getPickListTemplate(newValue, params.selectedColor);
@@ -462,8 +454,8 @@ var Settings_Picklist_Js = {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForModal(form);
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
-			var maximumSelectionSize = jQuery('#pickListValuesCount').val()-1;
-			vtUtils.showSelect2ElementView(jQuery('[name="delete_value[]"]'), {maximumSelectionSize: maximumSelectionSize, dropdownCss : {'z-index' : 100001}});
+			var maximumSelectionLength = jQuery('#pickListValuesCount').val()-1;
+			vtUtils.showSelect2ElementView(jQuery('[name="delete_value[]"]'), {maximumSelectionLength: maximumSelectionLength});
 			jQuery('[name="delete_value[]"]').on('change', function() {
 				thisInstance.registerScrollForModal(form);
 			});

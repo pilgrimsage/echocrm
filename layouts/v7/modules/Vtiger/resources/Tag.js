@@ -182,9 +182,9 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
                         typeDelay : 0
                      });
                      
-                    var tagInputEle = modalContainer.find('input[name="createNewTag"]');
-//                    var params = {tags : [], tokenSeparators: [","]};
-//                    vtUtils.showSelect2ElementView(tagInputEle, params);
+                    var tagInputEle = modalContainer.find('select[name="createNewTag"]');
+                    var params = {tags : true, tokenSeparators: [","]};
+                    vtUtils.showSelect2ElementView(tagInputEle, params);
                     
                     var form = modalContainer.find('form');
                     form.off('submit').on('submit',function(e){
@@ -199,7 +199,7 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
                         }
                         var saveTagList = {};
                         saveTagList['existing'] = currentTagsSelected;
-                        saveTagList['new'] = tagInputEle.val().split(',');
+                        saveTagList['new'] = tagInputEle.val() || [];
                         saveTagList['deleted'] = deletedTags;
                         saveParams['tagsList'] = saveTagList;
                        

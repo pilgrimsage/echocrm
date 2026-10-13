@@ -97,27 +97,18 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
     },
     
     registerSelect2ForModuleFilter : function() {
+        // each module is shown with the number of workflows it has
+        var workflowCount = function(result) {
+            return jQuery(result.element).data('count') || 0;
+        };
         vtUtils.showSelect2ElementView(jQuery('#moduleFilter'), {
-            formatResult: function(result) {
-                var element = jQuery(result.element);
-                var count = element.data('count');
-                if (!count) {
-                    count = 0;
-                }
-
-                return result.text + "&nbsp; - &nbsp;" + count;
+            templateResult: function(result) {
+                return result.text + '\u00a0 - \u00a0' + workflowCount(result);
             },
-            formatSelection: function(result) {
-                var element = jQuery(result.element);
-                var count = element.data('count');
-                if (!count) {
-                    count = 0;
-                }
-
-                return result.text
-                + "&nbsp;&nbsp;<span class='label-success badge' style='display: inline;'>"
-                + count
-                + "</span>";
+            templateSelection: function(result) {
+                var selection = jQuery('<span></span>').text(result.text + '\u00a0\u00a0');
+                selection.append(jQuery("<span class='label-success badge' style='display: inline;'></span>").text(workflowCount(result)));
+                return selection;
             }
         });
     },

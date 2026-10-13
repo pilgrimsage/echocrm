@@ -1821,7 +1821,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 								app.event.trigger('post.save.failed', err);
 								detailViewElement.removeClass('hide');
 								currentTarget.show();
-								fieldElement.select2('val', previousValue);
+								fieldElement.val(previousValue).trigger('change.select2');
 							}
 					});
 				}
@@ -2323,8 +2323,8 @@ Vtiger.Class("Vtiger_Detail_Js",{
 						typeDelay : 0
 					 });
 
-					var tagInputEle = modalContainer.find('input[name="createNewTag"]');
-					var params = {tags : [], tokenSeparators: [","]};
+					var tagInputEle = modalContainer.find('select[name="createNewTag"]');
+					var params = {tags : true, tokenSeparators: [","]};
 					vtUtils.showSelect2ElementView(tagInputEle, params);
 
 					var form = modalContainer.find('form');
@@ -2335,7 +2335,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 						var saveParams = {};
 						var saveTagList = {};
 						saveTagList['existing'] = currentTagsSelected;
-						saveTagList['new'] = tagInputEle.val().split(',')
+						saveTagList['new'] = tagInputEle.val() || []
 						saveParams['tagsList'] = saveTagList;
 
 						var formData = form.serializeFormData();
@@ -2439,7 +2439,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 			e.stopPropagation();
 		});
 		var tagInputEle = tagContainer.find('.newTags');
-		var params = {tags : [], tokenSeparators: [","]};
+		var params = {tags : true, tokenSeparators: [","]};
 		vtUtils.showSelect2ElementView(tagInputEle, params);
 
 		var existinTagContainer = tagContainer.find('.existingTag');
@@ -2459,10 +2459,10 @@ Vtiger.Class("Vtiger_Detail_Js",{
 				var ele = jQuery(domEle);
 				selectedExistingTags.push(ele.find('.tag').data('id'));
 			});
-			var newTagEle = createTagContainer.find('input.newTags');
-			var newTags = newTagEle.val();
+			var newTagEle = createTagContainer.find('.newTags');
+			var newTags = newTagEle.val() || [];
 			var tagsList = {};
-			tagsList['new'] = newTags.split(',');
+			tagsList['new'] = newTags;
 			tagsList['existing'] = selectedExistingTags;
 			var visibility = createTagContainer.find('[name="visibility"]').val();
 			var visibilityCheckBox = createTagContainer.find('[type="checkbox"][name="visibility"]');
@@ -2471,7 +2471,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 			}
 			self.saveTag({'tagsList':tagsList,'newTagType': visibility}).then(function(data){
 				selectedTagElement.remove();
-				newTagEle.select2('val','');
+				newTagEle.empty().trigger('change.select2');
 			});
 		});
 

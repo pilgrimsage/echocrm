@@ -20,7 +20,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
         }
 
         if(prevSelectedRegions) {
-            regionsElement.select2("val", prevSelectedRegions);
+            regionsElement.val(prevSelectedRegions).trigger('change.select2');
         }
     }
 },{
@@ -65,7 +65,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
                             form.find('.compoundOnContainer').addClass('hide');
                             form.find('.dedcutedTaxDesc').addClass('hide');
                             form.find('.taxTypeContainer').removeClass('hide').show();
-                            form.find('#compoundOn').select2('val', null);
+                            form.find('#compoundOn').val(null).trigger('change.select2');
 
                             var container = form.find('.taxTypeContainer');
                             var taxType = jQuery(':checked', container).val();
@@ -94,7 +94,7 @@ Vtiger.Class("Settings_Vtiger_TaxIndex_Js",{
                             form.find('.regionsContainer').addClass('hide');
                             form.find('.dedcutedTaxDesc').removeClass('hide').show();
                             form.find('.taxValueContainer').removeClass('hide').show();
-                            form.find('#compoundOn').select2('val', null);
+                            form.find('#compoundOn').val(null).trigger('change.select2');
                         });
 
                         form.find('#fixed').click(function(e) {

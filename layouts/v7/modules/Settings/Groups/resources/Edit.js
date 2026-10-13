@@ -112,13 +112,13 @@ Settings_Vtiger_Edit_Js("Settings_Groups_Edit_Js",{},{
 		var selectElement = this.getMemberSelectElement();
 		selectElement.addClass('select2');
 		var params = {};
-		params.formatSelection = function(object,container){
-			var selectedId = object.id;
-			var selectedOptionTag = editViewForm.find('option[value="'+selectedId+'"]');
-			var selectedMemberType = selectedOptionTag.data('memberType');
-			container.prevObject.addClass(selectedMemberType);
-			var element = '<div>'+selectedOptionTag.text()+'</div>';
-			return element;
+		// each chosen member is drawn in the colour of its type (Users, Groups, Roles, Role and Subordinates)
+		params.templateSelection = function(object, container){
+			var selectedMemberType = jQuery(object.element).data('memberType');
+			if(selectedMemberType) {
+				jQuery(container).addClass(selectedMemberType);
+			}
+			return String(object.text ?? '').trim();
 		};
 		selectElement.select2('destroy');
 		this.changeSelectElementView(selectElement, 'select2',params);

@@ -1,0 +1,173 @@
+/* select2 4 -- one look for every dropdown, from the project tokens (see :root in listview.css).
+   The library's own stylesheet is layouts/v7/lib/select2/css/select2.min.css; this file only themes it. */
+
+/* the closed box */
+.select2-container{
+	max-width:100%;
+	font-size:13.5px;
+}
+.select2-container--default .select2-selection--single{
+	height:30px;
+	border:1px solid var(--line);
+	border-radius:var(--radius);
+	background:var(--mist);
+	outline:0;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+	line-height:28px;
+	padding-left:8px;
+	padding-right:40px;
+	color:var(--ink);
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+	color:var(--muted);
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+	height:28px;
+	width:24px;
+}
+.select2-container--default .select2-selection--single .select2-selection__clear{
+	margin-right:4px;
+	color:var(--muted);
+	font-weight:400;
+}
+.select2-container--default .select2-selection--multiple{
+	min-height:34px;
+	border:1px solid var(--line);
+	border-radius:var(--radius);
+	background:var(--mist);
+	cursor:text;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered{
+	padding:0 6px 3px;
+	box-sizing:border-box;
+	width:100%;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	margin-top:4px;
+	margin-right:5px;
+	padding:1px 8px;
+	border:1px solid var(--teal);
+	border-radius:4px;
+	background:var(--teal-soft);
+	color:var(--ink);
+	line-height:20px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+	margin-right:5px;
+	color:var(--muted);
+	font-weight:700;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover{
+	color:var(--danger);
+}
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field{
+	margin-top:6px;
+	font-size:13.5px;
+	font-family:inherit;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder{
+	color:var(--muted);
+}
+/* the chosen values of a sortable select (Custom View columns, report columns, webform fields, email recipients) can be dragged */
+.select2-selection__rendered.ui-sortable .select2-selection__choice{
+	cursor:move;
+}
+/* the choices of the search row of a list view scroll instead of growing the header */
+.searchRow .select2-selection--multiple{
+	max-height:150px;
+	overflow-y:auto;
+}
+
+/* focused / open */
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--multiple{
+	border-color:var(--teal);
+	background:#fff;
+}
+.select2-container--default.select2-container--disabled .select2-selection--single,
+.select2-container--default.select2-container--disabled .select2-selection--multiple{
+	background:var(--mist-dark);
+	cursor:not-allowed;
+}
+.select2-container--default.select2-container--disabled .select2-selection--single .select2-selection__rendered{
+	color:var(--muted);
+}
+
+/* validation error (vtValidate adds input-error to .select2-selection and to the open dropdown) */
+.select2-selection.input-error,
+.select2-dropdown.input-error{
+	border-color:var(--danger);
+}
+
+/* the dropdown: above page chrome, overlays and modals (the library's own 1051 is below vtiger's overlay pages) */
+body > .select2-container--open{
+	z-index:1000002;
+}
+.select2-dropdown{
+	border:1px solid var(--line);
+	border-radius:8px;
+	box-shadow:var(--shadow-sm);
+	overflow:hidden;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field{
+	border:1px solid var(--line);
+	border-radius:var(--radius);
+	padding:4px 8px;
+	outline:0;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field:focus{
+	border-color:var(--teal);
+}
+.select2-results__option{
+	padding:5px 8px;
+}
+.select2-container--default .select2-results__option[aria-selected=true]{
+	background:var(--teal-soft);
+	color:var(--ink);
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected]{
+	background:var(--teal);
+	color:#fff;
+}
+.select2-container--default .select2-results__group{
+	color:var(--muted);
+	font-weight:500;
+	padding:6px 8px 2px;
+}
+
+/* a select inside an input group fills the space beside its add-ons */
+.input-group > .select2-container{
+	flex:1 1 auto;
+	width:1% !important;
+}
+
+/* Settings > Groups: each chosen member takes the colour of its type (templateSelection adds the class) */
+.select2-selection__choice.Users,
+.groupMembersColors .Users{
+	background-color:#F99984 !important;
+	border-color:#F99984 !important;
+}
+.select2-selection__choice.Groups,
+.groupMembersColors .Groups{
+	background-color:#ACD5FF !important;
+	border-color:#ACD5FF !important;
+}
+.select2-selection__choice.Roles,
+.groupMembersColors .Roles{
+	background-color:#FFEC98 !important;
+	border-color:#FFEC98 !important;
+}
+.select2-selection__choice.RoleAndSubordinates,
+.groupMembersColors .RoleAndSubordinates{
+	background-color:#C4DEA2 !important;
+	border-color:#C4DEA2 !important;
+}
+
+/* the original <select> is hidden by the library; the generic select.inputElement size above must not undo that */
+select.select2-hidden-accessible{
+	width:1px !important;
+	height:1px !important;
+}

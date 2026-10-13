@@ -252,7 +252,7 @@ Vtiger.Class("Google_Settings_Js", {
             }
         }
         if(prevSelectedValues) {
-            element.select2("val", prevSelectedValues);
+            element.val(prevSelectedValues).trigger('change.select2');
         }
    },
     

@@ -76,7 +76,7 @@
                                         {vtranslate('LBL_CREATE_NEW_TAG',$MODULE)}
                                     </label>
                                     <div>
-                                        <input name="createNewTag" value="" class="form-control" placeholder="{vtranslate('LBL_ENTER_TAG_NAME',$MODULE)}"/>
+                                        <select name="createNewTag" multiple class="form-control" data-placeholder="{vtranslate('LBL_ENTER_TAG_NAME',$MODULE)}"></select>
                                     </div>
                                </div>
                                <div class="form-group">

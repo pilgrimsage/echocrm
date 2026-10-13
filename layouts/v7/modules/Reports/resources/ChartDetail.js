@@ -57,10 +57,10 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
 			var groupByField = jQuery('#groupbyfield').val();
 			var dataField = jQuery('#datafields').val();
 			if(dataField == null || dataField == '') {
-				vtUtils.showValidationMessage(jQuery('#datafields').parent().find('.select2-choices'), app.vtranslate('JS_REQUIRED_FIELD'));
+				vtUtils.showValidationMessage(jQuery('#datafields').parent().find('.select2-selection--multiple'), app.vtranslate('JS_REQUIRED_FIELD'));
 				return false;
 			} else {
-				vtUtils.hideValidationMessage(jQuery('#datafields').parent().find('.select2-choices'));
+				vtUtils.hideValidationMessage(jQuery('#datafields').parent().find('.select2-selection--multiple'));
 			}
 			
 			if(groupByField == null || groupByField == "") {

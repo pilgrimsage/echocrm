@@ -21,7 +21,7 @@ Users_Edit_Js("Settings_Users_PreferenceEdit_Js",{
 			if(groupingSeparatorValue == selectedValue){
 				app.helper.showErrorNotification({'message': app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME')});
 				var previousSelectedValue = element.data('selectedValue');
-				element.select2('val', previousSelectedValue);
+				element.val(previousSelectedValue).trigger('change.select2');
 			} else {
 				element.data('selectedValue',selectedValue);
 			}
@@ -33,7 +33,7 @@ Users_Edit_Js("Settings_Users_PreferenceEdit_Js",{
 			if(decimalSeparatorValue == selectedValue){
 				app.helper.showErrorNotification({'message': app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME')});
 				var previousSelectedValue = element.data('selectedValue');
-				element.select2('val', previousSelectedValue);
+				element.val(previousSelectedValue).trigger('change.select2');
 			} else {
 				element.data('selectedValue',selectedValue);
 			}

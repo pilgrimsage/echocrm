@@ -228,25 +228,19 @@ jQuery.Class("Settings_PotentialMapping_Js",{
 			}
 			
 			if(duplicateOption){
+				// the field cannot be mapped twice: the select goes back to the field it had
 				var selectedFieldId = selectElement.attr('selectedid');
-				var previousSelectedValue;
+				var previousValue = selectedFieldId;
 				if(selectedFieldId == "false"){
-					previousSelectedValue = selectElement.find('option[label="None"]').text();
-					selectElement.attr('selectedId',"false");
-				} else if(selectedFieldId != "false"){
-					previousSelectedValue = selectElement.find('option[value="'+selectedFieldId+'"]').text();
-					selectElement.attr('selectedId',selectedFieldId);
+					previousValue = selectElement.find('option[label="None"]').val();
 				}
-				var params = {
-						'id' : previousSelectedValue,
-						'text' : previousSelectedValue
-					}
+				selectElement.attr('selectedId', selectedFieldId);
 				var warningMessage = selectedValue+" "+app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
 				var notificationParams = {
 					message: warningMessage,
 				};
 				app.helper.showAlertNotification(notificationParams);
-				selectElement.select2("data",params);
+				selectElement.val(previousValue).trigger('change.select2');
 			} else if(duplicateOption == false){
 				selectElement.attr('selectedId',selectedOptionId);
 			}

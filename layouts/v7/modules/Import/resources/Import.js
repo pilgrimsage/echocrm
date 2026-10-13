@@ -229,9 +229,9 @@ if (typeof (Vtiger_Import_Js) == 'undefined') {
                 var headerNameElement = jQuery('[name=header_name]', fieldElement).get(0);
                 var headerName = jQuery(headerNameElement).html();
                 if (headerName in mapping) {
-                    mappedFields.select2("val", mapping[headerName]);
+                    mappedFields.val(mapping[headerName]).trigger('change.select2');
 				} else if (rowId-1 in mapping) { /* Row based match when there is no header - but saved map is loaded. */
-                	mappedFields.select2("val", mapping[rowId-1]);
+                	mappedFields.val(mapping[rowId-1]).trigger('change.select2');
 				}
                 Vtiger_Import_Js.loadDefaultValueWidget(fieldElement.attr('id'));
             });
