@@ -341,8 +341,6 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/adapters/jquery.js",
 			'modules.Vtiger.resources.validator.BaseValidator',
 			'modules.Vtiger.resources.validator.FieldValidator',
 			"modules.Emails.resources.MassEdit",
