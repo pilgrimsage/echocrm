@@ -221,7 +221,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 	lockMandatoryOptionInSelect2 : function(mandatoryFieldLabel){
 		var fieldsListSelect2Element = app.helper.getSelect2FromSelect(this.getSourceModuleFieldTable().find('#fieldsList'));
 		fieldsListSelect2Element.find('li.select2-selection__choice').filter(function(){
-			var data = jQuery(this).data('data');
+			var data = vtUtils.getSelect2ChoiceData(this);
 			return data && data.text == mandatoryFieldLabel;
 		}).find('.select2-selection__choice__remove').remove();
 	},
