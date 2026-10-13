@@ -12,7 +12,7 @@
 {strip}
 	{assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('fieldvalue'))}
+	{assign var="FIELD_VALUE_LIST" value=split($FIELD_MODEL->get('fieldvalue'), ' |##| ')}
 	{assign var=PICKLIST_VALUES value=$FIELD_INFO['editablepicklistvalues']}
 	{assign var=PICKLIST_COLORS value=$FIELD_INFO['picklistColors']}
 	<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""  data-fieldtype="multipicklist"/>

@@ -92,7 +92,7 @@
 											</div>
 										{elseif $DATA_TYPE == 'picklist'}
 											{assign var=PICKLIST_VALUES value=Reports_Field_Model::getPicklistValueByField($LISTVIEW_HEADER_KEY)}
-											{assign var=SEARCH_VALUES value=explode(',',(isset($SEARCH_INFO['searchValue'])) ? $SEARCH_INFO['searchValue'] : ',')}
+											{assign var=SEARCH_VALUES value=split((isset($SEARCH_INFO['searchValue'])) ? $SEARCH_INFO['searchValue'] : ',', ',')}
 											<div class="row-fluid">
 												<select class="select2 listSearchContributor report-type-select" name="{$LISTVIEW_HEADER_KEY}" multiple data-fieldinfo='{if isset($FIELD_INFO)}{$FIELD_INFO|escape}{/if}'>
 													{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}

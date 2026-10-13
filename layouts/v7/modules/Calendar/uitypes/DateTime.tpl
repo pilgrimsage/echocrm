@@ -21,7 +21,7 @@
 
 {assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 {if isset($DATE_TIME_VALUE)}
-    {assign var=DATE_TIME_COMPONENTS value=explode(' ', $DATE_TIME_VALUE)}
+    {assign var=DATE_TIME_COMPONENTS value=split($DATE_TIME_VALUE, ' ')}
 {/if}
 {if !empty($TIME_FIELD) && isset($DATE_TIME_COMPONENTS)}
 	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
@@ -29,7 +29,7 @@
 {if $TIME_FIELD}
 {* Set the date after converting with repsect to timezone *}
 {assign var=DATE_TIME_CONVERTED_VALUE value=DateTimeField::convertToUserTimeZone($DATE_TIME_VALUE)->format('Y-m-d H:i:s')}
-{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}
+{assign var=DATE_TIME_COMPONENTS value=split($DATE_TIME_CONVERTED_VALUE, ' ')}
 {assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
 {/if}
 

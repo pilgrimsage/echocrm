@@ -39,7 +39,7 @@
 						{if !is_array($PICKLIST_VALUES)}
 							{assign var=PICKLIST_VALUES value=$FIELD_INFO.picklistvalues}
 						{/if}
-						{assign var="FIELD_VALUE_LIST" value=explode(' |##| ', $DEFAULT_VALUE)}
+						{assign var="FIELD_VALUE_LIST" value=split($DEFAULT_VALUE, ' |##| ')}
 						<select multiple class="col-sm-9 select2" name="{$NAME_ATTR}[]" >
 							{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>

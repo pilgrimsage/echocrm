@@ -86,7 +86,7 @@
 											</select>
 
 										{else if $DATA_TYPE eq 'multipicklist'}
-											{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('fieldvalue'))}
+											{assign var="FIELD_VALUE_LIST" value=split($FIELD_MODEL->get('fieldvalue'), ' |##| ')}
 											<select name="{$PICKLIST_NAME}[]" data-label="{$PICKLIST_DATA_LABEL}" {if $FIELD_MODEL->get('required') eq 1} required{/if} multiple style="width: 60%;" {if $FIELD_MODEL->get('hidden') eq 1} hidden{/if}>
 												{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 													<option value="{$PICKLIST_VALUE}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $MODULE)}</option>
@@ -94,7 +94,7 @@
 											</select>
 										{elseif $DATA_TYPE eq "reference"}
 											<input type="hidden" name="{urlencode($FIELD_MODEL->getFieldName())}" data-label="{$FIELD_MODEL->get('neutralizedFieldName')}" value="{$FIELD_MODEL->get('fieldvalue')}" />
-											{assign var=EXPLODED_FIELD_VALUES value='x'|explode:$FIELD_MODEL->get('fieldvalue')}
+											{assign var=EXPLODED_FIELD_VALUES value=$FIELD_MODEL->get('fieldvalue')|split:'x'}
 											<input type="{$TYPE}" value="{$FIELD_MODEL->getEditViewDisplayValue($EXPLODED_FIELD_VALUES[1])}" readonly= />
 										{elseif $DATA_TYPE eq "image"}
 											<input type="file" name="{urlencode($FIELD_MODEL->getFieldName())}[]" data-label="{$FIELD_MODEL->get('neutralizedFieldName')}" {if $FIELD_MODEL->get('hidden') eq 1} hidden{/if} {if $FIELD_MODEL->get('required') eq 1} required{/if}/>

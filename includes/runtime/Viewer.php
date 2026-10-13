@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-class Vtiger_Viewer extends Smarty {
+class Vtiger_Viewer extends \Smarty\Smarty {
 
 	const DEFAULTLAYOUT = 'v7';
 	const DEFAULTSKIN   = 'skins';
@@ -102,11 +102,13 @@ class Vtiger_Viewer extends Smarty {
 		}
 
 		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 'textlength_check', 
-			'html_entity_decode', 'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push', 'array_merge',
+			'html_entity_decode', 'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'trim', 'array_push', 'array_merge',
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities', 'purifyHtmlEventAttributes',
 			'getCurrencySymbolandCRate', 'getProductBaseCurrency', 'mb_substr', 'isPermitted', 'getOwnerName', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric','preg_match',
-			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array','array_keys', 'json_decode', 'getCurrencyDecimalPlaces', 'number_format', 'isRecordExists', 'getInventoryModules');
+			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array','array_keys', 'json_decode', 'getCurrencyDecimalPlaces', 'number_format', 'isRecordExists', 'getInventoryModules',
+			'array_reverse', 'array_slice', 'getTabid', 'getTabname', 'is_string', 'mb_strlen', 'ucfirst', 'ucwords', 'unlink', 'strcasecmp', 'abs',
+			'vJsTranslate', 'getCurrencyName', 'getProductQtyInStock', 'strtotime');
 		foreach ($modifiers as $modifier) {
 			if (function_exists($modifier)) {
 				$this->registerPlugin('modifier', $modifier, $modifier);
@@ -180,14 +182,14 @@ class Vtiger_Viewer extends Smarty {
 	}
 
 	/** @Override */
-	public function assign($tpl_var, $value = null, $nocache = false) {
+	public function assign($tpl_var, $value = null, $nocache = false, $scope = null) {
 		// Reject unexpected value assignments.
 		if ($tpl_var == 'SELECTED_MENU_CATEGORY') {
 			if ($value && preg_match("/[^a-zA-Z0-9_-]/", $value, $m)) {
 				return;
 			}
 		}
-		return parent::assign($tpl_var, $value, $nocache);	
+		return parent::assign($tpl_var, $value, $nocache, $scope);	
 	}
 	
 	/**

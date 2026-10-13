@@ -13,12 +13,12 @@
 <div class="quickLinksDiv">
 	{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
         {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
-		{assign var="EXPLODED_PARSE_URL" value=explode('?',$SIDE_LINK_URL)}
+		{assign var="EXPLODED_PARSE_URL" value=split($SIDE_LINK_URL, '?')}
 		{assign var="COUNT_OF_EXPLODED_URL" value=php7_count($EXPLODED_PARSE_URL)}
 		{if $COUNT_OF_EXPLODED_URL gt 1}
 			{assign var="EXPLODED_URL" value=$EXPLODED_PARSE_URL[$COUNT_OF_EXPLODED_URL-1]}
 		{/if}
-		{assign var="PARSE_URL" value=explode('&',$EXPLODED_URL)}
+		{assign var="PARSE_URL" value=split($EXPLODED_URL, '&')}
 		{assign var="CURRENT_LINK_VIEW" value='view='|cat:$CURRENT_VIEW}
 		{assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
 		{assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}

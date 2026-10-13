@@ -24,7 +24,7 @@
         <input type="hidden" id="pageLimit" value="{$PAGING_INFO['pageLimit']}" />
         <input type="hidden" id="noOfEntries" value="{$PAGING_INFO['recordCount']}" />
         {assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
-        {assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
+        {assign var = ALPHABETS value = $ALPHABETS_LABEL|split:','}
 
         <div class="alphabetSorting noprint">
             <table width="100%" class="table-bordered" style="border: 1px solid #ddd;table-layout: fixed">

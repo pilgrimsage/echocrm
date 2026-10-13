@@ -10,7 +10,7 @@
 **************************************************************************************/
 -->*}
 {* Page specific includes *}
-{assign var="_scripts" value=','|explode:'Users/Users.js'}
+{assign var="_scripts" value='Users/Users.js'|split:','}
 
 {include file="../Header.tpl" scripts=$_scripts}
 

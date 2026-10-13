@@ -16,7 +16,7 @@
 	{assign var=EVENT_STATUS_FIELD_MODEL value=$EVENTS_MODULE_MODEL->getField('eventstatus')}
 	{assign var=EVENT_STAUTS_PICKLIST_VALUES value=$EVENT_STATUS_FIELD_MODEL->getPicklistValues()}
 	{assign var=PICKLIST_VALUES value=array_merge($PICKLIST_VALUES, $EVENT_STAUTS_PICKLIST_VALUES)}
-	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+	{assign var=SEARCH_VALUES value=split($SEARCH_INFO['searchValue'], ',')}
 	<div class="select2_search_div">
 		<input type="text" class="listSearchContributor inputElement select2_input_element"/>
 		<select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" multiple data-fieldinfo='{$FIELD_INFO|escape}' style="display:none">

@@ -16,7 +16,7 @@
 	{assign var=ALL_ACTIVEUSER_LIST value=$FIELD_INFO['picklistvalues'][vtranslate('LBL_USERS')]}
 
 	{if isset($SEARCH_INFO) && isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=split($SEARCH_INFO['searchValue'], ',')}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 	{else}
 		{assign var=SEARCH_VALUES value=array()}

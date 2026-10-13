@@ -115,7 +115,7 @@
 										{/if}
 									</tr>
 									<tr>
-										{assign var=HARDCODED_FIELDS value=','|explode:"filename,assigned_user_id,folderid,notecontent,notes_title"}
+										{assign var=HARDCODED_FIELDS value="filename,assigned_user_id,folderid,notecontent,notes_title"|split:','}
 										{assign var=COUNTER value=0}
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELD_MODELS} 
 											{if !in_array($FIELD_NAME,$HARDCODED_FIELDS) && $FIELD_MODEL->isQuickCreateEnabled()}

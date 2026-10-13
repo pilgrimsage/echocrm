@@ -103,13 +103,13 @@
                                 <th>{vtranslate('LBL_HIGHEST_VALUE',$MODULE)}</th>
                             </tr>
                         </thead>
-                        {assign var=FIELD_OPERATION_VALUES value=','|explode:'SUM:2,AVG:3,MIN:4,MAX:5'}
+                        {assign var=FIELD_OPERATION_VALUES value='SUM:2,AVG:3,MIN:4,MAX:5'|split:','}
                         {foreach key=CALCULATION_FIELDS_MODULE_LABEL item=CALCULATION_FIELDS_MODULE from=$CALCULATION_FIELDS}
                             {foreach key=CALCULATION_FIELD_KEY item=CALCULATION_FIELD from=$CALCULATION_FIELDS_MODULE}
-                                {assign var=FIELD_EXPLODE value=explode(':',$CALCULATION_FIELD_KEY)}
+                                {assign var=FIELD_EXPLODE value=split($CALCULATION_FIELD_KEY, ':')}
                                 {assign var=tableName value=$FIELD_EXPLODE['0']}
                                 {assign var=columnName value=$FIELD_EXPLODE['1']}
-                                {assign var=FIELDNAME_EXPLODE value=explode('_',$FIELD_EXPLODE['2'])}
+                                {assign var=FIELDNAME_EXPLODE value=split($FIELD_EXPLODE['2'], '_')}
                                 {assign var=fieldNameArray value=array_slice($FIELDNAME_EXPLODE, 1)}
                                 {assign var=fieldName value=implode('_',$fieldNameArray)}
                                 <tr class="calculationFieldRow">
