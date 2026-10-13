@@ -45,7 +45,7 @@ $GLOBALS['csrf']['callback'] = 'vtResponseForIllegalAccess'; //'csrf_callback'
  * with supported JavaScript libraries in Internet Explorer; see README.txt for
  * a list of supported libraries.
  */
-$GLOBALS['csrf']['rewrite-js'] = null; // the form-rewriting script is not shipped: pages carry the token themselves
+$GLOBALS['csrf']['rewrite-js'] = 'libraries/csrf-magic/csrf-magic.js';
 
 /**
  * A secret key used when hashing items. Please generate a random string and
