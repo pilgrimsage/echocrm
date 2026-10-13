@@ -15,7 +15,7 @@
         {foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
             <optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
                 {foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-                    {assign var=FIELD_INFO value=explode(':', $FIELD_KEY)}
+                    {assign var=FIELD_INFO value=split($FIELD_KEY, ':')}
                     {if $FIELD_INFO[4] eq 'D' or $FIELD_INFO[4] eq 'DT'}
                         <option value="{$FIELD_KEY}:Y">{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)} ({vtranslate('LBL_YEAR', $PRIMARY_MODULE_NAME)})</option>
                         <option value="{$FIELD_KEY}:MY">{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)} ({vtranslate('LBL_MONTH', $PRIMARY_MODULE_NAME)})</option>
@@ -31,7 +31,7 @@
         {foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
             <optgroup label='{vtranslate($SECONDARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
                 {foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-                    {assign var=FIELD_INFO value=explode(':', $FIELD_KEY)}
+                    {assign var=FIELD_INFO value=split($FIELD_KEY, ':')}
                     {if isset($FIELD_INFO[4]) && ($FIELD_INFO[4] eq 'D' or $FIELD_INFO[4] eq 'DT')}
                         <option value="{$FIELD_KEY}:Y">{vtranslate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)} ({vtranslate('LBL_YEAR', $SECONDARY_MODULE_NAME)})</option>
                         <option value="{$FIELD_KEY}:MY">{vtranslate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)} ({vtranslate('LBL_MONTH', $SECONDARY_MODULE_NAME)})</option>

@@ -10,7 +10,7 @@
 {strip}
         {assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
-	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+	{assign var=SEARCH_VALUES value=split($SEARCH_INFO['searchValue'], ',')}
 	{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 
 	{if $FIELD_MODEL->get('uitype') eq '52' || $FIELD_MODEL->get('uitype') eq '77'}

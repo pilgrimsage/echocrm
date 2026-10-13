@@ -69,7 +69,7 @@
                     <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
                     <div class="col-lg-4">
                         {if $REPORT_MODEL->getSecondaryModules() neq null && $REPORT_MODEL->getSecondaryModules() neq ''}
-                            {assign var="SECONDARY_MODULES_ARR" value=explode(':', $REPORT_MODEL->getSecondaryModules())}
+                            {assign var="SECONDARY_MODULES_ARR" value=split($REPORT_MODEL->getSecondaryModules(), ':')}
                         {else}
                             {assign var="SECONDARY_MODULES_ARR" value=[]}
                         {/if}

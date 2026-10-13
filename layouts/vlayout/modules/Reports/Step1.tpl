@@ -61,7 +61,7 @@
 						<div>({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</div>
 					</span>
 					<span class="span7 row-fluid">
-						{assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
+						{assign var=SECONDARY_MODULES_ARR value=split($REPORT_MODEL->getSecondaryModules(), ':')}
 						{assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
 						{if $PRIMARY_MODULE eq ''}

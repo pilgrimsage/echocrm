@@ -14,7 +14,7 @@
     <div class="row-fluid">
     {assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {assign var=SEARCH_VALUES value=split($SEARCH_INFO['searchValue'], ',')}
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 
     {if $ASSIGNED_USER_ID neq 'modifiedby'}

@@ -12,7 +12,7 @@
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getDocumentFolders()}
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {assign var=SEARCH_VALUES value=split($SEARCH_INFO['searchValue'], ',')}
     <div class="select2_search_div">
         <input type="text" class="listSearchContributor inputElement select2_input_element"/>
         <select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" multiple data-fieldinfo='{$FIELD_INFO|escape}' style="display:none">

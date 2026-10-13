@@ -191,7 +191,7 @@
                                 </td>
                             </tr>
                             {/if}
-                            {assign var=HARDCODED_FIELDS value=','|explode:"subject,date_start,due_date,activitytype,eventstatus,taskpriority,assigned_user_id,location,visibility,parent_id"}
+                            {assign var=HARDCODED_FIELDS value="subject,date_start,due_date,activitytype,eventstatus,taskpriority,assigned_user_id,location,visibility,parent_id"|split:','}
                             {foreach key=FIELD_NAME item=FIELD_MODEL from=$FIELDS}
                                 {if $FIELD_MODEL->isMandatory() && !in_array($FIELD_NAME,$HARDCODED_FIELDS)}
                                 <tr>

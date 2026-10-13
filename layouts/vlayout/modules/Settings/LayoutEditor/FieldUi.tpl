@@ -71,7 +71,7 @@
 										</select>
 									{elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
 										{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-										{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
+										{assign var="FIELD_VALUE_LIST" value=split($FIELD_MODEL->get('defaultvalue'), ' |##| ')}
 										<select multiple class="span2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"  data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
 											{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 												<option value="{$PICKLIST_VALUE}" {if in_array($PICKLIST_VALUE, $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>

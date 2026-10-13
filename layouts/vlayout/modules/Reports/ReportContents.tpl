@@ -34,7 +34,7 @@
 					<tr>
 						{assign var=CALCULATION_FIELD_KEYS value=array_keys($CALCULATION_FIELD)}
 						{assign var=CALCULATION_FIELD_KEYS value=$CALCULATION_FIELD_KEYS|replace:$ESCAPE_CHAR:''}
-						{assign var=FIELD_IMPLODE value=explode('_',$CALCULATION_FIELD_KEYS['0'])}
+						{assign var=FIELD_IMPLODE value=split($CALCULATION_FIELD_KEYS['0'], '_')}
 						{assign var=MODULE_NAME value=$FIELD_IMPLODE['0']}
 						{assign var=FIELD_LABEL value=" "|implode:$FIELD_IMPLODE}
 						{assign var=FIELD_LABEL value=$FIELD_LABEL|replace:$MODULE_NAME:''}
@@ -67,8 +67,8 @@
                 {if $GROUPBYFIELDSCOUNT > 0}
                     {assign var=FIELDNAMES value=array()}
                     {for $i=0 to $GROUPBYFIELDSCOUNT-1}
-                        {assign var=FIELD value=explode(':',$GROUPBYFIELDS[$i])}
-                        {assign var=FIELD_EXPLODE value=explode('_',$FIELD[2])}
+                        {assign var=FIELD value=split($GROUPBYFIELDS[$i], ':')}
+                        {assign var=FIELD_EXPLODE value=split($FIELD[2], '_')}
                         {for $j=1 to php7_count($FIELD_EXPLODE)-1}
                             {$FIELDNAMES.$i = $FIELDNAMES.$i|cat:$FIELD_EXPLODE[$j]|cat:" "}
                         {/for}

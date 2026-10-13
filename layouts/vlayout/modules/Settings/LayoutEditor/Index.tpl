@@ -185,7 +185,7 @@
                                                                 </select>
                                                             {elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
                                                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-                                                                {assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
+                                                                {assign var="FIELD_VALUE_LIST" value=split($FIELD_MODEL->get('defaultvalue'), ' |##| ')}
                                                                 <select multiple class="span2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                                                     {foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                                                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
@@ -350,7 +350,7 @@
                                 </select>
                             {elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-                                {assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
+                                {assign var="FIELD_VALUE_LIST" value=split($FIELD_MODEL->get('defaultvalue'), ' |##| ')}
                                 <select multiple class="span2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                     {foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
