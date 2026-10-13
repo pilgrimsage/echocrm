@@ -191,7 +191,7 @@ Vtiger_List_Js("Vtiger_FindDuplicates_Js",{
                     var value = [];
                     for (var x in searchFields) {
                         var dataValue = elem.closest('.listViewEntries').find('[name='+searchFields[x]+']').data('value');
-                        var dataValue = jQuery.trim(dataValue);
+                        var dataValue = String(dataValue ?? '').trim();
                         if(isNaN(dataValue)) {
                             value.push(dataValue.toLowerCase());
                         } else {

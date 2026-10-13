@@ -10,7 +10,7 @@
 (function($) {
 
 	function normalizeState(state) {
-		return ($.trim(state || '')).toLowerCase();
+		return String(state || '').trim().toLowerCase();
 	}
 
 	function findRegionValueByLabelSubstring(regionElement, labelSubstring) {

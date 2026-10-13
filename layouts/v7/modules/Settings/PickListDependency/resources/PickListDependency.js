@@ -469,7 +469,7 @@ Vtiger.Class('Settings_PickListDependency_Js', {
 	 */
 	loadMappingForSelectedValues : function(dependencyGraph) {
 		var thisInstance = this;
-		var allSourcePickListValues = jQuery.parseJSON(dependencyGraph.find('.allSourceValues').val());
+		var allSourcePickListValues = JSON.parse(dependencyGraph.find('.allSourceValues').val());
 		var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 		for(var key in allSourcePickListValues) {
 			if(typeof key == 'string'){

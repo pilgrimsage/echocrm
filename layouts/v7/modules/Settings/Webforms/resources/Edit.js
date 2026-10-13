@@ -151,7 +151,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 			if(fieldType == "multipicklist"){
 				fieldName = fieldName+'[]';
 			}
-			var fieldValue = jQuery.trim(elementRow.find('[name="'+fieldName+'"]').val());
+			var fieldValue = String(elementRow.find('[name="'+fieldName+'"]').val() ?? '').trim();
 			var isMandatory = element.closest('tr').data('mandatoryField');
 			if(isMandatory){
 				if(element.hasClass('mandatoryField')){
@@ -389,7 +389,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 			}
 			fieldRow.find('[name="'+fieldName+'"]').on('change',function(e){
 				var element = jQuery(e.currentTarget);
-				var value = jQuery.trim(element.val());
+				var value = String(element.val() ?? '').trim();
 				var mandatoryField = fieldRow.find('.mandatoryField');
 				var hiddenField = fieldRow.find('.hiddenField');
 				if((value == "") && (mandatoryField.is(':checked')) && (hiddenField.is(':checked'))){

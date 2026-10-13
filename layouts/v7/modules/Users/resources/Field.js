@@ -27,12 +27,12 @@ Vtiger_Field_Js('Users_Picklist_Field_Js',{},{
 		var html = '<select  class="select2 inputElement inlinewidth" name="'+ this.getName() +'" id="field_'+this.getModuleName()+'_'+this.getName()+'">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
-        if(jQuery.trim(selectedOption).length === 0) {
+        if(String(selectedOption ?? '').trim().length === 0) {
 			selectedOption = '&nbsp;';
 		}
 		html += '';
 		for(var option in pickListValues) {
-			if(jQuery.trim(option).length === 0) {
+			if(String(option ?? '').trim().length === 0) {
 				option = '&nbsp;';
 			}
 			

@@ -1823,7 +1823,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 					var eachItem = '<div class="agenda-details">';
 					eachItem += '<span class="detailLabel">' + fieldLabel + '</span>';
 					eachItem += '<span class="separator"> : </span>';
-					eachItem += '<span class="fieldValue">' + jQuery.trim(res[fieldLabel]) + '</span>';
+					eachItem += '<span class="fieldValue">' + String(res[fieldLabel] ?? '').trim() + '</span>';
 					eachItem += '</div>';
 					html += eachItem;
 				}

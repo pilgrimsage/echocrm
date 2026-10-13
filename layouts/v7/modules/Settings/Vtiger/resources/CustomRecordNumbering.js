@@ -64,7 +64,7 @@ Vtiger.Class('Settings_Vtiger_CustomRecordNumbering_Js', {}, {
 		var sourceModule = editViewForm.find('[name="sourceModule"]').val();
         var sourceModuleLabel = editViewForm.find('option[value="'+sourceModule+'"]').text();
 		var prefix = editViewForm.find('[name="prefix"]');
-		var currentPrefix = jQuery.trim(prefix.val());
+		var currentPrefix = String(prefix.val() ?? '').trim();
 		var oldPrefix = prefix.data('oldPrefix');
         var sequenceNumberElement = editViewForm.find('[name="sequenceNumber"]');
 		var sequenceNumber = sequenceNumberElement.val();

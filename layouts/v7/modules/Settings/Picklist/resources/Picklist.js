@@ -243,15 +243,15 @@ var Settings_Picklist_Js = {
 		var pickListValuesArr = new Array();
 		jQuery.each(pickListValues,function(i,e){
 			var decodedValue = app.helper.getDecodedValue(e);
-			pickListValuesArr.push(jQuery.trim(decodedValue.toLowerCase()));
+			pickListValuesArr.push(String(decodedValue.toLowerCase() ?? '').trim());
 		});
 
 		var mode = jQuery('[name="mode"]', container).val();
 		var newValues;
 		if(mode == 'edit') {
-			newValues = jQuery.trim(jQuery('[name="renamedValue"]', container).val());
+			newValues = String(jQuery('[name="renamedValue"]', container).val() ?? '').trim();
 		} else {
-			newValues = jQuery.trim(jQuery('[name="newValue"]', container).val());
+			newValues = String(jQuery('[name="newValue"]', container).val() ?? '').trim();
 		}
 		var newValuesArray = newValues.split(',');
 		var duplicateFlag = true;
@@ -263,7 +263,7 @@ var Settings_Picklist_Js = {
 			if (jQuery.inArray(lowerCasedNewValue, pickListValuesArr) != -1) {
 				//while renaming the picklist values
 				if (mode == 'edit') {
-					var oldValue = jQuery.trim(jQuery('[name="oldValue"]', container).val());
+					var oldValue = String(jQuery('[name="oldValue"]', container).val() ?? '').trim();
 					var lowerCasedOldValue = oldValue.toLowerCase();
 					if (lowerCasedOldValue == lowerCasedNewValue) {
 						return duplicateFlag = false;
@@ -337,13 +337,13 @@ var Settings_Picklist_Js = {
 				
 				var params = jQuery(form).serializeFormData();
 				var newValue = params.newValue;
-				params.newValue = jQuery.trim(newValue);
+				params.newValue = String(newValue ?? '').trim();
                 app.helper.showProgress();
 				app.request.post({data: params}).then(function(error, data) {
 					var newValues = jQuery('[name="newValue"]',container).val();
 					var newValuesArray = newValues.split(',');
 					for (i = 0; i < newValuesArray.length; i++) {
-						newValue = jQuery.trim(newValuesArray[i]);
+						newValue = String(newValuesArray[i] ?? '').trim();
 						var newElement = thisInstance.getPickListTemplate(newValue, params.selectedColor);
 						var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
 						newPickListValueRow.attr('data-key', newValue);
@@ -373,7 +373,7 @@ var Settings_Picklist_Js = {
                 var form = jQuery(form);
                 var specialChars = /[\<\>\"\,\[\]\{\}\'\!\@\#\$\%\^\&\*\(\)\+\=\?\|\\\;\:\/]/;
 				var newValueEle = jQuery('[name="renamedValue"]',form);
-				var newValue = jQuery.trim(newValueEle.val());
+				var newValue = String(newValueEle.val() ?? '').trim();
 				if(Settings_Picklist_Js.duplicateItemNameCheck(form)) {
 					var errorMessage = app.vtranslate('JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE');
 					var params = {

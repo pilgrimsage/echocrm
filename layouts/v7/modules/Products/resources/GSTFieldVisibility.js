@@ -12,7 +12,7 @@
 			// .taxLabel's own text node holds the tax name; the nested
 			// span.paddingLeft10px ("(%)") must be excluded or overlapping
 			// names (e.g. "Sales" vs "US Sales Tax") would both match.
-			var label = $.trim($(this).clone().children().remove().end().text());
+			var label = $(this).clone().children().remove().end().text().trim();
 			if (label === exactLabel) {
 				var labelTd = $(this).closest('td.fieldLabel');
 				var valueTd = labelTd.next('td.fieldValue');

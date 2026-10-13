@@ -1663,7 +1663,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
             var popupReferenceModule = triggerer.data('moduleName');
             var postPopupHandler = function(e, data){
                 data = JSON.parse(data);
-                if(!$.isArray(data)){
+                if(!Array.isArray(data)){
                     data = [data];
                 }
                 self.postLineItemSelectionActions(triggerer.closest('tr'), data, popupReferenceModule);

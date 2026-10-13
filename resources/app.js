@@ -304,7 +304,7 @@ var app = {
 		var limit = params.maximumSelectionSize;
 		selectElement.on('change',function(e){
 			var data = instance.data()
-			if (jQuery.isArray(data) && data.length >= limit ) {
+			if (Array.isArray(data) && data.length >= limit ) {
 				instance.updateResults();
 			}
 		});

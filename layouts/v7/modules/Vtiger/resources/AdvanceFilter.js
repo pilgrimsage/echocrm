@@ -488,7 +488,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 							var selectedOptions = valueSelectElement.find('option:selected');
 							var newvaluesArr = [];
 							jQuery.each(selectedOptions,function(i,e) {
-								newvaluesArr.push(jQuery.trim(jQuery(e).text()));
+								newvaluesArr.push(jQuery(e).text().trim());
 							});
 							if(selectedOptions.length == 0){
 								rowValues[field] = '';
@@ -804,7 +804,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
 				for(var option in optionGroupValues) {
 					html += '<option value="'+option+'" ';
 					//comparing with the value instead of key , because saved value is giving username instead of id.
-					if(jQuery.inArray(jQuery.trim(app.htmlDecode(optionGroupValues[option])),selectedOptionsArray) != -1){
+					if(jQuery.inArray(String(app.htmlDecode(optionGroupValues[option]) ?? '').trim(),selectedOptionsArray) != -1){
 						html += ' selected ';
 					}
 					html += '>'+optionGroupValues[option]+'</option>';
@@ -822,7 +822,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
 			var tagsArray = new Array();
 			jQuery.each( pickListValues, function(groups, blocks) {
 				jQuery.each(blocks,function(i,e){
-					tagsArray.push(jQuery.trim(app.htmlDecode(e)));
+					tagsArray.push(String(app.htmlDecode(e) ?? '').trim());
 				})
 			});
 			var html = '<input data-tags="'+tagsArray +'" type="hidden" class="row-fluid col-lg-12 select2" name="'+ this.getName() +'">';
@@ -843,7 +843,7 @@ Vtiger_Owner_Field_Js('Vtiger_Ownergroup_Field_Js',{},{
 			for(var option in pickListValues) {
 				html += '<option value="'+option+'" ';
 				//comparing with the value instead of key , because saved value is giving username instead of id.
-				if(jQuery.inArray(jQuery.trim(app.htmlDecode(pickListValues[option])),selectedOptionsArray) != -1){
+				if(jQuery.inArray(String(app.htmlDecode(pickListValues[option]) ?? '').trim(),selectedOptionsArray) != -1){
 					html += ' selected ';
 				}
 				html += '>'+pickListValues[option]+'</option>';

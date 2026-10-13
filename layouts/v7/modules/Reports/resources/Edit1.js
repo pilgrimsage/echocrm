@@ -130,7 +130,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 		var formData = form.serializeFormData();
 		
 		var params = {};
-		var reportName = jQuery.trim(formData.reportname);
+		var reportName = String(formData.reportname ?? '').trim();
 		var reportId = formData.record;
         var schtype = formData.schtypeid;
         if(schtype == '5' && formData.enable_schedule == "true") {

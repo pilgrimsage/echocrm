@@ -165,7 +165,7 @@ if (typeof (Vtiger_Import_Js) == 'undefined') {
             var saveMap = jQuery('#save_map').is(':checked');
             if (saveMap) {
                 var mapName = jQuery('#save_map_as').val();
-                if (jQuery.trim(mapName) == '') {
+                if (String(mapName ?? '').trim() == '') {
                     errorMessage = app.vtranslate('JS_MAP_NAME_CAN_NOT_BE_EMPTY');
                     app.helper.showErrorNotification({'message': errorMessage});
                     return false;
@@ -287,7 +287,7 @@ if (typeof (Vtiger_Import_Js) == 'undefined') {
             var importFile = jQuery('#import_file');
             var fileFormats = importFile.data('fileFormats');
             var filePath = importFile.val();
-            if (jQuery.trim(filePath) == '') {
+            if (String(filePath ?? '').trim() == '') {
                 var errorMessage = app.vtranslate('JS_IMPORT_FILE_CAN_NOT_BE_EMPTY');
                 app.helper.showErrorNotification({message: errorMessage});
                 importFile.focus();

@@ -24,7 +24,7 @@ Vtiger.Class("Google_Map_Js", {}, {
 			app.helper.hideProgress();
 			var address = result.address;
 			container.find('#record_label').val(result.label);
-			var location = jQuery.trim((address).replace(/\,/g," "));
+			var location = String((address).replace(/\,/g," ") ?? '').trim();
 			if(location != '' && location != null){
 				container.find("#address").html(location);
 				container.find('#address').removeClass('hide');

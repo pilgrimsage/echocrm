@@ -304,11 +304,12 @@ window.app = (function () {
 					handlerClass = parentModule+'_Vtiger_'+view+'_Js';
 				}
 			}
-			if (typeof window[handlerClass] != 'undefined') {
+			// only a constructor can be a view controller: Vtiger_Import_Js, for one, is a plain object of helpers
+			if (typeof window[handlerClass] == 'function') {
 				controllerClass = handlerClass;
 			} else {
 				handlerClass = 'Vtiger_'+view+'_Js';
-				if (typeof window[handlerClass] != 'undefined') {
+				if (typeof window[handlerClass] == 'function') {
 					controllerClass = handlerClass;
 				}
 			}
