@@ -218,11 +218,11 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 	/**
 	 * Function to lock mandatory option in select2
 	 */
-	lockMandatoryOptionInSelect2 : function(mandatoryFieldLabel){
+	lockMandatoryOptionInSelect2 : function(mandatoryFieldId){
 		var fieldsListSelect2Element = app.helper.getSelect2FromSelect(this.getSourceModuleFieldTable().find('#fieldsList'));
 		fieldsListSelect2Element.find('li.select2-selection__choice').filter(function(){
 			var data = vtUtils.getSelect2ChoiceData(this);
-			return data && data.text == mandatoryFieldLabel;
+			return data && String(data.id) == String(mandatoryFieldId);
 		}).find('.select2-selection__choice__remove').remove();
 	},
 	
@@ -234,11 +234,9 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		var selectedOptions = editViewForm.find('#fieldsList option:selected');
 		for(var i=0;i<selectedOptions.length;i++){
 			var selectedOption = jQuery(selectedOptions[i]);
-			var selectedFieldInfo = jQuery(selectedOption).data('fieldInfo');
 			var mandatoryStatus = selectedOption.data('mandatory');
 			if(mandatoryStatus){
-				var selectedFieldLabel = selectedFieldInfo.label;
-				this.lockMandatoryOptionInSelect2(selectedFieldLabel);
+				this.lockMandatoryOptionInSelect2(selectedOption.val());
 			}
 		}
 	},
