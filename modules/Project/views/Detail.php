@@ -142,8 +142,6 @@ class Project_Detail_View extends Vtiger_Detail_View {
 	public function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$jsFileNames = array(
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/jquery.livequery.min.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/jquery.timers.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/platform.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/date.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/i18nJs.js",
@@ -154,7 +152,6 @@ class Project_Detail_View extends Vtiger_Detail_View {
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/ganttDrawerSVG.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/ganttGridEditor.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/ganttMaster.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/gantt/libs/moment.min.js",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

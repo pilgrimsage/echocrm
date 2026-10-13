@@ -62,8 +62,8 @@ function nearBestPosition(whereId, theObjId, centerOnEl) {
 
     var left = trueX;
     var top = trueY;
-    var barHeight = ($.browser.msie) ? 45 : 35;
-    var barWidth = ($.browser.msie) ? 20 : 0;
+    var barHeight = 35;
+    var barWidth = 0;
 
     if (trueX && trueY) {
       target.css("left", left);
@@ -636,11 +636,7 @@ function daysFromString(string,considerWorkingdays) {
 /* Object Functions */
 
 function stopBubble(e) {
-  if ($.browser.msie && event){
-    event.cancelBubble = true;
-    event.returnValue = false;
-
-  }else if (e){
+  if (e){
     e.stopPropagation();
     e.preventDefault();
   }
@@ -700,7 +696,7 @@ jQuery.fn.createErrorAlert = function(errorCode, message) {
   this.each(function() {
     var el = $(this);
     el.attr("invalid", "true").addClass("formElementsError");
-    if ($("#" + el.attr("id") + "error").size() <= 0) {
+    if ($("#" + el.attr("id") + "error").length <= 0) {
       var errMess = (errorCode?errorCode:"") + ": " + (message?message:"");
       var err = "<img width='17' heigh='17' id=\"" + el.attr("id") + "error\" error='1'";
       err += " onclick=\"alert($(this).attr('title'))\" border='0' align='absmiddle'>";
@@ -819,8 +815,6 @@ Profiler.displayAll = function() {
 
 
 $(document).ready(function() {
-  $(":input[oldValue]").livequery(function(){$(this).updateOldValue();});
-  $('.validated').livequery('blur', validateField);
 });
 
 function openBlackPopup(url,width,height,onCloseCallBack,iframeId){
@@ -847,7 +841,7 @@ function openBlackPopup(url,width,height,onCloseCallBack,iframeId){
 
 
   //close call callback
-  bg.bind("close",function(){
+  bg.on("close",function(){
     bg.slideUp(300,function(){
       bg.remove();
       if (typeof(onCloseCallBack)=="function")
@@ -856,7 +850,7 @@ function openBlackPopup(url,width,height,onCloseCallBack,iframeId){
   });
 
   //destroy do not call callback
-  bg.bind("destroy",function(){
+  bg.on("destroy",function(){
     bg.remove();
   });
 
@@ -902,7 +896,7 @@ function createBlackPage(width,height,onCloseCallBack){
   $("body").append(bg);
 
   //close call callback
-  bg.bind("close",function(){
+  bg.on("close",function(){
     bg.slideUp(300,function(){
       bg.remove();
       if (typeof(onCloseCallBack)=="function")
@@ -911,7 +905,7 @@ function createBlackPage(width,height,onCloseCallBack){
   });
 
   //destroy do not call callback
-  bg.bind("destroy",function(){
+  bg.on("destroy",function(){
     bg.remove();
   });
   return ret;

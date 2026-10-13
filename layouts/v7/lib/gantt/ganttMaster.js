@@ -72,47 +72,47 @@ GanttMaster.prototype.init = function (place) {
   self.splitter=splitter;
 
   //bindings
-  place.bind("refreshTasks.gantt",function () {
+  place.on("refreshTasks.gantt",function () {
     self.redrawTasks();
-  }).bind("refreshTask.gantt",function (e, task) {
+  }).on("refreshTask.gantt",function (e, task) {
       self.drawTask(task);
 
-    }).bind("deleteCurrentTask.gantt",function (e) {
+    }).on("deleteCurrentTask.gantt",function (e) {
       self.deleteCurrentTask();
-    }).bind("addAboveCurrentTask.gantt",function () {
+    }).on("addAboveCurrentTask.gantt",function () {
       self.addAboveCurrentTask();
-    }).bind("addBelowCurrentTask.gantt",function () {
+    }).on("addBelowCurrentTask.gantt",function () {
       self.addBelowCurrentTask();
-    }).bind("indentCurrentTask.gantt",function () {
+    }).on("indentCurrentTask.gantt",function () {
       self.indentCurrentTask();
-    }).bind("outdentCurrentTask.gantt",function () {
+    }).on("outdentCurrentTask.gantt",function () {
       self.outdentCurrentTask();
 
-    }).bind("moveUpCurrentTask.gantt",function () {
+    }).on("moveUpCurrentTask.gantt",function () {
       self.moveUpCurrentTask();
 
-    }).bind("moveDownCurrentTask.gantt",function () {
+    }).on("moveDownCurrentTask.gantt",function () {
       self.moveDownCurrentTask();
 
-    }).bind("zoomPlus.gantt",function () {
+    }).on("zoomPlus.gantt",function () {
       self.gantt.zoomGantt(true);
-    }).bind("zoomMinus.gantt",function () {
+    }).on("zoomMinus.gantt",function () {
       self.gantt.zoomGantt(false);
 
-    }).bind("undo.gantt",function () {
+    }).on("undo.gantt",function () {
       if(!self.canWrite)
         return;
       self.undo();
-    }).bind("redo.gantt", function () {
+    }).on("redo.gantt", function () {
       if(!self.canWrite)
         return;
       self.redo();
-    }).bind("resize.gantt", function () {
+    }).on("resize.gantt", function () {
       self.resize();
     });
 
     //keyboard management bindings
-  $("body").bind("keydown.body", function (e) {
+  $("body").on("keydown.body", function (e) {
     //console.debug(e.keyCode+ " "+e.target.nodeName)
 
     //manage only events for body -> not from inputs
@@ -135,7 +135,7 @@ GanttMaster.prototype.init = function (place) {
           if (self.currentTask) {
             if (self.currentTask.ganttElement.is(".focused")) {
               self.moveUpCurrentTask();
-              self.gantt.element.oneTime(100, function () {self.currentTask.ganttElement.addClass("focused");});
+              setTimeout(function () {self.currentTask.ganttElement.addClass("focused");}, 100);
 
             } else {
               self.currentTask.rowElement.prev().click();
@@ -147,7 +147,7 @@ GanttMaster.prototype.init = function (place) {
           if (self.currentTask) {
             if (self.currentTask.ganttElement.is(".focused")) {
               self.moveDownCurrentTask();
-              self.gantt.element.oneTime(100, function () {self.currentTask.ganttElement.addClass("focused");});
+              setTimeout(function () {self.currentTask.ganttElement.addClass("focused");}, 100);
             } else {
               self.currentTask.rowElement.next().click();
             }
@@ -158,7 +158,7 @@ GanttMaster.prototype.init = function (place) {
           if (self.currentTask) {
             if (self.currentTask.ganttElement.is(".focused")) {
               self.indentCurrentTask();
-              self.gantt.element.oneTime(100, function () {self.currentTask.ganttElement.addClass("focused");});
+              setTimeout(function () {self.currentTask.ganttElement.addClass("focused");}, 100);
             }
           }
           break;
@@ -167,7 +167,7 @@ GanttMaster.prototype.init = function (place) {
           if (self.currentTask) {
             if (self.currentTask.ganttElement.is(".focused")) {
               self.outdentCurrentTask();
-              self.gantt.element.oneTime(100, function () {self.currentTask.ganttElement.addClass("focused");});
+              setTimeout(function () {self.currentTask.ganttElement.addClass("focused");}, 100);
             }
           }
           break;
@@ -353,7 +353,7 @@ GanttMaster.prototype.loadProject = function (project) {
 
   this.endTransaction();
   var self = this;
-  this.gantt.element.oneTime(200, function () {self.gantt.centerOnToday()});
+  setTimeout(function () {self.gantt.centerOnToday()}, 200);
 };
 
 
@@ -459,9 +459,8 @@ GanttMaster.prototype.taskIsChanged = function () {
   var master = this;
 
   //refresh is executed only once every 50ms
-  this.element.stopTime("gnnttaskIsChanged");
   //var profilerext = new Profiler("gm_taskIsChangedRequest");
-  this.element.oneTime(50, "gnnttaskIsChanged", function () {
+  ganttDelay(this.element, "gnnttaskIsChanged", 50, function () {
     //console.debug("task Is Changed real call to redraw");
     //var profiler = new Profiler("gm_taskIsChangedReal");
     master.editor.redraw();
