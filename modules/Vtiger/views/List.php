@@ -141,8 +141,6 @@ class Vtiger_List_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ListSidebar",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/adapters/jquery.js",
 			"modules.Vtiger.resources.CkEditor",
 			//for vtiger7 
 			"modules.Vtiger.resources.MergeRecords",

@@ -650,3 +650,10 @@ The scratch area under `/tmp/claude-*/.../scratchpad` is wiped between days: the
 
 ## PHP 8.4 deprecations cleared — 2026-10-13
 - Whole-tree `php -l` (3,036 files, one file per call; `php -l` ignores extra arguments) found 21 deprecation lines, all "implicitly marking parameter as nullable": 14 in `include/Zend/Oauth`, 7 in `kcfinder`. Each `Type $x = null` became `?Type $x = null` (28 parameters, several in multi-line signatures). qCal and google-api no longer report any. Remaining lint output is the 3 intentional parse errors in `modules/ModuleDesigner/templates` (`%`-placeholders, not PHP).
+
+## Structure leftovers cleared — 2026-10-13
+- **CKEditor loaded once**: removed the per-view `ckeditor.js` + jQuery adapter registrations from `Vtiger/views/{Detail,List,ComposeEmail}.php`; the global `JSResources.tpl` already loads them on every page (before `CkEditor.js`). Detail and List now emit one tag (was two); a CKEditor created on a probe textarea reaches status `ready`. The Send Email modal itself could not be exercised in the sandbox (no outgoing mail server).
+- **Orphans removed** after a reference check (no template, no `vtiger_links` row, only language strings): `Potentials/dashboards/Forecast.php` and `Leads/dashboards/LeadsCreated.php` (they listed nonexistent jqplot plugins).
+- **`csrf-magic.js` deleted**; `csrf-magic.php` now defaults `rewrite-js` to null (`config.security.php` already did).
+- **`Reports/Step1.tpl`** lines 87 and 92 read `$IS_DUPLICATE` with the same `isset()` guard as the other uses (no more undefined-variable warning when editing a report).
+- Still open: `todc` `docs.min.css` select2 rules (do with the select2 4 upgrade) and the six near-identical per-app skin stylesheets.

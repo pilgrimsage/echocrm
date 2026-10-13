@@ -84,12 +84,12 @@
                         {/if}
                         {assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
                         <select class="select2-container col-lg-12 inputElement" id="secondary_module" multiple name="secondary_modules[]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}"
-                                {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
+                                {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
                                 <option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
                             {/foreach}
                         </select>
-                        {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
+                        {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
                             <input type="hidden" name="secondary_modules[]" value="{$REPORT_MODEL->getSecondaryModules()}" />
                         {/if}
                     </div>

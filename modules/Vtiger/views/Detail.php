@@ -273,8 +273,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/adapters/jquery.js",
 			"modules.Emails.resources.MassEdit",
 			"modules.Vtiger.resources.CkEditor",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/twitter-text/js/twitter-text.js",
