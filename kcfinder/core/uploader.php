@@ -460,7 +460,7 @@ class uploader {
         $this->labels = $lang;
     }
 
-    protected function label($string, array $data=null) {
+    protected function label($string, ?array $data=null) {
         $return = isset($this->labels[$string]) ? $this->labels[$string] : $string;
         if (is_array($data))
             foreach ($data as $key => $val)
@@ -468,7 +468,7 @@ class uploader {
         return $return;
     }
 
-    protected function backMsg($message, array $data=null) {
+    protected function backMsg($message, ?array $data=null) {
         $message = $this->label($message, $data);
         if (isset($this->file['tmp_name']) && file_exists($this->file['tmp_name']))
             @unlink($this->file['tmp_name']);
