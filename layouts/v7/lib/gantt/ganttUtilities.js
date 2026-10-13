@@ -1,3 +1,14 @@
+/**
+ * Runs fn after ms milliseconds. With a name the call is debounced: a new call with the same name on the same
+ * element cancels the one still waiting (what the old jquery.timers oneTime / stopTime pair did).
+ */
+function ganttDelay(element, name, ms, fn) {
+  var key = "ganttDelay_" + name;
+  var $el = $(element);
+  clearTimeout($el.data(key));
+  $el.data(key, setTimeout(fn, ms));
+}
+
 /*
   Copyright (c) 2012-2014 Open Lab
   Written by Roberto Bicchierai and Silvia Chelazzi http://roberto.open-lab.com
@@ -54,13 +65,13 @@ $.gridify = function (table, opt) {
   head.find("th.gdfColHeader.gdfResizable:not(.gdfied)").mouseover(function () {
     $(this).addClass("gdfColHeaderOver");
 
-  }).bind("mouseout.gdf",function () {
+  }).on("mouseout.gdf",function () {
       $(this).removeClass("gdfColHeaderOver");
       if (!$.gridify.columInResize) {
         $("body").removeClass("gdfHResizing");
       }
 
-    }).bind("mousemove.gdf",function (e) {
+    }).on("mousemove.gdf",function (e) {
       if (!$.gridify.columInResize) {
         var colHeader = $(this);
         var mousePos = e.pageX - colHeader.offset().left;
@@ -72,7 +83,7 @@ $.gridify = function (table, opt) {
         }
       }
 
-    }).bind("mousedown.gdf",function (e) {
+    }).on("mousedown.gdf",function (e) {
       var colHeader = $(this);
       var mousePos = e.pageX - colHeader.offset().left;
       if (colHeader.width() - mousePos < options.resizeZoneWidth) {
@@ -80,16 +91,16 @@ $.gridify = function (table, opt) {
         $.gridify.columInResize = $(this);
         //bind event for start resizing
         //console.debug("start resizing");
-        $(document).bind("mousemove.gdf",function (e) {
+        $(document).on("mousemove.gdf",function (e) {
           //manage resizing
           $.gridify.columInResize.width(e.pageX - $.gridify.columInResize.offset().left);
           $.gridify.columInResize.data("fTh").width($.gridify.columInResize.outerWidth());
 
 
           //bind mouse up on body to stop resizing
-        }).bind("mouseup.gdf", function () {
+        }).on("mouseup.gdf", function () {
             //console.debug("stop resizing");
-            $(this).unbind("mousemove.gdf").unbind("mouseup.gdf").clearUnselectable();
+            $(this).off("mousemove.gdf").off("mouseup.gdf").clearUnselectable();
             $("body").removeClass("gdfHResizing");
             delete $.gridify.columInResize;
           });
@@ -144,12 +155,12 @@ $.splittify = {
     secondBox.width(w -fbw-splitterBar.width() ).css({left:firstBox.width() + splitterBar.width()});
 
 
-    splitterBar.bind("mousedown.gdf", function(e) {
+    splitterBar.on("mousedown.gdf", function(e) {
       $.splittify.splitterBar = $(this);
       //bind event for start resizing
       //console.debug("start splitting");
       var realW=firstBox.get(0).scrollWidth;
-      $("body").unselectable().bind("mousemove.gdf", function(e) {
+      $("body").unselectable().on("mousemove.gdf", function(e) {
         //manage resizing
         //console.debug(e.pageX - $.gridify.columInResize.offset().left)
         var sb = $.splittify.splitterBar;
@@ -164,9 +175,9 @@ $.splittify = {
         splitter.perc=(firstBox.width()/splitter.element.width())*100;
 
         //bind mouse up on body to stop resizing
-      }).bind("mouseup.gdf", function() {
+      }).on("mouseup.gdf", function() {
         //console.debug("stop splitting");
-        $(this).unbind("mousemove.gdf").unbind("mouseup.gdf").clearUnselectable();
+        $(this).off("mousemove.gdf").off("mouseup.gdf").clearUnselectable();
         delete $.splittify.splitterBar;
 
       });
@@ -189,7 +200,7 @@ $.splittify = {
       secondBox.find(".fixHead").css('top', top);
       firstBox.find(".fixHead").css('top', top);
 
-      where.stopTime("reset").oneTime(100,"reset",function(){stopScroll="";})
+      ganttDelay(where, "reset", 100, function(){stopScroll="";});
     });
 
 

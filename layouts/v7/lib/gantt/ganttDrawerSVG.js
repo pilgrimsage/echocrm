@@ -418,7 +418,7 @@ Ganttalendar.prototype.drawTask = function (task) {
       }).mouseup(function (e) {
         $(":focus").blur(); // in order to save grid field when moving task
       }).mousedown(function () {
-        var task = self.master.getTask($(this).attr("taskId"));
+        var task = self.master.getTask($(this).attr("taskid")); // SVG attribute names are case sensitive: it is stored lower case
         task.rowElement.click();
       }).dragExtedSVG($(self.svg.root()), {
         canResize:  this.master.canWrite && task.canWrite,
@@ -490,7 +490,7 @@ Ganttalendar.prototype.drawTask = function (task) {
       var circle = self.svg.circle(startX, startY, 5, {class:"linkLineSVG"});
 
       //bind mousemove to draw a line
-      svg.bind("mousemove.linkSVG", function (e) {
+      svg.on("mousemove.linkSVG", function (e) {
         var offs = svg.offset();
         var nx = e.pageX - offs.left;
         var ny = e.pageY - offs.top;
@@ -508,7 +508,7 @@ Ganttalendar.prototype.drawTask = function (task) {
         self.linkOnProgress = false;
         svg.removeClass("linkOnProgress");
 
-        $(self.svg.root()).unbind("mousemove.linkSVG");
+        $(self.svg.root()).off("mousemove.linkSVG");
         var targetBox = $(e.target).closest(".taskBoxSVG");
         //console.debug("create link from " + taskBox.attr("taskid") + " to " + targetBox.attr("taskid"));
 
@@ -748,8 +748,7 @@ Ganttalendar.prototype.drawLink = function (from, to, type) {
 Ganttalendar.prototype.redrawLinks = function () {
   //console.debug("redrawLinks ");
   var self = this;
-  this.element.stopTime("ganttlnksredr");
-  this.element.oneTime(60, "ganttlnksredr", function () {
+  ganttDelay(this.element, "ganttlnksredr", 60, function () {
 
     //var prof=new Profiler("gd_drawLink_real");
 
@@ -877,7 +876,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
       el.addClass("deSVGdrag");
 
     if (options.canResize || options.canDrag) {
-      el.bind("mousedown.deSVG",
+      el.on("mousedown.deSVG",
         function (e) {
           if ($(e.target).is("image")) {
             e.preventDefault();
@@ -902,7 +901,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
             var one = true;
 
             //bind event for start resizing
-            $(svg).bind("mousemove.deSVG", function (e) {
+            $(svg).on("mousemove.deSVG", function (e) {
 
               if (one) {
                 //trigger startResize
@@ -930,7 +929,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
 
             var one = true;
             //bind event for start dragging
-            $(svg).bind("mousemove.deSVG",function (e) {
+            $(svg).on("mousemove.deSVG",function (e) {
               if (one) {
                 //trigger startDrag
                 options.startDrag.call(target.get(0), e);
@@ -942,7 +941,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
               //callback
               options.drag.call(target.get(0), e);
 
-            }).bind("mouseleave.deSVG", drop);
+            }).on("mouseleave.deSVG", drop);
 
             //bind mouse up on body to stop resizing
             $("body").one("mouseup.deSVG", drop);
@@ -950,7 +949,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
           }
         }
 
-      ).bind("mousemove.deSVG",
+      ).on("mousemove.deSVG",
         function (e) {
           var el = $(this);
           var x1 = el.offset().left;
@@ -975,7 +974,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
 
 
   function stopResize(e) {
-    $(svg).unbind("mousemove.deSVG").unbind("mouseup.deSVG").unbind("mouseleave.deSVG");
+    $(svg).off("mousemove.deSVG").off("mouseup.deSVG").off("mouseleave.deSVG");
     //if (target && target.attr("oldw")!=target.attr("width"))
     if (target)
       options.stopResize.call(target.get(0), e); //callback
@@ -984,7 +983,7 @@ $.fn.dragExtedSVG = function (svg, opt) {
   }
 
   function drop(e) {
-    $(svg).unbind("mousemove.deSVG").unbind("mouseup.deSVG").unbind("mouseleave.deSVG");
+    $(svg).off("mousemove.deSVG").off("mouseup.deSVG").off("mouseleave.deSVG");
     if (target && target.attr("oldx") != target.attr("x"))
       options.drop.call(target.get(0), e); //callback
     target = undefined;
