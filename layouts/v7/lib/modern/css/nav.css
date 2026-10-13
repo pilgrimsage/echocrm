@@ -1,3 +1,8 @@
+/* the old todc docs stylesheet gave the page this; nothing else of it was used */
+body{
+	position:relative;
+}
+
 /* ==========================================================================
    Modern skin — Topbar + App Navigator (shared chrome, every screen)
    Loads AFTER bootstrap5.min.css + listview.css + detailview.css.

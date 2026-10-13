@@ -120,7 +120,6 @@ Settings_Vtiger_Edit_Js("Settings_Groups_Edit_Js",{},{
 			}
 			return String(object.text ?? '').trim();
 		};
-		selectElement.select2('destroy');
 		this.changeSelectElementView(selectElement, 'select2',params);
 	},
 

@@ -83,6 +83,15 @@ var vtUtils = {
 				params.dropdownParent = modalParent;
 			}
 		}
+		// select2 4 follows the element's width, not its min-width (a few templates size a select that way)
+		var minWidth = parseInt(selectElement.css('min-width'), 10);
+		if(typeof params.width == 'undefined' && minWidth > 0) {
+			params.width = minWidth + 'px';
+		}
+		// shown while its row is still hidden, select2 cannot measure the element: it then fills its parent
+		if(typeof params.width == 'undefined' && !selectElement[0].offsetWidth) {
+			params.width = '100%';
+		}
         selectElement.select2(params);
 		//validator should not validate select2 text inputs
 		var select2Container = selectElement.data('select2').$container;

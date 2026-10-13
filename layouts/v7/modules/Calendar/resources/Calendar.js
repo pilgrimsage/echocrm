@@ -400,8 +400,8 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		}
 
 		var selectedValue = fieldSelectElement.find('option:selected').val();
-		sourceFieldSelect.select2('destroy').html(options).select2();
-		targetFieldSelect.select2('destroy').html(options).select2();
+		sourceFieldSelect.html(options).select2();
+		targetFieldSelect.html(options).select2();
 
 		if (moduleName === 'Events' || moduleName === 'Calendar') {
 			sourceFieldSelect.find('option[value="date_start,due_date"]').remove();
@@ -417,7 +417,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		if (otherOption.length > 0) {
 			targetFieldSelect.val(otherOption.val()).trigger('change.select2');
 		} else {
-			targetFieldSelect.select2('destroy').html('').select2();
+			targetFieldSelect.html('').select2();
 		}
 	},
 	updateDateFields: function (container) {
@@ -442,7 +442,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		if (options === '')
 			options = '<option value="">NONE</option>';
 
-		fieldSelectElement.select2('destroy').html(options).select2().trigger('change');
+		fieldSelectElement.html(options).select2().trigger('change');
 
 		var editorMode = container.find('.editorMode').val();
 		if (editorMode === 'create') {
@@ -835,17 +835,17 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			//after disabling or enabling, set the options and selected value for select2 elements
 			var fieldSelectedValue = fieldSelectEle.find('option:selected').val();
 			var fieldOptions = fieldSelectEle.find('option');
-			fieldSelectEle.select2('destroy').html(fieldOptions).select2();
+			fieldSelectEle.html(fieldOptions).select2();
 			fieldSelectEle.val(fieldSelectedValue).trigger('change.select2');
 
 			var sourceOptions = sourceFieldsSelect.find('option');
-			sourceFieldsSelect.select2('destroy').html(sourceOptions).select2();
+			sourceFieldsSelect.html(sourceOptions).select2();
 			sourceFieldsSelect.val(fieldSelectedValue).trigger('change.select2');
 
 			var sourceSelectValue = sourceFieldsSelect.find('option:selected').val();
 			var otherOption = targetFieldsSelect.find('option').not('option[value="' + sourceSelectValue + '"]');
 			var targetOptions = targetFieldsSelect.find('option');
-			targetFieldsSelect.select2('destroy').html(targetOptions).select2();
+			targetFieldsSelect.html(targetOptions).select2();
 			targetFieldsSelect.val(otherOption.val()).trigger('change.select2');
 		});
 

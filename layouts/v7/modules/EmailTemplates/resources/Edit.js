@@ -71,7 +71,6 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js",{},{
 			options = '<option value="">NONE</option>';
 		
 		fieldSelectElement.empty().html(options);
-        fieldSelectElement.select2("destroy");
         fieldSelectElement.select2();
         
 		return fieldSelectElement;

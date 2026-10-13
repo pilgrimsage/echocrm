@@ -28,7 +28,6 @@
 
         <link rel="stylesheet" href="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.css')}">
 
-		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/todc/css/docs.min.css")}'>
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/font-awesome/css/font-awesome.min.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/select2/css/select2.min.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/select2.css")}'>
