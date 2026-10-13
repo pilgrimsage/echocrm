@@ -190,7 +190,7 @@ Calendar_Calendar_Js('Calendar_SharedCalendar_Js', {
 		var usersList = modalContainer.find('select[name="usersList"]');
 		if(editorMode === 'edit') {
 			var feedCheckbox = feedIndicator.find('input[type="checkbox"].toggleCalendarFeed');
-			usersList.select2('val',feedCheckbox.data('calendarUserid'));
+			usersList.val(feedCheckbox.data('calendarUserid')).trigger('change.select2');
 		}
 		usersList.trigger('change');
 

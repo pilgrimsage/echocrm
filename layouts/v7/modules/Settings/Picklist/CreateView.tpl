@@ -26,7 +26,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="control-label col-sm-4 col-4">{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}&nbsp;<span class="redColor">*</span></div>
-                        <div class="controls col-sm-3 col-3"><input style="min-width: 220px;" name="newValue" class="form-control select2" data-rule-required="true"/></div>
+                        <div class="controls col-sm-3 col-3"><select style="min-width: 220px;" name="newValue" multiple class="form-control select2" data-rule-required="true"></select></div>
                     </div>
                     {if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
                         <div class="form-group">	

@@ -82,7 +82,8 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	isFormValidate : function(){
 		var thisInstance = this;
 		var selectElement = this.getReportsColumnsList();
-		var select2Element = vtUtils.showSelect2ElementView(selectElement);
+		// already shown as select2 by registerSelect2ElementForReportColumns (showing it again would drop the chosen order)
+		var select2Element = selectElement;
 		var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
 		if(result != true){
 			select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
@@ -155,7 +156,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 */
 	registerSelect2ElementForReportColumns : function() {
 		var selectElement = this.getReportsColumnsList();
-		vtUtils.showSelect2ElementView(selectElement,{maximumSelectionSize: 25});
+		vtUtils.showSelect2ElementView(selectElement,{maximumSelectionLength: 25});
 	},
 
 	/**
@@ -163,73 +164,23 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * @return : array of selected values in order
 	 */
 	getSelectedColumns : function() {
-		var columnListSelectElement = this.getReportsColumnsList();
-		var select2Element = jQuery('#s2id_reportsColumnsList');
-		var selectedValuesByOrder = new Array();
-		var selectedOptions = columnListSelectElement.find('option:selected');
-
-		var orderedSelect2Options = select2Element.find('li.select2-search-choice').find('div');
-		orderedSelect2Options.each(function(index,element){
-			var chosenOption = jQuery(element);
-			var choiceElement = chosenOption.closest('.select2-search-choice');
-			var choiceValue = choiceElement.data('select2Data').id;
-			selectedOptions.each(function(optionIndex, domOption){
-				var option = jQuery(domOption);
-				if(option.val() == choiceValue) {
-					selectedValuesByOrder.push(option.val());
-					return false;
-				}
-			});
-		});
-		return selectedValuesByOrder;
+		return vtUtils.getSelect2OrderedValues(this.getReportsColumnsList());
 	},
 
 	/**
-	 * Function which will arrange the select2 element choices in order
-	 */
-	arrangeSelectChoicesInOrder : function() {
-		var selectElement = this.getReportsColumnsList();
-		var chosenElement = app.getSelect2ElementFromSelect(selectElement);
-		var choicesContainer = chosenElement.find('ul.select2-choices');
-		var choicesList = choicesContainer.find('li.select2-search-choice');
-
-		//var coulmnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		var selectedOptions = selectElement.find('option:selected');
-		var selectedOrder = JSON.parse(this.getSelectedFields().val());
-		var selectedOrderKeys = [];
-		for(var key in selectedOrder) {
-			if(selectedOrder.hasOwnProperty(key)){
-				selectedOrderKeys.push(key);
-			}
-		}
-		for(var index=selectedOrderKeys.length ; index > 0 ; index--) {
-			var selectedValue = selectedOrder[selectedOrderKeys[index-1]];
-			//We should consider value as string 
-			var colonEscapedValue = selectedValue.replace(":", "\\:");
-			var option = selectedOptions.filter('[value="'+colonEscapedValue+'"]'); 
-			choicesList.each(function(choiceListIndex,element){
-				var liElement = jQuery(element);
-				if(liElement.find('div').html() == option.html()){
-					choicesContainer.prepend(liElement);
-					return false;
-				}
-			});
-		}
-	},
-
-	/**
-	 * Function to regiser the event to make the columns list sortable
+	 * Function to make the chosen columns draggable; the order the report was saved with is applied first
 	 */
 	makeColumnListSortable : function() {
-		var select2Element = jQuery('#s2id_reportsColumnsList');
-		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var chozenChoiceElement = select2Element.find('ul.select2-choices');
-		chozenChoiceElement.sortable({
-                containment: chozenChoiceElement,
-                start: function() {},
-                update: function() {}
-            });
+		var savedOrder = [];
+		try {
+			var saved = JSON.parse(this.getSelectedFields().val());
+			for(var key in saved) {
+				if(saved.hasOwnProperty(key)) {
+					savedOrder.push(saved[key]);
+				}
+			}
+		} catch(e) {}
+		vtUtils.makeSelect2Sortable(this.getReportsColumnsList(), savedOrder);
 	},
 
 	/**
@@ -308,8 +259,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		this.registerLineItemCalculationLimitOnLoad();
 		vtUtils.applyFieldElementsView(container);
 		this.registerSelect2ElementForReportColumns();
-                this.arrangeSelectChoicesInOrder();
-                this.makeColumnListSortable();
+        this.makeColumnListSortable();
 	}
 });
 

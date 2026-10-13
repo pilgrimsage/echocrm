@@ -276,7 +276,7 @@ Vtiger_Field_Js('Vtiger_Picklist_Field_Js',{},{
 					className = '.picklistColor_'+fieldName+'_'+option.replace(' ', '_');
 					html += className+'{background-color: '+picklistColor+' !important;}';
 
-					className = className + '.select2-highlighted';
+					className = className + '.select2-results__option--highlighted';
 					html += className+'{white: #ffffff !important; background-color: #337ab7 !important;}';
 				}
 			}
@@ -421,7 +421,7 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js',{},{
 					className = '.picklistColor_'+fieldName+'_'+option.replace(' ', '_');
 					html += className+'{background-color: '+picklistColor+' !important;}';
 
-					className = className + '.select2-highlighted';
+					className = className + '.select2-results__option--highlighted';
 					html += className+'{white: #ffffff !important; background-color: #337ab7 !important;}';
 				}
 			}

@@ -99,9 +99,11 @@
 								&nbsp;<span class="redColor">*</span>
 							</label>
 							<div class="controls col-sm-7">
-								<input type="text" id="picklistUi" class="col-sm-9 select2" name="pickListValues"
-									placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-rule-required='true'
-									data-rule-picklist='true'/>
+								<select id="picklistUi" multiple class="col-sm-9 select2" name="pickListValuesUi"
+									data-placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-rule-required='true'
+									data-rule-picklist='true'></select>
+								{* the server takes the values as one comma separated string; the select above keeps it up to date *}
+								<input type="hidden" name="pickListValues" value=""/>
 							</div>
 						</div>
 						<div class="form-group supportedType picklistOption hide">

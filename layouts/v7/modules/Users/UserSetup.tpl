@@ -17,24 +17,22 @@
 			<link REL="SHORTCUT ICON" HREF="layouts/v7/skins/images/favicon.ico">
 			<link rel="stylesheet" href="layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/css/bootstrap.min.css" type="text/css" media="screen" />
 			<link rel="stylesheet" href="resources/styles.css" type="text/css" media="screen" />
-			<link rel="stylesheet" href="layouts/v7/lib/jquery/select2/select2.css" />
+			<link rel="stylesheet" href="layouts/v7/lib/select2/css/select2.min.css" />
 			<link rel="stylesheet" href="layouts/v7/lib/validation-engine/css/validationEngine.jquery.css" />
 
 			<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.min.js"></script>
 			<script type="text/javascript" src="layouts/v7/lib/jquery/jquery-migrate-1.4.1.js"></script>
 			<script type="text/javascript" src="layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
-			<script type="text/javascript" src="layouts/v7/lib/jquery/select2/select2.min.js"></script>
+			<script type="text/javascript" src="layouts/v7/lib/select2/js/select2.min.js"></script>
 			<script type="text/javascript" src="layouts/v7/lib/validation-engine/js/jquery.validationEngine.js" ></script>
 			<script type="text/javascript" src="layouts/v7/lib/validation-engine/js/jquery.validationEngine-en.js" ></script>
 
 			<script type="text/javascript">
 				{literal}
 				jQuery(function(){
-					jQuery('select').select2({blurOnChange:true});
+					jQuery('select').select2();
 					jQuery('[rel="tooltip"]').tooltip();
 					jQuery('form').validationEngine({
-						prettySelect: true,
-						usePrefix: 's2id_',
 						autoPositionUpdate: true,
 						promptPosition : "topLeft",
 						showOneMessage: true

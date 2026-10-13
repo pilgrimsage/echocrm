@@ -12,18 +12,26 @@ var vtUtils = {
         weekDaysArray : {Sunday : 0,Monday : 1, Tuesday : 2, Wednesday : 3,Thursday : 4, Friday : 5, Saturday : 6},
 
     /**
-	 * Function which will show the select2 element for select boxes . This will use select2 library
+	 * Function which will show the select2 element for select boxes . This will use select2 library (v4).
+	 * The params are select2 4 options; data-* attributes of the element are merged in as options too.
 	 */
 	showSelect2ElementView : function(selectElement, params) {
+		if(selectElement.length == 0) {
+			return selectElement;
+		}
 		if(typeof params == 'undefined') {
 			params = {};
 		}
 
 		var data = selectElement.data();
 		if(data != null) {
+			// jQuery keeps select2's own instance on the element; it is not an option
+			data = jQuery.extend({}, data);
+			delete data.select2;
+			delete data.select2Id;
 			params = jQuery.extend(data,params);
 		}
-    if(jQuery('#minilistWizardContainer').length){params.maximumSelectionSize=4};
+    if(jQuery('#minilistWizardContainer').length){params.maximumSelectionLength=4};
         // Fix to eliminate flicker happening on list view load
         var ele = jQuery(selectElement);
         if(ele.hasClass("listSearchContributor")){
@@ -47,55 +55,147 @@ var vtUtils = {
 			delete params['customSortOptGroup'];
 		}
 
-		//formatSelectionTooBig param is not defined even it has the maximumSelectionSize,
-		//then we should send our custom function for formatSelectionTooBig
-		if(typeof params.maximumSelectionSize != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
-			var limit = params.maximumSelectionSize;
-			//custom function which will return the maximum selection size exceeds message.
-			var formatSelectionExceeds = function(limit) {
-					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit+' '+app.vtranslate('JS_ITEMS');
+		//The "you can select only N items" message when maximumSelectionLength is set
+		if(typeof params.maximumSelectionLength != "undefined") {
+			params.language = jQuery.extend({
+				maximumSelected : function(args) {
+					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+args.maximum+' '+app.vtranslate('JS_ITEMS');
+				}
+			}, params.language || {});
+		}
+		// a multi select stays open while picking several values
+		if(selectElement.prop('multiple') && typeof params.closeOnSelect == 'undefined') {
+			params.closeOnSelect = false;
+		}
+		// the classes of an option (the picklist colours) are put on its row in the dropdown
+		if(typeof params.templateResult == 'undefined') {
+			params.templateResult = function(data, container) {
+				if(data.element && data.element.className) {
+					jQuery(container).addClass(data.element.className);
+				}
+				return data.text;
+			};
+		}
+		// BS5 modals keep keyboard focus inside themselves, so the dropdown (and its search box) must live in the modal
+		if(typeof params.dropdownParent == 'undefined') {
+			var modalParent = selectElement.closest('.modal');
+			if(modalParent.length) {
+				params.dropdownParent = modalParent;
 			}
-			params.formatSelectionTooBig = formatSelectionExceeds;
 		}
-        if(selectElement.attr('multiple') != 'undefined' && typeof params.closeOnSelect == 'undefined') {
-            params.closeOnSelect = false;
-		}
-        selectElement.select2(params)
-					 .on("open", function(e) {
-						 var element = jQuery(e.currentTarget);
-						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
-					 }).on("select2-open", function(e) {
-						 var element = jQuery(e.currentTarget);
-						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
-					 });
-        //validator should not validate select2 text inputs
-        selectElement.select2("container").find('input.select2-input').addClass('ignore-validation');
-		if(typeof params.maximumSelectionSize != "undefined") {
-			vtUtils.registerChangeEventForMultiSelect(selectElement,params);
-		}
+        selectElement.select2(params);
+		//validator should not validate select2 text inputs
+		var select2Container = selectElement.data('select2').$container;
+		select2Container.find('.select2-search__field').addClass('ignore-validation');
+		selectElement.on('select2:open', function(e) {
+			jQuery('.select2-search__field').addClass('ignore-validation');
+		});
 		return selectElement;
 	},
 
     /**
-	 * Function to check the maximum selection size of multiselect and update the results
-	 * @params <object> multiSelectElement
-	 * @params <object> select2 params
+	 * A multiple <select> the user can type values into freely (select2 tags), with a list of suggestions.
+	 * It carries data-tag-input so the scripts that read a filter can tell it from an ordinary select.
+	 * @param name, classes, id - attributes of the new select
+	 * @param suggestions - array of values offered in the dropdown
+	 * @param selectedCsv - comma separated values that are chosen to start with
 	 */
-	registerChangeEventForMultiSelect :  function(selectElement,params) {
-		if(typeof selectElement == 'undefined') {
+	buildTagSelect : function(name, classes, suggestions, selectedCsv, id) {
+		var select = jQuery('<select multiple data-tag-input="true"></select>').attr('name', name).addClass(classes);
+		if(id) {
+			select.attr('id', id);
+		}
+		var selected = [];
+		jQuery.each(String(selectedCsv ?? '').split(','), function(i, value) {
+			value = value.trim();
+			if(value !== '') {
+				selected.push(value);
+			}
+		});
+		var added = {};
+		var addOption = function(value) {
+			if(added[value]) {
+				return;
+			}
+			added[value] = true;
+			select.append(new Option(value, value, false, selected.indexOf(value) !== -1));
+		};
+		jQuery.each(suggestions || [], function(i, value) {
+			addOption(String(value));
+		});
+		jQuery.each(selected, function(i, value) {
+			addOption(value);
+		});
+		return select;
+	},
+
+    /**
+	 * Lets the user drag the chosen values of a multiple select2 into an order.
+	 * Select2 4 draws the choices in option order and redraws them on every change, so the order the user wants
+	 * is remembered here and applied again after each redraw; read it back with getSelect2OrderedValues().
+	 * @param selectElement - the multiple <select>, already shown with showSelect2ElementView
+	 * @param savedOrder - optional array of values in the order they were saved
+	 */
+	makeSelect2Sortable : function(selectElement, savedOrder) {
+		var instance = selectElement.data('select2');
+		if(!instance) {
 			return;
 		}
-
-		var limit = params.maximumSelectionSize;
-		selectElement.on('change',function(e){
-			var instance = jQuery(e.currentTarget).data('select2');
-			var data = instance.data();
-			if (Array.isArray(data) && data.length >= limit ) {
-				instance.updateResults();
-            }
+		var rendered = instance.$container.find('ul.select2-selection__rendered');
+		var order = jQuery.map(savedOrder || [], String);
+		var choices = function() {
+			return rendered.children('li.select2-selection__choice').toArray();
+		};
+		var idOf = function(li) {
+			var data = jQuery(li).data('data');
+			return data ? String(data.id) : null;
+		};
+		var apply = function() {
+			var lis = choices();
+			var present = lis.map(idOf);
+			order = order.filter(function(id) { return present.indexOf(id) !== -1; });
+			present.forEach(function(id) {
+				if(order.indexOf(id) === -1) {
+					order.push(id);
+				}
+			});
+			var searchField = rendered.children('li.select2-search--inline');
+			order.forEach(function(id) {
+				var li = lis.filter(function(item) { return idOf(item) === id; })[0];
+				if(li) {
+					searchField.before(li);
+				}
+			});
+		};
+		instance.on('selection:update', apply);
+		// pressing on a choice must start a drag, not open the dropdown
+		rendered.on('mousedown', 'li.select2-selection__choice', function(e) {
+			e.stopPropagation();
 		});
+		rendered.sortable({
+			items : 'li.select2-selection__choice',
+			containment : 'parent',
+			tolerance : 'pointer',
+			stop : function() {
+				order = choices().map(idOf);
+				selectElement.trigger('sortupdate.select2order');
+			}
+		});
+		apply();
+	},
+
+	/**
+	 * Values of a multiple select2 in the order the user arranged them (see makeSelect2Sortable)
+	 */
+	getSelect2OrderedValues : function(selectElement) {
+		var instance = selectElement.data('select2');
+		if(!instance) {
+			return selectElement.val() || [];
+		}
+		return instance.$container.find('li.select2-selection__choice').map(function() {
+			var data = jQuery(this).data('data');
+			return data ? String(data.id) : null;
+		}).get();
 	},
 
     /**

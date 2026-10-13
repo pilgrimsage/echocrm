@@ -13,13 +13,10 @@ jQuery.Class("Vtiger_CustomView_Js",{
 
 	advanceFilterInstance : false,
 
-	columnListSelect2Element : false,
-
 	columnSelectElement : false,
 
 	reIntialize : function () {
 		this.contianer = false;
-		this.columnListSelect2Element = false;
 		this.advanceFilterInstance = false;
 		this.columnSelectElement = false;
 	},
@@ -29,13 +26,6 @@ jQuery.Class("Vtiger_CustomView_Js",{
 			this.container = jQuery('#filterContainer');
 		}
 		return this.container
-	},
-
-	getColumnListSelect2Element : function() {
-		if(this.columnListSelect2Element == false){
-			this.columnListSelect2Element = jQuery('#s2id_viewColumnsSelect');
-		}
-		return this.columnListSelect2Element;
 	},
 
 	/**
@@ -50,44 +40,15 @@ jQuery.Class("Vtiger_CustomView_Js",{
 	},
 
 	/**
-	 * Function to regiser the event to make the columns list sortable
+	 * Function to make the chosen columns draggable into the order they will be listed in; the order the
+	 * filter was saved with (the hidden columnslist value) is applied first
 	 */
 	makeColumnListSortable : function() {
-		var select2Element = this.getColumnListSelect2Element();
-		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var chozenChoiceElement = select2Element.find('ul.select2-choices');
-		chozenChoiceElement.sortable({
-				'containment': chozenChoiceElement,
-				start: function() { },
-				update: function() {}
-			});
-	},
-
-	/**
-	 * Function which will arrange the chosen element choices in order
-	 */
-	arrangeSelectChoicesInOrder : function() {
-		var contentsContainer = this.getContainer();
-		var chosenElement = this.getColumnListSelect2Element();
-		var choicesContainer = chosenElement.find('ul.select2-choices');
-		var choicesList = choicesContainer.find('li.select2-search-choice');
-		var columnListSelectElement = this.getColumnSelectElement();
-		var selectedOptions = columnListSelectElement.find('option:selected');
-		var selectedOrder = JSON.parse(jQuery('input[name="columnslist"]', contentsContainer).val());
-
-		for(var index=selectedOrder.length ; index > 0 ; index--) {
-			var selectedValue = selectedOrder[index-1];
-			var value = selectedValue.replace("'", "&#39;");
-			var option = selectedOptions.filter('[value="'+value+'"]');
-			choicesList.each(function(choiceListIndex,element){
-				var liElement = jQuery(element);
-				if(liElement.find('div').text() == option.text()){
-					choicesContainer.prepend(liElement);
-					return false;
-				}
-			});
-		}
+		var savedOrder = [];
+		try {
+			savedOrder = JSON.parse(jQuery('input[name="columnslist"]', this.getContainer()).val()) || [];
+		} catch(e) {}
+		vtUtils.makeSelect2Sortable(this.getColumnSelectElement(), savedOrder);
 	},
 
 	/**
@@ -95,24 +56,7 @@ jQuery.Class("Vtiger_CustomView_Js",{
 	 * @return : array of selected values in order
 	 */
 	getSelectedColumns : function() {
-		var columnListSelectElement = this.getColumnSelectElement();
-		var select2Element = this.getColumnListSelect2Element();
-
-		var selectedValuesByOrder = new Array();
-		var selectedOptions = columnListSelectElement.find('option:selected');
-
-		var orderedSelect2Options = select2Element.find('li.select2-search-choice').find('div');
-		orderedSelect2Options.each(function(index,element){
-			var chosenOption = jQuery(element);
-			selectedOptions.each(function(optionIndex, domOption){
-				var option = jQuery(domOption);
-				if(option.text() == chosenOption.text()) {
-					selectedValuesByOrder.push(option.val());
-					return false;
-				}
-			});
-		});
-		return selectedValuesByOrder;
+		return vtUtils.getSelect2OrderedValues(this.getColumnSelectElement());
 	},
 
 	doOperation : function (url) {
@@ -196,7 +140,7 @@ jQuery.Class("Vtiger_CustomView_Js",{
 			var element = jQuery(e.currentTarget);
 			if(self.isAllUsersSelected()){
 				element.find('option').not('[value="All::Users"]').prop('disabled',true);
-				element.select2('val',['All::Users']);
+				element.val(['All::Users']).trigger('change.select2');
 				element.select2('close');
 			}else{
 				element.find('option').removeProp('disabled');
@@ -209,13 +153,12 @@ jQuery.Class("Vtiger_CustomView_Js",{
 	 */
 	registerSelect2ElementForColumnsSelection : function() {
 		var selectElement = this.getColumnSelectElement();
-		vtUtils.showSelect2ElementView(selectElement,{maximumSelectionSize: 15});
+		vtUtils.showSelect2ElementView(selectElement,{maximumSelectionLength: 15});
 	},
 
 	registerFilterCreateEvents : function() {
 		var self = this;
 		self.registerSelect2ElementForColumnsSelection();
-		this.arrangeSelectChoicesInOrder();
 		this.makeColumnListSortable();
 		this.registerToogleShareList();
 		this.registerOnlyAllUsersInSharedList();
@@ -243,12 +186,7 @@ jQuery.Class("Vtiger_CustomView_Js",{
 					var advfilterlist = self.advanceFilterInstance.getValues();
 					jQuery('#advfilterlist').val(JSON.stringify(advfilterlist));
 
-					var selectValueElements = self.getColumnSelectElement().select2('data');
-					var selectedValues = [];
-					for(i=0; i<selectValueElements.length; i++) {
-						selectedValues.push(selectValueElements[i].id);
-					}
-					var selectValues = JSON.stringify(selectedValues);
+					var selectValues = JSON.stringify(self.getSelectedColumns());
 					jQuery('input[name="columnslist"]', self.getContainer()).val(selectValues);
 					var allUsersStatusEle = jQuery('#allUsersStatusValue');
 					if(self.isAllUsersSelected() && (jQuery('[data-toogle-members]').is(":checked"))){

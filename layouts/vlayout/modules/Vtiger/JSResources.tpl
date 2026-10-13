@@ -14,7 +14,7 @@
 {* <script> resources below *}
 	<script type="text/javascript" src="layouts/vlayout/lib/blockui/js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/chosen/chosen.jquery.min.js"></script>
-	<script type="text/javascript" src="layouts/v7/lib/jquery/select2/select2.min.js"></script>
+	<script type="text/javascript" src="layouts/v7/lib/select2/js/select2.min.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.class.min.js"></script>
 	<script type="text/javascript" src="layouts/v7/lib/pjax/js/jquery.pjax.js"></script>

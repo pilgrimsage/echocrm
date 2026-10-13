@@ -48,10 +48,9 @@
                                 <span class="">{vtranslate('LBL_TO',$MODULE)}&nbsp;<span class="redColor">*</span></span>
                             </div>
                             <div class="col-lg-6">
-                                {if !empty($TO)}
-                                    {assign var=TO_EMAILS value=","|implode:$TO|htmlentities}
-                                {/if}
-                                <input id="emailField" style="width:100%" name="toEmail" type="text" class="autoComplete sourceField select2" data-rule-required="true" data-rule-multiEmails="true" value="{if !empty($TO_EMAILS)}{$TO_EMAILS|escape:html}{/if}" placeholder="{vtranslate('LBL_TYPE_AND_SEARCH',$MODULE)}">
+                                <select id="emailField" style="width:100%" name="toEmail" multiple class="autoComplete sourceField select2" data-rule-required="true" data-rule-multiEmails="true" data-placeholder="{vtranslate('LBL_TYPE_AND_SEARCH',$MODULE)}">
+                                    {if !empty($TO)}{foreach item=TO_EMAIL from=$TO}<option value="{$TO_EMAIL|escape:'html'}" selected>{$TO_EMAIL|escape:'html'}</option>{/foreach}{/if}
+                                </select>
                             </div>
                             <div class="col-lg-4 input-group">
                                 <select style="width: 140px;" class="select2 emailModulesList float-end">

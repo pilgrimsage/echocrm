@@ -125,14 +125,19 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		if(!this.isEvents(form)) {
 			return;
 		}
-		this.getRelatedContactElement(form).select2({
+		// the contacts of an event are several: the single reference text box is swapped for a multiple select2 that searches contacts
+		var displayInput = this.getRelatedContactElement(form);
+		var contactsSelect = jQuery('<select multiple id="contact_id_display" name="contact_id_display"></select>').addClass(displayInput.attr('class')).attr('data-placeholder', displayInput.attr('placeholder'));
+		displayInput.replaceWith(contactsSelect);
+		vtUtils.showSelect2ElementView(contactsSelect, {
 			 minimumInputLength: 3,
 			 ajax : {
 				'url' : 'index.php?module=Contacts&action=BasicAjax&search_module=Contacts',
 				'dataType' : 'json',
-				'data' : function(term,page){
+				'delay' : 250,
+				'data' : function(params){
 					 var data = {};
-					 data['search_value'] = term;
+					 data['search_value'] = params.term;
 					 var parentIdElement  = form.find('[name="parent_id"]');
 					 if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
 						var closestContainer = parentIdElement.closest('td');
@@ -141,22 +146,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 					 }
 					 return data;
 				},
-				'results' : function(data){
-					data.results = data.result;
-					for(var index in data.results ) {
-
-						var resultData = data.result[index];
-						resultData.text = resultData.label;
+				'processResults' : function(data){
+					var results = data.result;
+					for(var index in results) {
+						results[index].text = results[index].label;
 					}
-					return data
-				},
-				 transport : function(params){
-					return jQuery.ajax(params);
-				 }
-			 },
-			 multiple : true,
-			 //To Make the menu come up in the case of quick create
-			 dropdownCss : {'z-index' : '10001'}
+					return {'results' : results};
+				}
+			 }
 		});
 
 		//To add multiple selected contact from popup
@@ -242,7 +239,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	initializeContactIdList : function(form) {
 		var relatedContactElement = this.getRelatedContactElement(form);
 		if(this.isEvents(form) && relatedContactElement.length) {
-			jQuery('<input type="hidden" name="contactidlist" /> ').appendTo(form).val(relatedContactElement.val().split(',').join(';'));
+			jQuery('<input type="hidden" name="contactidlist" /> ').appendTo(form).val((relatedContactElement.val() || []).join(';'));
 			form.find('[name="contact_id"]').attr('name','');
 		}
 	},
@@ -360,12 +357,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			form = this.getForm();
 		}
 		var relatedContactValue = form.find('[name="relatedContactInfo"]').data('value');
+		var contactsSelect = this.getRelatedContactElement(form);
 		for(var contactId in relatedContactValue) {
 			var info = relatedContactValue[contactId];
-			info.text = info.name;
-			relatedContactValue[contactId] = info;
+			contactsSelect.append(new Option(info.name, info.id, true, true));
 		}
-		this.getRelatedContactElement(form).select2('data',relatedContactValue);
+		contactsSelect.trigger('change.select2');
 	},
 
 
@@ -373,29 +370,30 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		if(form.length <= 0) {
 			form = this.getForm();
 		}
-		 var resultentData = new Array();
-
-			var element =  jQuery('#contact_id_display', form);
-			var selectContainer = jQuery(element.data('select2').container, form);
-			var choices = selectContainer.find('.select2-search-choice');
-			choices.each(function(index,element){
-				resultentData.push(jQuery(element).data('select2-data'));
+		var element = jQuery('#contact_id_display', form);
+		// the contacts already chosen stay; the ones picked in the popup are added
+		var newContacts = newContactInfo.data;
+		for(var i=0 ; i < newContacts.length; i++) {
+			var recordResult = newContacts[i];
+			if(element.find('option[value="'+recordResult.id+'"]').length == 0) {
+				element.append(new Option(recordResult.name, recordResult.id, true, true));
+			} else {
+				element.find('option[value="'+recordResult.id+'"]').prop('selected', true);
+			}
+		}
+		element.trigger('change.select2');
+		if(form.find('.quickCreateContent').length > 0) {
+			var resultentData = [];
+			element.find('option:selected').each(function() {
+				resultentData.push({'id' : this.value, 'name' : jQuery(this).text(), 'text' : jQuery(this).text()});
 			});
-			var select2FormatedResult = newContactInfo.data;
-			for(var i=0 ; i < select2FormatedResult.length; i++) {
-			  var recordResult = select2FormatedResult[i];
-			  recordResult.text = recordResult.name;
-			  resultentData.push( recordResult );
+			form.find('[name="relatedContactInfo"]').data('value', resultentData);
+			var relatedContactElement = this.getRelatedContactElement(form);
+			if(relatedContactElement.length > 0) {
+				jQuery('<input type="hidden" name="contactidlist" /> ').appendTo(form).val((relatedContactElement.val() || []).join(';'));
+				form.find('[name="contact_id"]').attr('name','');
 			}
-			element.select2('data',resultentData);
-			if(form.find('.quickCreateContent').length > 0) {
-				form.find('[name="relatedContactInfo"]').data('value', resultentData);
-				var relatedContactElement = this.getRelatedContactElement(form);
-				if(relatedContactElement.length > 0) {
-					jQuery('<input type="hidden" name="contactidlist" /> ').appendTo(form).val(relatedContactElement.val().split(',').join(';'));
-					form.find('[name="contact_id"]').attr('name','');
-				}
-			}
+		}
 	},
 
 	referenceCreateHandler : function(container) {
@@ -445,12 +443,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		//If repeatDay radio button is checked then only select2 elements will be enable
 			if(jQuery('#repeatDay').is(':checked')) {
 				jQuery('#repeatMonthDate').attr('disabled', true);
-				jQuery('#repeatMonthDayType').select2("enable");
-				jQuery('#repeatMonthDay').select2("enable");
+				jQuery('#repeatMonthDayType').prop('disabled', false);
+				jQuery('#repeatMonthDay').prop('disabled', false);
 			} else {
 				jQuery('#repeatMonthDate').removeAttr('disabled');
-				jQuery('#repeatMonthDayType').select2("disable");
-				jQuery('#repeatMonthDay').select2("disable");
+				jQuery('#repeatMonthDayType').prop('disabled', true);
+				jQuery('#repeatMonthDay').prop('disabled', true);
 			}
 	},
 

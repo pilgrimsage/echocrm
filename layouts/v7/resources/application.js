@@ -400,10 +400,8 @@ window.app = (function () {
 		 * @return : select2Element - corresponding select2 element
 		 */
 		getSelect2ElementFromSelect: function (selectElement) {
-			var selectId = selectElement.attr('id');
-			//since select2 will add s2id_ to the id of select element
-			var select2EleId = 's2id_'+selectId;
-			return jQuery('#'+select2EleId);
+			var instance = selectElement.data('select2');
+			return instance ? instance.$container : jQuery({});
 		},
 		getUserLanguage: function () {
 			return jQuery('body').data('language');

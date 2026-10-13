@@ -221,13 +221,13 @@ Vtiger_List_Js("Reports_List_Js",{
 		var thisInstance =this;
 		app.request.get({url:url}).then(function(error,data){
 			if(data.success) {
-				var chosenOption = jQuery(event.currentTarget).closest('.select2-result-selectable');
+				var chosenOption = jQuery(event.currentTarget).closest('.select2-results__option');
 				var selectOption = thisInstance.getSelectOptionFromChosenOption(chosenOption);
 				selectOption.remove();
 				var customFilterElement = thisInstance.getFilterSelectElement();
 				customFilterElement.trigger("liszt:updated");
 				var defaultCvid = "All";
-				customFilterElement.select2("val", defaultCvid);
+				customFilterElement.val(defaultCvid).trigger('change.select2');
 				customFilterElement.trigger('change');
 			} else {
 				app.helper.hideProgress();
@@ -244,7 +244,7 @@ Vtiger_List_Js("Reports_List_Js",{
 		var listViewFilterBlock = this.getFilterBlock();
 		listViewFilterBlock.on('mouseup','li i.editFilter',function(event){
                         thisInstance.getFilterSelectElement().data('select2').close();
-			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
+			var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 			var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 			var editUrl = currentOptionElement.data('editurl');
 			Reports_List_Js.triggerAddFolder(editUrl);
@@ -262,7 +262,7 @@ Vtiger_List_Js("Reports_List_Js",{
 		listViewFilterBlock.on('mouseup','li i.deleteFilter',function(event){
 			// To close the custom filter Select Element drop down
 			thisInstance.getFilterSelectElement().data('select2').close();
-			var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
+			var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			app.helper.showConfirmation({'message' : message}).then(
 				function(e) {

@@ -338,10 +338,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 		
 		fieldUiHolder.html(fieldSpecificUi);
 
-		if(fieldSpecificUi.is('input.select2')){
-                    var tagElements = fieldSpecificUi.data('tags');
-                    var params = {tags : tagElements,tokenSeparators: [","]}
-                    vtUtils.showSelect2ElementView(fieldSpecificUi, params);
+		if(fieldSpecificUi.is('select[data-tag-input]')){
+                    vtUtils.showSelect2ElementView(fieldSpecificUi, {tags : true, tokenSeparators: [","]});
 		} else if(fieldSpecificUi.is('select')){
                     if(fieldSpecificUi.hasClass('chzn-select')) {
                         app.changeSelectElementView(fieldSpecificUi)
@@ -496,8 +494,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 								rowValues[field] = newvaluesArr.join(',');
 							}
 							 
-						} else if(field == 'value' && valueSelectElement.is('input')) {
-							rowValues[field] = valueSelectElement.val();
+						} else if(field == 'value' && valueSelectElement.is('[data-tag-input]')) {
+							rowValues[field] = (valueSelectElement.val() || []).join(',');
 						} else {	
 							rowValues[field] = jQuery('[name="'+field+'"]', rowElement).val();
 						}
@@ -505,10 +503,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 				} else if (fieldType == 'picklist' || fieldType == 'multipicklist') {
 					for(var key in fieldList) {
 						var field = fieldList[key];
-						if(field == 'value' && valueSelectElement.is('input')) {
-							var commaSeperatedValues = valueSelectElement.val();
+						if(field == 'value' && valueSelectElement.is('[data-tag-input]')) {
 							var pickListValues = valueSelectElement.data('picklistvalues');
-							var valuesArr = commaSeperatedValues.split(',');
+							var valuesArr = valueSelectElement.val() || [];
 							var newvaluesArr = [];
 							for(i=0;i<valuesArr.length;i++){
 								if(typeof pickListValues[valuesArr[i]] != 'undefined'){
@@ -738,9 +735,8 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js',{},{
                         if(selectedValues.length > 1){
                             selectedOption = translatedValues.join(",");
 			}
-			var html = '<input type="hidden" class="col-lg-12 select2" name="'+ this.getName() +'">';
-			var selectContainer = jQuery(html).val(selectedOption);
-			selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
+			var selectContainer = vtUtils.buildTagSelect(this.getName(), 'col-lg-12 select2', tagsArray, selectedOption);
+			selectContainer.data('picklistvalues', pickListValuesArrayFlip);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;
 		}
@@ -778,9 +774,8 @@ Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js',{},{
 				var pickListValue = pickListValues[key];
 				pickListValuesArrayFlip[pickListValue] = key;
 			}
-			var html = '<input type="hidden" class="row-fluid inputElement select2" name="'+ this.getName() +'[]">';
-			var selectContainer = jQuery(html).val(selectedOption);
-			selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
+			var selectContainer = vtUtils.buildTagSelect(this.getName()+'[]', 'row-fluid inputElement select2', tagsArray, selectedOption);
+			selectContainer.data('picklistvalues', pickListValuesArrayFlip);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;
 		} else {	
@@ -825,9 +820,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
 					tagsArray.push(String(app.htmlDecode(e) ?? '').trim());
 				})
 			});
-			var html = '<input data-tags="'+tagsArray +'" type="hidden" class="row-fluid col-lg-12 select2" name="'+ this.getName() +'">';
-			var selectContainer = jQuery(html).val(selectedOption);
-			selectContainer.data('tags', tagsArray);
+			var selectContainer = vtUtils.buildTagSelect(this.getName(), 'row-fluid col-lg-12 select2', tagsArray, selectedOption);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;
 		}

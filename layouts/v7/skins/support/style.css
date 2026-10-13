@@ -71,9 +71,7 @@ body > .mCSB_inside > .mCSB_container {
   padding-top: 84px;
   height: inherit;
 }
-.select2-container .select2-choice {
-  font-family: 'OpenSans-Regular', sans-serif;
-}
+
 .app-fixed-navbar {
   background: #fff;
   border-bottom: 0;
@@ -870,34 +868,12 @@ input[type="text"].inputElement,
 input[type="password"].inputElement {
   padding: 3px 8px;
 }
-.select2-container-multi .select2-choices {
-  min-height: 28px;
-  border-radius: 1px;
-  border-color: #ccc;
-  position: initial;
-  z-index: 3;
-  border-width: thin;
-}
-.select2-container-multi .select2-choices .select2-search-field input {
-  height: 29px;
-  padding: 1px 10px;
-}
-.select2-container-multi .select2-choices .select2-search-choice {
-  cursor: move;
-}
-.select2-container .select2-choice {
-  position: initial;
-  font-weight: 100 !important;
-}
-.inputElement.select2-container .select2-choice {
-  border-radius: 0 2px 2px 0;
-  height: 28px;
-  border-width: thin;
-}
-.inputElement.select2-container {
-  border: 0;
-  padding: 0px;
-}
+
+
+
+
+
+
 .listSearchContributor {
   min-height: 28px;
   width: 100%;
@@ -1435,12 +1411,8 @@ ul.unstyled {
 .listview-table .listViewEntryValue .fieldValue {
   color: #222;
 }
-.listViewEntryValue .select2-container-multi .select2-choices {
-  min-height: 26px;
-}
-.select2-container .select2-choice .select2-arrow {
-  margin-right: 0px;
-}
+
+
 .listview-pagination p {
   display: inline-block;
   float: left;
@@ -2446,10 +2418,7 @@ th {
   width: 210px;
   height: 32px;
 }
-.referencefield-wrapper .select2-container-multi {
-  height: auto !important;
-  float: left;
-}
+
 .quickCreateContent .input-group {
   display: table;
 }
@@ -4390,10 +4359,7 @@ tr.file > td.fileOwnerData {
   position: relative;
   top: -1px;
 }
-form[name="notification_settings"] .select2-choice {
-  height: 28px;
-  border-radius: 0px;
-}
+
 .smartReminderMessageHeader li a {
   color: white;
   padding: 5px !important;
@@ -4643,35 +4609,35 @@ form[name="notification_settings"] .select2-choice {
 /******************************************* 
 ********** Groups view styles ********
 ********************************************/
-#s2id_memberList li > div,
+
 .groupMembersColors li > div {
   margin-left: 10px;
 }
 .groupMembersColors li {
   text-shadow: 1px 0px 2px #FFFFFF;
 }
-#s2id_memberList .Users,
+
 .groupMembersColors .Users {
   background-color: #F99984 !important;
   padding: 5px;
   margin-bottom: 2px;
   background-image: none;
 }
-#s2id_memberList .Groups,
+
 .groupMembersColors .Groups {
   background-color: #ACD5FF !important;
   background-image: none;
   padding: 5px;
   margin-bottom: 2px;
 }
-#s2id_memberList .Roles,
+
 .groupMembersColors .Roles {
   background-color: #FFEC98 !important;
   background-image: none;
   padding: 5px;
   margin-bottom: 2px;
 }
-#s2id_memberList .RoleAndSubordinates,
+
 .groupMembersColors .RoleAndSubordinates {
   background-color: #C4DEA2 !important;
   background-image: none;
@@ -4809,9 +4775,7 @@ li.dashboardWidget {
   overflow-y: auto;
   max-height: 530px;
 }
-.dashboardWidgetHeader .userList .select2 {
-  width: 100% !important;
-}
+
 .dashBoardContainer .tabContainer li a .deleteTab {
   margin-left: 10px;
   display: inline-block;
@@ -4903,16 +4867,11 @@ li.dashboardWidget {
 /******************************************* 
 ********** Rewriting select2 for consistency********
 ********************************************/
-.select2-container .select2-choice {
-  height: 29px;
-  border-radius: 1px;
-}
+
 .modal {
   z-index: 1100;
 }
-.select2-container .select2-choice {
-  height: 28px;
-}
+
 .vt-default-callout {
   padding: 10px 20px 20px;
   margin: 10px 0;
@@ -5399,14 +5358,8 @@ TN-34230 .row .nav > li > a:hover {
 .module-filters.active {
   background: #F7F7F7;
 }
-.workflowListContainer .select2-container .select2-choice {
-  height: 36px;
-}
-.workflowListContainer .select2-container .select2-choice > .select2-chosen {
-  margin-left: 10px;
-  padding-top: 6px;
-  font-size: 16px;
-}
+
+
 .dashboardHeading .dahBoardTabContainer {
   border-bottom: 1px solid #DDDDDD;
 }
@@ -5848,8 +5801,7 @@ TN-34230 .row .nav > li > a:hover {
 .table.detailview-table.no-border .ajaxEdited .input-group-addon {
   width: auto;
 }
-.input-group .form-control,
-.select2-container-multi .select2-choices {
+.input-group .form-control{
   z-index: 1;
 }
 /****** Customer Portal Settings ******/
@@ -6105,18 +6057,9 @@ div.tooltip-inner {
 #editTagContainer .inputElement {
   width: 50%;
 }
-#SLAEditContainer .select2.inputElement.EmailTemplates,
-#editTagContainer .select2.inputElement.EmailTemplates {
-  width: 90%;
-}
-#SLAEditContainer .select2.inputElement,
-#editTagContainer .select2.inputElement {
-  width: 40%;
-}
-#SLAEditContainer .select2-container-multi,
-#editTagContainer .select2-container-multi {
-  width: 82%;
-}
+
+
+
 #SLAEditContainer td,
 #editTagContainer td {
   vertical-align: middle;
@@ -6288,11 +6231,7 @@ table#lineItemTab tbody tr > :nth-child(4) {
   text-align: center;
   color: #FFFFFF;
 }
-.select2-chosen,
-.select2-choice > span:first-child,
-.select2-container .select2-choices .select2-search-field input {
-  padding: 6px 8px;
-}
+
 .socialActions .fa-star {
   color: orange;
 }
@@ -6342,10 +6281,7 @@ table#lineItemTab tbody tr > :nth-child(4) {
   padding-left: 0px;
   padding-right: 0px;
 }
-.uploadview-content .inputElement.select2,
-#uploadToDriveContainer .inputElement.select2 {
-  width: 170px;
-}
+
 .daily-digest-time {
   width: 114px;
   padding-left: 4px;
@@ -6460,20 +6396,9 @@ table#lineItemTab tbody tr > :nth-child(4) {
   height: 574px;
   overflow: auto;
 }
-.select2-container.select2-container-multi.select2,
-.editViewPageDiv .select2-container.select2-container-multi.select2 {
-  height: auto!important;
-}
-.summaryViewFields .select2-container-multi.inputElement.form-control .quickCreateContent .select2-container.select2-container-multi.select2,
-#massEditContainer .select2-container.select2-container-multi.select2 {
-  width: 150px;
-  height: auto !important;
-}
-.summaryViewFields .select2-container-multi.inputElement.form-control .quickCreateContent .select2-container.select2-container-multi.select2 .input-save-wrap,
-#massEditContainer .select2-container.select2-container-multi.select2 .input-save-wrap {
-  float: right;
-  margin-right: 25px;
-}
+
+
+
 #taskManagementContainer .popover-content {
   padding: 0;
 }
@@ -6489,15 +6414,8 @@ table#lineItemTab tbody tr > :nth-child(4) {
   font-size: 14px;
   padding-top: 5px;
 }
-.select2-result[class*=vicon-],
-.select2-result[class*=fa] {
-  font-size: 12px;
-  padding: 5px 10px;
-}
-.select2-result[class*=vicon-] .select2-result-label,
-.select2-result[class*=fa] .select2-result-label {
-  display: inline-block;
-}
+
+
 #reportDetails .table-bordered {
   background: #FFFFFF;
 }
@@ -6652,9 +6570,7 @@ a.cp-modules:hover {
 .listViewPageDiv .ps-scrollbar-x-rail {
   opacity: 1 !important;
 }
-li.select2-search-choice div {
-  white-space: nowrap;
-}
+
 #quickCreateModules .quickcreateMoreDropdownAction {
   padding-left: 4px;
   display: none;
@@ -6764,9 +6680,7 @@ li.select2-search-choice div {
 .listViewPageDiv .ps-scrollbar-x-rail {
   opacity: 1 !important;
 }
-li.select2-search-choice div {
-  white-space: nowrap;
-}
+
 #quickCreateModules .quickcreateMoreDropdownAction {
   padding-left: 4px;
   display: none;

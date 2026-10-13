@@ -30,8 +30,8 @@
 
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/todc/css/docs.min.css")}'>
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/font-awesome/css/font-awesome.min.css")}'>
-        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/jquery/select2/select2.css")}'>
-        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/select2-bootstrap/select2-bootstrap.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/select2/css/select2.min.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/select2.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/jquery/jquery-ui-1.12.0.custom/jquery-ui.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/flatpickr/flatpickr.min.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/vt-icons/style.css")}'>

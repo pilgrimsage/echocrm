@@ -1294,7 +1294,7 @@ Vtiger.Class("Vtiger_List_Js", {
             if(contributor.is('input')) {
                 contributor.val('');
             } else if(contributor.is('select')) {
-                contributor.select2("val", "");
+                contributor.val("").trigger('change.select2');
                 contributor.val('');
             } else {
                 console.log("contributor clearing now handled : ", contributor);
@@ -1304,7 +1304,7 @@ Vtiger.Class("Vtiger_List_Js", {
         //register clear search event
         listViewPageDiv.on('click', '[data-trigger="clearListSearch"]', function(e) {
             e.preventDefault();
-            listViewPageDiv.find('.listSearchContributor:not(".select2-container")').each(function(i, contributor) {
+            listViewPageDiv.find('.listSearchContributor').each(function(i, contributor) {
                 contributor = jQuery(contributor);
                 clearSearchContributor(contributor);
             });
@@ -1321,16 +1321,6 @@ Vtiger.Class("Vtiger_List_Js", {
             var element = jQuery(e.currentTarget);
             var fieldName = element.attr('name');
             var searchValue = element.val();
-			if(element.hasClass('select2')){
-				var currentElementContainer = element.closest('.select2_search_div').find('div.listSearchContributor').find('ul');
-				var desireHeight = 150;
-				if(currentElementContainer.height() > desireHeight){
-					currentElementContainer.css({'cssText':'height:'+desireHeight+'px !important;'+'padding:0'});
-				}else if(currentElementContainer.find('.mCSB_container').height() < desireHeight){
-					currentElementContainer.removeAttr('style');
-				}
-				currentElementContainer.mCustomScrollbar("update");
-			}
 			
             if(e.keyCode == 13 && thisInstance.prevSearchValues[fieldName] !== searchValue && !element.hasClass('select2')){
                 e.preventDefault();
@@ -1347,10 +1337,6 @@ Vtiger.Class("Vtiger_List_Js", {
                 }, 10);
             }
         };
-		listViewPageDiv.find('.searchRow div.listSearchContributor.select2').each(function(i,elem){
-           var currentSearchInput = jQuery(elem);
-			app.helper.showVerticalScroll(currentSearchInput.find('ul'),{'height': 150});
-        });
         listViewPageDiv.on('keyup','.listSearchContributor', listSearchContributorChangeHandler);
         listViewPageDiv.on('change','select', listSearchContributorChangeHandler);
         listViewPageDiv.on('datepicker-change', '.dateField', function(e){
@@ -2523,12 +2509,12 @@ Vtiger.Class("Vtiger_List_Js", {
 					jQuery(select2Elem).each(function (key, value) {
 						var element = jQuery(value);
 						var parentTableHeader = element.closest('th');
-						parentTableHeader.find('div.select2-container').remove();
+						parentTableHeader.find('.select2-container').remove();
 						vtUtils.showSelect2ElementView(element);
 					});
 				} else {
 					var parentTableHeader = select2Elem.closest('th');
-					parentTableHeader.find('div.select2-container').remove();
+					parentTableHeader.find('.select2-container').remove();
 					vtUtils.showSelect2ElementView(select2Elem);
 				}
 			}
@@ -2618,7 +2604,7 @@ Vtiger.Class("Vtiger_List_Js", {
 		var listViewContentDiv = this.getListViewContainer();
 		var thisInstance = this;
 		var $table = jQuery('#listview-table');
-		listViewContentDiv.on('select2-selecting select2-close select2-removed',
+		listViewContentDiv.on('select2:selecting select2:close select2:unselect',
 				'.listSearchContributor',
 				function () {
 					thisInstance.reflowList($table);

@@ -237,14 +237,14 @@ Vtiger_Index_Js("Vtiger_TaskManagement_Js",{},{
 			if(fieldElement.length > 0){
 				var elementType = fieldElement.data("fieldtype");
 				if(elementType == "picklist" || elementType == "owner"){
-					fieldElement.select2("val", value);
+					fieldElement.val(value).trigger('change.select2');
 				} else if(elementType == "multipicklist"){
 					// for multipicklist name in field element will be key[]
 					fieldElement = jQuery('form[name="'+formName+'"]').find('[name="'+key+'[]"]');
 					if(value != null){
 						value = value.split(" |##| ");
 					}
-					fieldElement.select2("val", value);
+					fieldElement.val(value).trigger('change.select2');
 				}else if(elementType == "checkbox"){
 					if(value == 1){
 						fieldElement.attr("checked",true);
@@ -264,7 +264,7 @@ Vtiger_Index_Js("Vtiger_TaskManagement_Js",{},{
 
 						var referenceModuleList =  parent.find(".referenceModulesList");
 						if(referenceModuleList.length > 0){
-							referenceModuleList.select2("val",value["module"]);
+							referenceModuleList.val(value["module"]).trigger('change.select2');
 						}
 					}else {
 						parent.find('.clearReferenceSelection').trigger('click');
@@ -396,7 +396,7 @@ Vtiger_Index_Js("Vtiger_TaskManagement_Js",{},{
 		var overlay = this.getOverlayContainer();
 		overlay.on('change',"select.referenceModulesList:visible",function(e){
 			var currentTarget = jQuery(e.currentTarget);
-			var selectedValue = currentTarget.select2("val");
+			var selectedValue = currentTarget.val();
 
 			var field = currentTarget.closest(".field");
 			var fieldValue = field.find('.fieldValue');

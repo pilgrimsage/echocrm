@@ -536,7 +536,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         if(typeof select2 == "undefined") {
             return jQuery({});
         }
-        return jQuery('#'+select2.containerId);
+        return select2.$container;
     },
     
      /* 

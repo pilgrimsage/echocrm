@@ -259,10 +259,7 @@ Vtiger.Class('Settings_Customer_Portal_Js', {}, {
 						}
 
 						vtUtils.showSelect2ElementView(jQuery('#addField_'+targetModule), {
-							_maximumSelectionSize: 7,
-							dropdownCss: {
-								'z-index': 0
-							}
+							_maximumSelectionSize: 7
 						});
 						thisInstance.updateFieldInfo(targetModule);
 						thisInstance.registerAddFieldAction();
@@ -383,7 +380,7 @@ Vtiger.Class('Settings_Customer_Portal_Js', {}, {
 						}
 					});
 				}
-				jQuery("#addField_"+currentModule).select2("val", "");
+				jQuery("#addField_"+currentModule).val("").trigger('change.select2');
 				jQuery("#addFieldButton_"+currentModule).attr("disabled", "disabled");
 				thisInstance.registerUpdateSelectionEvent(publishedFields, currentModule);
 			}
@@ -657,10 +654,7 @@ Vtiger.Class('Settings_Customer_Portal_Js', {}, {
 		form.vtValidate();
 		//register all select2 Elements
 		vtUtils.showSelect2ElementView(form.find('select.select2'), {
-			maximumSelectionSize: 7,
-			dropdownCss: {
-				'z-index': 100000
-			}
+			maximumSelectionLength: 7
 		});
 		jQuery('#portalAnnouncement[name="announcement"]').on('keyup', function () {
 			jQuery('#savePortalInfo').trigger('change');
@@ -677,10 +671,7 @@ Vtiger.Class('Settings_Customer_Portal_Js', {}, {
 
 		vtUtils.showSelect2ElementView(jQuery('#shortcuts'), {
 			placeholder: app.vtranslate("JS_SELECT_SHORTCUT"),
-			_maximumSelectionSize: 7,
-			dropdownCss: {
-				'z-index': 0
-			}
+			_maximumSelectionSize: 7
 		});
 	}
 });
