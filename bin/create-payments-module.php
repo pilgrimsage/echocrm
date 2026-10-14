@@ -162,6 +162,7 @@ if (!$adb->num_rows($existing)) {
 	say('Registered PaymentsHandler.');
 }
 
+restrictModuleToAdministrators('Payments');
 create_tab_data_file();
 create_parenttab_data_file();
 say('Done. Clear test/templates_c/v7/* and reload.');

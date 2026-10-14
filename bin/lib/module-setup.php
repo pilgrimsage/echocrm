@@ -100,7 +100,38 @@ function registerEntityModule(array $spec) {
 	if (!$adb->num_rows($menu)) {
 		$adb->pquery("INSERT INTO vtiger_app2tab (tabid, appname, sequence, visible) VALUES (?, 'INVENTORY', ?, 1)", array($module->id, $spec['menu_sequence']));
 	}
+	restrictModuleToAdministrators($name);
 	return array('module' => $module, 'fields' => $instances);
+}
+
+/**
+ * Accounting modules hold the books, so a new module is visible to the Administrator profile only
+ * (vtlib grants every profile, Guest included, by default). An administrator can give an
+ * "Accountant" profile access afterwards in Settings > Profiles. Safe to run again.
+ */
+function restrictModuleToAdministrators($moduleName) {
+	global $adb;
+	$tab = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name = ?', array($moduleName));
+	if (!$adb->num_rows($tab)) {
+		return 0;
+	}
+	$tabId = (int)$adb->query_result($tab, 0, 'tabid');
+	$profiles = $adb->pquery('SELECT profileid FROM vtiger_profile WHERE profileid != 1', array());
+	$changed = 0;
+	while ($row = $adb->fetch_array($profiles)) {
+		$profileId = (int)$row['profileid'];
+		$adb->pquery('UPDATE vtiger_profile2tab SET permissions = 1 WHERE profileid = ? AND tabid = ?', array($profileId, $tabId));
+		$adb->pquery('UPDATE vtiger_profile2standardpermissions SET permissions = 1 WHERE profileid = ? AND tabid = ?', array($profileId, $tabId));
+		$adb->pquery('UPDATE vtiger_profile2utility SET permission = 1 WHERE profileid = ? AND tabid = ?', array($profileId, $tabId));
+		$changed++;
+	}
+	// the permission files of non-administrators are cached per user
+	require_once 'modules/Users/CreateUserPrivilegeFile.php';
+	$users = $adb->pquery("SELECT id FROM vtiger_users WHERE is_admin != 'on' OR is_admin IS NULL", array());
+	while ($user = $adb->fetch_array($users)) {
+		createUserPrivilegesfile($user['id']);
+	}
+	return $changed;
 }
 
 // Lists and details of a module with currency fields (uitype 71/72) look up the record's
