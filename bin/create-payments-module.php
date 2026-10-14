@@ -72,7 +72,7 @@ $fields = array(
 	array('name' => 'payment_method', 'label' => 'Payment Method', 'block' => $I, 'uitype' => 15, 'type' => 'V~M', 'col' => 'payment_method', 'ctype' => 'VARCHAR(50)', 'dt' => 1, 'qc' => 0, 'sm' => 0,
 		'picklist' => array('Cash', 'Bank Transfer', 'UPI', 'Cheque', 'Card', 'Online Gateway', 'Other')),
 	array('name' => 'reference_no', 'label' => 'Reference No', 'block' => $I, 'uitype' => 1, 'type' => 'V~O', 'col' => 'reference_no', 'ctype' => 'VARCHAR(100)', 'dt' => 1, 'qc' => 1, 'sm' => 0),
-	array('name' => 'status', 'label' => 'Status', 'block' => $I, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'dt' => 1, 'qc' => 0, 'sm' => 1, 'picklist' => array('Completed', 'Pending', 'Failed'), 'dv' => 'Completed'),
+	array('name' => 'payment_status', 'label' => 'Status', 'block' => $I, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'dt' => 1, 'qc' => 0, 'sm' => 1, 'picklist' => array('Completed', 'Pending', 'Failed'), 'dv' => 'Completed'),
 	array('name' => 'account_id', 'label' => 'Customer', 'block' => $I, 'uitype' => 10, 'type' => 'I~O', 'col' => 'account_id', 'ctype' => 'INT(19)', 'dt' => 2, 'qc' => 3, 'sm' => 0, 'related' => array('Accounts')),
 	array('name' => 'vendor_id', 'label' => 'Vendor', 'block' => $I, 'uitype' => 10, 'type' => 'I~O', 'col' => 'vendor_id', 'ctype' => 'INT(19)', 'dt' => 2, 'qc' => 3, 'sm' => 0, 'related' => array('Vendors')),
 	array('name' => 'assigned_user_id', 'label' => 'Assigned To', 'block' => $I, 'uitype' => 53, 'type' => 'V~M', 'col' => 'smownerid', 'table' => 'vtiger_crmentity', 'dt' => 1, 'qc' => 0, 'sm' => 0),
@@ -118,7 +118,7 @@ if (!Vtiger_Filter::getInstance('All', $module)) {
 	$filter->name = 'All';
 	$filter->isdefault = true;
 	$module->addFilter($filter);
-	foreach (array('payment_no', 'related_to', 'direction', 'amount', 'payment_date', 'payment_method', 'status', 'assigned_user_id') as $position => $name) {
+	foreach (array('payment_no', 'related_to', 'direction', 'amount', 'payment_date', 'payment_method', 'payment_status', 'assigned_user_id') as $position => $name) {
 		$filter->addField($fieldInstances[$name], $position);
 	}
 }
