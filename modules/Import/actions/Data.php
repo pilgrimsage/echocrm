@@ -418,7 +418,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 					$label = '';
 					if (is_array($entityfields['fieldname'])) {
 						foreach ($entityfields['fieldname'] as $field) {
-							$label .= $fieldData[$field]." ";
+							$label .= ($fieldData[$field] ?? '')." ";
 						}
 					} else {
 						$label = $fieldData[$entityfields['fieldname']];
@@ -820,7 +820,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 		$label = '';
 		if (is_array($entityfields['fieldname'])) {
 			foreach ($entityfields['fieldname'] as $field) {
-				$label .= $fieldData[$field]." ";
+				$label .= ($fieldData[$field] ?? '')." ";
 			}
 		} else {
 			$label = $fieldData[$entityfields['fieldname']];
@@ -888,6 +888,12 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 			$importDataController->importData();
 			$importStatusCount = $importDataController->getImportStatusCount();
 			$recordsToImport = $importDataController->getNumberOfRecordsToImport($importDataController->user);
+			if ($importDataController->paging && $recordsToImport > 0) {
+				// More pages remain: release the lock and keep the job queued for the next cron run
+				Import_Lock_Action::unLock($importDataController->user, $importDataController->module);
+				Import_Queue_Action::updateStatus($importDataController->id, Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
+				continue;
+			}
 			$emailSubject = getTranslatedString('LBL_SCHEDULE_IMPORT_SUBJECT', 'Import').' '.$importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);

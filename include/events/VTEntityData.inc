@@ -90,7 +90,7 @@ class VTEntityData{
 			$entityFieldNames = explode(',', $entityFields['fieldname']);
 			$label = '';
 			foreach ($entityFieldNames as $fieldName) {
-				$label .= $crmEntity->column_fields[$fieldName].' ';
+				$label .= ($crmEntity->column_fields[$fieldName] ?? '').' ';
 			}
 			$obj->focus->column_fields['label'] = trim($label);
 		}
