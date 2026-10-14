@@ -709,3 +709,5 @@ The scratch area under `/tmp/claude-*/.../scratchpad` is wiped between days: the
 ## Spot-checks 2026-10-14 (sandbox)
 - **Customer Portal settings save**: toggled a widget, Save posted and showed the "settings saved" toast, value restored the same way.
 - **Gantt dependency arrows**: nothing to test. Vtiger's Project feed (`modules/Project`, `layouts/v7/modules/Project`) never supplies `depends`, so the library never draws dependency links in this app; only bars, grid, zoom, drag and print apply (verified earlier).
+- **Mass edit (Accounts)**: pencil toolbar action opens the "Mass Editing" modal with 3 fields/columns laid out correctly; ticking Ownership and saving persisted the value (checked in the DB).
+- **Calendar Settings modal** (`Calendar_Calendar_Js.showCalendarSettings()`, reached from Customize → Calendar Settings): renders and scrolls, Save POSTs 200 and closes the modal, no console errors.
