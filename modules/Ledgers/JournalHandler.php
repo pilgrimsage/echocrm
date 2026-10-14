@@ -39,7 +39,7 @@ class JournalHandler extends VTEventHandler {
 				Vtiger_Ledger_Utils::syncPayment($id);
 			} elseif ($before) {
 				$data = $entityData->getData();
-				Vtiger_Ledger_Utils::guard('Payments', $id, 'payment', $data['payment_date'] ?? null, ($data['status'] ?? '') == 'Completed');
+				Vtiger_Ledger_Utils::guard('Payments', $id, 'payment', $data['payment_date'] ?? null, ($data['payment_status'] ?? '') == 'Completed');
 			}
 		} elseif ($module == 'BankTransactions') {
 			if ($before && !Vtiger_Bank_Utils::$internal) {

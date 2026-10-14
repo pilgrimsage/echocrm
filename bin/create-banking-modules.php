@@ -65,7 +65,7 @@ $B2 = 'LBL_BANKACCOUNTS_BALANCE';
 $accounts = registerEntityModule(array(
 	'name' => 'BankAccounts', 'label' => 'Bank Accounts', 'parent' => 'Inventory', 'menu_sequence' => 9, 'prefix' => 'BNK',
 	'blocks' => array($B, $B2, 'LBL_DESCRIPTION_INFORMATION'),
-	'entity' => 'account_name', 'list_columns' => array('bank_no', 'account_name', 'account_type', 'bank_name', 'current_balance', 'status', 'assigned_user_id'),
+	'entity' => 'account_name', 'list_columns' => array('bank_no', 'account_name', 'account_type', 'bank_name', 'current_balance', 'bankaccount_status', 'assigned_user_id'),
 	'fields' => array_merge(array(
 		array('name' => 'account_name', 'label' => 'Account Name', 'block' => $B, 'uitype' => 2, 'type' => 'V~M', 'col' => 'account_name', 'ctype' => 'VARCHAR(200)', 'qc' => 0, 'sm' => 1),
 		array('name' => 'bank_no', 'label' => 'Account Code', 'block' => $B, 'uitype' => 4, 'type' => 'V~O', 'col' => 'bank_no', 'sm' => 1),
@@ -75,7 +75,7 @@ $accounts = registerEntityModule(array(
 		array('name' => 'account_number', 'label' => 'Account Number', 'block' => $B, 'uitype' => 1, 'type' => 'V~O', 'col' => 'account_number'),
 		array('name' => 'ifsc_code', 'label' => 'IFSC Code', 'block' => $B, 'uitype' => 1, 'type' => 'V~O~LE~11', 'col' => 'ifsc_code', 'ctype' => 'VARCHAR(11)'),
 		array('name' => 'branch_name', 'label' => 'Branch Name', 'block' => $B, 'uitype' => 1, 'type' => 'V~O', 'col' => 'branch_name'),
-		array('name' => 'status', 'label' => 'Status', 'block' => $B, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'qc' => 0, 'dv' => 'Active', 'picklist' => array('Active', 'Inactive')),
+		array('name' => 'bankaccount_status', 'label' => 'Status', 'block' => $B, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'qc' => 0, 'dv' => 'Active', 'picklist' => array('Active', 'Inactive')),
 		array('name' => 'ledger', 'label' => 'Ledger', 'block' => $B, 'uitype' => 10, 'type' => 'I~O', 'col' => 'ledger', 'ctype' => 'INT(19)', 'related' => array('Ledgers')),
 		array('name' => 'opening_balance', 'label' => 'Opening Balance', 'block' => $B2, 'uitype' => 72, 'type' => 'N~O', 'col' => 'opening_balance', 'ctype' => 'DECIMAL(25,8)', 'qc' => 0),
 		array('name' => 'opening_date', 'label' => 'Opening Date', 'block' => $B2, 'uitype' => 5, 'type' => 'D~O', 'col' => 'opening_date', 'ctype' => 'DATE'),
@@ -229,7 +229,7 @@ if (!$adb->num_rows($cash)) {
 	$focus = CRMEntity::getInstance('BankAccounts');
 	$focus->column_fields['account_name'] = 'Cash in Hand';
 	$focus->column_fields['account_type'] = 'Cash';
-	$focus->column_fields['status'] = 'Active';
+	$focus->column_fields['bankaccount_status'] = 'Active';
 	$focus->column_fields['opening_balance'] = 0;
 	$focus->column_fields['ledger'] = $ledgerIds['Cash in Hand'];
 	$focus->column_fields['assigned_user_id'] = $current_user->id;

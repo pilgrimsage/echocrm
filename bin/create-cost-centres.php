@@ -37,13 +37,13 @@ $B = 'LBL_COSTCENTRES_INFORMATION';
 $result = registerEntityModule(array(
 	'name' => 'CostCentres', 'label' => 'Cost Centres', 'parent' => 'Inventory', 'menu_sequence' => 11, 'prefix' => 'CC',
 	'blocks' => array($B, 'LBL_DESCRIPTION_INFORMATION'),
-	'entity' => 'costcentre_name', 'list_columns' => array('costcentre_no', 'costcentre_name', 'dimension_type', 'parent_costcentre', 'status', 'budget', 'assigned_user_id'),
+	'entity' => 'costcentre_name', 'list_columns' => array('costcentre_no', 'costcentre_name', 'dimension_type', 'parent_costcentre', 'costcentre_status', 'budget', 'assigned_user_id'),
 	'fields' => array(
 		array('name' => 'costcentre_name', 'label' => 'Name', 'block' => $B, 'uitype' => 2, 'type' => 'V~M', 'col' => 'costcentre_name', 'ctype' => 'VARCHAR(200)', 'qc' => 0, 'sm' => 1),
 		array('name' => 'costcentre_no', 'label' => 'Code', 'block' => $B, 'uitype' => 4, 'type' => 'V~O', 'col' => 'costcentre_no', 'sm' => 1),
 		array('name' => 'dimension_type', 'label' => 'Type', 'block' => $B, 'uitype' => 15, 'type' => 'V~M', 'col' => 'dimension_type', 'ctype' => 'VARCHAR(30)', 'qc' => 0, 'sm' => 1,
 			'picklist' => array('Cost Centre', 'Project', 'Branch', 'Department')),
-		array('name' => 'status', 'label' => 'Status', 'block' => $B, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'qc' => 0, 'dv' => 'Active', 'picklist' => array('Active', 'Closed')),
+		array('name' => 'costcentre_status', 'label' => 'Status', 'block' => $B, 'uitype' => 15, 'type' => 'V~M', 'col' => 'status', 'ctype' => 'VARCHAR(20)', 'qc' => 0, 'dv' => 'Active', 'picklist' => array('Active', 'Closed')),
 		array('name' => 'parent_costcentre', 'label' => 'Parent', 'block' => $B, 'uitype' => 10, 'type' => 'I~O', 'col' => 'parent_costcentre', 'ctype' => 'INT(19)', 'qc' => 1, 'related' => array('CostCentres')),
 		array('name' => 'start_date', 'label' => 'Start Date', 'block' => $B, 'uitype' => 5, 'type' => 'D~O', 'col' => 'start_date', 'ctype' => 'DATE'),
 		array('name' => 'end_date', 'label' => 'End Date', 'block' => $B, 'uitype' => 5, 'type' => 'D~O', 'col' => 'end_date', 'ctype' => 'DATE'),
