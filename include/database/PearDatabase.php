@@ -477,7 +477,7 @@ class PearDatabase{
 	return $result;
     }
 
-    function getFieldsDefinition(&$result)
+    function getFieldsDefinition($result)
     {
 	//$this->println("ADODB getFieldsArray");
 	$field_array = array();
@@ -503,7 +503,7 @@ class PearDatabase{
 	return $field_array;
     }
 
-    function getFieldsArray(&$result)
+    function getFieldsArray($result)
     {
 	//$this->println("ADODB getFieldsArray");
 	$field_array = array();
@@ -529,7 +529,7 @@ class PearDatabase{
 	return $field_array;
     }
 
-    function getRowCount(&$result){
+    function getRowCount($result){
 		global $log;
 		$rows = 0;
 		if(isset($result) && !empty($result))
@@ -538,17 +538,17 @@ class PearDatabase{
     }
 
     /* ADODB newly added. replacement for mysql_num_rows */
-    function num_rows(&$result) {
+    function num_rows($result) {
 		return $this->getRowCount($result);
     }
 
     /* ADODB newly added. replacement form mysql_num_fields */
-    function num_fields(&$result) {
+    function num_fields($result) {
 		return $result->FieldCount();
     }
 
     /* ADODB newly added. replacement for mysql_fetch_array() */
-    function fetch_array(&$result) {
+    function fetch_array($result) {
 		if(!$result || $result->EOF) {
 		    //$this->println("ADODB fetch_array return null");
 		    return NULL;
@@ -696,7 +696,7 @@ class PearDatabase{
     ## Code-Contribution given by weigelt@metux.de - Ends
 
     /* ADODB newly added. replacement for mysql_result() */
-    function query_result(&$result, $row, $col=0) {
+    function query_result($result, $row, $col=0) {
 		if (!is_object($result))
 	                throw new Exception("result is not an object");
 		$result->Move($row);
@@ -710,7 +710,7 @@ class PearDatabase{
     }
 
 	// Function to get particular row from the query result
-	function query_result_rowdata(&$result, $row=0) {
+	function query_result_rowdata($result, $row=0) {
 		if (!is_object($result))
                 throw new Exception("result is not an object");
 		$result->Move($row);
@@ -735,7 +735,7 @@ class PearDatabase{
 	 * @param $row The row number to fetch. It's default value is 0
 	 *
 	 */
-	function raw_query_result_rowdata(&$result, $row=0) {
+	function raw_query_result_rowdata($result, $row=0) {
 		if (!is_object($result))
                 throw new Exception("result is not an object");
 		$result->Move($row);
@@ -745,7 +745,7 @@ class PearDatabase{
 
 
 
-    function getAffectedRowCount(&$result){
+    function getAffectedRowCount($result){
 		global $log;
 		$log->debug('getAffectedRowCount');
 		$rows =$this->database->Affected_Rows();
@@ -773,7 +773,7 @@ class PearDatabase{
 		return '';
     }
 
-    function fetchByAssoc(&$result, $rowNum = -1, $encode=true) {
+    function fetchByAssoc($result, $rowNum = -1, $encode=true) {
 		if($result->EOF) {
 		    $this->println("ADODB fetchByAssoc return null");
 		    return NULL;
@@ -799,7 +799,7 @@ class PearDatabase{
 		return $row;
     }
 
-    function getNextRow(&$result, $encode=true){
+    function getNextRow($result, $encode=true){
 		global $log;
 		$log->info('getNextRow');
 		if(isset($result)){
@@ -811,11 +811,11 @@ class PearDatabase{
 		return null;
     }
 
-    function fetch_row(&$result, $encode=true) {
+    function fetch_row($result, $encode=true) {
 		return $this->getNextRow($result);
     }
 
-    function field_name(&$result, $col) {
+    function field_name($result, $col) {
 		return $result->FetchField($col);
     }
 
