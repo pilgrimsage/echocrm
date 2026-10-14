@@ -504,6 +504,7 @@ class Reports extends CRMEntity{
 			$userGroups = new GetUserGroups();
 			$userGroups->getAllUserGroups($current_user->id);
 			$user_groups = $userGroups->user_groups;
+			$non_admin_query = '';
 			if(!empty($user_groups) && ($rpt_fldr_id == 'shared' || $rpt_fldr_id == 'All')){
 				$user_group_query = " (shareid IN (".generateQuestionMarks($user_groups).") AND setype='groups') OR";
 				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid FROM vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
