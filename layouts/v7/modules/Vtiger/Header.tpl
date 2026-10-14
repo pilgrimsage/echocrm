@@ -46,6 +46,7 @@
         {if strpos($V7_THEME_PATH,".less")!== false}
             <link type="text/css" rel="stylesheet/less" href="{vresource_url($V7_THEME_PATH)}" media="screen" />
         {else}
+            <link type="text/css" rel="stylesheet" href="{vresource_url('layouts/v7/skins/vtiger/style.css')}" media="screen" />
             <link type="text/css" rel="stylesheet" href="{vresource_url($V7_THEME_PATH)}" media="screen" />
         {/if}
         
