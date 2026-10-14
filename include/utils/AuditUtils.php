@@ -61,7 +61,8 @@ class Vtiger_Audit_Utils {
 			$params[] = (int)$f['entry'];
 		}
 		$sql = ' FROM vtiger_journal_audit a LEFT JOIN vtiger_users u ON u.id = a.user_id WHERE ' . implode(' AND ', $where);
-		$count = (int)$adb->query_result($adb->pquery('SELECT COUNT(*) AS n' . $sql, $params), 0, 'n');
+		$countResult = $adb->pquery('SELECT COUNT(*) AS n' . $sql, $params);
+		$count = (int)$adb->query_result($countResult, 0, 'n');
 		$result = $adb->pquery('SELECT a.*, u.user_name' . $sql . ' ORDER BY a.audit_id DESC LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset, $params);
 		$rows = array();
 		while ($row = $adb->fetch_array($result)) {
