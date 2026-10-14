@@ -46,13 +46,20 @@ if (!$field) {
 		array('vtiger_payments:status:payment_status:Payments_Status:V', 'vtiger_payments:status:status:Payments_Status:V'));
 	$adb->pquery('UPDATE vtiger_cvadvfilter SET columnname = ? WHERE columnname = ?',
 		array('vtiger_payments:status:payment_status:Payments_Status:V', 'vtiger_payments:status:status:Payments_Status:V'));
-	$field = Vtiger_Field::getInstance($old->id, $module); // by id: the lookup by name is cached
 	say('Renamed the field to payment_status.');
 }
 
 $picklist = $adb->pquery('SELECT picklistid FROM vtiger_picklist WHERE name = ?', array('payment_status'));
 if (!$adb->num_rows($picklist)) {
+	// a plain field object: the lookup by name is cached and, right after the rename, still empty
+	$field = new Vtiger_Field();
+	$field->name = 'payment_status';
+	$field->uitype = 15;
 	$field->setPicklistValues(array('Completed', 'Pending', 'Failed'));
+	if (!Vtiger_Utils::CheckTable('vtiger_payment_status')) {
+		fwrite(STDERR, "The picklist table was not created.\n");
+		exit(1);
+	}
 	say('Created the Completed / Pending / Failed picklist.');
 } else {
 	say('The picklist exists.');
