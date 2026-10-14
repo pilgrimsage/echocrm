@@ -53,7 +53,7 @@ class PaymentsHandler extends VTEventHandler {
 		if (!$documentModule || !in_array($documentModule, Vtiger_Payment_Utils::documentModules())) {
 			throw new Exception('Choose the quote, invoice or purchase order the payment belongs to.');
 		}
-		$status = !empty($data['status']) ? $data['status'] : Vtiger_Payment_Utils::STATUS_COMPLETED;
+		$status = !empty($data['payment_status']) ? $data['payment_status'] : Vtiger_Payment_Utils::STATUS_COMPLETED;
 		$amount = (float)($data['amount'] ?? 0);
 		$problem = Vtiger_Payment_Utils::saveProblem($documentModule, $documentId, $amount, $status, $paymentId);
 		if ($problem !== null) {
@@ -78,7 +78,7 @@ class PaymentsHandler extends VTEventHandler {
 			self::$previousDocument[$paymentId] = Vtiger_Payment_Utils::paymentDocument($paymentId);
 		}
 
-		$entityData->set('status', $status);
+		$entityData->set('payment_status', $status);
 		$this->applyWithholding($entityData, $data, $documentModule, $documentId, $amount);
 	}
 

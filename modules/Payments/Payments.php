@@ -44,7 +44,7 @@ class Payments extends Vtiger_CRMEntity {
 		'Amount' => 'amount',
 		'Date' => 'payment_date',
 		'Method' => 'payment_method',
-		'Status' => 'status',
+		'Status' => 'payment_status',
 	);
 
 	var $list_link_field = 'payment_no';

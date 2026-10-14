@@ -206,7 +206,7 @@ class Vtiger_Payment_Utils {
 			'direction' => self::directionFor($document),
 			'amount' => number_format(self::outstanding($document), 2, '.', ''),
 			'payment_date' => DateTimeField::convertToUserFormat(date('Y-m-d')),
-			'status' => 'Completed',
+			'payment_status' => 'Completed',
 			'sourceModule' => $module,
 			'sourceRecord' => $id,
 			'relationOperation' => 'true',
