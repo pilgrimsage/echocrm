@@ -50,6 +50,13 @@ $languageStrings = Array(
 	'LBL_VENDOR_STATEMENT' => 'Vendor Statement',
 	'LBL_RECEIVABLES_AGEING' => 'Receivables Ageing',
 	'LBL_PAYABLES_AGEING' => 'Payables Ageing',
+	'LBL_ACCT_WIDGET_WE_OWE' => 'You owe vendors',
+	'LBL_ACCT_WIDGET_OWED_TO_US' => 'Owed to you',
+	'LBL_ACCT_WIDGET_DOCUMENTS' => 'documents',
+	'LBL_ACCT_WIDGET_OVERDUE' => 'overdue',
+	'LBL_ACCT_WIDGET_ALL_ACCOUNTS' => 'All active bank and cash accounts',
+	'LBL_ACCT_WIDGET_INCOME' => 'Income',
+	'LBL_ACCT_WIDGET_EXPENSES' => 'Expenses',
 );
 
 $jsLanguageStrings = Array();

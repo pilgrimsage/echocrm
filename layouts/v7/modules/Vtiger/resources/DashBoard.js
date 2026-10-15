@@ -184,6 +184,94 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 		}
 	},
 
+	/**
+	 * The custom widget form: loads the filters and fields of the chosen module, shows only the
+	 * rows that matter for the chosen type / calculation, and hands the checked settings to onSubmit.
+	 */
+	initCustomWidgetForm: function(container, widgetId, onSubmit) {
+		var form = jQuery('form', container);
+		var select = function(name) { return jQuery('select[name="' + name + '"]', form); };
+		var fill = function(el, items, withGroups) {
+			var wanted = el.data('selected');
+			var html = '<option value=""></option>';
+			if (withGroups) {
+				items.forEach(function(g) {
+					html += '<optgroup label="' + jQuery('<i>').text(g.group).html() + '">';
+					g.filters.forEach(function(f) {
+						html += '<option value="' + f.id + '">' + jQuery('<i>').text(f.name).html() + '</option>';
+					});
+					html += '</optgroup>';
+				});
+			} else {
+				items.forEach(function(f) {
+					html += '<option value="' + f.name + '">' + jQuery('<i>').text(f.label).html() + '</option>';
+				});
+			}
+			el.html(html);
+			if (wanted) { el.val(String(wanted)); }
+		};
+		var toggleRows = function() {
+			var type = select('type').val();
+			form.find('.customWidgetFieldRow').toggle(select('metric').val() !== 'count');
+			form.find('.customWidgetGroupRow').toggle(type !== 'number');
+		};
+		var loadOptions = function() {
+			var module = select('module').val();
+			if (!module) { return; }
+			app.request.post({data: {module: 'Home', view: 'CustomWidgetWizard', step: 'options', selectedModule: module}}).then(function(err, res) {
+				if (err) { return; }
+				fill(select('filterid'), res.filters, true);
+				fill(select('field'), res.numeric, false);
+				fill(select('groupby'), res.groupable, false);
+				// the saved choices are applied once; after that a module change starts afresh
+				['filterid', 'field', 'groupby'].forEach(function(n) { select(n).removeData('selected'); });
+			});
+		};
+		select('module').on('change', loadOptions);
+		select('metric').on('change', toggleRows);
+		select('type').on('change', toggleRows);
+		toggleRows();
+		loadOptions();
+		form.on('submit', function(e) {
+			e.preventDefault();
+			var button = jQuery('[name="saveButton"]', form).attr('disabled', 'disabled');
+			var error = form.find('.customWidgetError').hide();
+			var data = {
+				title: form.find('[name="title"]').val(), module: select('module').val(), filterid: select('filterid').val(),
+				type: select('type').val(), metric: select('metric').val(),
+				field: select('field').val(), groupby: select('groupby').val(), limit: form.find('[name="limit"]').val()
+			};
+			// the action reads the target module as "module", so it travels in its own parameter
+			app.request.post({data: jQuery.extend({module: 'Vtiger', action: 'CustomWidgetSave', widgetid: widgetId || 0}, {widget: data})}).then(function(err, res) {
+				button.removeAttr('disabled');
+				if (err || !res || !res.success) {
+					error.text(err && err.message ? err.message : app.vtranslate('JS_ERROR')).show();
+					return;
+				}
+				onSubmit(res.data);
+			});
+		});
+	},
+
+	addCustomWidget: function(element, url) {
+		element = jQuery(element);
+		app.request.post({url: "index.php?module=Home&view=CustomWidgetWizard"}).then(function(err, res) {
+			if (err) { return; }
+			app.helper.showModal(res, {cb: function(container) {
+				Vtiger_DashBoard_Js.initCustomWidgetForm(jQuery(container), 0, function(data) {
+					var linkId = element.data('linkid');
+					url += '&filterid=' + data.filterid + '&data=' + JSON.stringify(data);
+					// the real id (link + widget row) is set once the server has created the row
+					var widgetContainer = jQuery('<li class="new dashboardWidget loadcompleted" id="' + linkId + '-new' + Date.now() + '" data-name="' + element.data('name') + '" data-mode="open"></li>');
+					widgetContainer.data('url', url);
+					Vtiger_DashBoard_Js.addToGrid(widgetContainer, element.data('width'), element.data('height'));
+					Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
+					app.helper.hideModal();
+				});
+			}});
+		});
+	},
+
 	addNoteBookWidget : function(element, url) {
 		// 1. Show popup window for selection (module, filter, fields)
 		// 2. Compute the dynamic mini-list widget url
@@ -549,6 +637,11 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 				// so its place can only be saved now (saving earlier updates zero rows)
 				if (widgetContainer.hasClass('new')) {
 					widgetContainer.removeClass('new');
+					// a custom widget is saved under its own row: use the real id for the layout
+					var createdRow = widgetContainer.find('.customWidget[data-widgetid]').first();
+					if (createdRow.length) {
+						widgetContainer.attr('id', widgetContainer.attr('id').split('-')[0] + '-' + createdRow.data('widgetid'));
+					}
 					thisInstance.persistLayout();
 				}
 			});
@@ -564,6 +657,26 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 			var widgetInstnace = thisInstance.getWidgetInstance(parent);
 			widgetInstnace.refreshWidget();
 			return;
+		});
+	},
+
+	registerCustomWidgetEdit : function() {
+		var thisInstance = this;
+		this.getContainer().off('click.customWidgetEdit').on('click.customWidgetEdit', 'a[name="customWidgetEdit"]', function(e) {
+			var widgetId = jQuery(e.currentTarget).data('widgetid');
+			var listItem = jQuery(e.currentTarget).closest('li.dashboardWidget');
+			app.request.post({url: 'index.php?module=Home&view=CustomWidgetWizard&widgetid=' + widgetId}).then(function(err, res) {
+				if (err) { return; }
+				app.helper.showModal(res, {cb: function(container) {
+					Vtiger_DashBoard_Js.initCustomWidgetForm(jQuery(container), widgetId, function() {
+						app.helper.hideModal();
+						// reload the whole widget so the title changes too
+						listItem.children('.grid-stack-item-content').empty();
+						listItem.data('mode', 'open');
+						thisInstance.loadWidget(listItem);
+					});
+				}});
+			});
 		});
 	},
 
@@ -587,7 +700,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 					function(err,response) {
 						if (err == null) {
 
-							var nonReversableWidgets = ['MiniList','Notebook','ChartReportWidget']
+							var nonReversableWidgets = ['MiniList','Notebook','CustomWidget','ChartReportWidget']
 
 							parent.fadeOut('slow', function() {
 								Vtiger_DashBoard_Js.grid.removeWidget(parent[0], false);
@@ -1088,6 +1201,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 			instance.loadWidgets();
 			instance.registerRefreshWidget();
 			instance.removeWidget();
+			instance.registerCustomWidgetEdit();
 			instance.registerWidgetFullScreenView();
 			instance.registerFilterInitiater();
 		});

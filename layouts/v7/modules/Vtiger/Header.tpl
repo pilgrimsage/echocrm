@@ -25,6 +25,7 @@
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/detailview.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/nav.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/editview.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/widgets.css")}'>
 
         <link rel="stylesheet" href="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.css')}">
 
