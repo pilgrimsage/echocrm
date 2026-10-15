@@ -1,0 +1,45 @@
+/* Dashboard widgets the users build (Vtiger_CustomWidget) and the accounting widgets.
+   Colours and radii come from the tokens in listview.css. */
+.customWidget { padding: 10px 14px 6px; color: var(--ink); }
+.customWidgetEmpty { padding: 28px 0; text-align: center; color: var(--muted); }
+.customWidgetNumber { padding: 14px 0 6px; text-align: center; }
+.customWidgetValue { font-size: 2.2rem; font-weight: 600; line-height: 1.15; color: var(--ink); word-break: break-word; }
+.customWidgetCaption { margin-top: 4px; font-size: 12px; color: var(--muted); }
+.customWidgetLink { margin-top: 8px; text-align: right; font-size: 12px; }
+.customWidgetLink a { color: var(--teal-deep); }
+
+.customWidgetBars { margin: 0; padding: 0; }
+.customWidgetBars .customWidgetRow { display: grid; grid-template-columns: minmax(70px, 32%) 1fr auto; align-items: center; gap: 8px; padding: 4px 0; font-size: 12px; }
+.customWidgetBarLabel, .customWidgetLegendLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.customWidgetBarTrack { height: 8px; background: var(--mist-dark); border-radius: var(--radius); overflow: hidden; }
+.customWidgetBarFill { height: 100%; border-radius: var(--radius); }
+.customWidgetBarValue, .customWidgetLegendValue { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+
+.customWidgetDonutWrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.customWidgetDonut { width: 96px; height: 96px; flex: 0 0 auto; }
+.customWidgetLegend { margin: 0; padding: 0; flex: 1 1 110px; min-width: 0; font-size: 12px; }
+.customWidgetLegend .customWidgetRow { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 6px; padding: 2px 0; }
+.customWidgetSwatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* the form */
+.customWidgetForm .customWidgetTypes .btn { font-size: 13px; }
+.customWidgetForm .btn-check:checked + .btn { background: var(--teal-soft); border-color: var(--teal-deep); color: var(--ink); }
+
+/* accounting widgets */
+.acctWidget { padding: 8px 14px 6px; color: var(--ink); font-size: 12px; }
+.acctWidget table { width: 100%; border-collapse: collapse; }
+.acctWidget th { font-weight: 500; color: var(--muted); text-align: right; padding: 3px 0; }
+.acctWidget th:first-child, .acctWidget td:first-child { text-align: left; }
+.acctWidget td { padding: 2px 0; border-top: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+.acctWidget tr.total td { font-weight: 600; }
+.acctWidget .negative { color: var(--danger); }
+.acctWidgetBig { font-size: 1.8rem; font-weight: 600; line-height: 1.2; }
+.acctWidgetMuted { color: var(--muted); }
+.acctWidgetColumns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.acctWidgetColumns > div { background: var(--mist); border-radius: var(--radius-md); padding: 10px 12px; }
+.acctAgeBars { display: flex; height: 10px; border-radius: var(--radius); overflow: hidden; margin: 8px 0 4px; background: var(--mist-dark); }
+.acctAgeBars span { display: block; height: 100%; }
+
+/* a widget with more lines than its tile has room for scrolls instead of being cut off */
+.dashboardWidgetContent:has(> .acctWidget), .dashboardWidgetContent:has(> .customWidget) { flex: 1 1 0; min-height: 0; overflow-y: auto; }
+.acctWidgetBig { font-size: 1.6rem; }

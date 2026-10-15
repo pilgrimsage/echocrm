@@ -25,6 +25,8 @@
 							{assign var="MINILISTWIDGET" value=$WIDGET} {* Defer to display as a separate group *}
 						{elseif $WIDGET->getName() eq 'Notebook'}
 							{assign var="NOTEBOOKWIDGET" value=$WIDGET} {* Defer to display as a separate group *}
+						{elseif $WIDGET->getName() eq 'CustomWidget'}
+							{assign var="CUSTOMWIDGET" value=$WIDGET} {* Defer to display as a separate group *}
 						{else}
 							<li>
 								<a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
@@ -46,6 +48,13 @@
 								data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}">
 								{vtranslate($NOTEBOOKWIDGET->getTitle(), $MODULE_NAME)}</a>
 						</li>
+						{if $CUSTOMWIDGET}
+							<li>
+								<a onclick="Vtiger_DashBoard_Js.addCustomWidget(this, '{$CUSTOMWIDGET->getUrl()}')" href="javascript:void(0);"
+									data-linkid="{$CUSTOMWIDGET->get('linkid')}" data-name="{$CUSTOMWIDGET->getName()}" data-width="{$CUSTOMWIDGET->getWidth()}" data-height="{$CUSTOMWIDGET->getHeight()}">
+									{vtranslate($CUSTOMWIDGET->getTitle(), 'Vtiger')}</a>
+							</li>
+						{/if}
 					{/if}
 
 				</ul>
