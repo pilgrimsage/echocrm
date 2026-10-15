@@ -20,6 +20,8 @@ require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
 
 require_once("modules/Users/Users.php");
+require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTSimpleTemplate.inc');
 
 class VTCreateTodoTask extends VTTask{
 	public $executeImmediately = true;
@@ -122,6 +124,12 @@ class VTCreateTodoTask extends VTTask{
 		$parentModuleName = $entityData->getModuleName();
 		$adminUser = $this->getAdmin();
 		$id = $entityData->getId();
+		// the subject and description can carry merge fields, e.g. "Approve $purchaseorder_no", as in the email task
+		$entityCache = new VTEntityCache($adminUser);
+		$subjectTemplate = new VTSimpleTemplate($fields['subject']);
+		$fields['subject'] = $subjectTemplate->render($entityCache, $id);
+		$descriptionTemplate = new VTSimpleTemplate($fields['description']);
+		$fields['description'] = $descriptionTemplate->render($entityCache, $id);
 		if($parentModuleName=='Contacts'){
 			$fields['contact_id'] = $id;
 		}else{
