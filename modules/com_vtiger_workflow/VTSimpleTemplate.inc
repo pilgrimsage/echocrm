@@ -287,8 +287,14 @@ class VTSimpleTemplate{
 									break;
 
 			case 'currency'		:	if ($fieldInstance->getUIType() === '72') {
-										$currencyId = vtws_getIdComponents($this->parent->get('currency_id'));
-										$currencyId = $currencyId[1];
+										// a custom module can have amounts without a currency field: use the user's currency then
+										$recordCurrency = $this->parent->get('currency_id');
+										if ($recordCurrency) {
+											$currencyId = vtws_getIdComponents($recordCurrency);
+											$currencyId = $currencyId[1];
+										} else {
+											$currencyId = $current_user->currency_id;
+										}
 										$fieldValue = CurrencyField::convertToUserFormat($fieldValue, $ownerObject, true);
 									} else if($fieldInstance->getUIType() == '71') {
 										$currencyId = $current_user->currency_id;

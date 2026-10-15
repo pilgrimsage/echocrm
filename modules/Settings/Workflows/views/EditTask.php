@@ -130,6 +130,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View {
 
 		
 		
+		$emailFieldoptions = '';
 		$emailFields = $recordStructureInstance->getAllEmailFields();
 		foreach($emailFields as $metaKey => $emailField) {
 			$emailFieldoptions .= '<option value=",$'.$metaKey.'">'.$emailField->get('workflow_columnlabel').'</option>';
@@ -166,6 +167,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View {
 			$fromEmailFieldOptions .= '<option value="'.$value.'">'.$emailField->get('workflow_columnlabel').'</option>';
 		}
 
+		$allFieldoptions = '';
 		$structure = $recordStructureInstance->getStructure();
 		foreach ($structure as $fields) {
             foreach ($fields as $field) {

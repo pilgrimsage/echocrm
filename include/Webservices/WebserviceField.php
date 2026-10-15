@@ -221,7 +221,7 @@ class WebserviceField{
 		foreach ($tableFields as $fieldName => $dbField) {
 			if(strcmp($fieldName,$this->getColumnName())===0){
 				$this->setNullable(!$dbField->not_null);
-				if($dbField->has_default === true && !$this->explicitDefaultValue){
+				if(($dbField->has_default ?? false) === true && !$this->explicitDefaultValue){
 					$this->defaultValuePresent = $dbField->has_default;
 					$this->setDefault($dbField->default_value);
 				}
