@@ -78,9 +78,9 @@ class Ledgers_GstExport_Action extends Vtiger_Action_Controller {
 		header('Content-Type: text/csv; charset=utf-8');
 		header('Content-Disposition: attachment; filename="gst_' . $section . '_' . $period . '.csv"');
 		$out = fopen('php://output', 'w');
-		fputcsv($out, $header);
+		fputcsv($out, $header, ',', '"', '\\');
 		foreach ($rows as $row) {
-			fputcsv($out, $row);
+			fputcsv($out, $row, ',', '"', '\\');
 		}
 		fclose($out);
 	}

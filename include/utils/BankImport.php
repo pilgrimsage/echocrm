@@ -41,7 +41,7 @@ class Vtiger_Bank_Import {
 		}
 		$rows = array();
 		$bom = true;
-		while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+		while (($row = fgetcsv($handle, 0, $delimiter, '"', '\\')) !== false) {
 			if ($bom && isset($row[0])) {
 				$row[0] = preg_replace('/^\xEF\xBB\xBF/', '', $row[0]);
 			}
