@@ -66,7 +66,7 @@ $I = 'LBL_PAYMENTS_INFORMATION';
 $fields = array(
 	array('name' => 'payment_no', 'label' => 'Payment No', 'block' => $I, 'uitype' => 4, 'type' => 'V~O', 'col' => 'payment_no', 'ctype' => 'VARCHAR(100)', 'dt' => 1, 'qc' => 3, 'sm' => 1),
 	array('name' => 'related_to', 'label' => 'Document', 'block' => $I, 'uitype' => 10, 'type' => 'V~M', 'col' => 'related_to', 'ctype' => 'INT(19)', 'dt' => 1, 'qc' => 0, 'sm' => 1, 'related' => array('Invoice', 'Quotes', 'PurchaseOrder')),
-	array('name' => 'direction', 'label' => 'Direction', 'block' => $I, 'uitype' => 15, 'type' => 'V~O', 'col' => 'direction', 'ctype' => 'VARCHAR(20)', 'dt' => 2, 'qc' => 3, 'sm' => 1, 'picklist' => array('Received', 'Paid')),
+	array('name' => 'payment_direction', 'label' => 'Direction', 'block' => $I, 'uitype' => 15, 'type' => 'V~O', 'col' => 'direction', 'ctype' => 'VARCHAR(20)', 'dt' => 2, 'qc' => 3, 'sm' => 1, 'picklist' => array('Received', 'Paid')),
 	array('name' => 'amount', 'label' => 'Amount', 'block' => $I, 'uitype' => 72, 'type' => 'N~M', 'col' => 'amount', 'ctype' => 'DECIMAL(25,8)', 'dt' => 1, 'qc' => 0, 'sm' => 1),
 	array('name' => 'payment_date', 'label' => 'Payment Date', 'block' => $I, 'uitype' => 5, 'type' => 'D~M', 'col' => 'payment_date', 'ctype' => 'DATE', 'dt' => 1, 'qc' => 0, 'sm' => 1),
 	array('name' => 'payment_method', 'label' => 'Payment Method', 'block' => $I, 'uitype' => 15, 'type' => 'V~M', 'col' => 'payment_method', 'ctype' => 'VARCHAR(50)', 'dt' => 1, 'qc' => 0, 'sm' => 0,
@@ -118,7 +118,7 @@ if (!Vtiger_Filter::getInstance('All', $module)) {
 	$filter->name = 'All';
 	$filter->isdefault = true;
 	$module->addFilter($filter);
-	foreach (array('payment_no', 'related_to', 'direction', 'amount', 'payment_date', 'payment_method', 'payment_status', 'assigned_user_id') as $position => $name) {
+	foreach (array('payment_no', 'related_to', 'payment_direction', 'amount', 'payment_date', 'payment_method', 'payment_status', 'assigned_user_id') as $position => $name) {
 		$filter->addField($fieldInstances[$name], $position);
 	}
 }

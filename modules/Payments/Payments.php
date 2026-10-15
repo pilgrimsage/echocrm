@@ -40,7 +40,7 @@ class Payments extends Vtiger_CRMEntity {
 	var $list_fields_name = Array(
 		'Payment No' => 'payment_no',
 		'Document' => 'related_to',
-		'Direction' => 'direction',
+		'Direction' => 'payment_direction',
 		'Amount' => 'amount',
 		'Date' => 'payment_date',
 		'Method' => 'payment_method',

@@ -203,7 +203,7 @@ class Vtiger_Payment_Utils {
 			'module' => 'Payments',
 			'view' => 'Edit',
 			'related_to' => $id,
-			'direction' => self::directionFor($document),
+			'payment_direction' => self::directionFor($document),
 			'amount' => number_format(self::outstanding($document), 2, '.', ''),
 			'payment_date' => DateTimeField::convertToUserFormat(date('Y-m-d')),
 			'payment_status' => 'Completed',

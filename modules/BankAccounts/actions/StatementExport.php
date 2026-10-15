@@ -28,13 +28,13 @@ class BankAccounts_StatementExport_Action extends Vtiger_Action_Controller {
 		header('Content-Type: text/csv; charset=utf-8');
 		header('Content-Disposition: attachment; filename="statement_' . $name . '_' . ($from ?: 'start') . '_' . ($to ?: 'today') . '.csv"');
 		$out = fopen('php://output', 'w');
-		fputcsv($out, array('Date', 'Transaction No', 'Type', 'Reference', 'Narration', 'In', 'Out', 'Balance', 'Reconciled'));
-		fputcsv($out, array('', '', '', '', 'Opening balance', '', '', $statement['opening'], ''));
+		fputcsv($out, array('Date', 'Transaction No', 'Type', 'Reference', 'Narration', 'In', 'Out', 'Balance', 'Reconciled'), ',', '"', '\\');
+		fputcsv($out, array('', '', '', '', 'Opening balance', '', '', $statement['opening'], ''), ',', '"', '\\');
 		foreach ($statement['rows'] as $row) {
 			fputcsv($out, array($row['transaction_date'], $row['transaction_no'], $row['transaction_type'], decode_html($row['reference_no']), decode_html($row['narration']),
-				$row['direction'] == 'In' ? $row['amount'] : '', $row['direction'] == 'Out' ? $row['amount'] : '', $row['running'], $row['reconciled'] ? 'Yes' : 'No'));
+				$row['direction'] == 'In' ? $row['amount'] : '', $row['direction'] == 'Out' ? $row['amount'] : '', $row['running'], $row['reconciled'] ? 'Yes' : 'No'), ',', '"', '\\');
 		}
-		fputcsv($out, array('', '', '', '', 'Totals / closing balance', $statement['in'], $statement['out'], $statement['closing'], ''));
+		fputcsv($out, array('', '', '', '', 'Totals / closing balance', $statement['in'], $statement['out'], $statement['closing'], ''), ',', '"', '\\');
 		fclose($out);
 	}
 }
