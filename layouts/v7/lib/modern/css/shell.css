@@ -60,7 +60,7 @@
 }
 
 /* ---- breadcrumb / action bar ---- */
-.app-nav{
+nav.app-fixed-navbar .app-nav{
 	background:var(--header-bg);
 	border-top:1px solid var(--border-color-light);
 }
@@ -129,8 +129,9 @@
 }
 
 /* ---- brand lockup (shown while the default logo is in place) ---- */
+.global-nav a.brand-lockup,
 .brand-lockup{
-	display:flex;
+	display:flex !important;
 	align-items:center;
 	gap:10px;
 	text-decoration:none;
@@ -155,4 +156,82 @@
 	font-weight:700;
 	letter-spacing:-.01em;
 	color:var(--heading-color);
+}
+
+/* the brand needs room: the skin gives the logo column 125px */
+.app-navigator-container{
+	flex:0 0 230px !important;
+	max-width:230px !important;
+}
+.global-nav .logo-container{
+	flex:0 0 auto !important;
+	min-width:150px;
+	max-width:none !important;
+	white-space:nowrap;
+}
+.global-nav .logo-container .row{
+	flex-wrap:nowrap;
+	margin:0;
+}
+.global-nav .logo-container .company-logo{
+	width:auto !important;
+	flex:0 0 auto;
+}
+.brand-lockup{
+	flex-wrap:nowrap;
+	white-space:nowrap;
+}
+
+/* ---- Settings menu (the module rail becomes an accordion there) ---- */
+.settingsNav,
+.settingsgroup,
+.settingsgroup-panel,
+.settingsgroup .panel-collapse,
+.settingsgroup-accordion{
+	background:var(--sidebar-bg) !important;
+	border-color:var(--sidebar-border) !important;
+}
+.settingsgroup-panel{
+	border:none !important;
+	box-shadow:none !important;
+}
+.settingsgroup-accordion a{
+	color:var(--sidebar-muted-color) !important;
+	font-size:11px;
+	font-weight:700;
+	letter-spacing:.08em;
+	text-transform:uppercase;
+}
+.settingsgroup-accordion a:hover{
+	color:#fff !important;
+}
+.settingsgroup .menuItemLabel,
+.settingsgroup .list-group-item,
+.settingsgroup li a{
+	color:var(--sidebar-color) !important;
+	font-size:13px;
+	border-radius:var(--radius-md);
+	transition:background var(--transition),color var(--transition);
+}
+.settingsgroup .menuItemLabel:hover,
+.settingsgroup li a:hover{
+	background:var(--sidebar-hover-bg) !important;
+	color:#fff !important;
+}
+.settingsgroup li.active a,
+.settingsgroup li.selected a,
+.settingsgroup a.menuItemLabel.active{
+	background:var(--accent-gradient) !important;
+	color:#fff !important;
+}
+#settingsMenuSearch,
+.settingsNav .search-list{
+	background:rgb(255 255 255 / .06) !important;
+	border:1px solid var(--sidebar-border) !important;
+	border-radius:var(--radius-full) !important;
+	color:var(--sidebar-color) !important;
+	padding:6px 14px;
+}
+#settingsMenuSearch::placeholder{
+	color:var(--sidebar-muted-color);
 }
