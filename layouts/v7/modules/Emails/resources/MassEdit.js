@@ -187,8 +187,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 					form = jQuery(form);
 					app.helper.hideModal();
 					app.helper.showProgress();
-					if (CKEDITOR.instances['description']) {
-						form.find('#description').val(CKEDITOR.instances['description'].getData());
+					if (Vtiger_CkEditor_Js.get('description')) {
+						form.find('#description').val(Vtiger_CkEditor_Js.getData('description'));
 					}
 
 					var data = new FormData(form[0]);

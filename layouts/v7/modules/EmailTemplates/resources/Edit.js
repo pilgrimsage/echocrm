@@ -79,12 +79,11 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js",{},{
 	
 	registerFillTemplateContentEvent : function() {
 		var thisInstance = this;
-		 CKEDITOR.instances.templatecontent.on('blur', function(){
+		 Vtiger_CkEditor_Js.onBlur('templatecontent', function(){
 			 jQuery('#templateFields,#generalFields').off('change');
 			 jQuery('#templateFields,#generalFields').on('change',function(e){
 				var mergeTag = jQuery(e.currentTarget).val();
-				var textarea = CKEDITOR.instances.templatecontent;
-				textarea.insertHtml(mergeTag);
+				Vtiger_CkEditor_Js.insertHtml('templatecontent', mergeTag);
 			 });
 		 });
 		 jQuery('.recordEditView').on('blur','#EmailTemplates_editView_fieldName_subject',function(){

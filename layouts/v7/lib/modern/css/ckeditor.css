@@ -1,0 +1,43 @@
+/* CKEditor 5: map its variables onto the theme tokens (follows light/dark) */
+:root{
+	--ck-color-base-foreground:var(--table-header-bg);
+	--ck-color-base-background:var(--surface-color);
+	--ck-color-base-border:var(--border-color);
+	--ck-color-base-text:var(--default-color);
+	--ck-color-base-active:var(--accent-color);
+	--ck-color-base-active-focus:var(--accent-color);
+	--ck-color-focus-border:var(--accent-color);
+	--ck-color-focus-outer-shadow:var(--accent-soft);
+	--ck-color-text:var(--default-color);
+	--ck-color-shadow-drop:rgba(0,0,0,.12);
+	--ck-color-toolbar-background:var(--table-header-bg);
+	--ck-color-toolbar-border:var(--border-color);
+	--ck-color-panel-background:var(--surface-color);
+	--ck-color-panel-border:var(--border-color);
+	--ck-color-input-background:var(--surface-color);
+	--ck-color-input-border:var(--border-color);
+	--ck-color-input-text:var(--default-color);
+	--ck-color-list-background:var(--surface-color);
+	--ck-color-list-button-hover-background:var(--accent-soft);
+	--ck-color-list-button-on-background:var(--accent-color);
+	--ck-color-button-default-hover-background:var(--accent-soft);
+	--ck-color-button-default-active-background:var(--accent-soft);
+	--ck-color-button-on-background:var(--accent-soft);
+	--ck-color-button-on-hover-background:var(--accent-soft);
+	--ck-color-button-on-color:var(--accent-color);
+	--ck-color-button-action-background:var(--accent-color);
+	--ck-color-dropdown-panel-background:var(--surface-color);
+	--ck-color-dropdown-panel-border:var(--border-color);
+	--ck-color-dialog-background:var(--surface-color);
+	--ck-color-dialog-form-header-border:var(--border-color);
+	--ck-border-radius:var(--radius-md);
+	--ck-font-face:inherit;
+}
+.ck.ck-editor__editable_inline{
+	min-height:200px;
+	background:var(--surface-color);
+	color:var(--default-color);
+}
+.ck.ck-editor__editable_inline > :first-child{
+	margin-top:0;
+}

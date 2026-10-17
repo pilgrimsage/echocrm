@@ -595,7 +595,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       var textAreaElement = jQuery('#content');
       //To keep the plain text value to the textarea which need to be
       //sent to server
-      textAreaElement.val(CKEDITOR.instances['content'].getData());
+      textAreaElement.val(Vtiger_CkEditor_Js.getData('content'));
    },
    /**
     * Function to check if the field selected is empty field
@@ -791,11 +791,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    },
    registerFillMailContentEvent: function () {
       jQuery('#task-fieldnames,#task_timefields,#task-templates,#task-emailtemplates').change(function (e) {
-         var textarea = CKEDITOR.instances.content;
          var value = jQuery(e.currentTarget).val();
-         if (textarea != undefined) {
-            textarea.insertHtml(value);
-         } else if (jQuery('textarea[name="content"]')) {
+         if (!Vtiger_CkEditor_Js.insertHtml('content', value)) {
             var textArea = jQuery('textarea[name="content"]');
             textArea.insertAtCaret(value);
          }
