@@ -65,7 +65,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			"modules.$moduleName.resources.Popup",
 			'modules.Vtiger.resources.BaseList',
 			"modules.$moduleName.resources.BaseList",
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js",
 			'modules.Vtiger.resources.validator.BaseValidator',
 			'modules.Vtiger.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
