@@ -1,0 +1,65 @@
+# Apache configuration for the CRM install directory (needs AllowOverride All, or at least
+# FileInfo + Limit + Options + AuthConfig, for this directory).
+
+Options -Indexes
+
+# --- never serve these directly --------------------------------------------------------------
+# 404 rather than 403 so a probe cannot tell the path exists.
+<IfModule mod_alias.c>
+	# version control and tooling
+	RedirectMatch 404 "(^|/)\.(git|claude|github|idea|vscode)(/|$)"
+	# directories that only PHP code or an administrator at the shell should touch
+	RedirectMatch 404 "^/(db|bin|migrate|schema|user_privileges|storage|log|logs|backup|backups|data/cache|\.well-known/private)(/|$)"
+	# compiled templates and caches
+	RedirectMatch 404 "^/(test/templates_c|cache|includes/runtime/cache)(/|$)"
+</IfModule>
+
+# Apache 2.4
+<IfModule mod_authz_core.c>
+	# dot files (.env, .gitignore, .htaccess ...), dumps, logs, notes and config templates
+	<FilesMatch "^\.|\.(sql|sql\.gz|bak|old|orig|log|md|sample|dist|lock|properties|sh|ini|inc|tpl|swp)$|^(composer\.(json|lock)|config\.[a-z.]*php|config_override[a-z.]*\.php|\.htaccess|htaccess\.txt|Release_Notes\.html)$">
+		Require all denied
+	</FilesMatch>
+	# the front controllers stay reachable, everything else of ours that is PHP-only is not
+	<FilesMatch "^(config|config\.db|config\.security|config\.performance|config\.template|config_override\.dev|config_override\.sample|config\.csrf-secret|vtigerversion|PEAR|phpversionfail)\.php$">
+		Require all denied
+	</FilesMatch>
+</IfModule>
+
+# Apache 2.2
+<IfModule !mod_authz_core.c>
+	<FilesMatch "^\.|\.(sql|sql\.gz|bak|old|orig|log|md|sample|dist|lock|properties|sh|ini|inc|tpl|swp)$|^(composer\.(json|lock)|config\.[a-z.]*php|config_override[a-z.]*\.php|\.htaccess|htaccess\.txt|Release_Notes\.html)$">
+		Order allow,deny
+		Deny from all
+	</FilesMatch>
+</IfModule>
+
+# --- uploads must never execute --------------------------------------------------------------
+<IfModule mod_authz_core.c>
+	<FilesMatch "\.(php[0-9]?|phtml|phar|pl|py|cgi)$">
+		<If "%{REQUEST_URI} =~ m#^/(test|storage)/#">
+			Require all denied
+		</If>
+	</FilesMatch>
+</IfModule>
+
+# --- headers ---------------------------------------------------------------------------------
+<IfModule mod_headers.c>
+	Header always set X-Content-Type-Options "nosniff"
+	Header always set X-Frame-Options "SAMEORIGIN"
+	Header always set Referrer-Policy "same-origin"
+	Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+	# only meaningful (and only honoured by browsers) over https
+	Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+</IfModule>
+
+# --- file types ------------------------------------------------------------------------------
+<IfModule mod_mime.c>
+	# the PDF.js viewer is made of ES modules
+	AddType text/javascript .mjs
+</IfModule>
+
+# --- PHP hardening that does not need php.ini ------------------------------------------------
+<IfModule mod_php.c>
+	php_flag expose_php off
+</IfModule>
