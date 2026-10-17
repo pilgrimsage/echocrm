@@ -28,7 +28,6 @@ abstract class Vtiger_Footer_View extends Vtiger_Header_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
             '~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/timepicker/jquery.timepicker.css',
-            "~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/lazyyt/css/lazyYT.min.css"
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

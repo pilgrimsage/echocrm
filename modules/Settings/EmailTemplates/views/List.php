@@ -40,7 +40,6 @@ class Settings_EmailTemplates_List_View extends Vtiger_Footer_View {
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Popup',
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/windowmsg/js/jquery_windowmsg.js"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

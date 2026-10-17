@@ -24,17 +24,13 @@
 
     <script src="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.js')}"></script>
     
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/websockets/reconnecting-websocket.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-play-sound/jquery.playSound.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/malihu-custom-scrollbar/jquery.mousewheel.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/autoComplete/jquery.textcomplete.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.qtip.custom/jquery.qtip.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/visibility/js/jquery-visibility.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/momentjs/moment.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/moment.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.timeago.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/ckeditor.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/adapters/jquery.js')}"></script>
 	<script type='text/javascript' src="{vresource_url('layouts/v7/lib/anchorme_js/anchorme.min.js')}"></script>
