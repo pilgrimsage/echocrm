@@ -190,3 +190,90 @@ h1,h2,h3,h4,h5,.modal-title,.detailViewTitle{
 a{
 	color:var(--accent-color);
 }
+
+/* ---- surfaces the skins paint white (must follow the theme) ---- */
+.listview-actions-container,
+#listview-actions,
+.module-action-content{
+	background:var(--surface-color) !important;
+}
+.module-action-content{
+	background:transparent !important;
+}
+td.listViewEntryValue,
+td.listViewRecordActions,
+.listViewEntries td,
+.listViewContentDiv td{
+	background:transparent !important;
+}
+input.search-list,
+.search-list{
+	background:var(--input-bg);
+	color:var(--default-color);
+}
+
+/* detail view containers the skin paints #f9f9f9 / white */
+.detailViewContainer,
+.content-area,
+.col-sm-12.content-area{
+	background:transparent !important;
+}
+.detailview-header-block,
+.related-tabs,
+.related-tabs.row,
+.summaryView,
+.summaryWidgetContainer,
+.commentContainer,
+.commentContainer.recentComments,
+.detailViewInfo,
+.detailview-table{
+	background:var(--surface-color) !important;
+	color:var(--default-color);
+}
+.detailview-header-block,
+.summaryWidgetContainer,
+.commentContainer{
+	border:1px solid var(--card-border);
+	border-radius:var(--radius-lg);
+}
+
+/* dashboard */
+ul.nav.nav-tabs.tabs,
+.dashboardHeading,
+.dashBoardTabContents{
+	background:transparent !important;
+}
+.dashBoardWidgetFooter,
+.widgeticons.dashBoardWidgetFooter{
+	background:var(--surface-muted) !important;
+	border-top:1px solid var(--border-color-light);
+}
+
+/* edit view */
+.fieldBlockContainer,
+td.fieldLabel,
+td.fieldValue,
+.fieldBlockContainer table td{
+	background:transparent !important;
+	color:var(--default-color);
+}
+.fieldBlockContainer{
+	background:var(--surface-color) !important;
+}
+input.inputElement,
+select.inputElement,
+textarea.inputElement,
+.inputElement.autoComplete{
+	background-color:var(--input-bg) !important;
+	color:var(--default-color) !important;
+	border-color:var(--input-border) !important;
+}
+.modal-overlay-footer,
+.modal-overlay-footer.clearfix{
+	background:var(--surface-muted) !important;
+	border-top:1px solid var(--border-color) !important;
+}
+a.cancelLink{
+	background:transparent !important;
+	color:var(--danger-color) !important;
+}

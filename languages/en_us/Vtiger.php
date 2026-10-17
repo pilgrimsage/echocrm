@@ -336,6 +336,7 @@ $languageStrings = array(
 
 	//Dashboard String
 	'LBL_ADD_WIDGET' => 'Add Widget',
+	'LBL_THEME_TOGGLE' => 'Light / dark mode',
 	'Custom Widget' => 'Custom Widget',
 	'LBL_CUSTOM_WIDGET_TITLE' => 'Title',
 	'LBL_CUSTOM_WIDGET_TITLE_HINT' => 'Optional, e.g. Open invoices',

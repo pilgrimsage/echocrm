@@ -58,6 +58,9 @@
 				<div id="navbar" class="col-sm-6 col-12 collapse navbar-collapse navbar-right global-actions">
 					<ul class="nav navbar-nav">
 						<li>
+							<a href="javascript:void(0)" id="themeToggle" class="theme-toggle" title="{vtranslate('LBL_THEME_TOGGLE', 'Vtiger')}" aria-pressed="false"><i class="fa fa-moon-o"></i></a>
+						</li>
+						<li>
 							<div class="dropdown float-start">
 								<div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
 									<a href="#" id="menubar_quickCreate" class="qc-button fa fa-plus-circle" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" aria-hidden="true"></a>
