@@ -87,7 +87,7 @@ textarea.inputElement:focus,
 textarea.form-control:focus{
 	outline:none;
 	border-color:var(--accent-color);
-	background:#fff;
+	background:var(--surface-color);
 	box-shadow:0 0 0 3px var(--input-focus-ring);
 }
 
@@ -162,7 +162,7 @@ select.form-control{
 	border:1px solid var(--border-color) !important;
 	border-radius:8px !important;
 	box-shadow:0 4px 16px rgba(16,21,28,.12) !important;
-	background:#fff !important;
+	background:var(--surface-color) !important;
 	font-family:var(--font-body) !important;
 }
 .ui-timepicker-list li{
@@ -292,8 +292,8 @@ input.mass-select:checked::after{
 
 /* duplicate detection banner */
 .duplicationMessageContainer{
-	background:#FFF7E8;
-	border:1px solid #F3D88B;
+	background:var(--warning-color-light);
+	border:1px solid var(--warning-color);
 	border-radius:var(--radius-md);
 }
 .duplicationMessageHeader{

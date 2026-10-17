@@ -9,6 +9,25 @@
 {* modules/Vtiger/views/DashBoard.php *}
     
 {strip}
+{if $HERO}
+	<div class="dashboardHero">
+		<div class="dashboardHeroText">
+			<span class="dashboardHeroTag">{vtranslate('LBL_HERO_DASHBOARD', 'Vtiger')}</span>
+			<h2>{vtranslate($HERO.hello, 'Vtiger')}, {$HERO.name|escape:'html'} &#128075;</h2>
+			<p>{vtranslate('LBL_HERO_SUBTITLE', 'Vtiger')}</p>
+		</div>
+		{if $HERO.chips}
+			<div class="dashboardHeroChips">
+				{foreach from=$HERO.chips item=CHIP}
+					<a class="dashboardHeroChip" href="{$CHIP.url}">
+						<span class="dashboardHeroChipValue">{$CHIP.value|escape:'html'}</span>
+						<span class="dashboardHeroChipLabel">{vtranslate($CHIP.label, 'Vtiger')}</span>
+					</a>
+				{/foreach}
+			</div>
+		{/if}
+	</div>
+{/if}
 <div class="dashBoardContainer clearfix">
         <div class="tabContainer">
             <ul class="nav nav-tabs tabs sortable container-fluid">

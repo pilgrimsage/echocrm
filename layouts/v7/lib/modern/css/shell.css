@@ -235,3 +235,9 @@ nav.app-fixed-navbar .app-nav{
 #settingsMenuSearch::placeholder{
 	color:var(--sidebar-muted-color);
 }
+
+/* the skin draws a 1px line in the app's colour above the action bar */
+.module-action-bar,
+.module-action-bar.clearfix{
+	border-top:1px solid var(--border-color-light) !important;
+}
