@@ -49,11 +49,46 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 			$widgets = array();
 		}
 		$viewer->assign('MODULE_PERMISSION', $permission);
+		$viewer->assign('HERO', $moduleName === 'Home' ? $this->getHero() : null);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
+	}
+
+	/**
+	 * The greeting banner on the Home dashboard: a salutation and up to three counts of the
+	 * records this user may see (leads, opportunities, tickets, invoices), each linking to its list.
+	 */
+	protected function getHero() {
+		$user = Users_Record_Model::getCurrentUserModel();
+		$hour = (int)date('G');
+		$hello = $hour < 12 ? 'LBL_HERO_MORNING' : ($hour < 17 ? 'LBL_HERO_AFTERNOON' : 'LBL_HERO_EVENING');
+		$name = trim((string)$user->get('first_name')) !== '' ? $user->get('first_name') : $user->get('user_name');
+		$chips = array();
+		foreach (array('Leads' => 'LBL_HERO_LEADS', 'Potentials' => 'LBL_HERO_OPPORTUNITIES', 'HelpDesk' => 'LBL_HERO_TICKETS', 'Invoice' => 'LBL_HERO_INVOICES') as $module => $label) {
+			if (count($chips) >= 3) {
+				break;
+			}
+			try {
+				$moduleModel = Vtiger_Module_Model::getInstance($module);
+				if (!$moduleModel || !vtlib_isModuleActive($module) || !Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleModel->getId())) {
+					continue;
+				}
+				$filter = CustomView_Record_Model::getAllFilterByModule($module);
+				if (!$filter) {
+					continue;
+				}
+				$result = Vtiger_CustomWidget_Model::compute(array('module' => $module, 'filterid' => (int)$filter->getId(), 'type' => 'number', 'metric' => 'count', 'field' => '', 'groupby' => ''));
+				if (isset($result['display'])) {
+					$chips[] = array('label' => $label, 'value' => $result['display'], 'url' => 'index.php?module=' . $module . '&view=List&viewname=' . (int)$filter->getId());
+				}
+			} catch (Exception $e) {
+				continue;
+			}
+		}
+		return array('hello' => $hello, 'name' => $name, 'chips' => $chips);
 	}
 
 	function preProcessTplName(Vtiger_Request $request) {

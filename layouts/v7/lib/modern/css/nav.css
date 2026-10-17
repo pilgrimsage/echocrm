@@ -820,7 +820,7 @@ input[type="checkbox"]{
 	height:16px;
 	border:1.5px solid var(--border-color);
 	border-radius:4px;
-	background:#fff;
+	background:var(--input-bg);
 	cursor:pointer;
 	position:relative;
 	vertical-align:middle;
@@ -917,7 +917,7 @@ input[type="checkbox"]:disabled{
 	min-width:0;
 	border:none !important;
 	border-radius:0 !important;
-	background:#fff !important;
+	background:var(--input-bg) !important;
 }
 /* min-width (not just padding) so every icon-only addon renders at least
    the same size regardless of the icon glyph's natural width (fa-calendar
@@ -962,7 +962,7 @@ input[type="checkbox"]:disabled{
    this file, which otherwise wins for those specific properties. */
 .cancelLink{
 	display:inline-block !important;
-	background:#fff !important;
+	background:transparent !important;
 	border:1px solid var(--danger-color) !important;
 	color:var(--danger-color) !important;
 	padding:.375rem .75rem !important;

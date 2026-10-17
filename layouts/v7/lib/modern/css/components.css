@@ -308,3 +308,119 @@ a.cancelLink{
 #appnav .navbar-nav > li{
 	flex:0 0 auto;
 }
+
+/* modals and reference-field search boxes */
+.modal-body,
+.modal-body.mCustomScrollbar,
+.modal-body .mCustomScrollBox,
+.modal-body .mCSB_container{
+	background:transparent !important;
+	color:var(--default-color);
+}
+input.inputElement[id$="_display"],
+input.autoComplete,
+input.sourceField{
+	background-color:var(--input-bg) !important;
+	color:var(--default-color) !important;
+	border-color:var(--input-border) !important;
+}
+
+/* ---- SweetAlert2 ---- */
+.swal2-popup{
+	background:var(--surface-color);
+	color:var(--default-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	font-family:var(--font-body);
+}
+.swal2-title,
+.swal2-html-container{
+	color:var(--heading-color);
+	font-family:var(--font-heading);
+}
+.swal2-html-container{
+	color:var(--default-color);
+	font-family:var(--font-body);
+}
+.swal2-styled.swal2-confirm{
+	background:var(--accent-color) !important;
+	border-radius:var(--radius-md);
+}
+.swal2-styled.swal2-cancel{
+	background:var(--surface-muted) !important;
+	color:var(--default-color) !important;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
+}
+
+/* ---- FullCalendar 3 (Calendar) ---- */
+.fc{
+	color:var(--default-color);
+}
+.fc-unthemed th,
+.fc-unthemed td,
+.fc-unthemed thead,
+.fc-unthemed tbody,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-row,
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-list-heading td{
+	border-color:var(--border-color);
+}
+.fc-unthemed .fc-widget-header,
+.fc-unthemed .fc-popover .fc-header{
+	background:var(--table-header-bg);
+	color:var(--muted-color);
+}
+.fc-unthemed .fc-widget-content,
+.fc-unthemed .fc-popover{
+	background:var(--surface-color);
+}
+.fc-unthemed td.fc-today,
+.fc-unthemed .fc-today{
+	background:var(--accent-soft) !important;
+}
+.fc-toolbar h2{
+	font-family:var(--font-heading);
+	color:var(--heading-color);
+}
+.fc-button{
+	background:var(--surface-color) !important;
+	border:1px solid var(--border-color) !important;
+	color:var(--default-color) !important;
+	text-shadow:none !important;
+	box-shadow:none !important;
+	border-radius:var(--radius-md) !important;
+}
+.fc-button:hover,
+.fc-state-active,
+.fc-button.fc-state-active{
+	background:var(--accent-soft) !important;
+	border-color:var(--accent-color) !important;
+	color:var(--accent-color) !important;
+}
+.fc-day-header,
+.fc-axis,
+.fc-time{
+	color:var(--muted-color);
+}
+
+/* ---- popovers / qtip / jquery-ui menus ---- */
+.popover,
+.ui-tooltip,
+.qtip,
+.ui-menu,
+.ui-autocomplete,
+.ui-widget-content{
+	background:var(--surface-color);
+	color:var(--default-color);
+	border-color:var(--border-color);
+}
+.ui-state-active,
+.ui-menu-item .ui-state-active{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color) !important;
+	border-color:var(--accent-soft) !important;
+}
