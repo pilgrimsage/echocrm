@@ -9,16 +9,16 @@
    out of sync with it (old dark teal #0E7C66 vs the real #00D3B8, etc).
    Aliased to the real global tokens so this file can't drift again. */
 :root{
-	--md-ink:var(--ink);
-	--md-teal:var(--teal);
-	--md-teal-soft:var(--teal-soft);
-	--md-paper:var(--paper);
-	--md-mist:var(--mist);
-	--md-mist-dark:var(--mist-dark);
-	--md-muted:var(--muted);
-	--md-line:var(--line);
-	--md-danger:var(--danger);
-	--md-radius:var(--radius);
+	--md-ink:var(--heading-color);
+	--md-teal:var(--accent-color);
+	--md-teal-soft:var(--accent-soft);
+	--md-paper:var(--surface-color);
+	--md-mist:var(--background-color);
+	--md-mist-dark:var(--surface-muted);
+	--md-muted:var(--muted-color);
+	--md-line:var(--border-color);
+	--md-danger:var(--danger-color);
+	--md-radius:var(--radius-md);
 }
 
 h1{
@@ -69,7 +69,7 @@ h1{
 	outline:none;
 	border-color:var(--md-teal);
 	background:var(--md-paper);
-	box-shadow:0 0 0 3px rgba(0,211,184,.18);
+	box-shadow:0 0 0 3px var(--input-focus-ring);
 }
 #md-container select{
 	border:1px solid var(--md-line);

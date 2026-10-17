@@ -16,16 +16,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 
 		
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/css/bootstrap.min.css")}'>
 
+        <script>try{ldelim}var t=localStorage.getItem('echocrm-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');{rdelim}catch(e){ldelim}{rdelim}</script>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/theme.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/listview.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/detailview.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/nav.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/editview.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/widgets.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/shell.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/components.css")}'>
 
         <link rel="stylesheet" href="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.css')}">
 

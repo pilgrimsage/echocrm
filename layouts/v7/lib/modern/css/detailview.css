@@ -11,9 +11,9 @@
    viewport edge instead of wrapping. Let the container size to its content
    and let the toolbar wrap onto a second line instead of running off-screen. */
 .detailview-header-block{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	padding:16px 18px;
 	margin-bottom:14px;
 }
@@ -40,17 +40,17 @@
 
 /* ---- record blocks ---- */
 .block{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	padding:16px 18px;
 	margin-bottom:14px;
 }
 .block h4{
-	font-family:'Roboto',sans-serif;
+	font-family:var(--font-body);
 	font-size:14.5px;
 	font-weight:600;
-	color:var(--ink);
+	color:var(--heading-color);
 	margin:0 0 8px;
 	display:flex;
 	align-items:center;
@@ -58,7 +58,7 @@
 }
 .block hr{
 	border:none;
-	border-top:1px solid var(--line);
+	border-top:1px solid var(--border-color);
 	margin:0 0 12px;
 }
 
@@ -82,7 +82,7 @@
 	font-size:13.5px;
 }
 .detailview-table td.fieldLabel{
-	color:var(--muted);
+	color:var(--muted-color);
 	font-size:12px;
 	font-weight:500;
 	text-transform:uppercase;
@@ -92,7 +92,7 @@
 	width:18%;
 }
 .detailview-table td.fieldValue{
-	color:var(--ink);
+	color:var(--heading-color);
 	padding:9px 10px;
 	vertical-align:top;
 }
@@ -100,11 +100,11 @@
 	font-weight:400;
 }
 .detailview-table .editAction{
-	color:var(--muted);
+	color:var(--muted-color);
 	margin-left:8px;
 }
 .detailview-table .editAction:hover{
-	color:var(--teal);
+	color:var(--accent-color);
 }
 
 /* Key Fields sidebar widget uses .summary-table, a separate class from
@@ -117,7 +117,7 @@
 	font-size:13.5px;
 }
 .summary-table td.fieldLabel{
-	color:var(--muted);
+	color:var(--muted-color);
 	font-size:11.5px;
 	font-weight:500;
 	text-transform:uppercase;
@@ -128,7 +128,7 @@
 	white-space:normal;
 }
 .summary-table td.fieldValue{
-	color:var(--ink);
+	color:var(--heading-color);
 	padding:8px 0;
 	vertical-align:top;
 }
@@ -136,19 +136,19 @@
 	font-weight:400;
 }
 .summary-table .editAction{
-	color:var(--muted);
+	color:var(--muted-color);
 	margin-left:8px;
 }
 .summary-table .editAction:hover{
-	color:var(--teal);
+	color:var(--accent-color);
 }
 
 /* ---- detail header / title bar ---- */
 .detailViewTitle,
 #detailViewHeader{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	padding:14px 18px;
 	margin-bottom:14px;
 }
@@ -156,30 +156,30 @@
 /* action buttons row */
 #detailViewHeader .btn-default,
 .DetailViewActions .btn-default{
-	background:var(--paper);
-	border:1px solid var(--line);
-	color:var(--ink);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	color:var(--heading-color);
 	border-radius:6px;
 }
 #detailViewHeader .btn-default:hover,
 .DetailViewActions .btn-default:hover{
-	background:var(--mist);
-	border-color:var(--teal);
+	background:var(--background-color);
+	border-color:var(--accent-color);
 }
 #detailViewHeader .btn-primary{
-	background:var(--teal);
-	border-color:var(--teal);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 }
 #detailViewHeader .btn-primary:hover{
-	background:var(--teal-deep);
-	border-color:var(--teal-deep);
+	background:var(--accent-hover);
+	border-color:var(--accent-hover);
 }
 
 /* tags */
 .detailViewTagList .label,
 .detailViewTagList .tag{
-	background:var(--teal-soft);
-	color:var(--teal-deep);
+	background:var(--accent-soft);
+	color:var(--accent-hover);
 	border-radius:20px;
 	padding:3px 10px;
 	font-size:12px;
@@ -189,12 +189,12 @@
 /* related list tabs / panel — shared classnames, safe restyle */
 .relatedListHeader,
 .related-tab-container{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 }
 .nav-tabs > li > a{
-	color:var(--muted);
+	color:var(--muted-color);
 	border:none;
 	font-size:13px;
 	font-weight:500;
@@ -209,8 +209,8 @@
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li > a.active,
 .nav-tabs > li > a.active:hover{
-	color:var(--teal);
-	border-bottom:2px solid var(--teal);
+	color:var(--accent-color);
+	border-bottom:2px solid var(--accent-color);
 	background:transparent;
 }
 .nav-tabs > li > a:not(.active){

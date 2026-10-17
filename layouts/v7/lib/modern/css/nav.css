@@ -26,7 +26,7 @@ body{
 	font-size:20px;
 	line-height:1;
 	opacity:.6;
-	color:var(--ink,#0B0F14) !important;
+	color:var(--heading-color) !important;
 	cursor:pointer;
 }
 .close:hover{
@@ -111,7 +111,7 @@ body{
 	justify-content:flex-end;
 }
 .modal-header h4{
-	font-family:'Roboto',sans-serif;
+	font-family:var(--font-body);
 	font-size:16px;
 	font-weight:600;
 	white-space:nowrap;
@@ -122,25 +122,25 @@ body{
    wins on every modal app-wide (not just Advanced Search), which is why modals still look
    nothing like the rest of the modern skin. Restyle to match the brand tokens instead. */
 .modal-header{
-	background:var(--paper) !important;
-	color:var(--ink) !important;
-	border-bottom:1px solid var(--line) !important;
-	border-radius:var(--radius) var(--radius) 0 0;
+	background:var(--surface-color) !important;
+	color:var(--heading-color) !important;
+	border-bottom:1px solid var(--border-color) !important;
+	border-radius:var(--radius-md) var(--radius-md) 0 0;
 	padding:14px 18px !important;
 }
 .modal-content{
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	box-shadow:0 12px 32px rgba(16,21,28,.16);
-	background:var(--paper);
+	background:var(--surface-color);
 }
 .modal-header,
 .modal-footer{
-	background:var(--mist-dark) !important;
+	background:var(--surface-muted) !important;
 }
 .modal-footer{
-	border-top:1px solid var(--line);
-	border-radius:0 0 var(--radius) var(--radius);
+	border-top:1px solid var(--border-color);
+	border-radius:0 0 var(--radius-md) var(--radius-md);
 }
 
 /* None of these templates carry BS5's ".modal-dialog-centered" class, so
@@ -249,8 +249,8 @@ body{
 	bottom:auto !important;
 	width:auto !important;
 	border-left:none !important;
-	border-top:1px solid var(--line) !important;
-	background:var(--paper) !important;
+	border-top:1px solid var(--border-color) !important;
+	background:var(--surface-color) !important;
 }
 /* The Search/Save As List/Save buttons (AdvanceSearch.tpl) sit 3 grid
    levels deep - ".actions.col-lg-7 > .row > .col-lg-2/col-lg-10 >
@@ -298,9 +298,10 @@ body{
    (confirmed live - had to back this off from 1100 after that
    regression showed up). 1094 sits exactly between the two. */
 .app-fixed-navbar.navbar-inverse{
-	background:var(--ink) !important;
+	background:var(--header-bg) !important;
 	border:none;
-	box-shadow:0 1px 0 rgba(0,0,0,.08);
+	border-bottom:1px solid var(--header-border);
+	box-shadow:var(--header-shadow);
 	min-height:52px;
 	z-index:1094 !important;
 }
@@ -308,11 +309,12 @@ body{
 	cursor:pointer;
 }
 .app-fixed-navbar .app-icon{
-	color:#fff;
-	opacity:.85;
-	font-size:16px;
+	color:var(--heading-color);
+	opacity:.9;
+	font-size:17px;
 }
 .app-fixed-navbar .app-icon:hover{
+	color:var(--accent-color);
 	opacity:1;
 }
 .app-fixed-navbar .company-logo img{
@@ -363,95 +365,97 @@ body{
    into, so the input collapsed to a sliver. Give the search box a real
    width so the input has room to actually grow. */
 .search-links-container .search-link{
-	background:rgba(255,255,255,.08) !important;
-	border:1px solid rgba(255,255,255,.16) !important;
-	border-radius:8px !important;
-	padding:6px 12px !important;
+	background:var(--background-color) !important;
+	border:1px solid var(--border-color) !important;
+	border-radius:var(--radius-full) !important;
+	padding:7px 16px !important;
 	margin:0 !important;
 	float:none !important;
-	width:280px !important;
+	width:340px !important;
 	height:auto !important;
 	display:flex !important;
 	align-items:center;
-	gap:8px;
-	transition:border-color .15s ease,background .15s ease;
+	gap:10px;
+	transition:border-color .15s ease,box-shadow .15s ease;
 }
 .search-links-container .search-link:focus-within{
-	border-color:var(--teal,#00D3B8) !important;
-	background:rgba(255,255,255,.12) !important;
+	border-color:var(--input-focus-border) !important;
+	box-shadow:0 0 0 3px var(--input-focus-ring);
+	background:var(--surface-color) !important;
 }
 .search-links-container .keyword-input{
 	background:transparent;
 	border:none;
-	color:#fff;
+	color:var(--default-color);
 	font-size:13.5px;
 	flex:1;
+	outline:none;
 }
 .search-links-container .keyword-input::placeholder{
-	color:rgba(255,255,255,.5);
+	color:var(--light-color);
 }
 .search-links-container .fa-search{
-	color:rgba(255,255,255,.6);
+	color:var(--light-color);
 }
 
 /* right-side icons (calendar, reports, tasks) */
 .global-actions > .nav > li > div > a,
 .global-actions > .nav > li > a{
-	color:rgba(255,255,255,.75);
+	color:var(--muted-color);
 	padding:14px 12px;
-	font-size:15px;
+	font-size:16px;
 }
 .global-actions > .nav > li > div > a:hover,
 .global-actions > .nav > li > a:hover{
-	color:#7CF2C0;
+	color:var(--accent-color);
 }
 .qc-button{
-	color:#7CF2C0 !important;
-	font-size:20px !important;
+	color:var(--accent-color) !important;
+	font-size:22px !important;
 }
 
 /* user menu */
 .userName{
-	color:#fff !important;
+	color:var(--heading-color) !important;
 	display:flex;
 	align-items:center;
 	gap:6px;
 }
 .logout-content{
-	border:1px solid var(--line);
+	border:1px solid var(--border-color);
 	border-radius:10px;
 	box-shadow:0 10px 30px rgba(16,21,28,.12);
 	padding:16px;
 	width:280px;
 }
 .logout-content h4{
-	font-family:'Roboto',sans-serif;
+	font-family:var(--font-body);
 	font-size:15px;
 	margin:0;
 }
 .logout-content h5{
-	color:var(--muted);
+	color:var(--muted-color);
 	font-weight:400;
 	font-size:12.5px;
 }
 .logout-content .profile-container p{
-	color:var(--muted);
+	color:var(--muted-color);
 	font-size:12.5px;
 	margin:2px 0 0;
 }
 .logout-footer a{
-	color:var(--ink);
+	color:var(--heading-color);
 	font-size:13px;
 	margin-left:6px;
 }
 .logout-footer a:hover{
-	color:var(--teal);
+	color:var(--accent-color);
 }
 
 /* quick create dropdown */
 .quickCreateItem a.quickCreateModule,
 .quickCreateItem a.quickCreateModuleSubmenu{
-	color:var(--ink);
+	color:var(--heading-color);
 	font-size:13px;
 	text-decoration:none;
 	display:flex;
@@ -461,7 +465,7 @@ body{
 	border-radius:6px;
 }
 .quickCreateItem a:hover{
-	background:var(--mist);
+	background:var(--background-color);
 }
 /* Same duplicate-caret issue as the app switcher: this trigger has its own
    manual .fa-caret-down, plus BS5 draws its own ::after arrow on any
@@ -479,7 +483,7 @@ body{
    Settings) is taller than that snapshot height. Lower items became
    permanently unreachable instead of just needing a scroll. */
 .app-menu{
-	background:var(--ink);
+	background:var(--heading-color);
 	overflow-y:auto !important;
 	max-height:100vh;
 }
@@ -504,7 +508,7 @@ body{
 }
 .app-menu .app-icon-list{
 	margin-right:8px;
-	color:#7CF2C0;
+	color:var(--accent-color);
 }
 
 /* app modules dropdown (flyout submenu per app): this is a full-height
@@ -660,22 +664,22 @@ body{
 	font-size:13.5px !important;
 	padding:.45rem .9rem !important;
 	transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease,transform .05s ease;
-	box-shadow:var(--shadow-sm, 0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12));
+	box-shadow:var(--shadow-sm);
 }
 .btn:active{
 	transform:translateY(1px);
 	box-shadow:none;
 }
 .btn-default{
-	background:var(--paper,#fff);
-	border:1px solid var(--line,#DFE2DD);
-	color:var(--ink,#0B0F14);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	color:var(--heading-color);
 }
 .btn-default:hover,
 .btn-default:focus{
-	background:var(--mist,#F6F7F5);
-	border-color:var(--line,#DFE2DD);
-	color:var(--ink,#0B0F14);
+	background:var(--background-color);
+	border-color:var(--border-color);
+	color:var(--heading-color);
 }
 .btn-default:disabled,
 .btn-default.disabled{
@@ -684,21 +688,21 @@ body{
 }
 .btn-primary,
 .btn-success{
-	background:var(--teal,#00D3B8);
-	border-color:var(--teal,#00D3B8);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 	color:#08201B;
 }
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-success:hover,
 .btn-success:focus{
-	background:var(--teal-deep,#06A793);
-	border-color:var(--teal-deep,#06A793);
+	background:var(--accent-hover);
+	border-color:var(--accent-hover);
 	color:#fff;
 }
 .btn-danger{
-	background:var(--danger,#E4572E);
-	border-color:var(--danger,#E4572E);
+	background:var(--danger-color);
+	border-color:var(--danger-color);
 }
 .btn-danger:hover,
 .btn-danger:focus{
@@ -708,10 +712,10 @@ body{
 	background:transparent;
 	border:none;
 	box-shadow:none;
-	color:var(--teal-deep,#06A793);
+	color:var(--accent-hover);
 }
 .btn-text:hover{
-	background:var(--teal-soft,#E4FBF6);
+	background:var(--accent-soft);
 }
 .btn-small,.btn-mini,.btn-xs{
 	padding:.25rem .6rem !important;
@@ -724,15 +728,15 @@ body{
 	border-radius:8px !important;
 }
 .btn-social,.btn-google{
-	background:var(--paper,#fff);
-	border:1px solid var(--line,#DFE2DD);
-	color:var(--ink,#0B0F14);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	color:var(--heading-color);
 	display:inline-flex;
 	align-items:center;
 	gap:8px;
 }
 .btn-social:hover,.btn-google:hover{
-	background:var(--mist,#F6F7F5);
+	background:var(--background-color);
 }
 
 /* radio buttons — were plain unstyled browser-default (OS blue), no
@@ -750,12 +754,12 @@ body{
 input[type="radio"]{
 	appearance:none;
 	-webkit-appearance:none;
-	accent-color:var(--teal,#00D3B8);
+	accent-color:var(--accent-color);
 	width:2em;
 	height:1.1em;
 	border-radius:1em;
-	background:var(--mist,#F6F7F5);
-	border:1px solid var(--line,#DFE2DD);
+	background:var(--background-color);
+	border:1px solid var(--border-color);
 	position:relative;
 	cursor:pointer;
 	vertical-align:middle;
@@ -771,15 +775,15 @@ input[type="radio"]::before{
 	height:calc(1.1em - 4px);
 	border-radius:50%;
 	background:#fff;
-	box-shadow:0 1px 2px rgba(11,15,20,.25);
+	box-shadow:0 1px 2px rgb(30 18 66 / .25);
 	transition:transform .15s ease;
 }
 input[type="radio"]:hover{
-	border-color:var(--teal,#00D3B8);
+	border-color:var(--accent-color);
 }
 input[type="radio"]:checked{
-	background:var(--teal,#00D3B8);
-	border-color:var(--teal,#00D3B8);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 }
 input[type="radio"]:checked::before{
 	transform:translateX(0.9em);
@@ -811,10 +815,10 @@ input[type="radio"]:disabled{
 input[type="checkbox"]{
 	appearance:none;
 	-webkit-appearance:none;
-	accent-color:var(--teal,#00D3B8);
+	accent-color:var(--accent-color);
 	width:16px;
 	height:16px;
-	border:1.5px solid var(--line,#DFE2DD);
+	border:1.5px solid var(--border-color);
 	border-radius:4px;
 	background:#fff;
 	cursor:pointer;
@@ -824,11 +828,11 @@ input[type="checkbox"]{
 	flex-shrink:0;
 }
 input[type="checkbox"]:hover{
-	border-color:var(--teal,#00D3B8);
+	border-color:var(--accent-color);
 }
 input[type="checkbox"]:checked{
-	background:var(--teal,#00D3B8);
-	border-color:var(--teal,#00D3B8);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 }
 input[type="checkbox"]:checked::after{
 	content:'';
@@ -842,8 +846,8 @@ input[type="checkbox"]:checked::after{
 	transform:rotate(45deg);
 }
 input[type="checkbox"]:indeterminate{
-	background:var(--teal,#00D3B8);
-	border-color:var(--teal,#00D3B8);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 }
 input[type="checkbox"]:indeterminate::after{
 	content:'';
@@ -897,13 +901,13 @@ input[type="checkbox"]:disabled{
 	display:flex !important;
 	align-items:stretch !important;
 	width:100% !important;
-	border:1px solid var(--line,#DFE2DD) !important;
+	border:1px solid var(--border-color) !important;
 	border-radius:6px !important;
 	overflow:hidden;
-	background:var(--mist,#F6F7F5) !important;
+	background:var(--background-color) !important;
 }
 .input-group:focus-within{
-	border-color:var(--teal,#00D3B8) !important;
+	border-color:var(--accent-color) !important;
 }
 .input-group .inputElement,
 .input-group .form-control,
@@ -932,11 +936,11 @@ input[type="checkbox"]:disabled{
 	justify-content:center;
 	min-width:38px !important;
 	padding:0 12px !important;
-	background:var(--mist,#F6F7F5);
+	background:var(--background-color);
 	border:none !important;
-	border-left:1px solid var(--line,#DFE2DD) !important;
+	border-left:1px solid var(--border-color) !important;
 	border-radius:0 !important;
-	color:var(--muted,#4A555F);
+	color:var(--muted-color);
 	white-space:nowrap;
 	flex-shrink:0;
 	text-decoration:none;
@@ -945,8 +949,8 @@ input[type="checkbox"]:disabled{
 }
 .input-group-addon:hover,
 .input-group .clearReferenceSelection:hover{
-	background:var(--teal-soft,#E4FBF6);
-	color:var(--teal-deep,#06A793);
+	background:var(--accent-soft);
+	color:var(--accent-hover);
 	text-decoration:none;
 }
 
@@ -959,8 +963,8 @@ input[type="checkbox"]:disabled{
 .cancelLink{
 	display:inline-block !important;
 	background:#fff !important;
-	border:1px solid var(--danger,#E4572E) !important;
-	color:var(--danger,#E4572E) !important;
+	border:1px solid var(--danger-color) !important;
+	color:var(--danger-color) !important;
 	padding:.375rem .75rem !important;
 	border-radius:6px !important;
 	font-size:13.5px !important;
@@ -970,8 +974,8 @@ input[type="checkbox"]:disabled{
 	transition:background-color .15s ease,color .15s ease;
 }
 .cancelLink:hover{
-	background:#FDECE7 !important;
-	color:var(--danger,#E4572E) !important;
+	background:var(--danger-color-light) !important;
+	color:var(--danger-color) !important;
 	text-decoration:none;
 }
 
@@ -995,7 +999,7 @@ input[type="checkbox"]:disabled{
 	flex:0 0 calc(25% - 11px);
 	width:auto !important;
 	margin-left:0 !important;
-	border-radius:var(--radius,8px);
+	border-radius:var(--radius-md,8px);
 }
 
 /* Settings > Layout Editor's field tiles (FieldsList.tpl): each field
@@ -1023,8 +1027,11 @@ input[type="checkbox"]:disabled{
    background, invisible. Give the header cells their own background
    directly instead of relying on the row showing through. */
 .blockHeader th{
-	background:var(--ink,#0B0F14) !important;
-	color:#fff !important;
+	background:var(--surface-muted) !important;
+	color:var(--heading-color) !important;
+	font-family:var(--font-heading);
+	font-weight:600;
+	border-bottom:1px solid var(--border-color) !important;
 }
 
 /* CKEditor 4 (EmailTemplates, Documents, Users signature, Workflows,
@@ -1158,8 +1165,8 @@ input[type="checkbox"]:disabled{
 	width:auto !important;
 	height:auto !important;
 	max-height:none !important;
-	border-radius:var(--radius,6px);
-	box-shadow:0 20px 60px rgba(11,15,20,.35);
+	border-radius:var(--radius-md,6px);
+	box-shadow:0 20px 60px rgb(30 18 66 / .35);
 	overflow:hidden;
 }
 #overlayPage:has(#taskManagementContainer) #taskManagementContainer{
@@ -1171,8 +1178,8 @@ input[type="checkbox"]:disabled{
 	flex:0 0 auto;
 }
 #overlayPage:has(#taskManagementContainer) .overlayHeader .modal-header{
-	background:var(--mist-dark,#EDEFEC) !important;
-	border-radius:var(--radius,6px) var(--radius,6px) 0 0;
+	background:var(--surface-muted) !important;
+	border-radius:var(--radius-md,6px) var(--radius-md,6px) 0 0;
 }
 
 /* .app-fixed-navbar's 8px padding wraps the WHOLE 2-row navbar

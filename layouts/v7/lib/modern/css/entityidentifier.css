@@ -3,16 +3,16 @@
    ========================================================================== */
 
 .entityIdentifierFieldsList{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	padding:10px 14px;
 	max-height:320px;
 	overflow-y:auto;
 }
 .entityIdentifierFieldOption{
 	padding:6px 0;
-	border-bottom:1px solid var(--line);
+	border-bottom:1px solid var(--border-color);
 }
 .entityIdentifierFieldOption:last-child{
 	border-bottom:none;
@@ -22,25 +22,25 @@
 	margin:0 0 14px 0;
 	padding:0;
 	min-height:40px;
-	background:var(--mist);
-	border:1px dashed var(--line);
-	border-radius:var(--radius);
+	background:var(--background-color);
+	border:1px dashed var(--border-color);
+	border-radius:var(--radius-md);
 	padding:8px;
 }
 .entityIdentifierChip{
 	display:inline-flex;
 	align-items:center;
 	gap:6px;
-	background:var(--paper);
-	border:1px solid var(--line);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
 	border-radius:2em;
 	padding:4px 10px;
 	margin:4px;
 	font-size:12.5px;
-	color:var(--ink);
+	color:var(--heading-color);
 }
 .entityIdentifierChip .chipIndex{
-	background:var(--teal);
+	background:var(--accent-color);
 	color:#fff;
 	border-radius:50%;
 	width:18px;
@@ -52,8 +52,8 @@
 }
 .entityIdentifierChip .chipRemove{
 	cursor:pointer;
-	color:var(--muted);
+	color:var(--muted-color);
 }
 .entityIdentifierChip .chipRemove:hover{
-	color:var(--danger);
+	color:var(--danger-color);
 }

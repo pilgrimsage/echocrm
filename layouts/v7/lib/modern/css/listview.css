@@ -4,45 +4,24 @@
    No markup/JS dependency changed — safe layer.
    ========================================================================== */
 
-:root{
-	/* EchoCrew brand tokens, matched from dev.echocrew.in's computed :root values */
-	--ink:#0B0F14;
-	--teal:#00D3B8;
-	--teal-deep:#06A793;
-	--teal-soft:#E4FBF6;
-	--paper:#FFFFFF;
-	--mist:#F6F7F5;
-	--mist-dark:#EDEFEC;
-	--muted:#4A555F;
-	--line:#DFE2DD;
-	--danger:#E4572E;
-	--radius:6px;
-	--radius-md:14px;
-	--radius-lg:22px;
-	--shadow:0 1px 2px rgba(11,15,20,.04), 0 18px 40px -24px rgba(11,15,20,.28);
-	--shadow-sm:0 1px 2px rgba(11,15,20,.06), 0 2px 8px -2px rgba(11,15,20,.12);
-}
+/* design tokens live in theme.css (loaded first) */
 
 /* !important required: each skins subfolder's style.css (marketing, sales, inventory,
-   etc - one per app context) carries its own bare "body{font-family:
-   OpenSans-Regular,sans-serif;font-size:12px}" left from the original
-   BS3 skin. Same bare "body" selector, equal specificity, loaded after
-   this file, so it silently wins depending which app the user is in -
-   this was the actual cause of fonts looking inconsistent across the
-   app (confirmed live via document.styleSheets: every page's real body
-   font was OpenSans-Regular at 12px, never Roboto). */
+   etc - one per app context) carries its own bare body rule with the old BS3 font, same
+   specificity and loaded after this file, so it silently wins depending on the app the
+   user is in. */
 body{
-	font-family:'Roboto',-apple-system,sans-serif !important;
-	font-size:13.5px !important;
-	background:var(--mist);
-	color:var(--ink);
+	font-family:var(--font-body) !important;
+	font-size:14px !important;
+	background:var(--background-color);
+	color:var(--default-color);
 }
 
 /* ---- toolbar / mass actions ---- */
 .listview-actions-container{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	padding:10px 12px;
 	margin-bottom:10px;
 }
@@ -50,15 +29,15 @@ body{
 	align-items:center;
 }
 .listview-actions-container .btn-default{
-	background:var(--paper);
-	border:1px solid var(--line);
-	color:var(--ink);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	color:var(--heading-color);
 	border-radius:6px;
 	font-size:13px;
 }
 .listview-actions-container .btn-default:hover{
-	background:var(--mist);
-	border-color:var(--teal);
+	background:var(--background-color);
+	border-color:var(--accent-color);
 }
 .listview-actions-container .btn-group{
 	border-radius:6px;
@@ -91,9 +70,9 @@ body{
 
 /* ---- table shell ---- */
 .table-container{
-	background:var(--paper);
-	border:1px solid var(--line);
-	border-radius:var(--radius);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
 	overflow:hidden;
 }
 .listview-table{
@@ -102,24 +81,24 @@ body{
 	font-size:13.5px;
 }
 .listview-table thead tr.listViewContentHeader{
-	background:var(--mist);
-	border-bottom:1px solid var(--line);
+	background:var(--background-color);
+	border-bottom:1px solid var(--border-color);
 }
 .listview-table thead th{
 	padding:11px 12px;
 	font-weight:600;
-	color:var(--muted);
+	color:var(--muted-color);
 	text-transform:uppercase;
 	font-size:11px;
 	letter-spacing:.03em;
 	white-space:nowrap;
 }
 .listview-table thead th a.listViewContentHeaderValues{
-	color:var(--muted);
+	color:var(--muted-color);
 	text-decoration:none;
 }
 .listview-table thead th a.listViewContentHeaderValues:hover{
-	color:var(--ink);
+	color:var(--heading-color);
 }
 
 /* .table-actions (select-all checkbox + "manage columns" icon + search
@@ -152,29 +131,29 @@ body{
 }
 .listColumnFilter{
 	cursor:pointer;
-	color:var(--muted);
+	color:var(--muted-color);
 	font-size:14px;
 }
 .listColumnFilter:hover{
-	color:var(--teal);
+	color:var(--accent-color);
 }
 .table-actions button[data-trigger="listSearch"]{
 	margin-left:auto;
 }
 .listview-table tbody tr.listViewEntries{
-	border-bottom:1px solid var(--line);
+	border-bottom:1px solid var(--border-color);
 	transition:background .1s ease;
 }
 .listview-table tbody tr.listViewEntries:hover{
-	background:var(--mist);
+	background:var(--background-color);
 	cursor:pointer;
 }
 .listview-table td.listViewEntryValue{
 	padding:11px 12px;
-	color:var(--ink);
+	color:var(--heading-color);
 }
 .listview-table td.listViewEntryValue a{
-	color:var(--teal);
+	color:var(--accent-color);
 	text-decoration:none;
 	font-weight:500;
 }
@@ -189,27 +168,27 @@ body{
 /* row checkbox */
 .listViewEntriesMainCheckBox,
 .listview-table input[type="checkbox"]{
-	accent-color:var(--teal);
+	accent-color:var(--accent-color);
 	width:15px;
 	height:15px;
 }
 
 /* search row */
 .searchRow th{
-	background:var(--paper);
+	background:var(--surface-color);
 	padding:8px;
 }
 .searchRow .btn-success{
-	background:var(--teal);
-	border-color:var(--teal);
+	background:var(--accent-color);
+	border-color:var(--accent-color);
 }
 .searchRow .btn-success:hover{
-	background:var(--teal-deep);
-	border-color:var(--teal-deep);
+	background:var(--accent-hover);
+	border-color:var(--accent-hover);
 }
 .searchRow .btn-danger{
-	background:var(--danger);
-	border-color:var(--danger);
+	background:var(--danger-color);
+	border-color:var(--danger-color);
 }
 
 /* picklist chips */
@@ -219,19 +198,19 @@ body{
 	border-radius:20px;
 	font-size:12px;
 	font-weight:500;
-	background:var(--teal-soft);
-	color:var(--teal-deep);
+	background:var(--accent-soft);
+	color:var(--accent-hover);
 }
 
 /* empty state */
 .emptyRecordsContent{
 	text-align:center;
 	padding:48px 20px;
-	color:var(--muted);
+	color:var(--muted-color);
 	font-size:14px;
 }
 .emptyRecordsContent a{
-	color:var(--teal) !important;
+	color:var(--accent-color) !important;
 	font-weight:500;
 }
 
@@ -253,32 +232,32 @@ body{
 
 /* left panel toggle */
 .essentials-toggle{
-	background:var(--paper);
-	border:1px solid var(--line);
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
 	border-radius:6px;
 	width:26px;
 	height:26px;
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	color:var(--muted);
+	color:var(--muted-color);
 	margin-bottom:8px;
 	cursor:pointer;
 }
 .essentials-toggle:hover{
-	border-color:var(--teal);
-	color:var(--teal);
+	border-color:var(--accent-color);
+	color:var(--accent-color);
 }
 
 /* pagination / scroller */
 .bottom-fixed-scroll{
-	background:var(--paper);
-	border-top:1px solid var(--line);
+	background:var(--surface-color);
+	border-top:1px solid var(--border-color);
 }
 
 /* dropdown menus app-wide (affects listview + others sharing .dropdown-menu) */
 .dropdown-menu{
-	border:1px solid var(--line);
+	border:1px solid var(--border-color);
 	border-radius:8px;
 	box-shadow:0 8px 24px rgba(16,21,28,.08);
 	padding:6px;
@@ -287,8 +266,8 @@ body{
 	border-radius:5px;
 	padding:8px 10px;
 	font-size:13.5px;
-	color:var(--ink);
+	color:var(--heading-color);
 }
 .dropdown-menu > li > a:hover{
-	background:var(--mist);
+	background:var(--background-color);
 }
