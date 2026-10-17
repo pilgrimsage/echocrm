@@ -13,7 +13,7 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/purl.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/select2/js/select2.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.class.min.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-ui-1.12.0.custom/jquery-ui.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-ui/jquery-ui.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/flatpickr/flatpickr.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/js/bootstrap.bundle.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery-validation/jquery.validate.min.js')}"></script>
@@ -29,7 +29,6 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/autoComplete/jquery.textcomplete.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.qtip.custom/jquery.qtip.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/momentjs/moment.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/moment.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/ckeditor.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor/adapters/jquery.js')}"></script>
