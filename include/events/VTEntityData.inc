@@ -146,7 +146,7 @@ class VTEntityData{
 	}
 
 	function get($fieldName){
-		return $this->focus->column_fields[$fieldName];
+		return $this->focus->column_fields[$fieldName] ?? null;
 	}
 
 	function set($fieldName, $value){

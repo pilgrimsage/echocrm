@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # One-shot setup for a fresh clone of this repo on a new machine/server:
 # copies config samples into place, fills in DB/site settings, creates the
-# database, imports db/schema.sql if present, and clears the Smarty cache.
+# database, imports db/schema.sql if present, creates the administrator login
+# (bin/create-admin.php) and clears the Smarty cache.
 #
 # Usage: bin/setup.sh
 set -euo pipefail
@@ -71,9 +72,19 @@ mysql "${mysql_args[@]}" -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARAC
 
 if [ -f db/schema.sql ]; then
 	mysql "${mysql_args[@]}" "$DB_NAME" < db/schema.sql
-	echo "Imported db/schema.sql into ${DB_NAME}"
-	echo "The imported admin login has a placeholder credential and cannot log in yet."
-	echo "Run bin/reset-admin-login.sh to set a real one."
+	echo "Imported db/schema.sql into ${DB_NAME} (settings, roles, picklists, chart of accounts; no users, no records)"
+
+	if [ ! -f vendor/autoload.php ]; then
+		echo "PHP dependencies are missing: run  composer install --ignore-platform-req=ext-imap  and then"
+		echo "  ADMIN_PASSWORD='...' php bin/create-admin.php --user=admin --email=you@example.com"
+	else
+		ADMIN_USER=$(prompt "Administrator username" "admin")
+		ADMIN_EMAIL=$(prompt "Administrator email" "")
+		ADMIN_TZ=$(prompt "Time zone" "UTC")
+		read -rsp "Administrator password (at least 8 characters): " ADMIN_PASSWORD
+		echo
+		ADMIN_PASSWORD="$ADMIN_PASSWORD" php bin/create-admin.php --user="$ADMIN_USER" --email="$ADMIN_EMAIL" --timezone="$ADMIN_TZ"
+	fi
 else
 	echo "No db/schema.sql found - run vtiger's own install wizard against this database instead."
 fi
