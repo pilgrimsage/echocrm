@@ -1066,24 +1066,24 @@ input[type="checkbox"]:disabled{
    module's real color (same values as the .bgXXX rules above) directly
    against ".recordImage.bgXXX", which beats the single-class ".app-*"
    rule on specificity while matching it on importance. */
-.recordImage.bgAccounts{ background:#6cc4b9 !important; }
-.recordImage.bgcontacts{ background:#03A678 !important; }
-.recordImage.bghelpdesk{ background:#d1026c !important; }
-.recordImage.bginvoice{ background:#d1026c !important; }
-.recordImage.bgleads{ background:#F47983 !important; }
-.recordImage.bgpotentials{ background:#492d61 !important; }
-.recordImage.bgproducts{ background:#FFB3A7 !important; }
-.recordImage.bgvendors{ background:#875F9A !important; }
-.recordImage.bgpurchaseorder{ background:#C93756 !important; }
-.recordImage.bgquotes{ background:#d1026c !important; }
-.recordImage.bgsalesorder{ background:#d1026c !important; }
-.recordImage.bgproject{ background:#d1026c !important; }
-.recordImage.bg_ServiceContracts{ background:#FFB61E !important; }
-.recordImage.bg_Assets{ background:#8DB255 !important; }
-.recordImage.bg_Services{ background:#d1026c !important; }
-.recordImage.bg_Calendar{ background:#ed4c57 !important; }
-.recordImage.bg_Campaigns{ background:#A17917 !important; }
-.recordImage.bg_Cases{ background:#42A5F5 !important; }
+.recordImage.bgAccounts{ background:var(--info-color) !important; }
+.recordImage.bgcontacts{ background:var(--success-color) !important; }
+.recordImage.bghelpdesk{ background:var(--danger-color) !important; }
+.recordImage.bginvoice{ background:var(--accent-color) !important; }
+.recordImage.bgleads{ background:var(--warning-color) !important; }
+.recordImage.bgpotentials{ background:var(--accent-color) !important; }
+.recordImage.bgproducts{ background:var(--info-color) !important; }
+.recordImage.bgvendors{ background:var(--success-color) !important; }
+.recordImage.bgpurchaseorder{ background:var(--danger-color) !important; }
+.recordImage.bgquotes{ background:var(--warning-color) !important; }
+.recordImage.bgsalesorder{ background:var(--info-color) !important; }
+.recordImage.bgproject{ background:var(--accent-color) !important; }
+.recordImage.bg_ServiceContracts{ background:var(--warning-color) !important; }
+.recordImage.bg_Assets{ background:var(--success-color) !important; }
+.recordImage.bg_Services{ background:var(--info-color) !important; }
+.recordImage.bg_Calendar{ background:var(--danger-color) !important; }
+.recordImage.bg_Campaigns{ background:var(--warning-color) !important; }
+.recordImage.bg_Cases{ background:var(--info-color) !important; }
 
 /* DetailViewHeaderTitle.tpl marks .recordImage "d-none d-md-block" (BS5
    responsive-visibility utility: hidden on mobile, block from the "md"
