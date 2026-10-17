@@ -120,13 +120,15 @@ Vtiger_Helper_Js.showMessage = function (params) {
 	Vtiger_Helper_Js.showPnotify(params);
 };
 
-Vtiger_List_Js.prototype.registerTimeListSearch = function (container) {
-	vtUtils.registerEventForTimeFields(container);
-};
+if (typeof Vtiger_List_Js !== 'undefined') {
+	Vtiger_List_Js.prototype.registerTimeListSearch = function (container) {
+		vtUtils.registerEventForTimeFields(container);
+	};
 
-Vtiger_List_Js.prototype.registerDateListSearch = function (container) {
-	vtUtils.registerEventForDateFields(container);
-};
+	Vtiger_List_Js.prototype.registerDateListSearch = function (container) {
+		vtUtils.registerEventForDateFields(container);
+	};
+}
 
 Vtiger_List_Js.prototype.calculatePages = function () {
 	var thisInstance = this;

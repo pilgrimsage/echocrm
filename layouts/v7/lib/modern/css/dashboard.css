@@ -38,3 +38,8 @@
 	background:var(--accent-soft);
 	border-radius:var(--radius-lg,14px);
 }
+
+/* tab strip and its buttons line up with the banner and the widget grid */
+.dashBoardContainer .tabContainer{
+	padding:0 20px;
+}
