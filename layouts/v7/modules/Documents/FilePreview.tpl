@@ -64,9 +64,9 @@
                             </div>
                         {else if $VIDEO_FILE_TYPE eq 'yes'}
                             <div style="overflow:auto;height:100%;">
-                                <link href="layouts/v7/lib/video-js/video-js.css" rel="stylesheet">
-                                <script src="layouts/v7/lib/video-js/video.js"></script>
-                                <video class="video-js vjs-default-skin" controls preload="auto" {literal}data-setup="{'techOrder': ['flash', 'html5']}" {/literal}width="100%" height="100%">
+                                <link href="layouts/v7/lib/video-js/css/video-js.min.css" rel="stylesheet">
+                                <script src="layouts/v7/lib/video-js/js/video.min.js"></script>
+                                <video class="video-js" controls preload="auto" {literal}data-setup='{"fluid": true}'{/literal}>
                                     <source src="{$SITE_URL}/{$DOWNLOAD_URL}" type='{$FILE_TYPE}' />
                                 </video>
                             </div>
