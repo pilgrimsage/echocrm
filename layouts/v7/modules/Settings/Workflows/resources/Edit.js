@@ -964,20 +964,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             vtUtils.showSelect2ElementView(fieldSpecificUi);
          }
       } else if (fieldSpecificUi.is('input.dateField')) {
-         var calendarType = fieldSpecificUi.data('calendarType');
-         if (calendarType == 'range') {
-            var customParams = {
-               calendars: 3,
-               mode: 'range',
-               className: 'rangeCalendar',
-               onChange: function (formated) {
-                  fieldSpecificUi.val(formated.join(','));
-               }
-            }
-            app.registerEventForDatePickerFields(fieldSpecificUi, false, customParams);
-         } else {
-            app.registerEventForDatePickerFields(fieldSpecificUi);
-         }
+         // range or single date: registerEventForDateFields reads data-calendar-type itself
+         vtUtils.registerEventForDateFields(fieldSpecificUi);
       }
       return this;
    },

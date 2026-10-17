@@ -217,6 +217,45 @@ var vtUtils = {
 	},
 
     /**
+     * Range picker: "start,end" in the user's date format in the input, as the old plugin wrote it
+     */
+    registerDateRangeField : function(element, userDateFormat) {
+        var formatMap = {'dd-mm-yyyy': 'd-m-Y', 'mm-dd-yyyy': 'm-d-Y', 'yyyy-mm-dd': 'Y-m-d'};
+        var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        var firstDay = Math.max(0, days.indexOf(String(jQuery('#start_day').val() || '').toLowerCase()));
+        var setRange = function(instance, from, to) {
+            instance.setDate([from, to], true);
+            instance.close();
+        };
+        flatpickr(element[0], {
+            mode: 'range',
+            rangeSeparator: ',',
+            dateFormat: formatMap[userDateFormat] || 'm-d-Y',
+            locale: {firstDayOfWeek: firstDay, rangeSeparator: ','},
+            onChange: function(selectedDates, dateStr, instance) {
+                if (selectedDates.length === 2) {
+                    jQuery(instance.input).trigger('datepicker-change');
+                }
+            },
+            onReady: function(selectedDates, dateStr, instance) {
+                var footer = document.createElement('div');
+                footer.className = 'flatpickr-footer';
+                [['Today', 0, 0], ['Last 7 days', -6, 0], ['Last 30 days', -29, 0]].forEach(function(item) {
+                    var link = document.createElement('a');
+                    link.textContent = item[0];
+                    link.href = 'javascript:void(0)';
+                    link.onclick = function() {
+                        var from = new Date(); from.setDate(from.getDate() + item[1]);
+                        setRange(instance, from, new Date());
+                    };
+                    footer.appendChild(link);
+                });
+                instance.calendarContainer.appendChild(footer);
+            }
+        });
+    },
+
+    /**
      * Function register datepicker for dateField elements
      * @param {jQuery} parent
      */
@@ -244,18 +283,7 @@ var vtUtils = {
             jQuery(element).each(function(index, Elem){
                 element = jQuery(Elem);
                  if(calendarType == "range"){
-                    //Default first day of the week
-                    var defaultFirstDay = jQuery('#start_day').val();
-                    element.dateRangePicker({
-                        startOfWeek: defaultFirstDay.toLowerCase(),
-                        format: userDateFormat.toUpperCase(),
-                        separator: ',',
-                        showShortcuts: true,
-                        autoClose : false,
-                        duration : 500
-                    }).on('datepicker-opened', function(e){
-						vtUtils.addMask(jQuery('.date-picker-wrapper:visible'));
-					}).on('datepicker-closed',vtUtils.removeMask);
+                    vtUtils.registerDateRangeField(element, userDateFormat);
                 }else{
                     var elementDateFormat = element.data('dateFormat');
                     if(typeof elementDateFormat !== 'undefined') {
@@ -269,6 +297,10 @@ var vtUtils = {
                     var defaultPickerParams = {
                         dateFormat: flatpickrFormatMap[userDateFormat] || 'm-d-Y',
                         allowInput: true,
+                        onChange: function(selectedDates, dateStr, instance){
+                            // the pages listen for this event (list search, report conditions)
+                            jQuery(instance.input).trigger('datepicker-change');
+                        },
                         onReady: function(selectedDates, dateStr, instance){
                             var todayBtn = document.createElement('a');
                             todayBtn.className = 'flatpickr-today-btn';

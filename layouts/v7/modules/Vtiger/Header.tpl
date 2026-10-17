@@ -44,7 +44,6 @@
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/animate/animate.min.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/jquery/malihu-custom-scrollbar/jquery.mCustomScrollbar.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/jquery/jquery.qtip.custom/jquery.qtip.css")}'>
-        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/jquery/daterangepicker/daterangepicker.css")}'>
         
         <input type="hidden" id="inventoryModules" value={ZEND_JSON::encode($INVENTORY_MODULES)}>
         {if isset($SELECTED_MENU_CATEGORY)}
