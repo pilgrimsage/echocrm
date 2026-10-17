@@ -216,3 +216,11 @@
 .nav-tabs > li > a:not(.active){
 	border-bottom:2px solid transparent;
 }
+/* record header: BS5's row gutter pulled the info lines 12px left, under the record icon */
+.recordBasicInfo .info-row.row{
+	margin-left:0;
+	margin-right:0;
+}
+.recordBasicInfo .info-row > *{
+	padding-left:0;
+}
