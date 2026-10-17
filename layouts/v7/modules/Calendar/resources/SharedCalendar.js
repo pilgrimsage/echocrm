@@ -14,8 +14,8 @@ Calendar_Calendar_Js('Calendar_SharedCalendar_Js', {
 	getFeedRequestParams : function(start,end,feedCheckbox) {
 		var userFormat = jQuery('body').data('userDateformat').toUpperCase();
 		var dateFormat = userFormat;
-		var startDate = start.format(dateFormat);
-		var endDate = end.format(dateFormat);
+		var startDate = moment(start).format(dateFormat);
+		var endDate = moment(end).format(dateFormat);
 		return {
 			'start' : startDate,
 			'end' : endDate,
@@ -28,11 +28,7 @@ Calendar_Calendar_Js('Calendar_SharedCalendar_Js', {
 	},
 
 	removeEvents : function(feedCheckbox) {
-		var userId = feedCheckbox.data('calendarUserid');
-		this.getCalendarViewContainer().fullCalendar('removeEvents', 
-		function(eventObj) {
-			return parseInt(userId) === parseInt(eventObj.userid);
-		});
+		this.refetchEvents();
 	},
 
 	_colorize : function(feedCheckbox) {
@@ -229,13 +225,14 @@ Calendar_Calendar_Js('Calendar_SharedCalendar_Js', {
 	},
 
 	getDefaultCalendarView : function() {
-		return 'month';
+		return 'dayGridMonth';
 	},
 
 	initializeCalendar : function() {
 		var calendarConfigs = this.getCalendarConfigs();
-		this.getCalendarViewContainer().fullCalendar(calendarConfigs);
-		this.performPostRenderCustomizations();
+		calendarConfigs.headerToolbar.left = 'dayGridMonth,timeGridWeek,timeGridDay';
+		Calendar_Calendar_Js.calendar = new FullCalendar.Calendar(this.getCalendarViewContainer()[0], calendarConfigs);
+		Calendar_Calendar_Js.calendar.render();
 	},
 
 	registerEvents : function() {
