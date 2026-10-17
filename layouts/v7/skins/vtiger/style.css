@@ -7086,8 +7086,8 @@ input:focus:-ms-input-placeholder {
   border-left: 6px solid transparent;
   content: '';
 }
-#sharedcalendar .fc-event-container .vicon-meeting,
-#mycalendar .fc-event-container .vicon-meeting {
+#sharedcalendar .fc-event .vicon-meeting,
+#mycalendar .fc-event .vicon-meeting {
   font-size: inherit;
 }
 .insightsdropDown {
@@ -7381,7 +7381,7 @@ input:focus:-ms-input-placeholder {
   border-bottom: 0;
   margin-bottom: -1px;
 }
-#mycalendar .fc-event-container .vicon-meeting {
+#mycalendar .fc-event .vicon-meeting {
   font-size: inherit;
 }
 .pbxcall a:hover {

@@ -32,7 +32,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 	public function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$jsFileNames = array(
-			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/fullcalendar/fullcalendar.js",
+			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/fullcalendar/js/index.global.min.js",
 			"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/jquery/webui-popover/dist/jquery.webui-popover.js",
 			"modules.Calendar.resources.CalendarView"
 		);
@@ -46,8 +46,6 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar.css',
-			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/fullcalendar/fullcalendar-bootstrap.css',
 			'~layouts/'.Vtiger_Viewer::getDefaultLayoutName().'/lib/jquery/webui-popover/dist/jquery.webui-popover.css'
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

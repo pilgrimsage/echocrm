@@ -331,7 +331,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			}
 			// if the user is having view all permission then it should show the record
 			// as we are showing in detail view
-			if($profileGlobalPermission[1] ==0 || $profileGlobalPermission[2] ==0) {
+			if(Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasGlobalReadPermission()) {
 				$recordBusy = false;
 			}
 
@@ -359,7 +359,6 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end']   =  $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 
-			$item['className'] = $cssClass;
 			$item['allDay'] = false;
 			$item['color'] = $color;
 			$item['textColor'] = $textColor;
