@@ -4,23 +4,28 @@ Vtiger is a PHP based web application that enables businesses to increase sales 
 
 ## Local setup
 
-`config.inc.php`, `config.csrf-secret.php`, and `kcfinder/config.php` are gitignored since they hold DB credentials and secrets that differ per machine. Everything else needed to run (schema + config, no real customer data) is in the repo.
+`config.inc.php`, `config.csrf-secret.php`, and `kcfinder/config.php` are gitignored since they hold DB credentials and secrets that differ per machine. Everything else needed to run is in the repo.
 
-Run the setup script after cloning:
+On a fresh clone:
 
+    composer install --ignore-platform-req=ext-imap
     bin/setup.sh
 
-It prompts for DB host/name/credentials and the site URL, writes `config.inc.php` and `config.csrf-secret.php` (generating a fresh `application_unique_key` and CSRF secret for you), creates the database, and imports `db/schema.sql` if present. Then set a working admin login:
+`bin/setup.sh` prompts for the DB host/name/credentials and the site URL, writes `config.inc.php` and `config.csrf-secret.php` (with a fresh `application_unique_key` and CSRF secret), creates the database, imports `db/schema.sql`, and asks for the administrator's username, email, time zone and password, which it creates with `bin/create-admin.php`.
 
-    bin/reset-admin-login.sh
+`db/schema.sql` is installer data: the full schema plus the settings a new install needs (roles and profiles including the Accountant role, picklists, fields and filters, workflows, dashboard widgets, the chart of accounts). It contains **no users and no records** (no customers, documents, payments or journal entries).
 
-(`db/schema.sql` ships with `vtiger_users` empty on purpose — `reset-admin-login.sh` creates the admin row with a real password hash rather than a checked-in one.)
+To set a new password for an existing administrator, or to create one later:
 
-To regenerate `db/schema.sql` after DB-level changes (Module Designer edits, workflows, picklists) so future clones pick them up:
+    ADMIN_PASSWORD='...' php bin/create-admin.php --user=admin --email=you@example.com
 
-    bin/dump-db.sh
+To regenerate `db/schema.sql` after DB-level changes (Module Designer edits, workflows, picklists, one of the `bin/create-*` scripts) so future installs pick them up:
 
-If you'd rather set things up by hand, copy `config.inc.php.sample` → `config.inc.php`, `config.csrf-secret.php.sample` → `config.csrf-secret.php`, and `kcfinder/config.php.sample` → `kcfinder/config.php`, then edit DB credentials, `site_URL`, `root_directory`, and `application_unique_key` yourself.
+    DB_PASS='...' bin/dump-db.sh
+
+It copies the development database to a scratch database named `<name>_installer`, removes users and records there (`bin/lib/scrub-installer-db.php`), dumps it and drops the copy. The development database is only read.
+
+If you'd rather set things up by hand, copy `config.inc.php.sample` to `config.inc.php`, `config.csrf-secret.php.sample` to `config.csrf-secret.php`, and `kcfinder/config.php.sample` to `kcfinder/config.php`, edit DB credentials, `site_URL`, `root_directory` and `application_unique_key`, import `db/schema.sql`, then run `bin/create-admin.php`.
 
 ## Get involved
 
