@@ -20,7 +20,7 @@
 	<div class="split">
 
 		<div class="brand">
-			<div class="brand-mark"><span class="dot"></span> ECHOCREW</div>
+			<div class="brand-mark"><span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span> EchoCrew</div>
 			<div class="brand-copy">
 				<h1>Every deal, moving forward.</h1>
 				<p>Track pipeline, close faster, and keep your whole team looking at the same truth.</p>
