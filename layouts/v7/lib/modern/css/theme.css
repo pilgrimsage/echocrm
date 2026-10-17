@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Theme tokens. Source of truth for colour, type, radius and shadow in the modern skin.
+   Taken from the TrendyAdmin template (bootstrapmade.com/demo/TrendyAdmin), light and dark.
+   Loaded FIRST (Header.tpl); login.css loads it too. Every other modern stylesheet only
+   uses these variables, so a change of look is a change here.
+   The dark values apply when <html data-theme="dark"> is set (the user-menu toggle).
+   ========================================================================== */
+:root{
+	--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+	--font-heading:'Outfit','Plus Jakarta Sans',sans-serif;
+	--font-mono:'Fira Code','SF Mono',Monaco,Consolas,monospace;
+
+	/* surfaces and text */
+	--background-color:#f5f3fa;
+	--surface-color:#ffffff;
+	--surface-muted:#f7f5fc;
+	--default-color:#3f3a52;
+	--heading-color:#191233;
+	--muted-color:#776f8f;
+	--light-color:#a29ab8;
+	--contrast-color:#ffffff;
+
+	/* accent */
+	--accent-color:#7c3aed;
+	--accent-hover:color-mix(in srgb,var(--accent-color),black 10%);
+	--accent-soft:#efe9fd;
+	--accent-gradient:linear-gradient(135deg,var(--accent-color),color-mix(in srgb,var(--accent-color),#2e1065 35%));
+
+	/* lines */
+	--border-color:#e7e2f2;
+	--border-color-light:#f1edf9;
+	--border-color-dark:#d5cde8;
+
+	/* status */
+	--success-color:#0d9f6e;  --success-color-light:#d5f5e8;
+	--warning-color:#f59e0b;  --warning-color-light:#fdf0d3;
+	--danger-color:#f43f5e;   --danger-color-light:#ffe4e9;
+	--info-color:#0ea5e9;     --info-color-light:#dbf1fd;
+
+	/* chrome */
+	--header-bg:#ffffff;
+	--header-border:var(--border-color);
+	--header-shadow:none;
+	--sidebar-bg:#171032;
+	--sidebar-border:#2a2050;
+	--sidebar-color:#cfc7e8;
+	--sidebar-muted-color:#8c81b3;
+	--sidebar-hover-bg:rgba(255,255,255,.06);
+	--sidebar-active-bg:#7c3aed;
+	--sidebar-active-color:#ffffff;
+
+	/* components */
+	--card-bg:#ffffff;
+	--card-border:var(--border-color);
+	--card-shadow:0 1px 2px 0 rgb(30 18 66 / .04),0 6px 20px -4px rgb(30 18 66 / .07);
+	--table-header-bg:#f7f5fc;
+	--table-hover-bg:#f1edf9;
+	--table-stripe-bg:#faf9fd;
+	--input-bg:#ffffff;
+	--input-border:var(--border-color);
+	--input-focus-border:var(--accent-color);
+	--input-focus-ring:rgb(124 58 237 / .18);
+
+	/* shape */
+	--radius-sm:.375rem;
+	--radius-md:.625rem;
+	--radius-lg:.875rem;
+	--radius-xl:1.125rem;
+	--radius-2xl:1.5rem;
+	--radius-full:9999px;
+	--shadow-sm:0 1px 2px 0 rgb(30 18 66 / .06);
+	--shadow-md:0 4px 10px -2px rgb(30 18 66 / .08),0 2px 4px -2px rgb(30 18 66 / .06);
+	--shadow-lg:0 12px 28px -6px rgb(30 18 66 / .12),0 4px 8px -4px rgb(30 18 66 / .06);
+	--transition:150ms ease;
+}
+
+:root[data-theme="dark"]{
+	--background-color:#0e0a1f;
+	--surface-color:#191330;
+	--surface-muted:#0e0a1f;
+	--default-color:#e4e0f5;
+	--heading-color:#f4f1ff;
+	--muted-color:#9d94bd;
+	--light-color:#6f6795;
+	--accent-color:#a78bfa;
+	--accent-soft:rgb(167 139 250 / .16);
+	--border-color:#2c2350;
+	--border-color-light:#191330;
+	--border-color-dark:#3b3066;
+	--success-color:#34d399;  --success-color-light:rgb(52 211 153 / .15);
+	--warning-color:#fbbf24;  --warning-color-light:rgb(251 191 36 / .15);
+	--danger-color:#fb7185;   --danger-color-light:rgb(251 113 133 / .15);
+	--info-color:#38bdf8;     --info-color-light:rgb(56 189 248 / .15);
+	--header-bg:#191330;
+	--header-shadow:0 1px 3px 0 rgb(0 0 0 / .35);
+	--sidebar-bg:#120d26;
+	--sidebar-border:#251b4a;
+	--card-bg:#191330;
+	--card-shadow:0 1px 3px 0 rgb(0 0 0 / .35);
+	--table-header-bg:#0e0a1f;
+	--table-hover-bg:#241c42;
+	--table-stripe-bg:#150f2b;
+	--input-bg:#0e0a1f;
+	--input-focus-ring:rgb(167 139 250 / .25);
+	--shadow-sm:0 1px 2px 0 rgb(0 0 0 / .35);
+	--shadow-md:0 4px 10px -2px rgb(0 0 0 / .4);
+	--shadow-lg:0 12px 28px -6px rgb(0 0 0 / .5);
+	color-scheme:dark;
+}

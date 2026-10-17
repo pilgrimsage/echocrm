@@ -1,0 +1,158 @@
+/* ==========================================================================
+   App shell: module rail, list sidebar, module action bar, footer.
+   Tokens come from theme.css. Several of these rules use !important because every
+   skins/<app>/style.css carries the old BS3 colours on the same bare selectors.
+   ========================================================================== */
+
+/* ---- module rail (left icon column; Settings reuses .module-nav for its menu) ---- */
+.module-nav{
+	background:var(--sidebar-bg) !important;
+	border-right:1px solid var(--sidebar-border);
+}
+.module-nav a,
+.module-nav .module-qtip a{
+	color:var(--sidebar-color) !important;
+}
+.module-nav .module-qtip li,
+.module-nav .module-qtip a{
+	transition:background var(--transition),color var(--transition);
+}
+.module-nav .module-qtip:hover{
+	background:var(--sidebar-hover-bg) !important;
+}
+.module-nav .module-qtip.active,
+.module-nav .module-qtip.selected,
+.module-nav li.active > a,
+.module-nav .module-qtip.active a{
+	background:var(--accent-gradient) !important;
+	color:var(--sidebar-active-color) !important;
+	border-radius:var(--radius-md);
+}
+.module-nav .module-qtip.active .fa,
+.module-nav .module-qtip.active [class*="vicon-"]{
+	color:var(--sidebar-active-color) !important;
+}
+/* Settings menu inside the rail */
+.module-nav .settingsmenu li a,
+.module-nav .menu-item a,
+.module-nav .settings-menu-item a{
+	color:var(--sidebar-color) !important;
+}
+.module-nav .settingsmenu li a:hover{
+	background:var(--sidebar-hover-bg) !important;
+	color:#fff !important;
+}
+
+/* the icon column inherits a dark panel from the skin */
+.module-nav .modules-menu,
+.module-nav .mod-switcher-container,
+.module-nav .mCustomScrollBox{
+	background:transparent !important;
+}
+
+/* ---- the app marker at the left of the breadcrumb row (every app now shares the accent) ---- */
+.app-indicator-icon-container,
+.app-indicator-icon-container[class*="app-"]{
+	background:var(--accent-gradient) !important;
+}
+.app-indicator-icon-container .app-indicator-icon{
+	color:var(--contrast-color) !important;
+}
+
+/* ---- breadcrumb / action bar ---- */
+.app-nav{
+	background:var(--header-bg);
+	border-top:1px solid var(--border-color-light);
+}
+.module-breadcrumb .module-title{
+	font-family:var(--font-heading);
+	font-size:16px;
+	font-weight:600;
+	letter-spacing:.02em;
+	color:var(--heading-color);
+}
+.module-breadcrumb .current-filter-name,
+.module-breadcrumb .current-filter-name a{
+	color:var(--muted-color);
+	font-size:13px;
+}
+.module-breadcrumb a{
+	color:var(--heading-color);
+	text-decoration:none;
+}
+
+/* ---- list sidebar (lists, tags, filters) ---- */
+.sidebar-essentials{
+	background:var(--surface-color) !important;
+	border-right:1px solid var(--border-color);
+}
+.sidebar-essentials .lists-header,
+.sidebar-essentials h5.lists-header,
+.sidebar-essentials .sidebar-header{
+	text-transform:uppercase;
+	letter-spacing:.08em;
+	font-size:11px;
+	font-weight:700;
+	color:var(--muted-color);
+}
+.sidebar-essentials hr{
+	border-color:var(--border-color);
+	opacity:1;
+}
+.sidebar-essentials .menu-scroller li,
+.sidebar-essentials .menu-scroller .listViewFilter,
+.sidebar-essentials a{
+	color:var(--default-color);
+}
+.sidebar-essentials .listViewFilter,
+.sidebar-essentials .menu-scroller .filterName{
+	border-radius:var(--radius-md);
+	transition:background var(--transition),color var(--transition);
+}
+.sidebar-essentials .listViewFilter:hover{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color);
+}
+.sidebar-essentials .listViewFilter.active,
+.sidebar-essentials .listViewFilter.selected,
+.sidebar-essentials .active > .filterName{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color) !important;
+	font-weight:600;
+}
+
+/* ---- footer ---- */
+.app-footer p{
+	background:transparent !important;
+	color:var(--light-color);
+	font-size:12px;
+}
+
+/* ---- brand lockup (shown while the default logo is in place) ---- */
+.brand-lockup{
+	display:flex;
+	align-items:center;
+	gap:10px;
+	text-decoration:none;
+	height:42px;
+}
+.brand-lockup .brand-mark{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:34px;
+	height:34px;
+	flex:0 0 auto;
+	border-radius:var(--radius-xl);
+	background:var(--accent-gradient);
+	color:var(--contrast-color);
+	font-size:16px;
+	box-shadow:var(--shadow-md);
+}
+.brand-lockup .brand-name{
+	font-family:var(--font-heading);
+	font-size:18px;
+	font-weight:700;
+	letter-spacing:-.01em;
+	color:var(--heading-color);
+}

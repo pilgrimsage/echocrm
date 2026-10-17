@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Shared components: buttons, inputs, tables, cards, tabs, dropdowns, modals, badges.
+   Tokens come from theme.css. Rules that fight the skins' old BS3 colours use !important.
+   ========================================================================== */
+
+/* ---- buttons ---- */
+.btn{
+	border-radius:var(--radius-md) !important;
+	font-weight:600;
+	transition:background var(--transition),border-color var(--transition),box-shadow var(--transition),color var(--transition);
+}
+.btn-primary,
+.btn-success,
+.btn.addButton,
+.btn-primary:focus,
+.btn-success:focus{
+	background:var(--accent-color) !important;
+	border-color:var(--accent-color) !important;
+	color:var(--contrast-color) !important;
+}
+.btn-primary:hover,
+.btn-success:hover,
+.btn.addButton:hover{
+	background:var(--accent-hover) !important;
+	border-color:var(--accent-hover) !important;
+	color:var(--contrast-color) !important;
+}
+.btn-default,
+.btn-light,
+.btn-secondary{
+	background:var(--surface-color) !important;
+	border:1px solid var(--border-color) !important;
+	color:var(--default-color) !important;
+}
+.btn-default:hover,
+.btn-light:hover,
+.btn-secondary:hover{
+	background:var(--accent-soft) !important;
+	border-color:var(--accent-color) !important;
+	color:var(--accent-color) !important;
+}
+.btn-danger{
+	background:var(--danger-color) !important;
+	border-color:var(--danger-color) !important;
+	color:#fff !important;
+}
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+	outline:none;
+	box-shadow:0 0 0 3px var(--input-focus-ring) !important;
+	border-color:var(--input-focus-border) !important;
+}
+
+/* ---- inputs ---- */
+.form-control,
+.form-select,
+input.inputElement,
+select.inputElement,
+textarea.inputElement,
+.inputElement{
+	background-color:var(--input-bg);
+	color:var(--default-color);
+	border:1px solid var(--input-border);
+	border-radius:var(--radius-md);
+}
+.form-control::placeholder,
+.inputElement::placeholder{
+	color:var(--light-color);
+}
+input[type="checkbox"],
+input[type="radio"]{
+	accent-color:var(--accent-color);
+}
+
+/* ---- list tables ---- */
+.listViewEntriesTable,
+table.listview-table,
+.table{
+	color:var(--default-color);
+	border-color:var(--border-color);
+}
+.listViewEntriesTable thead th,
+table.listview-table thead th,
+.listViewContentHeader th,
+.table thead th{
+	background:var(--table-header-bg) !important;
+	color:var(--muted-color) !important;
+	font-size:11px;
+	font-weight:700;
+	text-transform:uppercase;
+	letter-spacing:.06em;
+	border-bottom:1px solid var(--border-color) !important;
+}
+.listViewEntriesTable tbody tr:hover,
+.table-hover > tbody > tr:hover > *{
+	background:var(--table-hover-bg) !important;
+}
+.listViewEntriesTable td,
+.table td{
+	border-color:var(--border-color-light) !important;
+	vertical-align:middle;
+}
+.listViewEntriesTable a,
+.table a:not(.btn){
+	color:var(--accent-color);
+	text-decoration:none;
+	font-weight:500;
+}
+.listViewEntriesTable a:hover{
+	color:var(--accent-hover);
+	text-decoration:underline;
+}
+
+/* ---- cards / panels ---- */
+.card,
+.listViewContentDiv,
+.detailview-content .block,
+.contents .blockContainer,
+.settingsPageDiv .contents{
+	background:var(--card-bg);
+	border:1px solid var(--card-border);
+	border-radius:var(--radius-lg);
+	box-shadow:var(--card-shadow);
+}
+
+/* ---- tabs ---- */
+.nav-tabs{
+	border-bottom:1px solid var(--border-color);
+}
+.nav-tabs .nav-link{
+	color:var(--muted-color);
+	border:none;
+	border-bottom:2px solid transparent;
+	font-weight:600;
+}
+.nav-tabs .nav-link:hover{
+	color:var(--accent-color);
+}
+.nav-tabs .nav-link.active{
+	color:var(--accent-color);
+	background:transparent;
+	border-bottom-color:var(--accent-color);
+}
+
+/* ---- dropdown menus ---- */
+.dropdown-menu{
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-lg);
+	box-shadow:var(--shadow-lg);
+	color:var(--default-color);
+}
+.dropdown-menu > li > a,
+.dropdown-item{
+	color:var(--default-color);
+	border-radius:var(--radius-sm);
+}
+.dropdown-menu > li > a:hover,
+.dropdown-item:hover,
+.dropdown-item:focus{
+	background:var(--accent-soft);
+	color:var(--accent-color);
+}
+
+/* ---- modals ---- */
+.modal-content{
+	background:var(--surface-color);
+	color:var(--default-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--shadow-lg);
+}
+.modal-header{
+	border-bottom:1px solid var(--border-color) !important;
+}
+.modal-footer{
+	border-top:1px solid var(--border-color) !important;
+	background:var(--surface-muted) !important;
+}
+h1,h2,h3,h4,h5,.modal-title,.detailViewTitle{
+	font-family:var(--font-heading);
+	color:var(--heading-color);
+}
+
+/* ---- links ---- */
+a{
+	color:var(--accent-color);
+}

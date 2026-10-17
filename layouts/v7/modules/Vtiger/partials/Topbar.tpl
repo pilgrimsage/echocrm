@@ -23,9 +23,17 @@
 						</div>
 						<div class="logo-container col-sm-3 col-9">
 							<div class="row">
-								<a href="index.php" class="company-logo">
-									<img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
-								</a>
+								{if $COMPANY_LOGO->get('alt') eq 'vtiger-crm-logo.png'}
+									{* nobody has uploaded a logo yet: show the product mark instead of vtiger's *}
+									<a href="index.php" class="company-logo brand-lockup">
+										<span class="brand-mark"><i class="fa fa-bolt"></i></span>
+										<span class="brand-name">EchoCrew</span>
+									</a>
+								{else}
+									<a href="index.php" class="company-logo">
+										<img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+									</a>
+								{/if}
 							</div>
 						</div>  
 					</div>

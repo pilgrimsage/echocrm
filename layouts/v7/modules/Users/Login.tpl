@@ -9,6 +9,10 @@
 {* modules/Users/views/Login.php *}
 
 {strip}
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+	<script>try{ldelim}var t=localStorage.getItem('echocrm-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');{rdelim}catch(e){ldelim}{rdelim}</script>
+	<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/theme.css")}'>
 	<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/login.css")}'>
 
 	<span class="app-nav"></span>
