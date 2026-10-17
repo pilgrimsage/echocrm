@@ -11,7 +11,7 @@
 }
 .btn-primary,
 .btn-success,
-.btn.addButton,
+#appnav .navbar-nav > li:first-child .btn.addButton,
 .btn-primary:focus,
 .btn-success:focus{
 	background:var(--accent-color) !important;
@@ -20,7 +20,7 @@
 }
 .btn-primary:hover,
 .btn-success:hover,
-.btn.addButton:hover{
+#appnav .navbar-nav > li:first-child .btn.addButton:hover{
 	background:var(--accent-hover) !important;
 	border-color:var(--accent-hover) !important;
 	color:var(--contrast-color) !important;
@@ -276,4 +276,35 @@ textarea.inputElement,
 a.cancelLink{
 	background:transparent !important;
 	color:var(--danger-color) !important;
+}
+.currencyField,
+.input-group .inputElement,
+.input-group-text{
+	background-color:var(--input-bg) !important;
+	color:var(--default-color) !important;
+	border-color:var(--input-border) !important;
+}
+
+/* the module action bar: one primary action, the rest quiet; a long bar scrolls instead of covering the page */
+#appnav .btn.addButton,
+#appnav .btn-default{
+	background:var(--surface-color) !important;
+	border:1px solid var(--border-color) !important;
+	color:var(--default-color) !important;
+	white-space:nowrap;
+}
+#appnav .btn.addButton:hover,
+#appnav .btn-default:hover{
+	background:var(--accent-soft) !important;
+	border-color:var(--accent-color) !important;
+	color:var(--accent-color) !important;
+}
+#appnav .navbar-nav{
+	flex-wrap:nowrap !important;
+	overflow-x:auto;
+	scrollbar-width:thin;
+	gap:6px;
+}
+#appnav .navbar-nav > li{
+	flex:0 0 auto;
 }

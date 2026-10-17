@@ -19,16 +19,15 @@ Self-hosted vtiger CRM 8.4 open-source install being modernized. Phase 1 (curren
 - SweetAlert2 (replaced bootbox + bootstrap-notify)
 
 ## Design tokens (established)
-Matched from the real EchoCrew site (`dev.echocrew.in`) — the project's original invented palette was replaced. Source of truth is the `:root` block in `layouts/v7/lib/modern/css/listview.css` (globally loaded); `login.css` carries its own copy because that page loads no other stylesheet — keep the two in sync.
+Taken from the TrendyAdmin template (`bootstrapmade.com/demo/TrendyAdmin`, light and dark): purple accent, dark-purple sidebar, soft-bordered cards, Plus Jakarta Sans for text and Outfit for headings. Source of truth is `layouts/v7/lib/modern/css/theme.css` (loaded first by `Header.tpl`; `Login.tpl` loads it too). Every other modern stylesheet only uses its variables, so a change of look is a change there:
 ```
---ink:#0B0F14  --teal:#00D3B8  --teal-deep:#06A793  --teal-soft:#E4FBF6
---paper:#FFFFFF  --mist:#F6F7F5  --mist-dark:#EDEFEC  --muted:#4A555F
---line:#DFE2DD  --danger:#E4572E
---radius:6px  --radius-md:14px  --radius-lg:22px
---shadow, --shadow-sm  (see listview.css)
+--background-color  --surface-color  --surface-muted  --default-color  --heading-color  --muted-color  --light-color
+--accent-color  --accent-hover  --accent-soft  --accent-gradient
+--border-color  --border-color-light  --success/warning/danger/info-color (+ -light)
+--header-bg  --sidebar-bg/-color/-muted-color/-hover-bg  --card-bg/-border/-shadow  --table-*  --input-*
+--radius-sm..2xl  --shadow-sm/md/lg  --font-body  --font-heading
 ```
-Font: Roboto, app-wide (headings and body/UI) — a deliberate user choice that replaced Sora/Inter. Loaded via the Google Fonts `<link>` in `layouts/v7/modules/Vtiger/Header.tpl`.
-After changing a token's value, grep the modern CSS for the old hex/`rgba()` literal — `var()` substitution doesn't reach hardcoded copies.
+Dark mode is `<html data-theme="dark">` (toggle in the top bar, remembered in `localStorage` as `echocrm-theme`); the dark values are the second block in `theme.css`. After changing a token's value, grep the modern CSS for the old hex/`rgba()` literal — `var()` substitution doesn't reach hardcoded copies. Own CSS lives in `layouts/v7/lib/modern/css/`: `theme.css` (tokens), `shell.css` (top bar, rail, sidebar, Settings menu, brand), `components.css` (buttons, inputs, tables, cards, modals, dark-mode surfaces), plus the per-screen files (`listview`, `detailview`, `editview`, `nav`, `select2`, `dashboard`, `widgets`, `login`).
 
 ## Working rules
 - **Ask before editing.** Direct edits to the user's local files are allowed once the user has explicitly approved the specific change in chat — state the file/line change and get a go-ahead first, then apply it. Don't generalize a past approval to later, unrelated changes. A cloned copy can still be used for analysis/testing before touching the real files.
