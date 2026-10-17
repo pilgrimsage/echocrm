@@ -25,8 +25,6 @@ class MailManager_List_View extends MailManager_Abstract_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-				"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
-				"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/adapters/jquery.js",
 				"modules.Vtiger.resources.CkEditor",
 				"modules.Emails.resources.MassEdit",
 				"modules.MailManager.resources.List"

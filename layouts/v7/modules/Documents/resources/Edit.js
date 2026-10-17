@@ -154,7 +154,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {
     quickCreatePreSave : function(form) {
         var textAreaElement = form.find('textarea[name="notecontent"]');
         if(textAreaElement.length){
-            var notecontent = CKEDITOR.instances.Documents_editView_fieldName_notecontent.getData();
+            var notecontent = Vtiger_CkEditor_Js.getData('Documents_editView_fieldName_notecontent');
             textAreaElement.val(notecontent);
         }
     },

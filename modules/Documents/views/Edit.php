@@ -21,8 +21,6 @@ Class Documents_Edit_View extends Vtiger_Edit_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-				"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/ckeditor.js",
-				"~layouts/".Vtiger_Viewer::getDefaultLayoutName()."/lib/ckeditor/adapters/jquery.js",
 				'modules.Vtiger.resources.CkEditor',
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
