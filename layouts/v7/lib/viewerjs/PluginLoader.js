@@ -78,11 +78,6 @@ function loadDocument(documentUrl) {
                                 Plugin = ODFViewerPlugin;
                             });
                             break;
-                case 'pdf': 
-                            loadPlugin('./PDFViewerPlugin', function () {
-                                Plugin = PDFViewerPlugin;
-                            });
-                            break;
             }
 
         window.onload = function () {
