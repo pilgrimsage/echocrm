@@ -100,6 +100,34 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 		return editor.destroy();
 	},
 
+	/**
+	 * Old templates draw table borders with the border="1" attribute. CKEditor 5 turns that into
+	 * border-width alone (no style, so nothing is drawn); give those tables explicit solid borders first.
+	 */
+	upgradeLegacyTables : function(html) {
+		if (!/<table[^>]*\sborder\s*=\s*["']?[1-9]/i.test(html || '')) {
+			return html;
+		}
+		var doctype = (html.match(/^\s*<!DOCTYPE[^>]*>/i) || [''])[0];
+		var isPage = /<html[\s>]/i.test(html);
+		var doc = new DOMParser().parseFromString(html, 'text/html');
+		doc.querySelectorAll('table[border]').forEach(function(table) {
+			var width = parseInt(table.getAttribute('border'), 10);
+			table.removeAttribute('border');
+			if (!width) {
+				return;
+			}
+			var line = width + 'px solid #999999';
+			table.style.border = line;
+			table.querySelectorAll('td, th').forEach(function(cell) {
+				if (!cell.style.border && !cell.style.borderStyle) {
+					cell.style.border = line;
+				}
+			});
+		});
+		return isPage ? doctype + doc.documentElement.outerHTML : doc.body.innerHTML;
+	},
+
 	getEditorConfig : function(customConfig) {
 		var C = window.CKEDITOR;
 		customConfig = customConfig || {};
@@ -108,6 +136,7 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 			'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'].concat(Vtiger_CkEditor_Js.customFonts);
 		return {
 			licenseKey : 'GPL',
+			initialData : Vtiger_CkEditor_Js.upgradeLegacyTables(customConfig.initialData),
 			plugins : [
 				C.Essentials, C.Paragraph, C.Heading, C.Bold, C.Italic, C.Underline, C.Strikethrough,
 				C.Subscript, C.Superscript, C.RemoveFormat, C.Alignment, C.Link, C.AutoLink, C.List,
@@ -174,6 +203,7 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 			return existing ? Editor.destroy(id) : null;
 		});
 		var created = previous.then(function() {
+			customConfig.initialData = element.val();
 			return window.CKEDITOR.ClassicEditor.create(textarea, Editor.getEditorConfig(customConfig));
 		}).then(function(editor) {
 			Editor.instances[id] = editor;
@@ -203,7 +233,7 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 		var id = this.getElementId();
 		return Vtiger_CkEditor_Js.whenReady(id).then(function(editor) {
 			if (editor) {
-				editor.setData(contents);
+				editor.setData(Vtiger_CkEditor_Js.upgradeLegacyTables(contents));
 			}
 		});
 	},

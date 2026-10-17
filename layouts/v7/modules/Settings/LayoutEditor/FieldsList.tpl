@@ -40,7 +40,7 @@
 					{if $BLOCK_LABEL_KEY neq 'LBL_INVITE_USER_BLOCK'}
 						{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_MODEL}
 					{/if}
-					<div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="background: white;"
+					<div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}"
 						 data-custom-fields-count="{$BLOCK_MODEL->getCustomFieldsCount()}">
 						<div class="col-sm-12">
 							<div class="layoutBlockHeader row">

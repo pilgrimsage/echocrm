@@ -433,3 +433,86 @@ input.sourceField{
 	color:var(--accent-color) !important;
 	border-color:var(--accent-soft) !important;
 }
+
+/* ---- dark-mode corrections for colours hard-coded in skins/vtiger/style.css ----
+   That file loads last and keeps single-class rules such as `.fieldValue{color:#222}` that beat
+   the token rules above at equal specificity. Prefixing with :root[data-theme="dark"] wins
+   without touching the light theme. */
+:root[data-theme="dark"] .fieldValue,
+:root[data-theme="dark"] .fieldValue .value,
+:root[data-theme="dark"] .themeTextColor,
+:root[data-theme="dark"] .lists-menu-container .lists-header{
+	color:var(--default-color);
+}
+:root[data-theme="dark"] .fieldLabel{
+	color:var(--muted-color);
+}
+:root[data-theme="dark"] .fieldValue a,
+:root[data-theme="dark"] .value a,
+:root[data-theme="dark"] .detailViewContainer table a{
+	color:var(--accent-color);
+}
+:root[data-theme="dark"] .detailViewContainer .block,
+:root[data-theme="dark"] #settingsShortCutsContainer .contentsBackground{
+	background:var(--surface-color);
+	border-color:var(--border-color);
+}
+:root[data-theme="dark"] .settingsIndexPage .settingsSummary a{
+	background:var(--surface-muted);
+	color:var(--default-color);
+}
+:root[data-theme="dark"] .table{
+	--bs-table-bg:transparent;
+	--bs-table-color:var(--default-color);
+	--bs-table-border-color:var(--border-color);
+}
+:root[data-theme="dark"] .popover{
+	--bs-popover-bg:var(--surface-color);
+	--bs-popover-border-color:var(--border-color);
+	--bs-popover-header-bg:var(--table-header-bg);
+	--bs-popover-header-color:var(--heading-color);
+	--bs-popover-body-color:var(--default-color);
+}
+:root[data-theme="dark"] .detailViewContainer .HistoryContainer,
+:root[data-theme="dark"] .detailViewContainer .recentActivitiesContainer,
+:root[data-theme="dark"] .related-tabs.row .details.row,
+:root[data-theme="dark"] .detailview-content .details.row .relatedHeader,
+:root[data-theme="dark"] .detailview-content .details.row .relatedContents{
+	background:var(--surface-color);
+	border-color:var(--border-color);
+	color:var(--default-color);
+}
+:root[data-theme="dark"] .detailview-content a:not(.btn):not(.dropdown-item):not(.nav-link){
+	color:var(--accent-color);
+}
+html body .editFieldsTable,
+:root[data-theme="dark"] .pickListValue{
+	background:var(--surface-color);
+}
+:root[data-theme="dark"] .filterConditionContainer,
+:root[data-theme="dark"] .well{
+	background:var(--surface-muted);
+	border-color:var(--border-color);
+	color:var(--default-color);
+}
+:root[data-theme="dark"] .listview-table tr td,
+:root[data-theme="dark"] .listview-table tr th{
+	color:var(--default-color);
+}
+:root[data-theme="dark"] .fc-overlay-modal,
+:root[data-theme="dark"] .breadcrumb,
+:root[data-theme="dark"] .importBlockContainer,
+:root[data-theme="dark"] .detailViewContainer .content-area,
+:root[data-theme="dark"] .editViewPageDiv .content-area,
+:root[data-theme="dark"] .editViewPageDiv.content-area,
+:root[data-theme="dark"] .editViewPageDiv .reports-content-area{
+	background:var(--surface-color);
+	color:var(--default-color);
+	border-color:var(--border-color);
+}
+:root[data-theme="dark"] .search-folders,
+:root[data-theme="dark"] .search-list{
+	background:var(--input-bg);
+	color:var(--default-color);
+	border-color:var(--input-border);
+}

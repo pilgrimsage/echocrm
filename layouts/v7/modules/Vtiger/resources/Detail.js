@@ -2830,7 +2830,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 						commentHtml.then(function(data){
 							var html;
 							if(jQuery(data).hasClass('privateComment')) {
-								html = '<ul class="unstyled"><li class="commentDetails" style="background: #fff9ea;">'+data+'</li></ul>';
+								html = '<ul class="unstyled"><li class="commentDetails" style="background: var(--warning-color-light);">'+data+'</li></ul>';
 							} else {
 								html = '<ul class="unstyled"><li class="commentDetails">'+data+'</li></ul>';
 							}

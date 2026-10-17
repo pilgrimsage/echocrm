@@ -20,7 +20,7 @@
 			{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 			{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 			<div class="col-lg-12">
-				<div class="media" {if $COMMENT->get('is_private')}style="background: #fff9ea;"{/if}>
+				<div class="media" {if $COMMENT->get('is_private')}style="background: var(--warning-color-light);"{/if}>
 					<div class="media-left title" id="{$COMMENT->getId()}">
 						{assign var=CREATOR_NAME value=$COMMENT->getCommentedByName()}
 						<div class="col-lg-2 recordImage commentInfoHeader" style ="width:50px; height:50px; font-size: 30px;" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}" data-relatedto = "{$COMMENT->get('related_to')}">

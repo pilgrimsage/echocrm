@@ -65,7 +65,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class='tab-content contentsBackground' style="height:auto;padding:4%;border:1px solid #ccc; background-color: white;">
+                        <div class='tab-content contentsBackground' style="height:auto;padding:4%;border:1px solid var(--border-color); background-color: var(--surface-color);">
                             <br>
                             <div class="row tab-pane active">
                                 <div>

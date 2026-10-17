@@ -73,7 +73,7 @@
 				{foreach key=index item=COMMENT from=$COMMENTS}
 					{assign var=CREATOR_NAME value={decode_html($COMMENT->getCommentedByName())}}
 					<div class="commentDetails">
-						<div class="singleComment" {if $COMMENT->get('is_private')}style="background: #fff9ea;"{/if}>
+						<div class="singleComment" {if $COMMENT->get('is_private')}style="background: var(--warning-color-light);"{/if}>
 							<input type="hidden" name='is_private' value="{$COMMENT->get('is_private')}">
 							{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 							{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}

@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	<div class="row" style="border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255);position: relative; z-index: 10000000; padding: 10px; width: 80%; margin: 0 auto; margin-top: 5%;">
+	<div class="row" style="border: 3px solid rgb(153, 153, 153); background-color: var(--surface-color);position: relative; z-index: 10000000; padding: 10px; width: 80%; margin: 0 auto; margin-top: 5%;">
 		<div class ="col-lg-1 col-sm-2 col-md-1" style="float: left;"><img src="{vimage_path('denied.gif')}" ></div>
 		<div class ="col-lg-11 col-sm-10 col-md-11" nowrap="nowrap">
 			<span class="genHeaderSmall">

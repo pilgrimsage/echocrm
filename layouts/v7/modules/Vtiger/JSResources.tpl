@@ -29,7 +29,6 @@
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/autoComplete/jquery.textcomplete.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/jquery.qtip.custom/jquery.qtip.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/momentjs/moment.js')}"></script>
-    <script type="text/javascript" src="{vresource_url('layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/lib/ckeditor5/js/ckeditor5.umd.js')}"></script>
 	<script type='text/javascript' src="{vresource_url('layouts/v7/lib/anchorme_js/anchorme.min.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/Class.js')}"></script>
