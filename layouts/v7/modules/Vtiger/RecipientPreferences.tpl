@@ -10,7 +10,7 @@
 {strip}
 	{if !empty($EMAIL_FIELDS_LIST)}
 		<div class="modal-dialog modal-sm">
-			<div class="model-content">
+			<div class="modal-content">
 				<form class="form-horizontal" method="post" action="index.php" id="recipientsForm">
 					{assign var=HEADER_TITLE value={vtranslate('LBL_RECIPIENT_PREFS', $MODULE)}}
 					{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
@@ -46,7 +46,7 @@
 		</div>
 	{else}
 		<div class="modal-dialog modal-sm">
-			<div class="model-content">
+			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: none;">
 					<button data-bs-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 				</div>
