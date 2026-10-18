@@ -136,7 +136,8 @@ class Vtiger_Financial_Years {
 		$drafts = $adb->pquery("SELECT COUNT(*) AS n FROM vtiger_invoice i INNER JOIN vtiger_crmentity c ON c.crmid = i.invoiceid AND c.deleted = 0
 			WHERE i.invoicedate >= ? AND i.invoicedate <= ? AND i.invoicestatus IN ('Created', 'AutoCreated')", array($year['start'], $year['end']));
 		if ((int)$adb->query_result($drafts, 0, 'n') > 0) {
-			$warnings[] = array((int)$adb->query_result($drafts, 0, 'n') . ' invoices dated in the year are still Created (not approved), so they are not on the books.', 'index.php?module=Invoice&view=List');
+			$draftCount = (int)$adb->query_result($drafts, 0, 'n');
+			$warnings[] = array($draftCount . ($draftCount == 1 ? ' invoice dated in the year is' : ' invoices dated in the year are') . ' still Created (not approved), so ' . ($draftCount == 1 ? 'it is' : 'they are') . ' not on the books.', 'index.php?module=Invoice&view=List');
 		}
 		if (is_file('include/utils/AssetUtils.php')) {
 			include_once 'include/utils/AssetUtils.php';

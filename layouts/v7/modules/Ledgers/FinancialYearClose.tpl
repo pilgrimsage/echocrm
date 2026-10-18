@@ -10,7 +10,7 @@
 			<button class="btn btn-danger" type="submit">Reopen year</button> <a class="btn btn-outline-secondary" href="index.php?module=Ledgers&view=FinancialYears">Back</a></form>
 	{else}
 		{foreach from=$CHECK.blocking item=B}<div class="alert alert-danger py-2">{$B|escape:'html'}</div>{/foreach}
-		{foreach from=$CHECK.warnings item=W}<div class="alert alert-warning py-2">{$W.0|escape:'html'} <a href="{$W.1}">Look</a></div>{/foreach}
+		{foreach from=$CHECK.warnings item=W}<div class="alert alert-warning py-2">{$W.0|escape:'html'} <a href="{$W.1}">Review</a></div>{/foreach}
 		<div class="row g-4 mb-3">
 			<div class="col-12 col-lg-6"><h6>Income cleared</h6><table class="table table-sm"><tbody>{foreach from=$PREVIEW.income item=R}<tr><td>{$R.name|escape:'html'}</td><td class="text-end">{$R.amount|number_format:2}</td></tr>{foreachelse}<tr><td class="text-muted">None.</td><td></td></tr>{/foreach}</tbody><tfoot><tr class="fw-bold"><td>Total income</td><td class="text-end">{$PREVIEW.total_income|number_format:2}</td></tr></tfoot></table></div>
 			<div class="col-12 col-lg-6"><h6>Expenses cleared</h6><table class="table table-sm"><tbody>{foreach from=$PREVIEW.expenses item=R}<tr><td>{$R.name|escape:'html'}</td><td class="text-end">{$R.amount|number_format:2}</td></tr>{foreachelse}<tr><td class="text-muted">None.</td><td></td></tr>{/foreach}</tbody><tfoot><tr class="fw-bold"><td>Total expenses</td><td class="text-end">{$PREVIEW.total_expenses|number_format:2}</td></tr></tfoot></table></div>

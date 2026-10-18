@@ -32,7 +32,17 @@ class Invoice_ReminderAct_Action extends Vtiger_Action_Controller {
 				case 'send':
 					foreach (Vtiger_Reminder_Utils::overdue($today) as $row) {
 						if ($row['invoiceid'] == (int)$request->get('invoice') && $row['rule']) {
-							$message = 'Reminder: ' . Vtiger_Reminder_Utils::send($row, $row['rule'], $today) . '.';
+							$status = Vtiger_Reminder_Utils::send($row, $row['rule'], $today);
+							$message = 'Reminder: ' . $status . '.';
+							if ($status != 'Sent') {
+								// say why (the reason is in the log row the send just wrote)
+								global $adb;
+								$why = $adb->pquery('SELECT message FROM vtiger_reminder_log WHERE invoice_id = ? ORDER BY log_id DESC LIMIT 1', array($row['invoiceid']));
+								$reason = $adb->num_rows($why) ? trim(html_entity_decode((string)$adb->query_result($why, 0, 0))) : '';
+								if ($reason !== '') {
+									$message = 'Reminder: ' . $status . ' - ' . $reason;
+								}
+							}
 						}
 					}
 					break;
