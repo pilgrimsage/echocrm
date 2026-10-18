@@ -12,8 +12,9 @@
 {strip}
     <div class="modal-dialog modelContainer"'>
         {assign var=HEADER_TITLE value={vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+
         <form class="form-horizontal" id="transferOwner" method="post">
             <input type="hidden" name="module" value="{$MODULE}">
             <input type="hidden" name="action" value="SaveAjax">

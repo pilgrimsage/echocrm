@@ -12,8 +12,9 @@
 {strip}
     <div class="modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('Transfer records to user', $MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+
         <form class="form-horizontal" id="deleteUser" name="deleteUser" method="post" action="index.php">
             <input type="hidden" name="module" value="{$MODULE}" />
             <input type="hidden" name="userid" value="{$USERID}" />

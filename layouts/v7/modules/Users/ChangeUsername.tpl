@@ -10,8 +10,9 @@
 {strip}
     <div id="massEditContainer" class="modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('LBL_CHANGE_USERNAME', $MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+
             <form class="form-horizontal" id="changeUsername" name="changeUsername" method="post" action="index.php">
                 <input type="hidden" name="module" value="{$MODULE}" />
                 <input type="hidden" name="userid" value="{$USER_MODEL->getId()}" />

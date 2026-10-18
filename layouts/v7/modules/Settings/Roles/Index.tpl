@@ -11,14 +11,17 @@
 {strip}
     <div class="listViewPageDiv " id="listViewContent">
         <div class="col-sm-12 col-12 ">
-            <br>
+            <div class="settingsPageHeader">
+                <h4>{vtranslate('Roles', $QUALIFIED_MODULE)}</h4>
+                <p>{vtranslate('LBL_ROLES_TREE_HINT', $QUALIFIED_MODULE)}</p>
+            </div>
             <div class="clearfix treeView">
                 <ul>
                     <li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
                         <div class="toolbar-handle">
                             <a href="javascript:;" class="btn app-MARKETING droppable">{$ROOT_ROLE->getName()}</a>
                             <div class="toolbar" title="{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
-                                &nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="icon-plus-sign"></span></a>
+                                &nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="fa fa-plus-circle"></span></a>
                             </div>
                         </div>
                         {assign var="ROLE" value=$ROOT_ROLE}

@@ -15,8 +15,9 @@
     <div id="editTagContainer" class="hide modal-dialog modelContainer">
         <input type="hidden" name="id" value="" />
         {assign var="HEADER_TITLE" value={vtranslate('LBL_EDIT_TAG', $QUALIFIED_MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+
             <div class="editTagContents col-lg-12 modal-body">
                 <div class='col-lg-4'></div>
                 <div class='col-lg-8'>

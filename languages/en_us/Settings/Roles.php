@@ -10,6 +10,7 @@
 $languageStrings = array(
 	// Basic Strings
 	'Roles' => 'Roles',
+	'LBL_ROLES_TREE_HINT' => 'Click a role to edit it, drag it onto another role to move it, use + to add a child role.',
 	'SINGLE_Roles' => 'Role',
 	'LBL_ADD_RECORD' => 'Add Role',
 	'LBL_DELETE_ROLE' => 'Delete Role',

@@ -12,8 +12,9 @@
     {assign var=CURRENCY_ID value=$RECORD_MODEL->getId()}
     <div class="currencyTransformModalContainer modal-dialog modelContainer">
         {assign var=HEADER_TITLE value={vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}}
-        {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
         <div class="modal-content">
+            {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
+
         <form id="transformCurrency" class="form-horizontal" method="POST">
             <input type="hidden" name="record" value="{$CURRENCY_ID}" />
             <div class="modal-body">

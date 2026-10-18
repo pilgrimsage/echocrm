@@ -9,8 +9,9 @@
 
 {strip}
 	<div class="modal-dialog modelContainer">
-		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE={vtranslate('LBL_CHANGE_OWNER', $MODULE)}}
 		<div class="modal-content">
+		    {include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE={vtranslate('LBL_CHANGE_OWNER', $MODULE)}}
+
 			<form class="form-horizontal"  id="massSave" name="MassEdit" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="action" value="MassSave" />

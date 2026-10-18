@@ -16,8 +16,8 @@
 		{else}
 			{assign var=TITLE value={vtranslate('LBL_EDIT_FIELD', $QUALIFIED_MODULE,vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME))}}
 		{/if}
-		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$TITLE}
 		<div class="modal-content">
+			{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$TITLE}
 			<form class="form-horizontal createCustomFieldForm">
 				<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}" />
 				<input type="hidden" name="addToBaseTable" value="{(isset($ADD_TO_BASE_TABLE)) ? $ADD_TO_BASE_TABLE : ''}" />

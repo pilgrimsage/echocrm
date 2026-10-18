@@ -133,3 +133,349 @@ html .moduleManagerBlock .moduleName h5{
 }
 html .moduleManagerBlock > .moduleblock{margin-left:auto;flex:0 0 auto}
 html .moduleManagerBlock .actions .btn{height:30px;padding:0 12px;border-radius:var(--radius-full)}
+
+/* ---- shared Settings page header (title + one line of help) ----------------------- */
+html .settingsPageHeader{margin:8px 0 14px}
+html .settingsPageHeader h4{
+	margin:0 0 2px;
+	font-family:var(--font-heading);
+	font-size:1.25rem;
+	font-weight:700;
+	letter-spacing:-.01em;
+	color:var(--heading-color);
+}
+html .settingsPageHeader p{margin:0;font-size:.8125rem;color:var(--muted-color)}
+
+/* ---- Roles: the hierarchy as an org chart card ------------------------------------ */
+html #listViewContent .treeView{
+	margin:0 0 16px;
+	padding:24px 28px 28px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+	overflow-x:auto;
+}
+html .treeView ul{margin:0;padding:0}
+html .treeView li{
+	margin:0;
+	padding:0 0 0 0;
+	border-left:2px solid var(--border-color);
+	list-style:none;
+}
+html .treeView > ul > li{border-left:0}
+html .treeView li > ul{margin-left:22px;padding-top:2px}
+html .treeView li .toolbar-handle{
+	position:relative;
+	display:flex;
+	align-items:center;
+	gap:6px;
+	margin:0 0 0 22px;
+	padding:7px 0;
+}
+html .treeView > ul > li > .toolbar-handle{margin-left:0}
+html .treeView li .toolbar-handle > a.btn:before,
+html .treeView li .toolbar-handle > a:before{
+	content:"";
+	position:absolute;
+	left:-22px;
+	top:50%;
+	width:22px;
+	height:2px;
+	background:var(--border-color);
+}
+html .treeView > ul > li > .toolbar-handle > a:before{display:none}
+html .treeView li .toolbar-handle > a.btn{
+	position:relative;
+	margin:0;
+	padding:6px 16px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-muted);
+	color:var(--default-color);
+	font-size:.8125rem;
+	font-weight:600;
+	box-shadow:var(--shadow-sm);
+	cursor:pointer;
+	transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;
+}
+html .treeView li .toolbar-handle > a.btn:hover{
+	border-color:var(--accent-color);
+	background:var(--accent-soft);
+	color:var(--accent-color);
+}
+html .treeView > ul > li > .toolbar-handle > a.btn{
+	border-color:transparent;
+	background:var(--accent-gradient);
+	color:var(--contrast-color);
+	box-shadow:0 8px 18px -8px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+html .treeView .toolbar{display:flex;align-items:center;gap:2px}
+html .treeView .toolbar a{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:26px;
+	height:26px;
+	border-radius:var(--radius-full);
+	color:var(--muted-color);
+	text-decoration:none;
+	transition:background-color 150ms ease,color 150ms ease;
+}
+html .treeView .toolbar a:hover{background:var(--accent-soft);color:var(--accent-color)}
+html .treeView .toolbar a[data-action="modal"][title="Delete"]:hover{background:var(--danger-color-light);color:var(--danger-color)}
+html .treeView .ui-draggable-dragging{box-shadow:var(--shadow-lg);z-index:20}
+html .treeView .ui-droppable.ui-state-hover,
+html .treeView a.btn.drop-hover{border-color:var(--accent-color);background:var(--accent-soft)}
+html .treeView > ul > li > .toolbar-handle > a.btn[class*="app-"]{
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color) !important;
+	border-color:transparent !important;
+}
+
+/* ---- Settings page header: Home > Group > Page, the page name as the title -------- */
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb){
+	display:flex;
+	align-items:center;
+	gap:8px;
+	flex:1 1 auto;
+	min-width:0;
+	width:auto !important;
+}
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb) > *{float:none !important;padding:0 !important;margin:0}
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb) .module-title{
+	font-family:var(--font-body);
+	font-size:.75rem;
+	font-weight:700;
+	letter-spacing:.08em;
+	text-transform:uppercase;
+	color:var(--muted-color);
+}
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb) .fa-angle-right{font-size:.9rem;color:var(--light-color)}
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb) .current-filter-name{
+	display:inline-flex;
+	align-items:center;
+	gap:8px;
+	background:none;
+	font-size:.8rem;
+	color:var(--muted-color);
+}
+html .app-nav .module-action-content > div:first-child:not(.module-breadcrumb) .settingModuleName{
+	font-family:var(--font-heading);
+	font-size:1.25rem;
+	font-weight:700;
+	letter-spacing:-.01em;
+	color:var(--heading-color);
+}
+
+/* ---- Settings edit forms (Workflow, Outgoing server, ...): header + body read as one card ---- */
+html .settingsPageDiv .editViewHeader{
+	margin:0;
+	padding:18px 24px 6px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-bottom:0;
+	border-radius:var(--radius-xl) var(--radius-xl) 0 0;
+}
+html .settingsPageDiv .editViewHeader h4,
+html .settingsPageDiv .editViewHeader .padding-left1per{
+	margin:0;
+	padding:0;
+	font-family:var(--font-heading);
+	font-size:1.05rem;
+	font-weight:600;
+	color:var(--heading-color);
+}
+html .settingsPageDiv .editViewBody{
+	margin:0 0 16px;
+	padding:8px 24px 20px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-top:0;
+	border-radius:0 0 var(--radius-xl) var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html .settingsPageDiv .editViewBody .fieldLabel,
+html .settingsPageDiv .editViewBody label.control-label{
+	font-size:.7rem;
+	font-weight:700;
+	letter-spacing:.06em;
+	text-transform:uppercase;
+	color:var(--muted-color);
+}
+html .settingsPageDiv #workflow_condition{margin-bottom:16px}
+html .settingsPageDiv .editViewBody .alert{border-radius:var(--radius-lg)}
+
+/* the condition editor is invisible until "Recreate" is chosen: it used to keep its 480px of height */
+html .conditionsContainer.zeroOpacity{
+	max-height:0;
+	overflow:hidden;
+	pointer-events:none;
+}
+
+/* ---- Layout Editor ------------------------------------------------------------------ */
+html .layoutTabs.nav-tabs{
+	display:flex;
+	gap:2px;
+	width:fit-content;
+	margin:0 0 16px !important;
+	padding:6px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	box-shadow:var(--card-shadow);
+}
+html .layoutTabs.nav-tabs > li{margin:0;padding:0;float:none;border:0;background:none}
+html .layoutTabs.nav-tabs > li > a{
+	display:flex;
+	align-items:center;
+	height:34px;
+	padding:0 18px;
+	border:0 !important;
+	border-radius:var(--radius-full) !important;
+	background:transparent !important;
+	color:var(--muted-color) !important;
+	font-size:.8125rem;
+	font-weight:600;
+	text-decoration:none;
+}
+html .layoutTabs.nav-tabs > li > a strong{font-weight:inherit;font-size:inherit}
+html .layoutTabs.nav-tabs > li > a:hover{background:var(--accent-soft) !important;color:var(--accent-color) !important}
+html .layoutTabs.nav-tabs > li.active > a,
+html .layoutTabs.nav-tabs > li > a.active{
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color) !important;
+	box-shadow:0 6px 14px -6px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+
+/* block cards */
+html .editFieldsTable{
+	margin:0 0 16px !important;
+	border:1px solid var(--border-color) !important;
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+	overflow:hidden;
+}
+html .editFieldsTable .layoutBlockHeader{
+	align-items:center;
+	margin:0;
+	padding:6px 12px;
+	background:var(--surface-muted);
+	border-bottom:1px solid var(--border-color);
+}
+html .editFieldsTable .blockLabel strong{
+	font-family:var(--font-heading);
+	font-size:1rem;
+	font-weight:600;
+	color:var(--heading-color);
+}
+html .editFieldsTable .blockActions{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted-color)}
+html .editFieldsTable .blockActions .btn{
+	height:30px;
+	padding:0 12px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-size:.75rem;
+	font-weight:600;
+}
+html .editFieldsTable .blockActions .btn:hover{border-color:var(--accent-color);background:var(--accent-soft);color:var(--accent-color)}
+
+/* field cards: two sortable columns */
+html .editFieldsTable ul.connectedSortable{
+	margin:0;
+	padding:12px;
+	list-style:none;
+	min-height:60px;
+}
+html .editFieldsTable ul.connectedSortable > li{
+	margin:0 0 10px;
+	padding:0;
+	background:var(--surface-color);
+	border:0;
+}
+html .editFieldsTable ul.connectedSortable > li > .row{
+	margin:0;
+	border:1px solid var(--border-color) !important;
+	border-radius:var(--radius-lg);
+	background:var(--surface-color);
+	transition:border-color 150ms ease,box-shadow 150ms ease;
+}
+html .editFieldsTable ul.connectedSortable > li:hover > .row{border-color:var(--accent-color) !important;box-shadow:var(--shadow-md)}
+html .editFieldsTable .editFields{padding:12px 6px}
+html .editFieldsTable .editFields .fieldLabel{font-size:.8125rem;color:var(--heading-color)}
+html .editFieldsTable .editFields .fieldLabel b{font-weight:600}
+html .editFieldsTable .fieldPropertyContainer{border-left:1px solid var(--border-color-light)}
+html .editFieldsTable .fieldProperties{
+	display:flex;
+	flex-wrap:wrap;
+	gap:6px;
+	width:auto;
+	padding:0 8px !important;
+	flex:1 1 auto;
+}
+html .editFieldsTable .fieldProperties br{display:none}
+html .editFieldsTable .fieldProperties .switch{
+	display:inline-flex;
+	align-items:center;
+	gap:4px;
+	height:26px;
+	padding:0 10px;
+	border-radius:var(--radius-full);
+	background:var(--accent-soft);
+	color:var(--accent-color) !important;
+	font-size:.72rem;
+	font-weight:600;
+	text-transform:none !important;
+	white-space:nowrap;
+}
+html .editFieldsTable .fieldProperties .switch.disabled{
+	background:var(--surface-muted);
+	color:var(--light-color) !important;
+}
+html .editFieldsTable .fieldProperties .switch img{width:12px;height:12px}
+html .editFieldsTable .fieldProperties .defaultValue{
+	flex:0 0 100%;
+	width:100%;
+	padding:0;
+	font-size:.72rem;
+	color:var(--light-color);
+}
+html .editFieldsTable .fieldProperties .defaultValue.disabled{opacity:.8}
+html .editFieldsTable .actions .editFieldDetails{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:28px;
+	height:28px;
+	border-radius:var(--radius-full);
+	color:var(--muted-color);
+}
+html .editFieldsTable .actions .editFieldDetails:hover{background:var(--accent-soft);color:var(--accent-color)}
+html .editFieldsTable ul.connectedSortable > li > .row{flex-direction:column;flex-wrap:nowrap}
+html .editFieldsTable ul.connectedSortable > li > .row > .col-sm-4{flex:0 0 auto;width:100%;max-width:100%}
+html .editFieldsTable ul.connectedSortable > li > .row > .fieldPropertyContainer{
+	flex:0 0 auto;
+	width:100%;
+	max-width:100%;
+	border-left:0;
+	border-top:1px solid var(--border-color-light);
+}
+html .editFieldsTable .editFields .row{flex-wrap:nowrap;align-items:center}
+html .editFieldsTable .editFields .fieldLabelContainer{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+html .editFieldsTable .editFields .fieldLabelContainer br{display:none}
+html .editFieldsTable .editFields .fieldLabelContainer .float-end{float:none !important;display:block}
+html .editFieldsTable .editFields .row > .col-sm-1{flex:0 0 22px;width:22px;padding:0}
+html .editFieldsTable .editFields .row > .col-sm-9{flex:1 1 auto;width:auto;padding:0 4px}
+html .editFieldsTable .fieldPropertyContainer > .row{flex-wrap:nowrap;margin:0;padding:10px 0 !important}
+html .editFieldsTable .fieldPropertyContainer > .row > .col-sm-10{flex:1 1 auto;width:auto}
+html .editFieldsTable .fieldPropertyContainer > .row > .col-sm-2.actions{flex:0 0 36px;width:36px;padding:0}
+html .editFieldsTable .editFields .fieldLabelContainer{flex-wrap:nowrap;margin:0;width:100%}
+html .editFieldsTable .editFields .fieldLabelContainer > *{width:auto;max-width:none;padding:0;flex:0 1 auto}
+html .editFieldsTable .editFields .fieldLabelContainer .fieldLabel{flex:1 1 auto;text-align:left}
+html .editFieldsTable .editFields .row > .col-sm-9{min-width:0}
+html .editFieldsTable ul.connectedSortable > li > .row > .col-sm-4{padding:0}
+html .editFieldsTable .editFields{min-height:0 !important;padding:10px 6px;border:0 !important}
+html .editFieldsTable .editFields > .row{min-height:0 !important}
+html .editFieldsTable .editFields .fieldLabelContainer{padding:0 !important}
