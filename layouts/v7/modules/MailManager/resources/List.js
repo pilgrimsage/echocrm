@@ -255,7 +255,6 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 		var self = this;
 		var container = self.getContainer();
 		if(container.find('#isMailBoxExists').val() == "0") {
-			container.find('#modnavigator').addClass('hide');
 			container.find('#listViewContent').addClass('paddingLeft0');
 		}
 	},

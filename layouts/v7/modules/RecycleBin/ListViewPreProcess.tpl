@@ -25,10 +25,6 @@
     </div>
 <div class="main-container main-container-{$MODULE}">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-        <div id="modnavigator" class="module-nav">
-            <div class="d-none d-lg-block mod-switcher-container">
-            </div>
-        </div>
         <div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
             {include file="modules/RecycleBin/partials/SidebarEssentials.tpl"}
         </div>

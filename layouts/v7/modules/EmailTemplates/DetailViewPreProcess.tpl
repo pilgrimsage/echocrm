@@ -24,10 +24,5 @@
 </div>
 <div class="container-fluid main-container">
 	<div class="row">
-		<div id="modnavigator" class="module-nav detailViewModNavigator clearfix">
-			<div class="d-none d-lg-block mod-switcher-container">
-				{include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-			</div>
-		</div>
 		<div class="detailViewContainer viewContent clearfix">
 			<div class="content-area container-fluid">

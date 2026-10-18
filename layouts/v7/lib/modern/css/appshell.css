@@ -1033,4 +1033,30 @@ html .app-nav .module-action-bar{left:0;right:0;width:auto !important}
 @media (min-width:1200px){
 	html .modal-overlay-footer{left:var(--app-sidebar-w) !important;width:auto !important;right:0;transition:left var(--app-ease)}
 	html.sidebar-collapsed .modal-overlay-footer{left:var(--app-sidebar-w-collapsed) !important}
+	/* full-page overlay (Merge, Mass Edit, Settings editors) stays beside the sidebar */
+	html .overlayPageContent.modal{left:var(--app-sidebar-w) !important;width:auto !important;transition:opacity .3s ease,left var(--app-ease) !important}
+	html.sidebar-collapsed .overlayPageContent.modal{left:var(--app-sidebar-w-collapsed) !important}
+	html .overlayFooter{left:var(--app-sidebar-w);width:auto;transition:left var(--app-ease)}
+	html.sidebar-collapsed .overlayFooter{left:var(--app-sidebar-w-collapsed)}
+	html.sidebar-collapsed .overlay-container-300 .overlayFooter{left:calc(var(--app-sidebar-w-collapsed) + 264px)}
 }
+
+/* Settings editors (workflow tasks) also clear the Settings menu panel, which is permanent from 992px */
+html .overlay-container-300 .modal-overlay-footer{margin-left:0 !important;width:auto !important;right:0;border-left:0}
+@media (min-width:992px){
+	html .overlayPageContent.overlay-container-300{margin-left:264px !important}
+	html .overlay-container-300 .overlayFooter{left:264px}
+	html .overlay-container-300 .modal-overlay-footer{left:264px !important}
+}
+@media (min-width:1200px){
+	html .overlay-container-300 .overlayFooter{left:calc(var(--app-sidebar-w) + 264px)}
+	html .overlay-container-300 .modal-overlay-footer{left:calc(var(--app-sidebar-w) + 264px) !important}
+	html.sidebar-collapsed .overlay-container-300 .modal-overlay-footer{left:calc(var(--app-sidebar-w-collapsed) + 264px) !important}
+}
+@media (max-width:991.98px){
+	html .overlayPageContent.overlay-container-300{margin-left:0 !important}
+	html .overlay-container-300 .modal-overlay-footer{left:0 !important}
+}
+
+/* the skin's dark 42px / 230px stub on the left of the fixed Save bar belonged to the old module rail */
+html .modal-overlay-footer,html .settingsPageDiv .modal-overlay-footer{border-left:0 !important}

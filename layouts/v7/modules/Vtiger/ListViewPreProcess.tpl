@@ -23,11 +23,6 @@
 </div>  
 <div class="main-container main-container-{$MODULE}">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div id="modnavigator" class="module-nav">
-			<div class="d-none d-lg-block mod-switcher-container">
-				{include file="partials/Menubar.tpl"|vtemplate_path:$MODULE}
-			</div>
-		</div>
 		<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
 			{include file="partials/SidebarEssentials.tpl"|vtemplate_path:$MODULE}
 		</div>

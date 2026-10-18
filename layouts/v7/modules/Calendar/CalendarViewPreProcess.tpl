@@ -25,11 +25,6 @@
 	</div>
 	<div class="main-container">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div id="modnavigator" class="module-nav calendar-navigator clearfix">
-			<div class="d-none d-lg-block mod-switcher-container">
-				{include file="modules/Calendar/partials/Sidebar.tpl"}
-			</div>
-		</div>
 		<div id="sidebar-essentials" class="sidebar-essentials {if $LEFTPANELHIDE eq '1'} hide {/if}">
 			{include file="partials/SidebarEssentials.tpl"|vtemplate_path:$MODULE}
 		</div>

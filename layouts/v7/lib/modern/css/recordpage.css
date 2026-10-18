@@ -385,3 +385,10 @@ html .quickCreateContent .fieldLabel label{
 	text-transform:uppercase;
 	color:var(--muted-color);
 }
+
+/* footer bar of the overlay screens (Merge, Mass Edit, overlay edit, quick preview) */
+html .overlayFooter{
+	background:var(--surface-color);
+	border-top:1px solid var(--border-color-light);
+	box-shadow:0 -4px 12px rgba(0,0,0,.04);
+}

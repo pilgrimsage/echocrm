@@ -271,3 +271,6 @@ body{
 .dropdown-menu > li > a:hover{
 	background:var(--background-color);
 }
+/* the list's scroll box must be the containing block of the (absolutely positioned) hidden selects in the search row,
+   otherwise they widen the whole page when the table scrolls sideways */
+html .table-container#table-content{position:relative}

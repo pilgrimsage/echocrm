@@ -479,3 +479,209 @@ html .editFieldsTable ul.connectedSortable > li > .row > .col-sm-4{padding:0}
 html .editFieldsTable .editFields{min-height:0 !important;padding:10px 6px;border:0 !important}
 html .editFieldsTable .editFields > .row{min-height:0 !important}
 html .editFieldsTable .editFields .fieldLabelContainer{padding:0 !important}
+
+/* ---- Menu Editor ---- */
+html .vt-default-callout{
+	padding:14px 18px;
+	margin:0 0 4px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color-light);
+	border-left:4px solid var(--info-color);
+	border-radius:var(--radius-lg);
+	box-shadow:var(--shadow-sm);
+}
+html .vt-info-callout .vt-callout-header{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:15px;color:var(--info-color)}
+html .vt-default-callout p{margin:0;color:var(--muted-color)}
+html #listViewContent .row[style*="margin-left: -28px"]{
+	display:grid;
+	grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+	gap:16px;
+	align-items:start;
+	margin:8px 0 0 !important;
+}
+html #listViewContent .row[style*="margin-left: -28px"] > [class*="col-"]{width:auto;max-width:none;padding:0;margin:0}
+html .sortable.appContainer.ui-sortable,html .sortable.appContainer{width:auto;min-height:60px;padding:0}
+html .menuEditorItem{
+	width:auto;
+	height:auto;
+	margin:0;
+	padding:12px;
+	font-size:14px;
+	font-weight:600;
+	text-shadow:none;
+	border-radius:var(--radius-lg);
+}
+html .menuEditorItem[data-app-name]{margin-bottom:10px;padding:14px 12px;box-shadow:var(--shadow-sm)}
+html .menuEditorItem[data-app-name] .fa{display:block;margin-bottom:6px;font-size:22px}
+html .modules{position:relative;margin-bottom:8px}
+html .menuEditorItem.menuEditorModuleItem{
+	display:flex;
+	align-items:center;
+	gap:10px;
+	margin-bottom:8px;
+	padding:10px 34px 10px 12px;
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-weight:500;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-md);
+	cursor:move;
+	transition:border-color .15s,box-shadow .15s;
+}
+html .modules .menuEditorModuleItem{margin-bottom:0}
+html .menuEditorItem.menuEditorModuleItem:hover{border-color:var(--accent-color);box-shadow:var(--shadow-sm)}
+html .menuEditorModuleItem .float-start,html .menuEditorModuleItem .marginTop5px,html .menuEditorModuleItem .marginTop10px{float:none !important;margin:0 !important}
+html .menuEditorModuleItem .cursorDrag{display:none}
+html .menuEditorModuleItem .fa,html .menuEditorModuleItem [class*="vicon"],html .menuEditorModuleItem i{font-size:16px;color:var(--accent-color)}
+html .menuEditorModuleItem .textOverflowEllipsis{min-width:0;text-align:left}
+html .menuEditorItem.menuEditorAddItem{
+	background:transparent;
+	color:var(--muted-color);
+	border:1px dashed var(--border-color);
+	font-weight:500;
+	cursor:pointer;
+}
+html .menuEditorItem.menuEditorAddItem:hover{border-color:var(--accent-color);color:var(--accent-color);background:var(--accent-soft)}
+html .menuEditorItem.menuEditorAddItem .fa{font-size:14px;color:inherit}
+html .menuEditorRemoveItem{
+	position:absolute;
+	right:12px;
+	top:50%;
+	transform:translateY(-50%);
+	z-index:2;
+	margin:0 !important;
+	padding:0 !important;
+	font-size:13px;
+	color:var(--muted-color) !important;
+	cursor:pointer;
+}
+html .menuEditorRemoveItem:hover{color:var(--danger-color) !important}
+html .menuEditorModuleItem.active{background:var(--accent-soft)}
+
+/* ---- Picklist ---- */
+html .settingsPageDiv .detailViewContainer > .form-horizontal:has(> .detailViewInfo){
+	padding:24px;
+	background:var(--card-bg);
+	border:1px solid var(--card-border);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html .settingsPageDiv .detailViewContainer > .form-horizontal:has(> .detailViewInfo) > br{display:none}
+
+/* ---- Customer Portal ---- */
+html #customerPortalForm{
+	padding:24px;
+	background:var(--card-bg);
+	border:1px solid var(--card-border);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html #customerPortalForm br{display:none}
+html #customerPortalForm > .col-sm-12{padding:0 0 14px}
+html #customerPortalForm > .row{margin:12px 0 56px !important}
+html #customerPortalForm .help-inline{color:var(--accent-color) !important;width:auto !important}
+html .cp-nav-header-wrapper{margin:0 0 8px;padding:0;border:0 !important;list-style:none}
+html .portalMenuHeader{border:0 !important;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:left}
+html .cp-nav-header{padding:4px 12px !important;color:var(--muted-color) !important;background:transparent !important;border:0 !important}
+html #portalModulesTable{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+html #portalModulesTable > li.portalModuleRow{
+	background:var(--surface-color);
+	border:1px solid var(--border-color-light) !important;
+	border-radius:var(--radius-md) !important;
+	transition:border-color .15s,background .15s;
+}
+html #portalModulesTable > li.portalModuleRow:hover{border-color:var(--accent-color) !important}
+html #portalModulesTable > li.portalModuleRow.active{background:var(--accent-soft);border-color:var(--accent-color) !important}
+html #portalModulesTable > li > a,
+html #portalModulesTable > li.active > a:hover,
+html #portalModulesTable > li.active > a:focus{display:block;padding:9px 12px;color:var(--default-color);background:transparent !important;border:0 !important;border-radius:var(--radius-md)}
+html .portal-home-module{padding-left:0;color:var(--heading-color)}
+html .cp-tabs .checkbox{display:flex;align-items:center;gap:6px;margin:0}
+html .cp-tabs .enabledModules{margin:0 !important}
+html .drag-portal-module{width:12px;opacity:.5}
+html .portal-dashboard{min-height:0;padding:0 0 0 20px;border:0 !important}
+html .portal-dashboard > h4,html #dashboardContent > h4{margin:0 0 8px;font-size:16px;font-weight:700;color:var(--heading-color)}
+html .portal-dashboard > .hrHeader,html #dashboardContent > .hrHeader{width:auto;margin:0 0 16px;border-color:var(--border-color-light)}
+html .portal-annoucement-widget-container,
+html .portal-record-widget-container,
+html .portal-shortcuts-container,
+html .portal-helpdesk-widget-container{
+	width:auto !important;
+	margin-bottom:12px;
+	overflow:hidden;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-lg);
+}
+html .portal-annoucement-widget,
+html .portal-record-widget-content,
+html .portal-shortcuts-header,
+html .portal-helpdesk-widget-header{
+	min-height:0;
+	padding:10px 14px;
+	color:var(--heading-color);
+	background:var(--surface-muted);
+	border-bottom:1px solid var(--border-color-light);
+}
+html .portal-annoucement-widget h5,
+html .portal-record-widget-content h5,
+html .portal-shortcuts-header h5,
+html .portal-helpdesk-widget-header h5{margin:0;font-size:13px;font-weight:700}
+html .portal-record-control-container,html .portal-helpdesk-widget-controls{padding:6px 12px}
+html .portal-shortcuts-content{min-height:0;padding:10px 14px}
+html .portal-shortcut-list{margin-top:6px;list-style:none}
+html .portal-shortcut-list .btn{padding:4px 0;color:var(--default-color)}
+html #portal-shortcutsContainer > ul{padding:0;border:0 !important}
+html .portal-dashboard .col-lg-7.row{margin:0;padding:0}
+html .portal-dashboard .col-lg-7.row,html .portal-dashboard .col-sm-5{padding-left:0}
+html #customerPortalForm .form-group{display:flex;align-items:center;gap:12px;margin:0 0 12px}
+html #customerPortalForm .form-group > .control-label{flex:0 0 160px;width:160px;max-width:160px;margin:0;text-align:left}
+html #customerPortalForm .form-group > .fieldValue,html #customerPortalForm .form-group > .col-sm-5{flex:1 1 auto;width:auto;max-width:none;padding:0}
+html #customerPortalForm .fieldValue.input-group{flex-wrap:nowrap}
+html #customerPortalForm .portal-dashboard > #dashboardContent{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:0 20px;align-items:start}
+html #customerPortalForm #dashboardContent > h4,html #customerPortalForm #dashboardContent > .hrHeader,html #customerPortalForm #dashboardContent > input{grid-column:1 / -1}
+html #customerPortalForm #dashboardContent > .col-lg-7,html #customerPortalForm #dashboardContent > .col-sm-5{width:auto;max-width:none;float:none}
+html #customerPortalForm .form-group{flex-wrap:nowrap}
+html #customerPortalForm .form-group > .fieldValue,html #customerPortalForm .form-group > .col-sm-5{flex:1 1 0;min-width:0}
+html [id^="moduleData_"]{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:0 24px;margin:0;padding:0;width:auto;max-width:none}
+html [id^="moduleData_"] > h4,html [id^="moduleData_"] > hr{grid-column:1 / -1;margin-top:0 !important}
+html [id^="moduleData_"] > h4{font-size:16px;font-weight:700;color:var(--heading-color)}
+html [id^="moduleData_"] > [class*="col-"]{width:auto;max-width:none;float:none;padding:0}
+html .portal-related-information h4{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--heading-color)}
+html .portal-fields-container-wrapper{min-height:0;border-right:1px solid var(--border-color-light);padding-right:20px !important}
+html .portal-fields-container-wrapper > .col-sm-12{padding:0;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center}
+html .portal-fields-container-wrapper > .col-sm-12 > [class*="col-"]{width:auto;max-width:none;padding:0 !important}
+html .portal-fields-container-wrapper > .col-sm-12 > .col-10{flex:1 0 100%;padding:4px 0 !important}
+html .portal-fields-container-wrapper > .col-sm-12 label{display:inline-block;margin:0 8px 0 0;font-size:13px}
+html .portal-fields-switch{display:inline-block;vertical-align:middle}
+html .portal-fields-switch,html .portal-fields-switch:before{background:var(--border-color) !important}
+html .portal-fields-switchOn,html .portal-fields-switchOn:before{background:var(--accent-soft) !important}
+html .portal-fields-switch:after{background-color:var(--muted-color);box-shadow:var(--shadow-sm)}
+html .portal-fields-switchOn:after{background-color:var(--accent-color)}
+html .portal-fieldInfo-wrapper{border:0;border-bottom:1px solid var(--border-color-light);padding:6px 0 !important}
+html .portal-record-privilege .checkbox,html .portal-record-privilege .radio{margin:0 0 6px}
+html .portal-record-privilege label{display:flex;align-items:center;gap:6px;font-size:13px}
+html .portal-fieldInfo-wrapper{display:flex;align-items:center;gap:12px;width:auto;max-width:none;float:none}
+html .portal-fieldInfo-wrapper > [class*="col-"]{width:auto;max-width:none;padding:0 !important;float:none}
+html .portal-fieldInfo-wrapper > .portal-fieldName-wrapper{flex:1 1 auto;order:2;padding:0 !important}
+html .portal-fieldInfo-wrapper > .portal-fieldInfo-sliderWrapper{flex:0 0 40px;order:1}
+html .portal-fieldInfo-wrapper > :last-child{order:3;flex:0 0 auto}
+html .portal-fieldInfo-wrapper .deleteField{float:none !important}
+html .portal-deletefield{padding:2px 6px;color:var(--muted-color)}
+html .portal-deletefield:not(:disabled):hover{color:var(--danger-color)}
+html .addFieldsBlock{display:flex;gap:10px;align-items:center;margin-top:12px;padding:0}
+html .addFieldsBlock > .col-sm-8{flex:1 1 auto;width:auto;max-width:none;padding:0}
+html .addFieldsBlock > .col-sm-4{flex:0 0 auto;width:auto;max-width:none;padding:0}
+html .menuEditorItem.app-INVENTORY{color:#2b2200}
+html #customerPortalForm .help-inline{padding:4px 10px;background:var(--surface-muted);border-radius:var(--radius-sm)}
+
+@media (max-width:767.98px){
+	html #customerPortalForm{padding:16px}
+	html #customerPortalForm > .row{display:block}
+	html #customerPortalForm > .row > [class*="col-"]{width:100%;max-width:none;padding:0}
+	html #customerPortalForm .portal-dashboard{padding:16px 0 0}
+	html #customerPortalForm .form-group{flex-wrap:wrap}
+	html #customerPortalForm .form-group > .control-label{flex:1 0 100%;width:100%;max-width:none}
+	html #customerPortalForm .portal-dashboard > #dashboardContent,html [id^="moduleData_"]{grid-template-columns:minmax(0,1fr)}
+	html .portal-fields-container-wrapper{border-right:0;padding-right:0 !important}
+}

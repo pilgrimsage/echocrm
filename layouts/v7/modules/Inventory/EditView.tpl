@@ -8,11 +8,6 @@
  ************************************************************************************}
 
 <div class="main-container clearfix">
-        <div id="modnavigator" class="module-nav editViewModNavigator">
-            <div class="d-none d-lg-block mod-switcher-container">
-                {include file="modules/Vtiger/partials/Menubar.tpl"}
-            </div>
-        </div>
         <div class="editViewPageDiv viewContent">
             <div class="col-sm-12 col-12 content-area {if $LEFTPANELHIDE eq '1'} full-width {/if}">
                 <form class="form-horizontal recordEditView" id="EditView" name="edit" method="post" action="index.php" enctype="multipart/form-data">
