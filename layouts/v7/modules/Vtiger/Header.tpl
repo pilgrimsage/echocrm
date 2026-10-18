@@ -21,7 +21,7 @@
 		
 		<link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/plugins/bootstrap-5.3.8-dist/css/bootstrap.min.css")}'>
 
-        <script>try{ldelim}var t=localStorage.getItem('echocrm-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');{rdelim}catch(e){ldelim}{rdelim}</script>
+        <script>try{ldelim}var t=localStorage.getItem('echocrm-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');if(localStorage.getItem('echocrm-sidebar')==='collapsed')document.documentElement.classList.add('sidebar-collapsed');{rdelim}catch(e){ldelim}{rdelim}</script>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/theme.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/listview.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/detailview.css")}'>
@@ -30,6 +30,7 @@
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/widgets.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/shell.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/components.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/appshell.css")}'>
 
         <link rel="stylesheet" href="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.css')}">
 

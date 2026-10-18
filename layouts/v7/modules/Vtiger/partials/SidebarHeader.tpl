@@ -15,4 +15,3 @@
 	</div>
 </div>
 
-{include file="modules/Vtiger/partials/SidebarAppMenu.tpl"}

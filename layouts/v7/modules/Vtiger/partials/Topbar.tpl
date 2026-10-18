@@ -10,67 +10,78 @@
 {strip}
 	{include file="modules/Vtiger/Header.tpl"}
 
+	{include file="modules/Vtiger/partials/AppSidebar.tpl"}
 	{assign var=APP_IMAGE_MAP value=Vtiger_MenuStructure_Model::getAppIcons()}
+	{assign var=ALL_APP_MENUS value=Settings_MenuEditor_Module_Model::getAllVisibleModules()}
+	{assign var=USER_PRIVILEGES_MODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
+	{assign var=CALENDAR_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Calendar')}
+	{assign var=HEADER_IMAGE_DETAILS value=$USER_MODEL->getImageDetails()}
+	{assign var=HEADER_AVATAR_URL value=''}
+	{foreach item=IMAGE_INFO from=$HEADER_IMAGE_DETAILS}
+		{if !empty($IMAGE_INFO.url) && $HEADER_AVATAR_URL eq ''}{assign var=HEADER_AVATAR_URL value=$IMAGE_INFO.url}{/if}
+	{/foreach}
 	<nav class="navbar navbar-expand-lg navbar-inverse fixed-top app-fixed-navbar">
 		<div class="container-fluid global-nav">
-			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-4 col-8 app-navigator-container">
-					<div class="row">
-						<div id="appnavigator" class="col-sm-2 col-2 cursorPointer app-switcher-container" data-app-class="{if $MODULE eq 'Home' || !$MODULE}fa-dashboard{else}{$APP_IMAGE_MAP[$SELECTED_MENU_CATEGORY]}{/if}">
-							<div class="row app-navigator">
-								<span class="app-icon fa fa-bars"></span>
+			<div class="header-inner">
+				<div class="header-left">
+					<button type="button" id="sidebarToggle" class="sidebar-toggle" title="{vtranslate('LBL_NAV_TOGGLE', 'Vtiger')}"><i class="fa fa-bars"></i></button>
+					{if $COMPANY_LOGO->get('alt') eq 'vtiger-crm-logo.png'}
+						{* nobody has uploaded a logo yet: show the product mark instead of vtiger's *}
+						<a href="index.php" class="header-logo company-logo brand-lockup">
+							<span class="header-logo-mark"><i class="fa fa-bolt"></i></span>
+							<span class="header-logo-text">EchoCrew</span>
+						</a>
+					{else}
+						<a href="index.php" class="header-logo company-logo">
+							<img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+						</a>
+					{/if}
+					<div class="header-action dropdown apps-dropdown">
+						<button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="{vtranslate('LBL_QUICK_ACCESS', 'Vtiger')}"><i class="fa fa-th"></i></button>
+						<div class="dropdown-menu apps-menu">
+							<div class="apps-menu-header">
+								<h6>{vtranslate('LBL_QUICK_ACCESS', 'Vtiger')}</h6>
+								<span>{vtranslate('LBL_QUICK_ACCESS_SUB', 'Vtiger')}</span>
+							</div>
+							<div class="apps-grid">
+								<a href="{$HOME_MODULE_MODEL->getDefaultUrl()}" class="apps-grid-item"><span class="apps-grid-icon"><i class="fa fa-home"></i></span><span>{vtranslate('LBL_DASHBOARD')}</span></a>
+								{if $CALENDAR_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
+									<a href="index.php?module=Calendar&view={$CALENDAR_MODULE_MODEL->getDefaultViewName()}" class="apps-grid-item"><span class="apps-grid-icon"><i class="fa fa-calendar"></i></span><span>{vtranslate('Calendar','Calendar')}</span></a>
+								{/if}
+								{assign var=QUICK_COUNT value=0}
+								{assign var=APP_ORDER value=['MARKETING', 'SALES', 'INVENTORY', 'SUPPORT', 'PROJECT', 'TOOLS']}
+								{foreach item=APP_NAME from=$APP_ORDER}
+									{assign var=APP_MODULES value=[]}
+									{if isset($ALL_APP_MENUS[$APP_NAME])}{assign var=APP_MODULES value=$ALL_APP_MENUS[$APP_NAME]}{/if}
+									{foreach key=MODULE_NAME item=MODULE_MODEL from=$APP_MODULES}
+										{if $QUICK_COUNT lt 10}
+											<a href="{$MODULE_MODEL->getDefaultUrl()}&app={$APP_NAME}" class="apps-grid-item"><span class="apps-grid-icon">{$MODULE_MODEL->getModuleIcon()}</span><span>{vtranslate($MODULE_MODEL->get('label'), $MODULE_NAME)}</span></a>
+											{assign var=QUICK_COUNT value=$QUICK_COUNT+1}
+										{/if}
+									{/foreach}
+								{/foreach}
 							</div>
 						</div>
-						<div class="logo-container col-sm-3 col-9">
-							<div class="row">
-								{if $COMPANY_LOGO->get('alt') eq 'vtiger-crm-logo.png'}
-									{* nobody has uploaded a logo yet: show the product mark instead of vtiger's *}
-									<a href="index.php" class="company-logo brand-lockup">
-										<span class="brand-mark"><i class="fa fa-bolt"></i></span>
-										<span class="brand-name">EchoCrew</span>
-									</a>
-								{else}
-									<a href="index.php" class="company-logo">
-										<img src="{$COMPANY_LOGO->get('imagepath')}" alt="{$COMPANY_LOGO->get('alt')}"/>
-									</a>
-								{/if}
-							</div>
-						</div>  
 					</div>
 				</div>
-				<div class="navbar-header paddingTop5 d-lg-none">
-					<button type="button" class="navbar-toggler collapsed border0" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false">
-						<i class="fa fa-th"></i>
-					</button>
-					<button type="button" class="navbar-toggler collapsed border0" data-bs-toggle="collapse" data-bs-target="#search-links-container" aria-expanded="false">
-						<i class="fa fa-search"></i>
-					</button>
-				</div>
-				<div class="col-sm-3 topbar-search-wrapper">
-					<div id="search-links-container" class="search-links-container collapse navbar-collapse">
+
+				<div class="header-search topbar-search-wrapper">
+					<div id="search-links-container" class="search-links-container">
 						<div class="search-link">
 							<span class="fa fa-search" aria-hidden="true"></span>
-							<input class="keyword-input" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" value="{$GLOBAL_SEARCH_VALUE}">
-							<span id="adv-search" class="adv-search fa fa-chevron-circle-down float-end cursorPointer" aria-hidden="true"></span>
+							<input class="keyword-input" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" value="{$GLOBAL_SEARCH_VALUE}" autocomplete="off">
+							<span class="search-hint">&#8984;K</span>
+							<span id="adv-search" class="adv-search fa fa-sliders cursorPointer" aria-hidden="true"></span>
 						</div>
 					</div>
 				</div>
-				<div id="navbar" class="col-sm-6 col-12 collapse navbar-collapse navbar-right global-actions">
-					<ul class="nav navbar-nav">
-						<li>
-							<a href="javascript:void(0)" id="themeToggle" class="theme-toggle" title="{vtranslate('LBL_THEME_TOGGLE', 'Vtiger')}" aria-pressed="false"><i class="fa fa-moon-o"></i></a>
-						</li>
-						<li>
-							<div class="dropdown float-start">
-								<div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
-									<a href="#" id="menubar_quickCreate" class="qc-button fa fa-plus-circle" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" aria-hidden="true"></a>
-								</div>
-								<style type="text/css">
-								#quickCreateModules .quickCreateItems { display: flex; flex-wrap: wrap; }
-								#quickCreateModules .quickCreateItem  { padding: 5px; }
-								#quickCreateModules [class^="vicon-"] { vertical-align: middle; }
-								</style>
-								<ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="dropdownMenu1" style="width:500px;">
+
+				<div id="navbar" class="header-right global-actions">
+					<div class="dropdown create-dropdown">
+						<button type="button" id="menubar_quickCreate" class="create-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}">
+							<i class="fa fa-plus"></i><span>{vtranslate('LBL_CREATE')}</span>
+						</button>
+								<ul class="dropdown-menu dropdown-menu-end create-menu" role="menu" aria-labelledby="dropdownMenu1" >
 									<li class="title" style="padding: 5px 0 0 15px;">
 										<strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong>
 									</li>
@@ -136,27 +147,19 @@
 										</div>
 									</li>
 								</ul>
-							</div>
-						</li>
-						{assign var=USER_PRIVILEGES_MODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
-						{assign var=CALENDAR_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Calendar')}
-						{if $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
-							<li><div><a href="index.php?module=Calendar&view={$CALENDAR_MODULE_MODEL->getDefaultViewName()}" class="fa fa-calendar" title="{vtranslate('Calendar','Calendar')}" aria-hidden="true"></a></div></li>
-						{/if}
-						{assign var=REPORTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Reports')}
-						{if $USER_PRIVILEGES_MODEL->hasModulePermission($REPORTS_MODULE_MODEL->getId())}
-							<li><div><a href="index.php?module=Reports&view=List" class="fa fa-bar-chart" title="{vtranslate('Reports','Reports')}" aria-hidden="true"></a></div></li>
-						{/if}
-						{if $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
-							<li><div><a href="#" class="taskManagement vicon vicon-task" title="{vtranslate('Tasks','Vtiger')}" aria-hidden="true"></a></div></li>
-						{/if}
-						<li class="dropdown">
-							<div>
-								<a href="#" class="userName dropdown-toggle float-end" data-bs-toggle="dropdown" role="button">
-									<span class="fa fa-user" aria-hidden="true" title="{$USER_MODEL->get('userlabel')}
-										  ({$USER_MODEL->get('user_name')})"></span>
-									<span class="link-text-xs-only d-lg-none d-md-none d-sm-none">{$USER_MODEL->getName()}</span>
-								</a>
+					</div>
+					<span class="header-divider"></span>
+					<a href="javascript:void(0)" id="themeToggle" class="header-action theme-toggle" title="{vtranslate('LBL_THEME_TOGGLE', 'Vtiger')}" aria-pressed="false"><i class="fa fa-moon-o"></i></a>
+					<button type="button" id="fullscreenToggle" class="header-action fullscreen-toggle" title="{vtranslate('LBL_FULLSCREEN', 'Vtiger')}"><i class="fa fa-arrows-alt"></i></button>
+					{if $CALENDAR_MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModulePermission($CALENDAR_MODULE_MODEL->getId())}
+						<a href="#" class="header-action taskManagement" title="{vtranslate('Tasks','Vtiger')}"><i class="vicon vicon-task"></i></a>
+					{/if}
+					<div class="dropdown user-dropdown">
+						<a href="#" class="userName user-chip dropdown-toggle" data-bs-toggle="dropdown" role="button" title="{$USER_MODEL->get('userlabel')} ({$USER_MODEL->get('user_name')})">
+							<span class="user-chip-avatar">{if $HEADER_AVATAR_URL neq ''}<img src="{$HEADER_AVATAR_URL}" alt="">{else}{$USER_MODEL->get('first_name')|truncate:1:''}{$USER_MODEL->get('last_name')|truncate:1:''}{/if}</span>
+							<span class="user-chip-name">{$USER_MODEL->get('first_name')}</span>
+							<i class="fa fa-angle-down user-chip-caret"></i>
+						</a>
 								<div class="dropdown-menu dropdown-menu-end logout-content" role="menu">
 									<div class="row">
 										<div class="col-lg-4 col-sm-4">
@@ -195,9 +198,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</li>
-					</ul>
+					</div>
 				</div>
 			</div>
 		</div>

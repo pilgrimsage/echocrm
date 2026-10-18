@@ -54,6 +54,7 @@
 
     <script type="text/javascript" src="{vresource_url('layouts/v7/resources/v7_client_compat.js')}"></script>
     <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/ThemeToggle.js')}"></script>
+    <script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/AppSidebar.js')}"></script>
    
 
     <!-- Enable tracking pageload time -->
