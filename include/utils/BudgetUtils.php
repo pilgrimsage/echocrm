@@ -36,7 +36,7 @@ class Vtiger_Budget_Utils {
 
 	public static function budgets() {
 		global $adb;
-		$result = $adb->pquery('SELECT b.*, (SELECT COUNT(*) FROM vtiger_budget_lines l WHERE l.budget_id = b.budget_id) AS lines FROM vtiger_budgets b ORDER BY b.year_start DESC, b.budget_id DESC');
+		$result = $adb->pquery('SELECT b.*, (SELECT COUNT(*) FROM vtiger_budget_lines l WHERE l.budget_id = b.budget_id) AS line_count FROM vtiger_budgets b ORDER BY b.year_start DESC, b.budget_id DESC');
 		$rows = array();
 		while ($row = $adb->fetch_array($result)) {
 			$row['budget_name'] = decode_html($row['budget_name']);

@@ -407,7 +407,8 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 				$entityInfo['status'] = self::$IMPORT_RECORD_CREATED;
 			}
 			if ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
-				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
+				// a row a save rule refused has no id; it is counted as failed below instead of aborting the import
+				$entityIdComponents = !empty($entityInfo['id']) ? vtws_getIdComponents($entityInfo['id']) : array();
 				$recordId = isset($entityIdComponents[1]) ? $entityIdComponents[1] : '';
 				if (!empty($recordId)) {
 					$entityfields = getEntityFieldNames($this->module);
@@ -421,7 +422,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 							$label .= ($fieldData[$field] ?? '')." ";
 						}
 					} else {
-						$label = $fieldData[$entityfields['fieldname']];
+						$label = $fieldData[$entityfields['fieldname']] ?? '';
 					}
 
 					$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array(trim($label), $recordId));

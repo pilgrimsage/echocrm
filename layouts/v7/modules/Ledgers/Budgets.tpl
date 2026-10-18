@@ -8,7 +8,7 @@
 		<thead><tr><th>Budget</th><th>Year</th><th class="text-end">Lines</th><th>Status</th><th></th></tr></thead>
 		<tbody>
 		{foreach from=$BUDGETS item=B}
-			<tr><td class="fw-semibold">{$B.budget_name|escape:'html'}</td><td>{$B.label}</td><td class="text-end">{$B.lines}</td>
+			<tr><td class="fw-semibold">{$B.budget_name|escape:'html'}</td><td>{$B.label}</td><td class="text-end">{$B.line_count}</td>
 			<td>{if $B.status eq 'Active'}<span class="badge bg-success">Active</span>{elseif $B.status eq 'Draft'}<span class="badge bg-warning text-dark">Draft</span>{else}<span class="badge bg-secondary">{$B.status}</span>{/if}</td>
 			<td class="text-end text-nowrap">
 				<a class="btn btn-outline-secondary btn-sm" href="index.php?module=Ledgers&view=BudgetReport&budget={$B.budget_id}">Against actual</a>

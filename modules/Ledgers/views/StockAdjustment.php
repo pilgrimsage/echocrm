@@ -32,7 +32,7 @@ class Ledgers_StockAdjustment_View extends Ledgers_ReportBase_View {
 			$ledgers[$row['ledgersid']] = decode_html($row['ledger_group']) . ' / ' . decode_html($row['ledger_name']);
 		}
 		$recent = array();
-		$result = $adb->pquery('SELECT a.adjustment_id, a.adjustment_date, a.adjustment_type, a.narration, COUNT(m.move_id) AS lines, SUM(m.value) AS value
+		$result = $adb->pquery('SELECT a.adjustment_id, a.adjustment_date, a.adjustment_type, a.narration, COUNT(m.move_id) AS line_count, SUM(m.value) AS value
 			FROM vtiger_stock_adjustments a LEFT JOIN vtiger_stock_moves m ON m.source_module = ? AND m.source_id = a.adjustment_id GROUP BY a.adjustment_id ORDER BY a.adjustment_id DESC LIMIT 10', array('Adjustment'));
 		while ($row = $adb->fetch_array($result)) {
 			$recent[] = $row;

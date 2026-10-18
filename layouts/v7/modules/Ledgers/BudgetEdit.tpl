@@ -20,6 +20,12 @@
 			</tbody>
 			<tfoot><tr class="fw-bold"><td colspan="2">Total of the rows above</td>{section name=k start=0 loop=12}<td class="text-end colTotal">0.00</td>{/section}<td class="text-end" id="grand">0.00</td></tr></tfoot>
 		</table></div>
+		<template id="rowTemplate"><table><tbody><tr>
+			<td><select name="ledger[tpl]" class="form-select form-select-sm">{foreach from=$LEDGERS key=ID item=N}<option value="{$ID}">{$N|escape:'html'}</option>{/foreach}</select></td>
+			<td><select name="cost[tpl]" class="form-select form-select-sm"><option value="">Whole ledger</option>{foreach from=$COST_CENTRES key=ID item=N}<option value="{$ID}">{$N|escape:'html'}</option>{/foreach}</select></td>
+			{section name=k start=1 loop=13}<td><input type="number" step="0.01" min="0" name="m[tpl][]" class="form-control form-control-sm text-end bm"/></td>{/section}
+			<td><div class="d-flex gap-1 align-items-center"><input type="number" step="0.01" min="0" class="form-control form-control-sm text-end by"/><button type="button" class="btn btn-outline-secondary btn-sm spread">Spread</button></div></td>
+		</tr></tbody></table></template>
 		<div class="d-flex gap-2 mt-2"><button type="button" class="btn btn-outline-secondary btn-sm" id="addRow">Add row</button><button class="btn btn-primary" type="submit">Save budget</button></div>
 	</form>
 </div>
@@ -47,9 +53,7 @@
 	});
 	var counter = 0;
 	document.getElementById('addRow').addEventListener('click', function () {
-		var template = body.rows.length ? body.rows[0] : null; var tr;
-		if (template) { tr = template.cloneNode(true); tr.querySelectorAll('input').forEach(function (i) { i.value = ''; }); tr.querySelectorAll('select').forEach(function (s) { s.selectedIndex = 0; }); }
-		else { alert('Save once to add the first rows, or start the budget from last year\'s actuals.'); return; }
+		var tr = document.getElementById('rowTemplate').content.querySelector('tr').cloneNode(true);
 		counter++; tr.querySelectorAll('.bm').forEach(function (i) { i.name = 'm[new' + counter + '][]'; }); tr.querySelector('select[name^="ledger"]').name = 'ledger[new' + counter + ']'; tr.querySelector('select[name^="cost"]').name = 'cost[new' + counter + ']';
 		body.appendChild(tr); totals();
 	});

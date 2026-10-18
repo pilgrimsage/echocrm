@@ -1,4 +1,5 @@
 <?php
+include_once 'include/utils/BankUtils.php';
 /*+***********************************************************************************
  * Fixed asset rules, applied however an asset is saved: it needs a class, a cost above its salvage value
  * and a purchase date; once depreciation has been posted its cost, dates, class and depreciation terms
@@ -42,8 +43,8 @@ class FixedAssetsHandler extends VTEventHandler {
 	private function validate($entityData, $id) {
 		global $adb;
 		$d = $entityData->getData();
-		$cost = (float)($d['cost'] ?? 0);
-		$salvage = (float)($d['salvage_value'] ?? 0);
+		$cost = Vtiger_Bank_Utils::parseNumber($d['cost'] ?? 0);
+		$salvage = Vtiger_Bank_Utils::parseNumber($d['salvage_value'] ?? 0);
 		if ($cost <= 0) {
 			throw new Exception('Enter the cost of the asset.');
 		}
@@ -64,13 +65,13 @@ class FixedAssetsHandler extends VTEventHandler {
 			throw new Exception('Choose the asset class (Ledgers > Asset Classes sets what each class posts to).');
 		}
 		$method = !empty($d['dep_method']) ? $d['dep_method'] : $class['dep_method'];
-		if ($method == 'SLM' && ((float)($d['life_years'] ?? 0) > 0 ? (float)$d['life_years'] : (float)$class['life_years']) <= 0) {
+		if ($method == 'SLM' && (Vtiger_Bank_Utils::parseNumber($d['life_years'] ?? 0) > 0 ? Vtiger_Bank_Utils::parseNumber($d['life_years']) : (float)$class['life_years']) <= 0) {
 			throw new Exception('Straight-line depreciation needs a useful life in years.');
 		}
-		if ($method == 'WDV' && ((float)($d['dep_rate'] ?? 0) > 0 ? (float)$d['dep_rate'] : (float)$class['dep_rate']) <= 0) {
+		if ($method == 'WDV' && (Vtiger_Bank_Utils::parseNumber($d['dep_rate'] ?? 0) > 0 ? Vtiger_Bank_Utils::parseNumber($d['dep_rate']) : (float)$class['dep_rate']) <= 0) {
 			throw new Exception('Declining-balance depreciation needs an annual rate.');
 		}
-		if ((float)($d['opening_accumulated'] ?? 0) < 0 || (float)($d['opening_accumulated'] ?? 0) > $cost - $salvage) {
+		if (Vtiger_Bank_Utils::parseNumber($d['opening_accumulated'] ?? 0) < 0 || Vtiger_Bank_Utils::parseNumber($d['opening_accumulated'] ?? 0) > $cost - $salvage) {
 			throw new Exception('The accumulated depreciation brought forward cannot exceed cost less salvage value.');
 		}
 		if (!empty($d['cost_centre'])) {
@@ -109,8 +110,8 @@ class FixedAssetsHandler extends VTEventHandler {
 				$changed = abs((float)$stored['cost'] - $cost) > 0.004 || abs((float)$stored['salvage_value'] - $salvage) > 0.004
 					|| $stored['purchase_date'] != $purchase || substr((string)($stored['depreciation_from'] ?: $stored['purchase_date']), 0, 10) != $from
 					|| decode_html($stored['asset_class']) != decode_html($d['asset_class'] ?? '') || (string)$stored['dep_method'] != (string)($d['dep_method'] ?? '')
-					|| abs((float)$stored['life_years'] - (float)($d['life_years'] ?? 0)) > 0.0001 || abs((float)$stored['dep_rate'] - (float)($d['dep_rate'] ?? 0)) > 0.0001
-					|| abs((float)$stored['opening_accumulated'] - (float)($d['opening_accumulated'] ?? 0)) > 0.004;
+					|| abs((float)$stored['life_years'] - Vtiger_Bank_Utils::parseNumber($d['life_years'] ?? 0)) > 0.0001 || abs((float)$stored['dep_rate'] - Vtiger_Bank_Utils::parseNumber($d['dep_rate'] ?? 0)) > 0.0001
+					|| abs((float)$stored['opening_accumulated'] - Vtiger_Bank_Utils::parseNumber($d['opening_accumulated'] ?? 0)) > 0.004;
 				if ($changed) {
 					throw new Exception('Depreciation has been posted for this asset, so its cost, dates, class and depreciation terms cannot be changed.');
 				}

@@ -29,7 +29,7 @@
 	</form>
 	<h6 class="mt-4">Recent adjustments</h6>
 	<table class="table table-sm"><thead><tr><th>Date</th><th>Kind</th><th>Narration</th><th class="text-end">Lines</th><th class="text-end">Net value</th></tr></thead><tbody>
-		{foreach from=$RECENT item=A}<tr><td>{$A.adjustment_date}</td><td>{$A.adjustment_type}</td><td>{$A.narration|escape:'html'}</td><td class="text-end">{$A.lines}</td><td class="text-end">{$A.value|number_format:2}</td></tr>{foreachelse}<tr><td colspan="5" class="text-muted text-center">None yet.</td></tr>{/foreach}</tbody></table>
+		{foreach from=$RECENT item=A}<tr><td>{$A.adjustment_date}</td><td>{$A.adjustment_type}</td><td>{$A.narration|escape:'html'}</td><td class="text-end">{$A.line_count}</td><td class="text-end">{$A.value|number_format:2}</td></tr>{foreachelse}<tr><td colspan="5" class="text-muted text-center">None yet.</td></tr>{/foreach}</tbody></table>
 </div>
 <script type="text/javascript">
 (function () {
