@@ -292,3 +292,96 @@ html .detailview-header .record-header .recordBasicInfo .fieldLabel{
 html .detailview-header .record-header .recordBasicInfo > .info-row:first-child{width:100%}
 html .detailview-header .record-header .recordBasicInfo h4{height:auto}
 html .summary-table .fieldLabel{width:46%}
+
+/* ==========================================================================
+   Forms and modals
+   ========================================================================== */
+/* salutation select + first name sit side by side */
+html td.fieldValue > .select2-container:has(+ input.nameField){
+	display:inline-block !important;
+	width:38% !important;
+	vertical-align:top;
+	margin-right:2%;
+}
+html td.fieldValue > input.nameField{
+	display:inline-block;
+	width:58% !important;
+	vertical-align:top;
+}
+
+html .modal-content{
+	border:0;
+	box-shadow:var(--shadow-lg),0 0 0 1px var(--border-color-light);
+	overflow:hidden;
+}
+html .modal-header{
+	padding:16px 24px;
+	background:transparent !important;
+	border-bottom:1px solid var(--border-color-light) !important;
+}
+html .modal-header .modal-title,
+html .modal-header h4,
+html .modal-header h3{
+	margin:0;
+	font-size:1.05rem;
+	font-weight:700;
+	letter-spacing:-.01em;
+}
+html .modal-header .btn-close,
+html .modal-header .close,
+html .modal-header button[data-bs-dismiss="modal"]{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:32px;
+	height:32px;
+	padding:0;
+	border:0;
+	border-radius:var(--radius-full);
+	background:var(--background-color);
+	color:var(--muted-color);
+	opacity:1;
+	transition:background-color 150ms ease,color 150ms ease;
+}
+html .modal-header .btn-close:hover,
+html .modal-header .close:hover{
+	background:var(--danger-color-light);
+	color:var(--danger-color);
+}
+html .modal-body{padding:20px 24px}
+html .modal-footer{
+	padding:14px 24px;
+	gap:8px;
+	background:var(--surface-muted) !important;
+	border-top:1px solid var(--border-color-light) !important;
+}
+html .modal-backdrop.show{opacity:.45;backdrop-filter:blur(2px)}
+
+/* form blocks on edit screens */
+html .editViewPageDiv .editViewBody .fieldBlockContainer,
+html .editViewContainer .fieldBlockContainer{
+	margin:0 0 16px;
+	padding:20px 24px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html .fieldBlockContainer h4,
+html .fieldBlockContainer .blockHeader h4{
+	margin:0 0 14px;
+	padding-bottom:10px;
+	border-bottom:1px solid var(--border-color-light);
+	font-family:var(--font-heading);
+	font-size:1.05rem;
+	font-weight:600;
+	color:var(--heading-color);
+}
+html .editViewContents .fieldLabel label,
+html .quickCreateContent .fieldLabel label{
+	font-size:.7rem;
+	font-weight:700;
+	letter-spacing:.06em;
+	text-transform:uppercase;
+	color:var(--muted-color);
+}

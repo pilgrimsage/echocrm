@@ -43,3 +43,75 @@
 .dashBoardContainer .tabContainer{
 	padding:0 20px;
 }
+
+/* ---- dashboard tabs and toolbar (TrendyAdmin pill bar) ------------------------- */
+html .dashBoardContainer .tabContainer{padding:0 24px}
+html .dashBoardContainer .tabContainer > ul.nav-tabs.tabs{
+	display:flex;
+	align-items:center;
+	flex-wrap:nowrap;
+	gap:2px;
+	width:100%;
+	margin:0 0 12px;
+	padding:6px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	box-shadow:var(--card-shadow);
+}
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab{
+	margin:0;
+	padding:0;
+	border:0;
+	background:none;
+}
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab > a{
+	display:flex;
+	align-items:center;
+	height:36px;
+	padding:0 18px;
+	border:0 !important;
+	border-radius:var(--radius-full) !important;
+	background:transparent !important;
+	color:var(--muted-color) !important;
+	font-size:.8125rem;
+	font-weight:600;
+	text-decoration:none;
+}
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab > a:hover{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color) !important;
+}
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab.active > a{
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color) !important;
+	box-shadow:0 6px 14px -6px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab .editTabName,
+html .dashBoardContainer .tabContainer .nav-tabs > li.dashboardTab .deleteTab{color:inherit}
+html .dashBoardContainer .tabContainer .moreSettings{margin-left:auto;float:none !important;display:flex;align-items:center}
+html .dashBoardContainer .moreSettings .btn,
+html .dashBoardContainer .dashboardHeading .btn{
+	height:34px;
+	padding:0 14px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-size:.8125rem;
+	font-weight:600;
+}
+html .dashBoardContainer .moreSettings .btn:hover,
+html .dashBoardContainer .dashboardHeading .btn:hover{
+	border-color:var(--accent-color);
+	background:var(--accent-soft);
+	color:var(--accent-color);
+}
+html .dashBoardContainer .dashboardHeading{
+	display:flex;
+	justify-content:flex-end;
+	padding:0 0 12px;
+}
+html .dashBoardContainer .dashboardHeading > *{float:none !important}
+html .dashBoardContainer .tab-content{padding:0;margin:0}
+html .dashBoardContainer .dashBoardTabContainer{padding:0}
