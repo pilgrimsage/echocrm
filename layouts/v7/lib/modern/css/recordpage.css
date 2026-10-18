@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Record pages (detail view): profile header, tab pills, summary cards.
+   Tokens from theme.css; layout offsets from appshell.css.
+   ========================================================================== */
+
+/* ---- header card ----------------------------------------------------------- */
+html .detailview-header-block{
+	margin:8px 0 16px;
+	padding:20px 24px 12px;
+	background:var(--surface-color) !important;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html .detailview-header-block .detailview-header{padding:0;background:none;border:0}
+html .detailview-header-block .detailview-header > .row{
+	align-items:flex-start;
+	margin:0;
+}
+html .detailview-header-block .detailview-header > .row > [class*="col-"]{padding:0}
+html .detailview-header .record-header{display:flex;align-items:center;gap:18px}
+html .detailview-header .recordImage{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	flex:0 0 auto;
+	width:72px;
+	height:72px;
+	margin:0;
+	border-radius:var(--radius-xl);
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color);
+	box-shadow:0 10px 22px -10px color-mix(in srgb,var(--accent-color),transparent 40%);
+}
+html .detailview-header .recordImage .name,
+html .detailview-header .recordImage .name strong{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+html .detailview-header .recordImage [class*="vicon-"],
+html .detailview-header .recordImage .fa{font-size:30px;color:var(--contrast-color)}
+html .detailview-header .recordImage img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-xl)}
+html .detailview-header .recordBasicInfo{
+	display:flex;
+	flex-wrap:wrap;
+	align-items:center;
+	gap:8px 10px;
+	min-width:0;
+	padding:0;
+}
+html .detailview-header .recordBasicInfo > .info-row:first-child{flex:0 0 100%}
+html .detailview-header .recordBasicInfo h4{
+	margin:0;
+	font-family:var(--font-heading);
+	font-size:1.5rem;
+	font-weight:700;
+	letter-spacing:-.01em;
+	color:var(--heading-color);
+}
+html .detailview-header .recordBasicInfo form{display:contents}
+html .detailview-header .recordBasicInfo .info-row{margin:0;padding:0}
+html .detailview-header .recordBasicInfo .info-row.row > [class*="col-"]{
+	width:auto;
+	max-width:none;
+	padding:0;
+}
+html .detailview-header .recordBasicInfo .info-row:not(:first-child){
+	display:inline-flex;
+	align-items:center;
+	height:28px;
+	padding:0 12px;
+	border-radius:var(--radius-full);
+	background:var(--surface-muted);
+	border:1px solid var(--border-color-light);
+	font-size:.78rem;
+	color:var(--muted-color);
+}
+html .detailview-header .recordBasicInfo .info-row:not(:first-child) a{color:var(--default-color)}
+html .detailview-header .recordBasicInfo .info-row:not(:first-child) a:hover{color:var(--accent-color)}
+html .detailview-header .recordBasicInfo .fieldLabel{padding:0;background:none;border:0;color:inherit;text-transform:none;letter-spacing:0;font-size:inherit}
+
+/* actions on the right */
+html .detailview-header .detailViewButtoncontainer{display:flex;justify-content:flex-end}
+html .detailview-header .btn-toolbar{gap:8px;flex-wrap:nowrap}
+html .detailview-header .btn-group{display:flex;gap:6px}
+html .detailview-header .btn-group .btn,
+html .detailview-header .btn-toolbar > .btn{
+	height:36px;
+	padding:0 16px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full) !important;
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-size:.8125rem;
+	font-weight:600;
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:6px;
+	transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;
+}
+html .detailview-header .btn-group .btn:hover{
+	border-color:var(--accent-color);
+	background:var(--accent-soft);
+	color:var(--accent-color);
+}
+html .detailview-header [id$="_basicAction_LBL_EDIT"]{
+	border-color:transparent;
+	background:linear-gradient(105deg,var(--accent-color),color-mix(in srgb,var(--accent-color),var(--danger-color) 42%));
+	color:var(--contrast-color);
+	box-shadow:0 6px 14px -5px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+html .detailview-header [id$="_basicAction_LBL_EDIT"]:hover{color:var(--contrast-color);filter:brightness(1.05)}
+html .detailview-header .btn .caret{display:none}
+html .detailview-header .markStar{width:auto !important;min-width:100px}
+html .detailview-header-block .recordTags,
+html .detailview-header-block .tag-container{margin-top:6px}
+
+/* ---- tab pills --------------------------------------------------------------- */
+html .detailview-content.container-fluid{padding:0}
+html .related-tabs.row{
+	margin:0 0 16px;
+	padding:6px;
+	background:var(--surface-color) !important;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	box-shadow:var(--card-shadow);
+}
+html .related-tabs .navbar{padding:0;width:100%}
+html .related-tabs .navbar-collapse{flex-grow:1}
+html .related-tabs .nav-tabs{
+	flex-wrap:nowrap;
+	gap:2px;
+	width:100%;
+	padding:0;
+	border:0;
+	overflow-x:auto;
+	scrollbar-width:none;
+}
+html .related-tabs .nav-tabs::-webkit-scrollbar{display:none}
+html .related-tabs.row .nav > li{
+	flex:0 0 auto;
+	width:auto;
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+html .related-tabs .nav-tabs > li > a{
+	display:flex !important;
+	align-items:center;
+	gap:6px;
+	height:36px;
+	padding:0 16px;
+	border:0 !important;
+	border-radius:var(--radius-full) !important;
+	background:transparent !important;
+	color:var(--muted-color) !important;
+	font-size:.8125rem;
+	font-weight:600;
+	text-decoration:none;
+	transition:background-color 150ms ease,color 150ms ease;
+}
+html .related-tabs .nav-tabs > li > a strong{font-weight:inherit}
+html .related-tabs .nav-tabs > li > a:hover{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color) !important;
+}
+html .related-tabs .nav-tabs > li.active > a,
+html .related-tabs .nav-tabs > li.active > a:hover{
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color) !important;
+	box-shadow:0 6px 14px -6px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+html .related-tabs .tab-icon [class*="vicon-"],
+html .related-tabs .tab-icon .fa{font-size:16px !important;color:inherit}
+html .related-tabs .nav-tabs .dropdown-menu{border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border-color-light)}
+html .related-tabs .navbar-header{display:none}
+
+/* ---- summary layout -------------------------------------------------------- */
+html .detailview-content .details.row{margin:0;background:none !important;padding:0 !important}
+html .resizable-summary-view{
+	display:flex !important;
+	align-items:flex-start;
+	gap:16px;
+	padding:0 !important;
+}
+html .resizable-summary-view > .left-block{flex:0 0 auto;width:33.333%;min-width:300px;padding:0;float:none}
+html .resizable-summary-view > .middle-block{flex:1 1 0;width:auto;min-width:0;padding:0;float:none}
+@media (max-width:991.98px){
+	html .resizable-summary-view{flex-direction:column}
+	html .resizable-summary-view > .left-block,
+	html .resizable-summary-view > .middle-block{width:100%}
+}
+
+/* cards: key fields, widgets, blocks */
+html .summaryView,
+html .summaryWidgetContainer,
+html .detailview-content .block{
+	margin:0 0 16px;
+	padding:18px 20px;
+	background:var(--surface-color);
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+html .summaryWidgetContainer{padding:0}
+html .summaryWidgetContainer > div[class^="widgetContainer"],
+html .summaryWidgetContainer > div[class*=" widgetContainer"]{padding:16px 20px}
+html #relatedActivities .summaryWidgetContainer{margin:0 0 16px}
+html .summaryViewHeader h4,
+html .widget_header h4,
+html .detailview-content .block > .blockHeader h4,
+html .detailview-content .block h4{
+	margin:0;
+	font-family:var(--font-heading);
+	font-size:1.05rem;
+	font-weight:600;
+	color:var(--heading-color);
+}
+html .widget_header{
+	display:flex;
+	align-items:center;
+	gap:8px;
+	margin-bottom:10px;
+}
+html .widget_header .float-start,
+html .widget_header .float-end{float:none !important}
+html .widget_header .float-end{margin-left:auto}
+html .widget_header .toggleButton{color:var(--muted-color)}
+html .widget_header .btn{
+	height:32px;
+	padding:0 12px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-size:.78rem;
+	font-weight:600;
+}
+html .widget_header .btn:hover{border-color:var(--accent-color);background:var(--accent-soft);color:var(--accent-color)}
+html .widget_header .btn .caret{display:none}
+
+/* key fields: label over value rows */
+html .summary-table{width:100%}
+html .summary-table .summaryViewEntries{border-bottom:1px solid var(--border-color-light)}
+html .summary-table .summaryViewEntries:last-child{border-bottom:0}
+html .summary-table td{padding:10px 4px;vertical-align:middle}
+html .summary-table .fieldLabel{width:42%}
+html .summary-table .fieldLabel label{
+	margin:0;
+	font-size:.7rem;
+	font-weight:700;
+	letter-spacing:.06em;
+	text-transform:uppercase;
+	color:var(--muted-color);
+}
+html .summary-table .fieldValue .value{font-size:.875rem;font-weight:500;color:var(--default-color)}
+html .summary-table .editAction{color:var(--light-color);opacity:0;transition:opacity 150ms ease}
+html .summary-table tr:hover .editAction{opacity:1}
+
+/* empty states */
+html .summaryWidgetContainer .emptyRecordsDiv,
+html .detailview-content .emptyRecordsDiv{
+	padding:18px;
+	border:1px dashed var(--border-color);
+	border-radius:var(--radius-lg);
+	background:var(--surface-muted);
+	color:var(--muted-color);
+	text-align:center;
+}
+
+/* the skin floats and absolutely positions the image and pads the text 90px; flex does it now */
+html .detailview-header .record-header{min-height:0}
+html .detailview-header .record-header .recordImage{
+	position:static;
+	float:none;
+	display:flex;
+	width:72px;
+	height:72px;
+}
+html .detailview-header .record-header .recordBasicInfo{
+	float:none;
+	display:flex;
+	flex:1 1 auto;
+	width:auto;
+	padding-left:0;
+}
+html .detailview-header .record-header .recordBasicInfo .info-row,
+html .detailview-header .record-header .recordBasicInfo a,
+html .detailview-header .record-header .recordBasicInfo .fieldLabel{
+	width:auto;
+	overflow:visible;
+	white-space:normal;
+}
+html .detailview-header .record-header .recordBasicInfo > .info-row:first-child{width:100%}
+html .detailview-header .record-header .recordBasicInfo h4{height:auto}
+html .summary-table .fieldLabel{width:46%}

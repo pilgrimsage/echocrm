@@ -9,7 +9,7 @@
 
 {strip}
 	<div class='related-tabs row'>
-		<nav class="navbar margin0" role="navigation">
+		<nav class="navbar navbar-expand-lg margin0" role="navigation">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggler btn-group-justified collapsed border0" data-bs-toggle="collapse" data-bs-target="#nav-tabs" aria-expanded="false">
 					<i class="fa fa-ellipsis-h"></i>

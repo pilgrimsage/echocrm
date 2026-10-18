@@ -31,6 +31,7 @@
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/shell.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/components.css")}'>
         <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/appshell.css")}'>
+        <link type='text/css' rel='stylesheet' href='{vresource_url("layouts/v7/lib/modern/css/recordpage.css")}'>
 
         <link rel="stylesheet" href="{vresource_url('layouts/v7/lib/sweetalert2/sweetalert2.min.css')}">
 
