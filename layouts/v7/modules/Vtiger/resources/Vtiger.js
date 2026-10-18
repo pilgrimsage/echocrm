@@ -346,27 +346,8 @@ Vtiger.Class('Vtiger_Index_Js', {
 		});
 	},
 
-	registerModuleQtips : function() {
-		jQuery('.module-qtip').qtip({
-			position: {
-				my: 'left center',
-				at: 'center right',
-				adjust: {
-					y: 1
-				}
-			},
-			style: {
-				classes: 'qtip-dark qtip-shadow module-name-tooltip'
-			},
-			show: {
-				delay: 500
-			}
-		});
-	},
-
 	registerEvents: function() {
 		this.registerGlobalSearch();
-		this.registerModuleQtips();
 		this.registerListEssentialsToggleEvent();
 		this.registerAdvanceSeachIntiator();
 		this.registerQuickCreateEvent();

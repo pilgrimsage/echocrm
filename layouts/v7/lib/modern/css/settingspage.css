@@ -685,3 +685,9 @@ html #customerPortalForm .help-inline{padding:4px 10px;background:var(--surface-
 	html #customerPortalForm .portal-dashboard > #dashboardContent,html [id^="moduleData_"]{grid-template-columns:minmax(0,1fr)}
 	html .portal-fields-container-wrapper{border-right:0;padding-right:0 !important}
 }
+
+/* Settings forms that pair a label column with an `.input-group` value column (Config Editor):
+   BS5's `.input-group{width:100%}` beat the column width and pushed the value under its label */
+html .settingsPageDiv .detailViewInfo .row.form-group{flex-wrap:nowrap;align-items:center}
+html .settingsPageDiv .detailViewInfo .row.form-group > .control-label[class*="col-"]{flex:0 0 33.333%;max-width:33.333%;text-align:right}
+html .settingsPageDiv .detailViewInfo .row.form-group > [class*="col-"].input-group{flex:1 1 0;width:auto;min-width:0}

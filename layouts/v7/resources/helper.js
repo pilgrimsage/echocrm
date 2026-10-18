@@ -359,7 +359,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         
         var overlayPageContent = $('#overlayPageContent');
         
-        if(jQuery(".content-area").length && jQuery(".content-area").hasClass('full-width')|| (jQuery('.settingsgroup').length === 0 && jQuery('#modules-menu').length === 0)){
+        if(jQuery(".content-area").length && jQuery(".content-area").hasClass('full-width')|| jQuery('.settingsgroup').length === 0){
            overlayPageContent.addClass('full-width');
         }
         var alreadyShown = false;

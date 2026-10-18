@@ -115,3 +115,9 @@ html .dashBoardContainer .dashboardHeading{
 html .dashBoardContainer .dashboardHeading > *{float:none !important}
 html .dashBoardContainer .tab-content{padding:0;margin:0}
 html .dashBoardContainer .dashBoardTabContainer{padding:0}
+
+/* phones: give the widgets the width back (24px page padding + 15px tab padding on each side left ~277px of 375) */
+@media (max-width:575.98px){
+	html .dashBoardContainer .tabContainer{padding-left:12px;padding-right:12px}
+	html .dashBoardContainer .tab-pane{padding-left:0;padding-right:0}
+}
