@@ -12,7 +12,6 @@
 
 <div class="container-fluid app-nav">
     <div class="row">
-        {include file="modules/Users/UsersSidebarHeader.tpl"}
         {include file="modules/Users/UsersModuleHeader.tpl"}
     </div>
 </div>

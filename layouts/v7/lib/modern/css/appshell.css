@@ -17,7 +17,7 @@
 	left:0;
 	bottom:0;
 	width:var(--app-sidebar-w);
-	z-index:1101;
+	z-index:1040;
 	display:flex;
 	flex-direction:column;
 	overflow:hidden;
@@ -352,7 +352,7 @@
 .sidebar-overlay{
 	position:fixed;
 	inset:0;
-	z-index:1100;
+	z-index:1039;
 	background:color-mix(in srgb,var(--sidebar-bg),transparent 40%);
 	backdrop-filter:blur(2px);
 	opacity:0;
@@ -424,7 +424,6 @@ html #modnavigator:not(.settingsNav){display:none !important}
 @media (min-width:992px){
 	html .app-nav .module-action-bar{padding-left:0 !important}
 	html .main-container .sidebar-essentials{left:0}
-	html .main-container .content-area{padding-left:241px}
 	html .viewContent .content-area.full-width,
 	html .listViewPageDiv.content-area.full-width,
 	html .CalendarViewPageDiv.content-area.full-width,
@@ -837,4 +836,201 @@ html .global-nav .header-search{min-width:0}
 @media (max-width:575.98px){
 	html .global-nav.container-fluid{padding:8px 8px 0}
 	html .global-nav .header-logo-text{display:none}
+}
+
+/* ==========================================================================
+   Page header: module title with the current filter, and the module actions.
+   ========================================================================== */
+html .app-nav.container-fluid{
+	background:var(--background-color) !important;
+	border:0 !important;
+	padding:0 24px;
+}
+html .app-nav .module-action-bar{
+	padding:0 24px !important;
+	background:transparent !important;
+	height:46px;
+}
+html .app-nav .module-action-bar .module-action-content{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:16px;
+	height:46px;
+	background:transparent !important;
+	border:0 !important;
+}
+html .app-nav .module-action-content > div{
+	float:none !important;
+	width:auto !important;
+	max-width:none !important;
+	flex:0 1 auto;
+	padding:0;
+}
+html .app-nav .module-action-content > .module-breadcrumb{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px}
+html .module-breadcrumb a{text-decoration:none}
+html .module-breadcrumb .module-title{
+	float:none !important;
+	margin:0;
+	font-family:var(--font-heading);
+	font-size:1.25rem;
+	font-weight:700;
+	letter-spacing:-.01em;
+	text-transform:none;
+	color:var(--heading-color);
+}
+html .module-breadcrumb .current-filter-name{
+	float:none !important;
+	display:inline-flex;
+	align-items:center;
+	gap:6px;
+	height:26px;
+	margin:0;
+	padding:0 12px;
+	border-radius:var(--radius-full);
+	background:var(--accent-soft);
+	font-size:.75rem;
+	font-weight:600;
+}
+html .module-breadcrumb .current-filter-name .fa{display:none}
+html .module-breadcrumb .current-filter-name a{color:var(--accent-color) !important;font-size:.75rem}
+html .app-nav .navbar-right{margin:0}
+html .app-nav .navbar-right .navbar{padding:0;background:none}
+html .app-nav .navbar-right .nav{display:flex;align-items:center;gap:8px}
+html .app-nav .navbar-right .navbar-header{background:none !important}
+html .app-nav .module-buttons{
+	height:36px;
+	padding:0 14px;
+	border:1px solid var(--border-color);
+	border-radius:var(--radius-full);
+	background:var(--surface-color);
+	color:var(--default-color);
+	font-size:.8125rem;
+	font-weight:600;
+	display:inline-flex;
+	align-items:center;
+	gap:6px;
+	transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease,box-shadow 150ms ease;
+}
+html .app-nav .module-buttons:hover{
+	border-color:var(--accent-color);
+	background:var(--accent-soft);
+	color:var(--accent-color);
+}
+html .app-nav .module-buttons.addButton:first-child,
+html .app-nav li:first-child > .module-buttons.addButton{
+	border-color:transparent;
+	background:linear-gradient(105deg,var(--accent-color),color-mix(in srgb,var(--accent-color),var(--danger-color) 42%));
+	color:var(--contrast-color);
+	box-shadow:0 6px 14px -5px color-mix(in srgb,var(--accent-color),transparent 35%);
+}
+html .app-nav .module-buttons .fa,
+html .app-nav .module-buttons div.fa{font-size:.85rem;color:inherit}
+html .app-nav .module-buttons .caret{display:none}
+
+/* the list's own sidebar becomes a rounded panel */
+@media (min-width:992px){
+	html .main-container .sidebar-essentials{
+		margin:8px 0 16px 24px;
+		bottom:auto;
+		min-height:0;
+		height:calc(100% - 24px);
+		border:1px solid var(--border-color) !important;
+		border-radius:var(--radius-xl);
+		background:var(--surface-color) !important;
+		box-shadow:var(--card-shadow);
+		width:232px;
+	}
+	html #sidebar-essentials:not(.hide) ~ .content-area{padding-left:272px}
+	html .viewContent .content-area{padding-left:24px;padding-right:24px}
+	html .viewContent .content-area.full-width,
+	html .listViewPageDiv.content-area.full-width,
+	html .CalendarViewPageDiv.content-area.full-width,
+	html .editViewPageDiv.content-area.full-width,
+	html .settingsPageDiv.content-area.full-width{padding-left:24px}
+}
+
+/* list: one rounded card holding the toolbar and the table */
+@media (min-width:992px){
+	html .listViewPageDiv.content-area{padding-right:24px}
+	html .listViewPageDiv.content-area > .col-sm-12{
+		width:auto;
+		margin-top:8px;
+		margin-bottom:16px;
+		padding:0;
+		background:var(--surface-color);
+		border:1px solid var(--border-color);
+		border-radius:var(--radius-xl);
+		box-shadow:var(--card-shadow);
+		overflow:hidden;
+		position:relative;
+	}
+	html .listViewPageDiv #listview-actions{background:transparent !important;border-bottom:1px solid var(--border-color-light)}
+	html .listViewPageDiv #table-content{background:transparent !important}
+}
+
+/* ==========================================================================
+   Settings: the settings menu is a light panel next to the dark application sidebar
+   ========================================================================== */
+@media (min-width:992px){
+	html .main-container .settingsNav{
+		left:0;
+		bottom:auto;
+		width:240px;
+		height:auto;
+		min-height:0;
+		max-height:calc(100vh - 150px);
+		margin:8px 0 16px 24px;
+		overflow:auto;
+		border:1px solid var(--border-color) !important;
+		border-radius:var(--radius-xl);
+		background:var(--surface-color) !important;
+		box-shadow:var(--card-shadow);
+		z-index:2;
+	}
+	html .main-container .settingsPageDiv.content-area{padding-left:288px !important;padding-right:24px !important}
+}
+html .settingsNav,
+html .settingsNav .settingsgroup,
+html .settingsNav .settingsgroup-panel,
+html .settingsNav .panel-collapse,
+html .settingsNav .settingsgroup-accordion{
+	background:transparent !important;
+	border-color:var(--border-color) !important;
+}
+html .settingsNav .settingsgroup-accordion a{
+	color:var(--muted-color) !important;
+}
+html .settingsNav .settingsgroup-accordion a:hover{color:var(--accent-color) !important}
+html .settingsNav .settingsgroup .menuItemLabel,
+html .settingsNav .settingsgroup .list-group-item,
+html .settingsNav .settingsgroup li a{
+	color:var(--default-color) !important;
+}
+html .settingsNav .settingsgroup .menuItemLabel:hover,
+html .settingsNav .settingsgroup li a:hover{
+	background:var(--accent-soft) !important;
+	color:var(--accent-color) !important;
+}
+html .settingsNav .settingsgroup li.active a,
+html .settingsNav .settingsgroup li.selected a,
+html .settingsNav .settingsgroup a.menuItemLabel.active{
+	background:var(--accent-gradient) !important;
+	color:var(--contrast-color) !important;
+}
+html .settingsNav #settingsMenuSearch,
+html .settingsNav .search-list{
+	background:var(--background-color) !important;
+	border:1px solid var(--border-color) !important;
+	color:var(--default-color) !important;
+}
+html .settingsNav #settingsMenuSearch::placeholder{color:var(--muted-color)}
+
+/* the action row is absolutely positioned: size it by its edges, not by width + padding */
+html .app-nav .module-action-bar{left:0;right:0;width:auto !important}
+
+/* fixed Save / Cancel bar of the edit screens stays to the right of the sidebar */
+@media (min-width:1200px){
+	html .modal-overlay-footer{left:var(--app-sidebar-w) !important;width:auto !important;right:0;transition:left var(--app-ease)}
+	html.sidebar-collapsed .modal-overlay-footer{left:var(--app-sidebar-w-collapsed) !important}
 }

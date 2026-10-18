@@ -13,7 +13,6 @@
 
 <div class="container-fluid app-nav">
     <div class="row">
-        {include file="modules/Settings/Vtiger/SidebarHeader.tpl"}
         {include file="modules/Settings/Vtiger/ModuleHeader.tpl"}
     </div>
 </div>

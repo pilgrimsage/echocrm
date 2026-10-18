@@ -11,7 +11,6 @@
 
     <div class="container-fluid app-nav">
         <div class="row">
-            {include file="modules/Reports/partials/SidebarHeader.tpl"}
             {include file="ModuleHeader.tpl"|vtemplate_path:$MODULE}
         </div>
     </div>

@@ -10,7 +10,6 @@
 
 <div class="container-fluid app-nav">
     <div class="row">
-        {include file="modules/Settings/Vtiger/SidebarHeader.tpl"}
         {assign var=ACTIVE_BLOCK value=['block' => 'Templates',
                                         'menu' => $REQ->get('module')]}
         {include file="modules/Settings/Vtiger/ModuleHeader.tpl"}

@@ -13,7 +13,6 @@
 {strip}
 <div class="container-fluid app-nav">
 	<div class="row">
-		{include file="modules/Calendar/partials/SidebarHeader.tpl"}
 		{include file="CalendarHeader.tpl"|vtemplate_path:$MODULE}
 	</div>
 </div>
