@@ -18,10 +18,6 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 		$this->setFontFamily('times');
 	}
 
-	function getFontSize() {
-		return $this->FontSizePt;
-	}
-
 	function setFontFamily($family) {
 		$this->FontFamily = $family;
 	}
@@ -37,7 +33,8 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 		$blocks = explode("\n",$sa);
 		// Both left and right cell margins reduce the usable width (the unparenthesised form
 		// `2 * isset(..) ? .. : ..` only subtracted one margin and under-estimated wrapped lines).
-		$wmax = $w - (2 * (isset($this->cMargin) ? $this->cMargin : 0));
+		$paddings = $this->getCellPaddings();
+		$wmax = $w - (2 * $paddings['L']);
 
 		$lines = 0;
 		$spacesize = $this->GetCharWidth(32);
@@ -62,7 +59,7 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 			$lines++;
 		}
 
-		return ($lines * ($this->FontSize * $this->cell_height_ratio)) + 2;
+		return ($lines * ($this->getFontSize() * $this->getCellHeightRatio())) + 2;
 	}
 
 	function SetFont($family, $style='', $size=0, $fontfile='', $subset = 'default', $out = true) {
@@ -73,19 +70,15 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 		if ($size == 0) {
 			$size = $this->FontSizePt;
 		}
-		// try to add font (if not already added)
-		$fontdata =  $this->AddFont($family, $style);
-		$this->FontFamily = $fontdata['family'];
-		$this->FontStyle = $fontdata['style'];
-		$this->CurrentFont = &$this->fonts[$fontdata['fontkey']];
-		$this->SetFontSize($size);
+		return parent::SetFont($family, $style, $size, $fontfile, $subset, $out);
 	}
 
 	public function Output($name='doc.pdf', $dest='I') {
-		/* Enforce local-file scheme if not specified */
-		if (strpos($name, "://") === false) {
+		/* Files are written below the install directory unless a full location was given
+		   (TCPDF 7 refuses a file:// prefix, and for D/I the name is only the download name) */
+		if (in_array($dest, array('F', 'FI', 'FD'), true) && strpos($name, "://") === false && substr($name, 0, 1) !== '/') {
 			global $root_directory;
-			$name = "file://". $root_directory . "/" . $name;
+			$name = rtrim($root_directory, '/') . "/" . $name;
 		}
 		return parent::Output($name, $dest);
 	}

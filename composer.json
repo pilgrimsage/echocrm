@@ -14,17 +14,22 @@
     },
     "minimum-stability": "stable",
     "require": {
-	"php": ">=8.1",
+	"php": ">=8.2",
 	"ext-mysqli": "*",
 	"ext-imap": "*",
 	"ext-curl": "*",
         "smarty/smarty": "^5.0",
         "dg/rss-php": "^1.5",
         "ezyang/htmlpurifier": "^4.16",
-        "tecnickcom/tcpdf": "^6.6",
+        "tecnickcom/tcpdf": "^7.0",
 	"monolog/monolog": "^3.5",
         "league/oauth2-client": "^2.7",
         "phpmailer/phpmailer": "^7.1",
         "phpoffice/phpspreadsheet": "^5.10"
+        },
+    "scripts": {
+        "tc-lib-pdf-fonts": "@php vendor/tecnickcom/tc-lib-pdf-font/util/build_fonts.php",
+        "post-install-cmd": ["@tc-lib-pdf-fonts"],
+        "post-update-cmd": ["@tc-lib-pdf-fonts"]
     }
 }

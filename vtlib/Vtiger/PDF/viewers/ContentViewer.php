@@ -52,7 +52,7 @@ class Vtiger_PDF_ContentViewer extends Vtiger_PDF_Viewer {
 		if($this->watermarkModel) {
 			$content = $this->watermarkModel->get('content');
 
-			$currentFontSize = $pdf->getFontSize();
+			$currentFontSize = $pdf->getFontSizePt();
 			$pdf->SetFont('','B',40);
 			$pdf->SetTextColor(240,240,240);
 
