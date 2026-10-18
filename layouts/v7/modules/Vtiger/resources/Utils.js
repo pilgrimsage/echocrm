@@ -238,6 +238,9 @@ var vtUtils = {
                 }
             },
             onReady: function(selectedDates, dateStr, instance) {
+                if (!instance.calendarContainer) {
+                    return;
+                }
                 var footer = document.createElement('div');
                 footer.className = 'flatpickr-footer';
                 [['Today', 0, 0], ['Last 7 days', -6, 0], ['Last 30 days', -29, 0]].forEach(function(item) {
@@ -302,6 +305,10 @@ var vtUtils = {
                             jQuery(instance.input).trigger('datepicker-change');
                         },
                         onReady: function(selectedDates, dateStr, instance){
+                            // on a phone flatpickr hands over to the native date input and builds no calendar
+                            if (!instance.calendarContainer) {
+                                return;
+                            }
                             var todayBtn = document.createElement('a');
                             todayBtn.className = 'flatpickr-today-btn';
                             todayBtn.textContent = 'Today';

@@ -54,13 +54,20 @@ class PaymentsHandler extends VTEventHandler {
 			throw new Exception('Choose the quote, invoice or purchase order the payment belongs to.');
 		}
 		$status = !empty($data['payment_status']) ? $data['payment_status'] : Vtiger_Payment_Utils::STATUS_COMPLETED;
-		$amount = (float)($data['amount'] ?? 0);
+		$amount = Vtiger_Bank_Utils::parseNumber($data['amount'] ?? 0);
 		$problem = Vtiger_Payment_Utils::saveProblem($documentModule, $documentId, $amount, $status, $paymentId);
 		if ($problem !== null) {
 			throw new Exception($problem);
 		}
 		$method = $data['payment_method'] ?? '';
 		$bankAccount = $data['bank_account'] ?? null;
+		if ($status == 'Completed' && $method == 'Cash' && empty($bankAccount)) {
+			// cash goes through the cash account, so its balance and the cash ledger stay the same
+			$bankAccount = Vtiger_Bank_Utils::defaultCashAccountId();
+			if ($bankAccount) {
+				$entityData->set('bank_account', $bankAccount);
+			}
+		}
 		if ($status == 'Completed' && $method != 'Cash' && empty($bankAccount)) {
 			throw new Exception('Choose the bank account this payment goes through (only cash payments can go without one).');
 		}
@@ -80,6 +87,12 @@ class PaymentsHandler extends VTEventHandler {
 
 		$entityData->set('payment_status', $status);
 		$this->applyWithholding($entityData, $data, $documentModule, $documentId, $amount);
+		if ($status == 'Completed' && !empty($bankAccount) && Vtiger_Payment_Utils::directionFor(array('module' => $documentModule)) == 'Paid') {
+			$problem = Vtiger_Bank_Utils::paymentOverdrawProblem($paymentId, $bankAccount, $amount - (float)$entityData->get('tds_amount'));
+			if ($problem !== null) {
+				throw new Exception($problem);
+			}
+		}
 	}
 
 	/** Tax withheld at source: needs a section, defaults to the section's rate on the taxable part, never exceeds the payment. */
@@ -88,7 +101,7 @@ class PaymentsHandler extends VTEventHandler {
 			return;
 		}
 		$section = trim((string)($data['tds_section'] ?? ''));
-		$withheld = (float)($data['tds_amount'] ?? 0);
+		$withheld = Vtiger_Bank_Utils::parseNumber($data['tds_amount'] ?? 0);
 		if ($section === '' || $section == '--None--') {
 			if ($withheld > 0) {
 				throw new Exception('Choose the withholding section for the tax withheld.');

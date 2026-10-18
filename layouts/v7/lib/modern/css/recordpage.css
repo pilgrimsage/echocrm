@@ -395,3 +395,25 @@ html .overlayFooter{
 
 /* the dim layer must cover the floating header (z-index 1094) too; panels and dialogs are above it (1099 / 1100) */
 html .modal-backdrop{z-index:1095}
+
+/* accounting screens (Transfer Money, statements, ageing, GST, reports) are built with plain Bootstrap classes */
+html #page .container-fluid.p-4 > h4,html #page .container-fluid.p-4 > h5{font-family:var(--font-heading);font-weight:700;color:var(--heading-color)}
+html #page .container-fluid.p-4 .form-label{margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-color)}
+html #page .container-fluid.p-4 .form-control,
+html #page .container-fluid.p-4 .form-select{
+	min-height:38px;
+	color:var(--default-color);
+	background-color:var(--input-bg);
+	border:1px solid var(--input-border);
+	border-radius:var(--radius-md);
+	box-shadow:none;
+}
+html #page .container-fluid.p-4 .form-control:focus,
+html #page .container-fluid.p-4 .form-select:focus{border-color:var(--input-focus-border);box-shadow:0 0 0 4px var(--input-focus-ring)}
+html #page .container-fluid.p-4 .btn-primary{color:#fff;background:var(--accent-gradient);border:0;border-radius:var(--radius-full)}
+html #page .container-fluid.p-4 .btn-outline-secondary{color:var(--default-color);border:1px solid var(--border-color);border-radius:var(--radius-full)}
+html #page .container-fluid.p-4 .btn-outline-secondary:hover{color:var(--accent-color);background:var(--accent-soft);border-color:var(--accent-color)}
+html #page .container-fluid.p-4 .border.rounded{background:var(--card-bg);border-color:var(--card-border) !important;border-radius:var(--radius-lg) !important;box-shadow:var(--card-shadow)}
+html #page .container-fluid.p-4 .list-group-item{color:var(--default-color);background:var(--card-bg);border-color:var(--card-border)}
+html #page .container-fluid.p-4 .table{--bs-table-bg:transparent;--bs-table-color:var(--default-color);--bs-table-border-color:var(--border-color-light)}
+html #page .container-fluid.p-4 .table thead th{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-color)}

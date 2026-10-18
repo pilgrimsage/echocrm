@@ -13,6 +13,21 @@ class Vtiger_Bank_Utils {
 	/** Set while this class itself saves or deletes a transaction, so the handler's protections let it through. */
 	public static $internal = false;
 
+	/**
+	 * A money value as it arrives in a beforesave handler: typed in the user's format ("2,000.50"),
+	 * which a plain (float) cast reads as 2. Plain numbers from imports and the API pass through.
+	 */
+	public static function parseNumber($value) {
+		if ($value === null || $value === '') {
+			return 0.0;
+		}
+		$user = Users_Record_Model::getCurrentUserModel();
+		if (is_numeric($value) && $user->get('currency_decimal_separator') === '.') {
+			return (float)$value;
+		}
+		return (float)CurrencyField::convertToDBFormat($value, $user);
+	}
+
 	public static function accountTypesWithoutOverdraft() {
 		return array('Cash', 'Wallet / UPI');
 	}
@@ -76,7 +91,7 @@ class Vtiger_Bank_Utils {
 		if (!$account) {
 			return 'Choose the bank account.';
 		}
-		$amount = (float)($data['amount'] ?? 0);
+		$amount = self::parseNumber($data['amount'] ?? 0);
 		if ($amount <= 0) {
 			return 'The amount must be more than zero.';
 		}
@@ -200,6 +215,38 @@ class Vtiger_Bank_Utils {
 		$result = $adb->pquery('SELECT t.banktransactionsid FROM vtiger_banktransactions t
 			INNER JOIN vtiger_crmentity c ON c.crmid = t.banktransactionsid AND c.deleted = 0 WHERE t.payment = ?', array($paymentId));
 		return $adb->num_rows($result) ? $adb->query_result($result, 0, 0) : null;
+	}
+
+	/** The first active cash account (type Cash), or null: where cash payments without a named account are booked. */
+	public static function defaultCashAccountId() {
+		global $adb;
+		$result = $adb->pquery("SELECT b.bankaccountsid FROM vtiger_bankaccounts b INNER JOIN vtiger_crmentity c ON c.crmid = b.bankaccountsid AND c.deleted = 0
+			WHERE b.account_type = 'Cash' AND b.status = 'Active' ORDER BY b.bankaccountsid LIMIT 1");
+		return $adb->num_rows($result) ? (int)$adb->query_result($result, 0, 0) : null;
+	}
+
+	/**
+	 * Money going out of a cash or wallet account through a payment must not take it below zero (a
+	 * transaction entered by hand or a transfer is held to the same rule in saveProblem). The
+	 * payment's own earlier transaction is added back when it is being changed. Null when fine.
+	 */
+	public static function paymentOverdrawProblem($paymentId, $accountId, $amountOut) {
+		$account = self::getAccount($accountId);
+		if (!$account || !in_array($account['type'], self::accountTypesWithoutOverdraft(), true)) {
+			return null;
+		}
+		$available = $account['balance'];
+		$existing = $paymentId ? self::transactionForPayment($paymentId) : null;
+		if ($existing) {
+			$stored = self::getTransaction($existing);
+			if ($stored['bank_account'] == $account['id'] && $stored['direction'] == 'Out') {
+				$available += (float)$stored['amount'];
+			}
+		}
+		if ($amountOut - $available > 0.004) {
+			return sprintf("'%s' has only %s available.", $account['name'], number_format($available, 2, '.', ''));
+		}
+		return null;
 	}
 
 	/** Problem with changing a payment whose bank transaction is already reconciled, or null. */

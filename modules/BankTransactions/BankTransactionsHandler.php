@@ -50,7 +50,7 @@ class BankTransactionsHandler extends VTEventHandler {
 					$data = $entityData->getData();
 					if (($data['direction'] ?? '') == 'Out' && !empty($data['ledger']) && empty($stored['payment'])) {
 						$already = ($stored && $stored['direction'] == 'Out' && $stored['ledger'] == $data['ledger']) ? (float)$stored['amount'] : 0.0;
-						$over = Vtiger_Budget_Utils::overBudgetProblem($data['ledger'], $data['cost_centre'] ?? null, $data['transaction_date'] ?? null, (float)$data['amount'] - $already);
+						$over = Vtiger_Budget_Utils::overBudgetProblem($data['ledger'], $data['cost_centre'] ?? null, $data['transaction_date'] ?? null, Vtiger_Bank_Utils::parseNumber($data['amount']) - $already);
 						if ($over !== null) {
 							throw new Exception($over);
 						}

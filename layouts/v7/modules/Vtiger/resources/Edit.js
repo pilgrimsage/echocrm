@@ -385,6 +385,62 @@ Vtiger_Index_Js("Vtiger_Edit_Js",{
         this.referenceModulePopupRegisterEvent(form);
         this.registerPostReferenceEvent(this.getEditViewContainer());
         this.registerGstinValidation(form);
+        this.registerErrorAwareSave();
+    },
+
+    /**
+     * The edit form used to submit natively, so a refusal from the server (a business rule such as
+     * "amount is more than outstanding") replaced the page with a bare JSON text. This runs after
+     * every other submit handler (they total the line items, validate, ...), sends the form with
+     * fetch, shows a refusal as a message on the form and follows the redirect after a save.
+     */
+    registerErrorAwareSave : function() {
+        var form = this.getForm()[0];
+        if (!form || !window.fetch || form.getAttribute('data-ajax-save') === '1' || !jQuery(form).hasClass('recordEditView')) {
+            return;
+        }
+        form.setAttribute('data-ajax-save', '1');
+        document.addEventListener('submit', function(e) {
+            if (e.target !== form || e.defaultPrevented) {
+                return;
+            }
+            e.preventDefault();
+            var saveButtons = jQuery(form).find('.saveButton');
+            var send = function() {
+                var body = e.submitter ? new FormData(form, e.submitter) : new FormData(form);
+                return fetch(form.getAttribute('action') || 'index.php', {
+                    method: (form.getAttribute('method') || 'POST').toUpperCase(),
+                    body: body,
+                    credentials: 'same-origin'
+                });
+            };
+            send().then(function(response) {
+                var type = response.headers.get('content-type') || '';
+                if (type.indexOf('json') > -1) {
+                    return response.json().then(function(result) {
+                        if (result && result.success === false) {
+                            var message = (result.error && (result.error.message || result.error.code)) || app.vtranslate('JS_ERROR');
+                            app.helper.showErrorNotification({'message': message});
+                            saveButtons.attr('disabled', false);
+                        } else {
+                            window.location.reload();
+                        }
+                    });
+                }
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return;
+                }
+                return response.text().then(function(html) {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                });
+            }).catch(function() {
+                saveButtons.attr('disabled', false);
+                app.helper.showErrorNotification({'message': app.vtranslate('JS_ERROR')});
+            });
+        });
     },
     proceedRegisterEvents : function(){
 		if(jQuery('.recordEditView').length > 0){

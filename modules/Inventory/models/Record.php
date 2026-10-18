@@ -172,12 +172,12 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 			foreach ($chargeInfo['taxes'] as $taxId => $taxPercent) {
 				$amount = $calculatedOn = $chargeInfo['value'];
 
-				if ($shippingTaxes[$taxId]['method'] === 'Compound') {
+				if (($shippingTaxes[$taxId]['method'] ?? null) === 'Compound') {
 					$compoundTaxes = Zend_Json::decode(html_entity_decode($shippingTaxes[$taxId]['compoundon']));
 					if (is_array($compoundTaxes)) {
 						foreach ($compoundTaxes as $comTaxId) {
-							if ($shippingTaxes[$comTaxId]) {
-								$calculatedOn += ((float)$amount * (float)$chargeInfo['taxes'][$comTaxId]) / 100;
+							if (!empty($shippingTaxes[$comTaxId])) {
+								$calculatedOn += ((float)$amount * (float)($chargeInfo['taxes'][$comTaxId] ?? 0)) / 100;
 							}
 						}
 					}

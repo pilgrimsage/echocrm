@@ -101,6 +101,16 @@
 		}
 	});
 
+	// the mouse wheel scrolls a long action row sideways
+	document.addEventListener('wheel', function (e) {
+		var bar = e.target.closest ? e.target.closest('#appnav') : null;
+		if (!bar || bar.scrollWidth <= bar.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) {
+			return;
+		}
+		bar.scrollLeft += e.deltaY;
+		e.preventDefault();
+	}, {passive: false});
+
 	// bring the current module into view in a long menu
 	document.addEventListener('DOMContentLoaded', function () {
 		var active = document.querySelector('#appSidebar .nav-link.active');

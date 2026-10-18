@@ -223,7 +223,7 @@ class Vtiger_InventoryPDFController {
 			$summaryModel->set(getTranslatedString("Tax:", $this->moduleName)."($group_total_tax_percent%)", $this->formatPrice($final_details['tax_totalamount']));
 		}
 		//Shipping & Handling taxes
-		$sh_tax_details = $final_details['sh_taxes'];
+		$sh_tax_details = $final_details['sh_taxes'] ?? array();
 		foreach($sh_tax_details as $i => $sh_tax_info) {
 			$sh_tax_percent = $sh_tax_percent + $sh_tax_details[$i]['percentage'];
 		}

@@ -50,6 +50,12 @@ class Vtiger_Integrity_Utils {
 			WHERE p.status = 'Completed' AND p.amount > 0 AND NOT EXISTS (SELECT 1 FROM vtiger_journal_entries e WHERE e.source_module = 'Payments' AND e.source_id = p.paymentsid AND e.source_key = 'payment') LIMIT 5000") as $r) {
 			$out[] = array('Payments', $r['id'], 'Payment ' . decode_html($r['no']));
 		}
+		// bank transactions entered by hand or as the "In" side of a transfer (payments book themselves)
+		foreach (self::rows("SELECT t.banktransactionsid AS id, t.transaction_no AS no FROM vtiger_banktransactions t INNER JOIN vtiger_crmentity c ON c.crmid = t.banktransactionsid AND c.deleted = 0
+			WHERE t.amount > 0.004 AND (t.payment IS NULL OR t.payment = 0) AND (t.transfer_pair IS NULL OR t.transfer_pair = 0 OR t.direction = 'In')
+			AND NOT EXISTS (SELECT 1 FROM vtiger_journal_entries e WHERE e.source_module = 'BankTransactions' AND e.source_id = t.banktransactionsid AND e.source_key = 'bank') LIMIT 5000") as $r) {
+			$out[] = array('BankTransactions', $r['id'], 'Bank transaction ' . decode_html($r['no']));
+		}
 		return $out;
 	}
 
@@ -109,7 +115,7 @@ class Vtiger_Integrity_Utils {
 		$checks[] = array('unbalanced', 'Entries where debits and credits differ', count($unbalanced), 'Open the entry in the Journal and find out where it came from; the books are out of balance by its difference.',
 			array_map(function ($r) { return 'JV' . $r['entry_id'] . ': debit ' . number_format($r['debit'], 2) . ', credit ' . number_format($r['credit'], 2); }, array_slice($unbalanced, 0, self::SAMPLE)), null);
 		$missing = self::missing();
-		$checks[] = array('missing', 'Documents and payments that should be on the books but are not', count($missing), 'Post them now. Records dated in a locked period are reported instead.',
+		$checks[] = array('missing', 'Documents, payments and bank transactions that should be on the books but are not', count($missing), 'Post them now. Records dated in a locked period are reported instead.',
 			array_map(function ($r) { return $r[2]; }, array_slice($missing, 0, self::SAMPLE)), 'repost');
 		$orphans = self::orphans();
 		$checks[] = array('orphans', 'Entries whose document or payment is deleted, cancelled or no longer posts', count($orphans), 'Remove these entries so the books follow the documents.',
@@ -132,6 +138,8 @@ class Vtiger_Integrity_Utils {
 			try {
 				if ($m[0] == 'Payments') {
 					Vtiger_Ledger_Utils::syncPayment($m[1]);
+				} else if ($m[0] == 'BankTransactions') {
+					Vtiger_Ledger_Utils::syncBankTransaction($m[1]);
 				} else {
 					Vtiger_Ledger_Utils::syncDocument($m[0], $m[1]);
 				}

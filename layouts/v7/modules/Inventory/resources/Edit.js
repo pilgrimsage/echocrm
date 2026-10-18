@@ -2045,6 +2045,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			'trigger' : 'manual',
 			'template' : popOverTemplate[0].outerHTML,
             'sanitize' : false, /* to allow button / anchor */
+                /* keep the popover next to its trigger (inside the totals row) like BS3 did: the handlers delegate from that row */
+                'container' : this.finalDiscountEle[0].parentNode,
 		});
 		this.finalDiscountEle[0].addEventListener('shown.bs.popover', function(){
 			if(jQuery(self.finalDiscountEle).next('.popover').find('.popover-body').height() > 300) {
@@ -2123,6 +2125,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'trigger' : 'manual',
                 'template' : popOverTemplate[0].outerHTML,
                 'sanitize' : false, /* to allow button / anchor */
+                /* keep the popover next to its trigger (inside the totals row) like BS3 did: the handlers delegate from that row */
+                'container' : chargesTrigger[0].parentNode,
         });
 
 		chargesTrigger[0].addEventListener('shown.bs.popover', function(){
@@ -2193,6 +2197,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'trigger' : 'manual',
                 'template' : popOverTemplate[0].outerHTML,
                 'sanitize' : false, /* to allow button / anchor */
+                /* keep the popover next to its trigger (inside the totals row) like BS3 did: the handlers delegate from that row */
+                'container' : finalTaxTriggerer[0].parentNode,
         });
 
 		finalTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
@@ -2257,6 +2263,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'trigger' : 'manual',
                 'template' : popOverTemplate[0].outerHTML,
                 'sanitize' : false, /* to allow button / anchor */
+                /* keep the popover next to its trigger (inside the totals row) like BS3 did: the handlers delegate from that row */
+                'container' : chargeTaxTriggerer[0].parentNode,
         });
 
 		chargeTaxTriggerer[0].addEventListener('shown.bs.popover', function(){
@@ -2834,6 +2842,28 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
         this.registerLineItemAutoComplete();
         this.registerReferenceSelectionEvent(this.getForm());
         this.registerPopoverCancelEvent();
+        this.setDefaultInvoiceDate();
+    },
+
+    /**
+     * A new invoice starts dated today. Without a date it is left out of the GST return and
+     * the ageing, and its postings fall back to the day it was created.
+     */
+    setDefaultInvoiceDate : function() {
+        var form = this.getForm();
+        var dateField = form.find('[name="invoicedate"]');
+        if (!dateField.length || dateField.val() || form.find('[name="record"]').val()) {
+            return;
+        }
+        setTimeout(function() {
+            if (dateField.val()) {
+                return;
+            }
+            var picker = dateField[0]._flatpickr;
+            if (picker) {
+                picker.setDate(new Date(), true);
+            }
+        }, 0);
     },
 });
     

@@ -1118,3 +1118,15 @@ html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-12{dis
 html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-4{margin:0 !important;margin-left:auto !important;text-align:right}
 html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-4 .float-end{float:none !important}
 html #searchResults-container .moduleResults-container,html #searchResults-container .scrollableSearchContent,html #searchResults-container .searchResults{background:transparent}
+
+/* a module with many actions (Ledgers lists its reports) scrolls its action row sideways instead of clipping it */
+html .app-nav .module-action-content > div:not(.module-breadcrumb){min-width:0}
+html .app-nav .module-action-content > .module-breadcrumb{flex-shrink:0;max-width:45%}
+html .app-nav .module-action-content #appnav{
+	max-width:100%;
+	overflow-x:auto;
+	overflow-y:hidden;
+	scrollbar-width:thin;
+	scrollbar-color:var(--border-color) transparent;
+}
+html .app-nav .module-action-content #appnav > ul.nav{flex-wrap:nowrap;width:max-content}

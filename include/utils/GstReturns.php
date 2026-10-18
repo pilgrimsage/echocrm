@@ -344,6 +344,11 @@ class Vtiger_Gst_Returns {
 			$checks[] = array('title' => $title, 'hint' => $hint, 'count' => $count, 'rows' => $rows);
 		};
 
+		$add('Invoices without an invoice date', 'A posted invoice with no date is left out of every return. Open it and enter the invoice date (shown whatever month is selected).',
+			$adb->pquery("SELECT d.invoiceid AS id, d.invoice_no AS label FROM vtiger_invoice d INNER JOIN vtiger_crmentity c ON c.crmid = d.invoiceid AND c.deleted = 0
+				WHERE d.invoicestatus IN ($statuses) AND d.invoicedate IS NULL LIMIT 500", array()),
+			'label', 'Invoice');
+
 		$add('Invoice lines without an HSN / SAC code', 'Add the code on the product or service; returns require it for every line.',
 			$adb->pquery("SELECT DISTINCT d.invoiceid AS id, d.invoice_no AS label FROM vtiger_invoice d INNER JOIN vtiger_crmentity c ON c.crmid = d.invoiceid AND c.deleted = 0
 				INNER JOIN vtiger_inventoryproductrel l ON l.id = d.invoiceid
