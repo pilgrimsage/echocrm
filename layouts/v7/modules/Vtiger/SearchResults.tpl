@@ -11,7 +11,8 @@
 	<script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/List.js')}"></script>
 	<script type="text/javascript" src="{vresource_url('layouts/v7/modules/Vtiger/resources/SearchList.js')}"></script>
 	<div id="searchResults-container" class="modal-body" style="padding:0!important">
-		<div class="col-lg-12 clearfix">
+		<div class="col-lg-12 clearfix searchResultsHeader">
+			<h4 class="searchResultsTitle">{vtranslate('LBL_SEARCH_RESULTS','Vtiger')}{if $SEARCH_VALUE neq ''} <span class="searchResultsTerm">&ldquo;{$SEARCH_VALUE|escape:"html"}&rdquo;</span>{/if}</h4>
 			<div class="float-end overlay-close">
 				<button type="button" class="close" aria-label="Close" data-bs-target="#overlayPage" data-bs-dismiss="modal">
 					<span aria-hidden="true" class="fa fa-close"></span>

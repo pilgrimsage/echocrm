@@ -1060,3 +1060,61 @@ html .overlay-container-300 .modal-overlay-footer{margin-left:0 !important;width
 
 /* the skin's dark 42px / 230px stub on the left of the fixed Save bar belonged to the old module rail */
 html .modal-overlay-footer,html .settingsPageDiv .modal-overlay-footer{border-left:0 !important}
+
+/* ---- header search: spacing and placeholder (the old pill rules in nav.css were removed) ---- */
+html .global-nav .search-link .keyword-input::placeholder{color:var(--light-color)}
+html .global-nav .search-link .keyword-input{margin-left:0 !important}
+
+/* ---- global search results (#overlayPage with #searchResults-container) ---- */
+#overlayPage:has(#searchResults-container){
+	top:96px;
+	left:0;
+	right:0;
+	bottom:0;
+	width:auto;
+	max-height:none !important;
+	overflow:hidden;
+	background:var(--background-color);
+	border:1px solid var(--border-color-light);
+	border-radius:var(--radius-2xl) var(--radius-2xl) 0 0;
+	box-shadow:var(--shadow-lg);
+}
+@media (min-width:1200px){
+	html #overlayPage:has(#searchResults-container){left:var(--app-sidebar-w);transition:left var(--app-ease)}
+	html.sidebar-collapsed #overlayPage:has(#searchResults-container){left:var(--app-sidebar-w-collapsed)}
+}
+#overlayPage:has(#searchResults-container) > .data{height:100%;max-height:none !important}
+#overlayPage #searchResults-container{height:100%;max-height:none !important;padding:0 !important}
+#overlayPage #searchResults-container .searchResults{padding:0 24px 40px}
+#searchResults-container .searchResultsHeader{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 12px !important}
+#searchResults-container .searchResultsTitle{margin:0;font-family:var(--font-heading);font-size:22px;font-weight:700;color:var(--heading-color)}
+#searchResults-container .searchResultsTerm{color:var(--accent-color)}
+#searchResults-container .overlay-close{float:none !important;margin:0}
+#searchResults-container .overlay-close .close{
+	display:inline-flex;align-items:center;justify-content:center;
+	width:34px;height:34px;padding:0;margin:0;
+	color:var(--muted-color);background:var(--surface-color);
+	border:1px solid var(--border-color);border-radius:var(--radius-full);
+	opacity:1;
+}
+#searchResults-container .overlay-close .close:hover{color:var(--accent-color);border-color:var(--accent-color)}
+#searchResults-container .moduleResults-container{display:flex;flex-direction:column;gap:20px;padding:0}
+#searchResults-container .moduleResults-container > br{display:none}
+#searchResults-container .moduleResults-container > .listViewPageDiv{
+	padding:16px 20px 8px;
+	background:var(--card-bg);
+	border:1px solid var(--card-border);
+	border-radius:var(--radius-xl);
+	box-shadow:var(--card-shadow);
+}
+#searchResults-container .searchModuleHeader{margin:0;font-family:var(--font-heading);font-size:16px;font-weight:700;color:var(--heading-color)}
+#searchResults-container .listViewPageDiv > .row:first-child .col-lg-12{display:flex;align-items:center;justify-content:space-between}
+#searchResults-container .listViewPageDiv > .row:first-child [class*="col-lg-"]{width:auto;padding:0;margin:0 !important}
+#searchResults-container .pageNumbersText{font-size:12px;color:var(--muted-color)}
+#searchResults-container .navigationButton{color:var(--muted-color)}
+#searchResults-container .emptyRecordsDiv{padding:48px 0;text-align:center;color:var(--muted-color)}
+html #searchResults-container h4.searchModuleHeader{color:var(--heading-color)}
+html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-12{display:flex !important;align-items:center;justify-content:space-between;width:100%}
+html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-4{margin:0 !important;margin-left:auto !important;text-align:right}
+html #searchResults-container .listViewPageDiv > .row:first-child .col-lg-4 .float-end{float:none !important}
+html #searchResults-container .moduleResults-container,html #searchResults-container .scrollableSearchContent,html #searchResults-container .searchResults{background:transparent}

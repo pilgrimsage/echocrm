@@ -305,11 +305,11 @@ jQuery.Class("Vtiger_Helper_Js",{
         }
         
         var defaultParams = this.defaultModalParams();
-        //This is a full-width slide-down panel (see #overlayPage's own CSS),
-        //not a centered dialog - it never had a dimming backdrop before it
-        //gained the .modal class (needed for BS5's dismiss-button lookup),
-        //and a backdrop here just intercepts clicks on the panel above it.
-        defaultParams.backdrop = false;
+        //A full-width panel (see #overlayPage's own CSS), not a centered
+        //dialog, but it still dims the page behind it: the backdrop sits at
+        //z-index 1095, below the panel (1099), so clicks on the panel are
+        //not intercepted. Callers can still pass 'static' or false.
+        defaultParams.backdrop = true;
         params = jQuery.extend(defaultParams,params);
         var max_height = (jQuery(window).height()) - ($('.global-nav').height());
         
@@ -399,10 +399,10 @@ jQuery.Class("Vtiger_Helper_Js",{
     loadHelpPageOverlay : function(data, params) {
         var aDeferred = new jQuery.Deferred();
         var defaultParams = this.defaultModalParams();
-        //Same reasoning as loadPageOverlay: this is a slide-down panel, not
-        //a centered dialog, and never had a backdrop before it needed the
-        //.modal class for BS5's dismiss-button lookup to work.
-        defaultParams.backdrop = false;
+        //A right-hand panel, not a centered dialog, but it still dims the page
+        //behind it (the backdrop sits below the panel's z-index 1099, so it
+        //does not intercept clicks on the panel).
+        defaultParams.backdrop = true;
         params = jQuery.extend(defaultParams,params);
         var helpOverlayPageContent = jQuery('#helpPageOverlay');
         
@@ -424,8 +424,8 @@ jQuery.Class("Vtiger_Helper_Js",{
         bootstrap.Modal.getOrCreateInstance(helpOverlayPageContent[0], params).show();
         vtUtils.applyFieldElementsView(helpOverlayPageContent);
         cb(helpOverlayPageContent);
-        //backdrop is off (see above), so BS5's own backdrop-click-close never
-        //fires here - wire up an explicit outside-click close instead.
+        //keep the explicit outside-click close as well (it also covers clicks
+        //made while the panel is still sliding in).
         jQuery(document).off('mousedown.helpPageOverlay').on('mousedown.helpPageOverlay', function(e) {
             var overlay = jQuery('#helpPageOverlay');
             if (overlay.hasClass('show') && !jQuery(e.target).closest('#helpPageOverlay').length) {

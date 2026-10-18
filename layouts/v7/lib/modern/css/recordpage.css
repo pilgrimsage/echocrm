@@ -392,3 +392,6 @@ html .overlayFooter{
 	border-top:1px solid var(--border-color-light);
 	box-shadow:0 -4px 12px rgba(0,0,0,.04);
 }
+
+/* the dim layer must cover the floating header (z-index 1094) too; panels and dialogs are above it (1099 / 1100) */
+html .modal-backdrop{z-index:1095}

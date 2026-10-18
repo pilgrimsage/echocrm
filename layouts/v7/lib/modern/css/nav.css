@@ -351,52 +351,7 @@ body{
 	flex:0 0 auto;
 }
 
-/* global search */
-/* Per-app skin files (skins/marketing/style.css etc, one per module
-   group) load AFTER this file and still carry their original BS3-era
-   .search-link rule (thin #DDD border, float:left, old margin/padding) -
-   same class name, same specificity, later in the cascade, so it wins
-   and silently overrides this rule depending which app the user is in.
-   !important on the properties that actually matter neutralizes it
-   without needing to audit and edit all 7 skin files. */
-/* .keyword-input has "flex:1" (grow to fill the row) but flex-grow only
-   distributes space the PARENT already has - with "width:auto" the
-   parent just shrink-wraps to its children, leaving nothing to grow
-   into, so the input collapsed to a sliver. Give the search box a real
-   width so the input has room to actually grow. */
-.search-links-container .search-link{
-	background:var(--background-color) !important;
-	border:1px solid var(--border-color) !important;
-	border-radius:var(--radius-full) !important;
-	padding:7px 16px !important;
-	margin:0 !important;
-	float:none !important;
-	width:340px !important;
-	height:auto !important;
-	display:flex !important;
-	align-items:center;
-	gap:10px;
-	transition:border-color .15s ease,box-shadow .15s ease;
-}
-.search-links-container .search-link:focus-within{
-	border-color:var(--input-focus-border) !important;
-	box-shadow:0 0 0 3px var(--input-focus-ring);
-	background:var(--surface-color) !important;
-}
-.search-links-container .keyword-input{
-	background:transparent;
-	border:none;
-	color:var(--default-color);
-	font-size:13.5px;
-	flex:1;
-	outline:none;
-}
-.search-links-container .keyword-input::placeholder{
-	color:var(--light-color);
-}
-.search-links-container .fa-search{
-	color:var(--light-color);
-}
+/* global search: styled in appshell.css (the old pill rules that lived here were all !important and kept winning) */
 
 /* right-side icons (calendar, reports, tasks) */
 .global-actions > .nav > li > div > a,
