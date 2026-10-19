@@ -6,7 +6,7 @@ Vtiger is a PHP based web application that enables businesses to increase sales 
 
 `config.inc.php`, `config.csrf-secret.php`, and `kcfinder/config.php` are gitignored since they hold DB credentials and secrets that differ per machine. Everything else needed to run is in the repo.
 
-On a fresh clone:
+On a fresh clone (production servers: follow [DEPLOY.md](DEPLOY.md), which covers the web server, PHP settings, permissions, cron and first-time setup):
 
     composer install --ignore-platform-req=ext-imap
     bin/setup.sh
@@ -19,7 +19,7 @@ To set a new password for an existing administrator, or to create one later:
 
     ADMIN_PASSWORD='...' php bin/create-admin.php --user=admin --email=you@example.com
 
-To regenerate `db/schema.sql` after DB-level changes (Module Designer edits, workflows, picklists, one of the `bin/create-*` scripts) so future installs pick them up:
+To regenerate `db/schema.sql` after DB-level changes (Module Designer edits, workflows, picklists, or any other change made through SQL or PHP) so future installs pick them up:
 
     DB_PASS='...' bin/dump-db.sh
 

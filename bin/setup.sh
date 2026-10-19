@@ -23,6 +23,8 @@ sed_inplace() {
 	fi
 }
 
+ENVIRONMENT=$(prompt "Environment (production or development)" "production")
+
 DB_HOST=$(prompt "DB host" "localhost")
 DB_PORT=$(prompt "DB port" "3306")
 DB_NAME=$(prompt "DB name" "vtigercrm")
@@ -42,9 +44,9 @@ done
 # files), so a fresh clone never has them. Several code paths (e.g. Module
 # Designer's temp dir) do a non-recursive mkdir() that fails outright if the
 # parent is missing, and Smarty needs its compile dir to exist up front.
-mkdir -p cache/images cache/import cache/upload cache/tempModuleDesigner cache/Connector logs test/templates_c/v7
-chmod -R 755 cache logs test/templates_c
-echo "Created cache/, logs/ and test/templates_c/ runtime directories"
+mkdir -p cache/images cache/import cache/upload cache/tempModuleDesigner cache/Connector logs storage test/templates_c/v7
+chmod -R 755 cache logs storage test/templates_c
+echo "Created cache/, logs/, storage/ and test/templates_c/ runtime directories"
 
 APP_KEY=$(php -r "echo bin2hex(random_bytes(16));")
 CSRF_SECRET=$(php -r "echo bin2hex(random_bytes(20));")
@@ -59,6 +61,15 @@ sed_inplace \
 	-e "s#\\\$root_directory = '[^']*';#\$root_directory = '${ROOT_DIR}';#" \
 	-e "s/\$application_unique_key = '[^']*';/\$application_unique_key = '${APP_KEY}';/" \
 	config.inc.php
+
+# config.inc.php.sample switches error display on (STRICT DEVELOPMENT); a production install must not show
+# PHP errors to visitors, so that line is dropped unless this is a development install.
+if [ "$ENVIRONMENT" != "development" ]; then
+	sed_inplace -e '/\/\/ STRICT DEVELOPMENT$/d' config.inc.php
+	echo "Production mode: PHP errors are not displayed"
+else
+	echo "Development mode: PHP errors are displayed (STRICT DEVELOPMENT)"
+fi
 
 printf '<?php $secret = "%s";\n' "$CSRF_SECRET" > config.csrf-secret.php
 echo "Wrote config.inc.php and config.csrf-secret.php"
