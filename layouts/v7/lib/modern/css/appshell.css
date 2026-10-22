@@ -416,8 +416,8 @@
 html #modnavigator:not(.settingsNav){display:none !important}
 
 @media (min-width:1200px){
-	html body{padding-left:var(--app-sidebar-w);transition:padding-left var(--app-ease)}
-	html.sidebar-collapsed body{padding-left:var(--app-sidebar-w-collapsed)}
+	html body:has(#appSidebar){padding-left:var(--app-sidebar-w);transition:padding-left var(--app-ease)}
+	html.sidebar-collapsed body:has(#appSidebar){padding-left:var(--app-sidebar-w-collapsed)}
 	html nav.app-fixed-navbar{left:var(--app-sidebar-w) !important;transition:left var(--app-ease)}
 	html.sidebar-collapsed nav.app-fixed-navbar{left:var(--app-sidebar-w-collapsed) !important}
 }
